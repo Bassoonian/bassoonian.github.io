@@ -5,6 +5,7 @@ body
 }
 #header
 {
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
 	background-color: black;
 	color: white;
 	text-align: center;
@@ -15,17 +16,6 @@ body
 	height: 48px;
 	font-size: 40px;
 }
-#buttons
-{
-	background-color: black;
-	width: 100%;
-	position: absolute;
-	left: 0px;
-	top: 48px;
-	height: 32px;
-	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
-	white-space: nowrap;
-}
 #buttons2
 {
 	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
@@ -33,7 +23,7 @@ body
 	width: 100%;
 	position: absolute;
 	left: 0px;
-	top: 80px;
+	top: 48px;
 	height: 32px;
 	text-align: center;
 	color: white;
@@ -68,9 +58,9 @@ body
 {
 	position: absolute;
 	width: 25%;
-	bottom: 0px;
+	bottom: 48px;
 	left: 0px;
-	top: 112px;
+	top: 80px;
 	border-right: solid 1px black;
 	overflow-x: hidden;
 	overflow-y: scroll;
@@ -89,9 +79,9 @@ body
 {
 	position: absolute;
 	width: 74%;
-	bottom: 0px;
+	bottom: 48px;
 	right: -12px;
-	top: 112px;
+	top: 80px;
 	overflow-x: none;
 	overflow-y: scroll;
 	padding: 6px;
@@ -100,7 +90,7 @@ body
 {
 	position: absolute;
 	width: 100%;
-	top: 112px;
+	top: 80px;
 	padding: 6px;
 }
 .hovertext
@@ -145,7 +135,7 @@ body
 #div_searchbox
 {
 	position: absolute;
-	top: 80px;
+	top: 48px;
 	right: 4px;
 }
 .searchclass
@@ -178,4 +168,23 @@ body
 	padding: 4px;
 	width: 20%;
 	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
+}
+#timescroll
+{
+	position: absolute;
+	background-color: black;
+	color: white;
+	text-align: center;
+	width: 100%;
+	left: 0px;
+	height: 48px;
+	bottom: 0px;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
+}
+#loadingbar
+{
+	position: absolute;
+	text-align: center;
+	left: calc(50% - 86px);
+	top: calc(50% - 86px);
 }
