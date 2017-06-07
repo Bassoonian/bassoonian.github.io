@@ -114,7 +114,7 @@ function updateNonDummySearch()
 	document.getElementById("searchbox").value=document.getElementById("searchbox_dummy").value;
 }
 
-var rawcsv=$.get("https://docs.google.com/spreadsheets/d/1XJMnBv6NcE-YzmR7WPIryln0m_PS9kltAhhmZG-DBs8/pub?gid=853780085&single=true&output=csv", function() {
+rawcsv=$.get("https://docs.google.com/spreadsheets/d/1XJMnBv6NcE-YzmR7WPIryln0m_PS9kltAhhmZG-DBs8/pub?gid=853780085&single=true&output=csv", function() {
 	console.log("Attempting to connect to server...");
 })
 	.done(function(){
@@ -123,8 +123,19 @@ var rawcsv=$.get("https://docs.google.com/spreadsheets/d/1XJMnBv6NcE-YzmR7WPIryl
 		parseDbase();
 	})
 	.fail(function(){
-		console.log("Connection to server lost.");
-		loaderror();
+		console.log("Unable to connect to Google. Resorting to local copy which may be out of date.");
+		rawcsv=$.get("backup_csv.csv", function() {
+			console.log("Attempting to read local file...");
+		})
+			.done(function(){
+				console.log("Lexicon retrieval succesful!");
+				dbase=$.csv.toArrays(rawcsv.responseText);
+				parseDbase();
+			})
+			.fail(function(){
+				console.log("No local copy can be found.");
+				loaderror();
+			});
 	});
 	
 function loaderror()
