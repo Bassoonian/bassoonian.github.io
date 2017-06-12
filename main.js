@@ -65,7 +65,7 @@ function openLex(qid)
 	newhtml+="<h2>/"+pron1+"/ ["+pron2+"]</h2>";
 	
 	var cl=qid[2];
-	if (cl=="THEM_MASC")
+	if (cl=="THEM_MASC"||cl=="THEM_FEM")
 	{
 		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>; <span class='hovertext' title='common gender'>c</span>";
 	}
@@ -83,7 +83,7 @@ function openLex(qid)
 			if (happenings[i][0]!="STAGE")
 			{
 				var temparr=dbase[nid][happenings[i][1]].split(" ");
-				newhtml2+="loaned from "+temparr[0].replace("L^L","Latin").replace("L^C","Proto-Celtic").replace("L^G","Ancient Greek").replace("L^","")+" <i>"+temparr[1]+"</i> around "+happenings[i][0];
+				newhtml2+="loaned from "+temparr[0].replace("L^L","Latin").replace("L^C","Proto-Celtic").replace("L^G","Ancient Greek").replace("L^B","Proto-Basque").replace("L^","").replace("_"," ")+" <i>"+temparr[1]+"</i> around "+happenings[i][0];
 				i=happenings.length;
 			}
 			else
@@ -153,8 +153,13 @@ function replaceAll(find, replace, string) {
 	
 function orthGraph(str,stag)
 	{
-		str=replaceAll(".","",str);
-		if (stag<3) str="*"+str;
+		str=replaceAll(".","",str).replace(/\[.*?\]/g,"").replace("~"," ~ ");
+		if (stag<3)
+			{
+				str="*"+str;
+				str=replaceAll("x","h",str);
+				str=replaceAll("X","H",str);
+			}
 		if (stag==3)
 		{
 			str=replaceAll("ks","x",str);
@@ -177,6 +182,8 @@ function orthGraph(str,stag)
 			str=replaceAll("K","C",str);
 			str=replaceAll("ø","eu",str);
 			str=replaceAll("Ø","Eu",str);
+			str=replaceAll("^ɲ","Nh",str);
+			str=replaceAll("^ʎ","Lh",str);
 			str=replaceAll("ɲ","nh",str);
 			str=replaceAll("ʎ","lh",str);
 			str=replaceAll("ui̯","ý",str);
@@ -187,8 +194,12 @@ function orthGraph(str,stag)
 			str=replaceAll("Au̯","Á",str);
 			str=replaceAll("eu̯","é",str);
 			str=replaceAll("Eu̯","É",str);
+			str=replaceAll("ai̯","ae",str);
+			str=replaceAll("Ai̯","Ae",str);
 			str=replaceAll("t͡ʃ","ch",str);
 			str=replaceAll("d͡ʒ","gh",str);
+			str=replaceAll("t͡s","ts",str);
+			str=replaceAll("d͡z","dz",str);
 			str=replaceAll("j","i",str);
 			str=replaceAll("J","I",str);
 			str=replaceAll("W","U",str);
@@ -216,6 +227,8 @@ function orthGraph(str,stag)
 			str=replaceAll("K","C",str);
 			str=replaceAll("ø","eu",str);
 			str=replaceAll("Ø","Eu",str);
+			str=replaceAll("^ɲ","Nh",str);
+			str=replaceAll("^ʎ","Lh",str);
 			str=replaceAll("ɲ","nh",str);
 			str=replaceAll("ʎ","lh",str);
 			str=replaceAll("ui̯","ý",str);
@@ -226,8 +239,12 @@ function orthGraph(str,stag)
 			str=replaceAll("Au̯","Á",str);
 			str=replaceAll("eu̯","é",str);
 			str=replaceAll("Eu̯","É",str);
+			str=replaceAll("ai̯","ae",str);
+			str=replaceAll("Ai̯","Ae",str);
 			str=replaceAll("t͡ʃ","ch",str);
 			str=replaceAll("d͡ʒ","gh",str);
+			str=replaceAll("t͡s","ts",str);
+			str=replaceAll("d͡z","dz",str);
 			str=replaceAll("j","i",str);
 			str=replaceAll("J","I",str);
 			str=replaceAll("W","U",str);
@@ -255,6 +272,8 @@ function orthGraph(str,stag)
 			str=replaceAll("K","C",str);
 			str=replaceAll("ø","eu",str);
 			str=replaceAll("Ø","Eu",str);
+			str=replaceAll("^ɲ","Nh",str);
+			str=replaceAll("^ʎ","Lh",str);
 			str=replaceAll("ɲ","nh",str);
 			str=replaceAll("ʎ","lh",str);
 			str=replaceAll("ui̯","ý",str);
@@ -265,8 +284,12 @@ function orthGraph(str,stag)
 			str=replaceAll("Au̯","Á",str);
 			str=replaceAll("eu̯","é",str);
 			str=replaceAll("Eu̯","É",str);
+			str=replaceAll("ai̯","ae",str);
+			str=replaceAll("Ai̯","Ae",str);
 			str=replaceAll("t͡ʃ","ch",str);
 			str=replaceAll("d͡ʒ","gh",str);
+			str=replaceAll("t͡s","ts",str);
+			str=replaceAll("d͡z","dz",str);
 			str=replaceAll("j","i",str);
 			str=replaceAll("J","I",str);
 		}
@@ -292,6 +315,8 @@ function orthGraph(str,stag)
 			str=replaceAll("K","C",str);
 			str=replaceAll("ø","eu",str);
 			str=replaceAll("Ø","Eu",str);
+			str=replaceAll("^ɲ","Nh",str);
+			str=replaceAll("^ʎ","Lh",str);
 			str=replaceAll("ɲ","nh",str);
 			str=replaceAll("ʎ","lh",str);
 			str=replaceAll("ui̯","ý",str);
@@ -302,6 +327,8 @@ function orthGraph(str,stag)
 			str=replaceAll("Au̯","Á",str);
 			str=replaceAll("eu̯","é",str);
 			str=replaceAll("Eu̯","É",str);
+			str=replaceAll("ai̯","ae",str);
+			str=replaceAll("Ai̯","Ae",str);
 			str=replaceAll("ʃ","ch",str);
 			str=replaceAll("ʒ","gh",str);
 			str=replaceAll("j","i",str);
@@ -332,6 +359,8 @@ function orthGraph(str,stag)
 			str=replaceAll("n̩","n",str);
 			str=replaceAll("ø","eu",str);
 			str=replaceAll("Ø","Eu",str);
+			str=replaceAll("^ɲ","Nh",str);
+			str=replaceAll("^ʎ","Lh",str);
 			str=replaceAll("ɲ","nh",str);
 			str=replaceAll("ʎ","lh",str);
 			str=replaceAll("ui̯","ý",str);
@@ -342,6 +371,8 @@ function orthGraph(str,stag)
 			str=replaceAll("Au̯","Á",str);
 			str=replaceAll("eu̯","é",str);
 			str=replaceAll("Eu̯","É",str);
+			str=replaceAll("ai̯","ae",str);
+			str=replaceAll("Ai̯","Ae",str);
 			str=replaceAll("ʃ","ch",str);
 			str=replaceAll("ʒ","gh",str);
 			str=replaceAll("j","i",str);
