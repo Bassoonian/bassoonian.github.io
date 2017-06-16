@@ -11,8 +11,9 @@ function openLexicon()
 function openSoundChanges()
 {
 	var newhtml="<div id='buttons2'><span class='titlestuff'>Sound Changes</span></div><div id='div_searchbox'><span class='button2' onclick='openSoundChanges();'>Refresh</span></div><div id='div_buttonleft'><span class='button2' onclick='openLexicon();'>Lexicon</span></div><div id='textblock'>";
-	newhtml+="<h1>Preface</h1>Below, you can find a list of the sound changes Carisitt has experienced in the thousands of years of its existence. They are shown chronologically, divided in the different stages which are in turn divided in smaller periods. Changes shown in red are theoreticised to have happened but lack evidence. The Refresh button on the top right can be used to retrieve new examples from the database.";
+	newhtml+="<h1>Preface</h1><p>Below, you can find a list of the sound changes Carisitt has experienced in the thousands of years of its existence. They are shown chronologically, divided in the different stages which are in turn divided in smaller periods. Changes shown in red are theoreticised to have happened but lack evidence.</p><p>Examples underneath each rule will be provided and they can be rerolled from the database by pushing the Refresh button in the top right. Words will be shown as their original form at the beginning of the stage, what it looked like before the change, what it looked like after the change, and what the word becomes at the end of the stage.</p>";
 	var justtitle=false;
+	var curstage=0;
 	for(var i=3;i<dbase[1].length;i++)
 	{
 		if (dbase[0][i]!="")
@@ -20,6 +21,7 @@ function openSoundChanges()
 			if (i!=3) newhtml+="</ul></ul>";
 			newhtml+="<h1>"+dbase[0][i]+"</h1>";
 			justtitle=true;
+			curstage+=1;
 		}
 		if (dbase[1][i]=="LOANS")
 		{
@@ -37,20 +39,38 @@ function openSoundChanges()
 			{
 				newhtml+="</ul></li>";
 			}
-			newhtml+="<li>"+replaceAll("§",",",dbase[1][i]).replace("\lang{}","Carisitt")+"<ul>";
+			newhtml+="<li>"+replaceAll("§",",",dbase[1][i]).replace("lang{}","Carisitt")+"<ul>";
 		}
 		if (dbase[2][i]!="CHANGES"&&dbase[2][i]!="VVV"&&dbase[1][i]!="LOANS")
 		{
 			var temparray=[];
 			for(var j=3;j<dbase.length;j++)
 			{
-				if (dbase[j][i]!="") temparray.push(dbase[j][i]);
+				if (dbase[j][i]!="") temparray.push(j);
 			}
 			newhtml+="<li>";
 			if (temparray.length==0) newhtml+="<span class='unknownchange'>";
 			newhtml+=dbase[2][i];
 			if (temparray.length==0) newhtml+="</span>";
-			if (temparray.length>0) newhtml+="<ul><li>"+temparray[Math.floor(Math.random()*temparray.length)]+"</li></ul>";
+			if (temparray.length>0)
+			{
+				var chosenrow=temparray[Math.floor(Math.random()*temparray.length)];
+				newhtml+="<ul><li>"+orthGraph(dbase[chosenrow][stagelist[curstage][1]-2],curstage-1);
+				var newrow=-1;
+				for(var j=0;j<i-stagelist[curstage][1];j++)
+				{
+					if (dbase[chosenrow][i-j]!=""&&i-j!=i)
+					{
+						newrow=i-j;
+						j=i-stagelist[curstage][1];
+					}
+				}
+				if (newrow!=-1) newhtml+=" > "+orthGraph(dbase[chosenrow][newrow],curstage-1)
+				newhtml+=" > <b>"+orthGraph(dbase[chosenrow][i],curstage-1)+"</b>";
+				if (i<450) newrow=stagelist[curstage+1][1]-2;
+				else newrow=dbase[0].length-2;
+				newhtml+=" > "+orthGraph(dbase[chosenrow][newrow],curstage-1)+"</li></ul>";
+			}
 			newhtml+="</li>";
 		}
 	}
@@ -115,7 +135,7 @@ function openLex(qid)
 	newhtml+="<h2>/"+pron1+"/ ["+pron2+"]</h2>";
 	
 	var cl=qid[2];
-	if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS")
+	if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS"||cl=="ĒR")
 	{
 		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>; <span class='hovertext' title='common gender'>c</span>";
 	}
