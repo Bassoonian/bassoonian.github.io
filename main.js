@@ -52,7 +52,7 @@ function replace_nth_instance(s, p, c, r) {
 function openLex(qid)
 {
 	var nid=qid[1];
-	var newhtml="<h1>"+orthGraph(dbase[nid][orthcolumn],7)+"</h1>";
+	var newhtml="<h1>"+(orthGraph(dbase[nid][orthcolumn],7).split("~"))[0]+"</h1>";
 	var pron1=dbase[nid][dbase[0].length-2].replace(/\[.*?\]/g,"").toLowerCase();
 	var pron2=dbase[nid][dbase[0].length-2].toLowerCase().replace(pron1,"").replace("[","").replace("]","");
 	if (pron2=="") pron2=pron1;
@@ -68,6 +68,10 @@ function openLex(qid)
 	if (cl=="THEM_MASC"||cl=="THEM_FEM")
 	{
 		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>; <span class='hovertext' title='common gender'>c</span>";
+	}
+	if (cl=="THEM_NEUT")
+	{
+		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='neuter gender'>n</span>";
 	}
 	
 	newhtml+="<h4>Translation</h4><ol><li>"+replaceAll("§","</li><li>",dbase[nid][dbase[0].length-1])+"</li></ol>";
@@ -88,7 +92,7 @@ function openLex(qid)
 			}
 			else
 			{
-				if (stagepass!=8) newhtml2+="from "+stagelist[stagepass][0]+" <i>"+orthGraph(dbase[nid][happenings[i][1]].replace(/\[.*?\]/g,""),stagepass-1)+"</i>";
+				if (stagepass!=8) newhtml2+="from "+stagelist[stagepass][0]+" <i>"+orthGraph(dbase[nid][happenings[i][1]].replace(/\[.*?\]/g,"").replace("~"," ~ "),stagepass-1)+"</i>";
 				stagepass-=1;
 			}
 		}
@@ -153,7 +157,7 @@ function replaceAll(find, replace, string) {
 	
 function orthGraph(str,stag)
 	{
-		str=replaceAll(".","",str).replace(/\[.*?\]/g,"").replace("~"," ~ ");
+		str=replaceAll(".","",str).replace(/\[.*?\]/g,"");
 		if (stag<3)
 			{
 				str="*"+str;
@@ -401,7 +405,7 @@ function parseDbase()
 				if (dbase[i][0]=="@@@@") ended=true;
 				else if (!ended&&dbase[i][0]!="//")
 				{
-					lexlist.push([orthGraph(dbase[i][orthcolumn].replace(/\[.*?\]/g,""),7),i,cat]);
+					lexlist.push([(orthGraph(dbase[i][orthcolumn].replace(/\[.*?\]/g,""),7).split("~"))[0],i,cat]);
 				}
 			}
 			lexlist.sort(function(a, b){
