@@ -50,6 +50,7 @@ function openSoundChanges()
 			if (temparray.length==0) newhtml+="<span class='unknownchange'>";
 			newhtml+=dbase[2][i];
 			if (temparray.length==0) newhtml+="</span>";
+			if (temparray.length>0) newhtml+="<ul><li>"+temparray[Math.floor(Math.random()*temparray.length)]+"</li></ul>";
 			newhtml+="</li>";
 		}
 	}
@@ -114,7 +115,7 @@ function openLex(qid)
 	newhtml+="<h2>/"+pron1+"/ ["+pron2+"]</h2>";
 	
 	var cl=qid[2];
-	if (cl=="THEM_MASC"||cl=="THEM_FEM")
+	if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS")
 	{
 		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>; <span class='hovertext' title='common gender'>c</span>";
 	}
