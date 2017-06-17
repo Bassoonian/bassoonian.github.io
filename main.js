@@ -119,6 +119,17 @@ function replace_nth_instance(s, p, c, r) {
     return output;
 }
 
+function openLex2(pad)
+{
+	var i=-1;
+	for(var j=0;j<lexlist.length;j++)
+	{
+		if (lexlist[j][1]==pad) i=j;
+	}
+	if (i==-1) alert("Error: unable to open required word.");
+	else openLex(lexlist[i]);
+}
+
 function openLex(qid)
 {
 	var nid=qid[1];
@@ -145,6 +156,40 @@ function openLex(qid)
 	}
 	
 	newhtml+="<h4>Translation</h4><ol><li>"+replaceAll("§","</li><li>",dbase[nid][dbase[0].length-1])+"</li></ol>";
+	
+	var syn=[];
+	for(var j=0;j<(dbase[nid][dbase[0].length-1].split("§")).length;j++)
+	{
+		for(var i=3;i<dbase.length;i++)
+		{
+			if (dbase[i][0]!="//"&&i!=nid)
+			{
+				for(var k=0;k<(dbase[i][dbase[0].length-1].split("§")).length;k++)
+				{
+					if ((dbase[i][dbase[0].length-1].split("§"))[k]==(dbase[nid][dbase[0].length-1].split("§"))[j]) syn.push([j,i]);
+				}
+			}
+		}
+	}
+	
+	if (syn.length>0)
+	{
+		newhtml+="<h4>Synonyms</h4><ul>";
+		var i=-1;
+		var k=false;
+		for(var j=0;j<syn.length;j++)
+		{
+			if (syn[j][0]!=i)
+			{
+				if (i==-1) newhtml+="<li>(<i>"+dbase[nid][dbase[0].length-1].split("§")[syn[j][0]]+"</i>): ";
+				i=syn[j][0];
+				k=false;
+			}
+			if (k==true) newhtml+=", ";
+			newhtml+="<span class='link' onclick='openLex2("+syn[j][1]+");'>"+(orthGraph(dbase[syn[j][1]][orthcolumn],7).split("~"))[0]+"</span>";
+		}
+		newhtml+="</li></ul>"
+	}
 	
 	newhtml+="<h4>Etymology</h4>"
 	var newhtml2="";
