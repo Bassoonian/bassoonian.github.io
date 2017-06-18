@@ -146,11 +146,11 @@ function openLex(qid)
 	newhtml+="<h2>/"+pron1+"/ ["+pron2+"]</h2>";
 	
 	var cl=qid[2];
-	if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS"||cl=="ĒR")
+	if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS"||cl=="ĒR"||cl=="US")
 	{
 		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>; <span class='hovertext' title='common gender'>c</span>";
 	}
-	if (cl=="THEM_NEUT")
+	if (cl=="THEM_NEUT"||cl=="OR"||cl=="U")
 	{
 		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='neuter gender'>n</span>";
 	}
@@ -315,6 +315,8 @@ function orthGraph(str,stag)
 			str=replaceAll("Eu̯","É",str);
 			str=replaceAll("ai̯","ae",str);
 			str=replaceAll("Ai̯","Ae",str);
+			str=replaceAll("oi̯","oe",str);
+			str=replaceAll("Oi̯","Oe",str);
 			str=replaceAll("t͡ʃ","ch",str);
 			str=replaceAll("d͡ʒ","gh",str);
 			str=replaceAll("t͡s","ts",str);
@@ -360,6 +362,8 @@ function orthGraph(str,stag)
 			str=replaceAll("Eu̯","É",str);
 			str=replaceAll("ai̯","ae",str);
 			str=replaceAll("Ai̯","Ae",str);
+			str=replaceAll("oi̯","oe",str);
+			str=replaceAll("Oi̯","Oe",str);
 			str=replaceAll("t͡ʃ","ch",str);
 			str=replaceAll("d͡ʒ","gh",str);
 			str=replaceAll("t͡s","ts",str);
@@ -405,6 +409,8 @@ function orthGraph(str,stag)
 			str=replaceAll("Eu̯","É",str);
 			str=replaceAll("ai̯","ae",str);
 			str=replaceAll("Ai̯","Ae",str);
+			str=replaceAll("oi̯","oe",str);
+			str=replaceAll("Oi̯","Oe",str);
 			str=replaceAll("t͡ʃ","ch",str);
 			str=replaceAll("d͡ʒ","gh",str);
 			str=replaceAll("t͡s","ts",str);
@@ -448,6 +454,8 @@ function orthGraph(str,stag)
 			str=replaceAll("Eu̯","É",str);
 			str=replaceAll("ai̯","ae",str);
 			str=replaceAll("Ai̯","Ae",str);
+			str=replaceAll("oi̯","oe",str);
+			str=replaceAll("Oi̯","Oe",str);
 			str=replaceAll("ʃ","ch",str);
 			str=replaceAll("ʒ","gh",str);
 			str=replaceAll("j","i",str);
@@ -492,6 +500,8 @@ function orthGraph(str,stag)
 			str=replaceAll("Eu̯","É",str);
 			str=replaceAll("ai̯","ae",str);
 			str=replaceAll("Ai̯","Ae",str);
+			str=replaceAll("oi̯","oe",str);
+			str=replaceAll("Oi̯","Oe",str);
 			str=replaceAll("ʃ","ch",str);
 			str=replaceAll("ʒ","gh",str);
 			str=replaceAll("j","i",str);
