@@ -143,8 +143,14 @@ function openLex(qid)
 	if ((pron2.match(/\./g) || []).length<2) pron2="ˈ"+pron2;
 	else pron2=replace_nth_instance(pron2,(pron2.match(/\./g) || []).length-1,/\./g,".ˈ");
 	
+	if ((pron1.match(/%/g) || []).length==1) pron1=pron1.replace("ˈ","");
+	if ((pron2.match(/%/g) || []).length==1) pron2=pron2.replace("ˈ","");
+	pron1=pron1.replace("%","");
+	pron2=pron2.replace("%","");
+	
 	newhtml+="<h2>/"+pron1+"/ ["+pron2+"]</h2>";
 	
+	//Basic information
 	var cl=qid[2];
 	if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS"||cl=="ĒR"||cl=="US")
 	{
@@ -158,9 +164,27 @@ function openLex(qid)
 	{
 		newhtml+="<h3>Adjective</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>";
 	}
+	if (cl=="PART")
+	{
+		newhtml+="<h3>Particle</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
+	}
+	if (cl=="PREP")
+	{
+		newhtml+="<h3>Preposition</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
+	}
+	if (cl=="ADVERB")
+	{
+		newhtml+="<h3>Adverb</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
+	}
+	if (cl=="VERB_A")
+	{
+		newhtml+="<h3>Verb</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>";
+	}
 	
+	//Translation
 	newhtml+="<h4>Translation</h4><ol><li>"+replaceAll("§","</li><li>",dbase[nid][dbase[0].length-1])+"</li></ol>";
 	
+	//Synonyms
 	var syn=[];
 	for(var j=0;j<(dbase[nid][dbase[0].length-1].split("§")).length;j++)
 	{
@@ -175,7 +199,6 @@ function openLex(qid)
 			}
 		}
 	}
-	
 	if (syn.length>0)
 	{
 		newhtml+="<h4>Synonyms</h4><ul>";
@@ -195,6 +218,32 @@ function openLex(qid)
 		newhtml+="</li></ul>"
 	}
 	
+	//Anagrams
+	var ana1=((orthGraph(dbase[nid][orthcolumn],7).split("~"))[0].toLowerCase().split("")).sort();
+	var ana2=[];
+	var syn=[];
+	for(var j=3;j<dbase.length;j++)
+	{
+		if (dbase[j][0]!="//"&&j!=nid)
+		{
+			ana2=((orthGraph(dbase[j][orthcolumn],7).split("~"))[0].toLowerCase().split("")).sort();
+			if (ana1.toString()==ana2.toString())
+			{
+				syn.push(j);
+			}
+		}
+	}
+	if (syn.length>0)
+	{
+		newhtml+="<h4>Anagrams</h4><ul>";
+		for(var j=0;j<syn.length;j++)
+		{
+			newhtml+="<li><span class='link' onclick='openLex2("+syn[j]+");'>"+(orthGraph(dbase[syn[j]][orthcolumn],7).split("~"))[0]+"</span></li>"
+		}
+		newhtml+="</ul>";
+	}
+	
+	//Etymology
 	newhtml+="<h4>Etymology</h4>"
 	var newhtml2="";
 	var stagepass=stagelist.length-2;
@@ -277,6 +326,7 @@ function replaceAll(find, replace, string) {
 function orthGraph(str,stag)
 	{
 		str=replaceAll(".","",str).replace(/\[.*?\]/g,"");
+		str=replaceAll("%","",str);
 		if (stag<3)
 			{
 				str="*"+str;
