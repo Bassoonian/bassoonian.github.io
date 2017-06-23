@@ -184,6 +184,37 @@ function openLex(qid)
 	//Translation
 	newhtml+="<h4>Translation</h4><ol><li>"+replaceAll("§","</li><li>",dbase[nid][dbase[0].length-1])+"</li></ol>";
 	
+	//Inflection
+	var j=-1;
+	for(var i=0;i<declensionlist.length;i++)
+	{
+		if (declensionlist[i][0]==cl) j=i;
+	}
+	if (j!=-1)
+	{
+		newhtml+="<h4>Inflection</h4><table>"
+		newhtml+="<tr><th colspan='3' class='darktd'>"+declensionlist[j][1]+"</th></tr>";
+		newhtml+="<tr><th class='darktd'><i>Case</i></th><th class='darktd'><i>Singular</i></th><th class='darktd'><i>Plural</i></th></tr>";
+
+		newhtml+="<tr><td class='darktd'><i>Nom.</i></td>";
+		newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,0)+"</td>";
+		newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,6)+"</td>";
+		
+		newhtml+="</tr><tr><td class='darktd'><i>Acc.</i></td>";
+		newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,2)+"</td>";
+		newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,8)+"</td>";
+		
+		newhtml+="</tr><tr><td class='darktd'><i>Gen.</i></td>";
+		newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,3)+"</td>";
+		newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,9)+"</td>";
+		
+		newhtml+="</tr><tr><td class='darktd'><i>Dat.</i></td>";
+		newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,4)+"</td>";
+		newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,10)+"</td>";
+		
+		newhtml+="</tr></table>";
+	}
+	
 	//Synonyms
 	var syn=[];
 	for(var j=0;j<(dbase[nid][dbase[0].length-1].split("§")).length;j++)
@@ -260,7 +291,7 @@ function openLex(qid)
 			}
 			else
 			{
-				if (stagepass!=8) newhtml2+="from "+stagelist[stagepass][0]+" <i>"+orthGraph(dbase[nid][happenings[i][1]].replace(/\[.*?\]/g,"").replace("~"," ~ "),stagepass-1)+"</i>";
+				if (stagepass!=8) newhtml2+="from "+stagelist[stagepass][0]+" <i>"+orthGraph(dbase[nid][happenings[i][1]].replace(/\[.*?\]/g,""),stagepass-1).replace("~"," ~ ")+"</i>";
 				stagepass-=1;
 			}
 		}
@@ -268,6 +299,42 @@ function openLex(qid)
 	newhtml+=newhtml2.charAt(0).toUpperCase()+newhtml2.slice(1)+".";
 	
 	document.getElementById("entryinformation").innerHTML=newhtml;
+}
+
+function reverseString(inp)
+{
+	return((inp.split("")).reverse().join(""));
+}
+
+function doInflect(input,dectype,numb)
+{
+	input=replaceAll(".","",input);
+	var offset=declensionlist[dectype][2];
+	
+	//Fix numb accordingly if merged back in PIE
+	if (dbase[offset+numb][1]==">>-1") numb-=1;
+	
+	var suffix=dbase[offset+numb][orthcolumn];
+	
+	//Get the correct stem
+	var stemid=(suffix.split("-"))[0].replace("(","").replace(")","");
+	if ((input.match(/~/g) || []).length>=stemid) var stem=(input.split("~"))[stemid];
+	else var stem=(input.split("~"))[0];
+	if (stemid>0) stem=stem.replace("-","");
+	else
+	{
+		//Take off the nominative suffix
+		stem=reverseString(stem);
+		var tempsuff=reverseString((dbase[offset][orthcolumn].split("-"))[1]);
+		if (tempsuff!="Ø")
+		{
+			stem=stem.replace(tempsuff,"");
+		}
+		stem=reverseString(stem);
+	}
+	//Append the correct suffix if not a null suffix
+	if ((suffix.split("-"))[1]!="Ø") stem+=(suffix.split("-"))[1];
+	return(orthGraph(stem,7));
 }
 
 function openSearchOverlay()
@@ -323,245 +390,296 @@ function replaceAll(find, replace, string) {
 	  return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 	}
 	
-function orthGraph(str,stag)
+function orthGraph(str2,stag)
 	{
-		str=replaceAll(".","",str).replace(/\[.*?\]/g,"");
-		str=replaceAll("%","",str);
-		if (stag<3)
+		str2=replaceAll(".","",str2).replace(/\[.*?\]/g,"");
+		var newstr="";
+		var str="";
+		for(var i=0;i<(str2.match(/~/g) || []).length+1;i++)
+		{
+			str=(str2.split("~"))[i].trim();
+			if (stag<3)
+				{
+					str="*"+str;
+					str=replaceAll("x","h",str);
+					str=replaceAll("X","H",str);
+				}
+			str=" "+replaceAll("%","",str)+" ";
+			if (stag==3)
 			{
-				str="*"+str;
-				str=replaceAll("x","h",str);
-				str=replaceAll("X","H",str);
+				str=replaceAll("ks","x",str);
+				str=replaceAll("Ks","X",str);
+				str=replaceAll("ka","ca",str);
+				str=replaceAll("ko","co",str);
+				str=replaceAll("ky","cy",str);
+				str=replaceAll("ku","cu",str);
+				str=replaceAll("kø","cø",str);
+				str=replaceAll("Ka","Ca",str);
+				str=replaceAll("Ko","Co",str);
+				str=replaceAll("Ky","Cy",str);
+				str=replaceAll("Ku","Cu",str);
+				str=replaceAll("Kø","Cø",str);
+				str=replaceAll("ki","qui",str);
+				str=replaceAll("ke","que",str);
+				str=replaceAll("Ki","Qui",str);
+				str=replaceAll("Ke","Que",str);
+				str=replaceAll("k","c",str);
+				str=replaceAll("K","C",str);
+				str=replaceAll("ø","eu",str);
+				str=replaceAll("Ø","Eu",str);
+				str=replaceAll("^ɲ","Nh",str);
+				str=replaceAll("^ʎ","Lh",str);
+				str=replaceAll("ɲ","nh",str);
+				str=replaceAll("ʎ","lh",str);
+				str=replaceAll("ui̯","ý",str);
+				str=replaceAll("Ui̯","Ý",str);
+				str=replaceAll("ou̯","ó",str);
+				str=replaceAll("Ou̯","Ó",str);
+				str=replaceAll("au̯","á",str);
+				str=replaceAll("Au̯","Á",str);
+				str=replaceAll("eu̯","é",str);
+				str=replaceAll("Eu̯","É",str);
+				str=replaceAll("ai̯","ae",str);
+				str=replaceAll("Ai̯","Ae",str);
+				str=replaceAll("oi̯","oe",str);
+				str=replaceAll("Oi̯","Oe",str);
+				str=replaceAll("t͡ʃ","ch",str);
+				str=replaceAll("d͡ʒ","gh",str);
+				str=replaceAll("t͡s","ts",str);
+				str=replaceAll("d͡z","dz",str);
+				str=replaceAll("j","i",str);
+				str=replaceAll("J","I",str);
+				str=replaceAll("W","U",str);
+				str=replaceAll("w","u",str);
 			}
-		if (stag==3)
-		{
-			str=replaceAll("ks","x",str);
-			str=replaceAll("Ks","X",str);
-			str=replaceAll("ka","ca",str);
-			str=replaceAll("ko","co",str);
-			str=replaceAll("ky","cy",str);
-			str=replaceAll("ku","cu",str);
-			str=replaceAll("kø","cø",str);
-			str=replaceAll("Ka","Ca",str);
-			str=replaceAll("Ko","Co",str);
-			str=replaceAll("Ky","Cy",str);
-			str=replaceAll("Ku","Cu",str);
-			str=replaceAll("Kø","Cø",str);
-			str=replaceAll("ki","qui",str);
-			str=replaceAll("ke","que",str);
-			str=replaceAll("Ki","Qui",str);
-			str=replaceAll("Ke","Que",str);
-			str=replaceAll("k","c",str);
-			str=replaceAll("K","C",str);
-			str=replaceAll("ø","eu",str);
-			str=replaceAll("Ø","Eu",str);
-			str=replaceAll("^ɲ","Nh",str);
-			str=replaceAll("^ʎ","Lh",str);
-			str=replaceAll("ɲ","nh",str);
-			str=replaceAll("ʎ","lh",str);
-			str=replaceAll("ui̯","ý",str);
-			str=replaceAll("Ui̯","Ý",str);
-			str=replaceAll("ou̯","ó",str);
-			str=replaceAll("Ou̯","Ó",str);
-			str=replaceAll("au̯","á",str);
-			str=replaceAll("Au̯","Á",str);
-			str=replaceAll("eu̯","é",str);
-			str=replaceAll("Eu̯","É",str);
-			str=replaceAll("ai̯","ae",str);
-			str=replaceAll("Ai̯","Ae",str);
-			str=replaceAll("oi̯","oe",str);
-			str=replaceAll("Oi̯","Oe",str);
-			str=replaceAll("t͡ʃ","ch",str);
-			str=replaceAll("d͡ʒ","gh",str);
-			str=replaceAll("t͡s","ts",str);
-			str=replaceAll("d͡z","dz",str);
-			str=replaceAll("j","i",str);
-			str=replaceAll("J","I",str);
-			str=replaceAll("W","U",str);
-			str=replaceAll("w","u",str);
+			if (stag==4)
+			{
+				str=replaceAll("ks","x",str);
+				str=replaceAll("Ks","X",str);
+				str=replaceAll("ka","ca",str);
+				str=replaceAll("ko","co",str);
+				str=replaceAll("ky","cy",str);
+				str=replaceAll("ku","cu",str);
+				str=replaceAll("kø","cø",str);
+				str=replaceAll("Ka","Ca",str);
+				str=replaceAll("Ko","Co",str);
+				str=replaceAll("Ky","Cy",str);
+				str=replaceAll("Ku","Cu",str);
+				str=replaceAll("Kø","Cø",str);
+				str=replaceAll("ki","qui",str);
+				str=replaceAll("ke","que",str);
+				str=replaceAll("Ki","Qui",str);
+				str=replaceAll("Ke","Que",str);
+				str=replaceAll("k","c",str);
+				str=replaceAll("K","C",str);
+				str=replaceAll("ø","eu",str);
+				str=replaceAll("Ø","Eu",str);
+				str=replaceAll("^ɲ","Nh",str);
+				str=replaceAll("^ʎ","Lh",str);
+				str=replaceAll("ɲ","nh",str);
+				str=replaceAll("ʎ","lh",str);
+				str=replaceAll("ui̯","ý",str);
+				str=replaceAll("Ui̯","Ý",str);
+				str=replaceAll("ou̯","ó",str);
+				str=replaceAll("Ou̯","Ó",str);
+				str=replaceAll("au̯","á",str);
+				str=replaceAll("Au̯","Á",str);
+				str=replaceAll("eu̯","é",str);
+				str=replaceAll("Eu̯","É",str);
+				str=replaceAll("ai̯","ae",str);
+				str=replaceAll("Ai̯","Ae",str);
+				str=replaceAll("oi̯","oe",str);
+				str=replaceAll("Oi̯","Oe",str);
+				str=replaceAll("t͡ʃ","ch",str);
+				str=replaceAll("d͡ʒ","gh",str);
+				str=replaceAll("t͡s","ts",str);
+				str=replaceAll("d͡z","dz",str);
+				str=replaceAll("j","i",str);
+				str=replaceAll("J","I",str);
+				str=replaceAll("W","U",str);
+				str=replaceAll("w","u",str);
+			}
+			if (stag==5)
+			{
+				str=replaceAll("ks","x",str);
+				str=replaceAll("Ks","X",str);
+				str=replaceAll("ka","ca",str);
+				str=replaceAll("ko","co",str);
+				str=replaceAll("ky","cy",str);
+				str=replaceAll("ku","cu",str);
+				str=replaceAll("kø","cø",str);
+				str=replaceAll("Ka","Ca",str);
+				str=replaceAll("Ko","Co",str);
+				str=replaceAll("Ky","Cy",str);
+				str=replaceAll("Ku","Cu",str);
+				str=replaceAll("Kø","Cø",str);
+				str=replaceAll("ki","qui",str);
+				str=replaceAll("ke","que",str);
+				str=replaceAll("Ki","Qui",str);
+				str=replaceAll("Ke","Que",str);
+				str=replaceAll("k","c",str);
+				str=replaceAll("K","C",str);
+				str=replaceAll("ø","eu",str);
+				str=replaceAll("Ø","Eu",str);
+				str=replaceAll("^ɲ","Nh",str);
+				str=replaceAll("^ʎ","Lh",str);
+				str=replaceAll("ɲ","nh",str);
+				str=replaceAll("ʎ","lh",str);
+				str=replaceAll("ui̯","ý",str);
+				str=replaceAll("Ui̯","Ý",str);
+				str=replaceAll("ou̯","ó",str);
+				str=replaceAll("Ou̯","Ó",str);
+				str=replaceAll("au̯","á",str);
+				str=replaceAll("Au̯","Á",str);
+				str=replaceAll("eu̯","é",str);
+				str=replaceAll("Eu̯","É",str);
+				str=replaceAll("ai̯","ae",str);
+				str=replaceAll("Ai̯","Ae",str);
+				str=replaceAll("oi̯","oe",str);
+				str=replaceAll("Oi̯","Oe",str);
+				str=replaceAll("t͡ʃ","ch",str);
+				str=replaceAll("d͡ʒ","gh",str);
+				str=replaceAll("t͡s","ts",str);
+				str=replaceAll("d͡z","dz",str);
+				str=replaceAll("j","i",str);
+				str=replaceAll("J","I",str);
+			}
+			if (stag==6)
+			{
+				str=replaceAll("ks","x",str);
+				str=replaceAll("Ks","X",str);
+				str=replaceAll("ka","ca",str);
+				str=replaceAll("ko","co",str);
+				str=replaceAll("ky","cy",str);
+				str=replaceAll("ku","cu",str);
+				str=replaceAll("kø","cø",str);
+				str=replaceAll("Ka","Ca",str);
+				str=replaceAll("Ko","Co",str);
+				str=replaceAll("Ky","Cy",str);
+				str=replaceAll("Ku","Cu",str);
+				str=replaceAll("Kø","Cø",str);
+				str=replaceAll("ki","qui",str);
+				str=replaceAll("ke","que",str);
+				str=replaceAll("Ki","Qui",str);
+				str=replaceAll("Ke","Que",str);
+				str=replaceAll("k","c",str);
+				str=replaceAll("K","C",str);
+				str=replaceAll("ø","eu",str);
+				str=replaceAll("Ø","Eu",str);
+				str=replaceAll("^ɲ","Nh",str);
+				str=replaceAll("^ʎ","Lh",str);
+				str=replaceAll("ɲ","nh",str);
+				str=replaceAll("ʎ","lh",str);
+				str=replaceAll("ui̯","ý",str);
+				str=replaceAll("Ui̯","Ý",str);
+				str=replaceAll("ou̯","ó",str);
+				str=replaceAll("Ou̯","Ó",str);
+				str=replaceAll("au̯","á",str);
+				str=replaceAll("Au̯","Á",str);
+				str=replaceAll("eu̯","é",str);
+				str=replaceAll("Eu̯","É",str);
+				str=replaceAll("ai̯","ae",str);
+				str=replaceAll("Ai̯","Ae",str);
+				str=replaceAll("oi̯","oe",str);
+				str=replaceAll("Oi̯","Oe",str);
+				str=replaceAll("ʃ","ch",str);
+				str=replaceAll("ʒ","gh",str);
+				str=replaceAll("j","i",str);
+				str=replaceAll("J","I",str);
+			}
+			if (stag==7)
+			{
+				str=replaceAll("ks","x",str);
+				str=replaceAll("Ks","X",str);
+				str=replaceAll("ka","ca",str);
+				str=replaceAll("ko","co",str);
+				str=replaceAll("ky","cy",str);
+				str=replaceAll("ku","cu",str);
+				str=replaceAll("kø","cø",str);
+				str=replaceAll("Ka","Ca",str);
+				str=replaceAll("Ko","Co",str);
+				str=replaceAll("Ky","Cy",str);
+				str=replaceAll("Ku","Cu",str);
+				str=replaceAll("Kø","Cø",str);
+				str=replaceAll("ki","qui",str);
+				str=replaceAll("ke","que",str);
+				str=replaceAll("Ki","Qui",str);
+				str=replaceAll("Ke","Que",str);
+				str=replaceAll("k","c",str);
+				str=replaceAll("K","C",str);
+				str=replaceAll("r̩","r",str);
+				str=replaceAll("l̩","l",str);
+				str=replaceAll("n̩","n",str);
+				str=replaceAll("ø","eu",str);
+				str=replaceAll("Ø","Eu",str);
+				str=replaceAll("^ɲ","Nh",str);
+				str=replaceAll("^ʎ","Lh",str);
+				str=replaceAll("ɲ","nh",str);
+				str=replaceAll("ʎ","lh",str);
+				str=replaceAll("ui̯","ý",str);
+				str=replaceAll("Ui̯","Ý",str);
+				str=replaceAll("ou̯","ó",str);
+				str=replaceAll("Ou̯","Ó",str);
+				str=replaceAll("au̯","á",str);
+				str=replaceAll("Au̯","Á",str);
+				str=replaceAll("eu̯","é",str);
+				str=replaceAll("Eu̯","É",str);
+				str=replaceAll("ai̯","ae",str);
+				str=replaceAll("Ai̯","Ae",str);
+				str=replaceAll("oi̯","oe",str);
+				str=replaceAll("Oi̯","Oe",str);
+				str=replaceAll("ʃ","ch",str);
+				str=replaceAll("ʒ","gh",str);
+				str=replaceAll("j","i",str);
+				str=replaceAll("J","I",str);
+				
+				//experimental
+				str=replaceAll("c ","que",str);
+				str=replaceAll("af ","aff",str);
+				str=replaceAll("ef ","eff",str);
+				str=replaceAll("if ","iff",str);
+				str=replaceAll("of ","off",str);
+				str=replaceAll("uf ","uff",str);
+				str=replaceAll("yf ","yff",str);
+				str=replaceAll("áf ","áff",str);
+				str=replaceAll("óf ","óff",str);
+				str=replaceAll("ýf ","ýff",str);
+				str=replaceAll("éf ","éff",str);
+				str=replaceAll("as ","ass",str);
+				str=replaceAll("es ","ess",str);
+				str=replaceAll("is ","iss",str);
+				str=replaceAll("os ","oss",str);
+				str=replaceAll("us ","uss",str);
+				str=replaceAll("ys ","yss",str);
+				str=replaceAll("ás ","áss",str);
+				str=replaceAll("ós ","óss",str);
+				str=replaceAll("ýs ","ýss",str);
+				str=replaceAll("és ","éss",str);
+				str=replaceAll("av ","af",str);
+				str=replaceAll("ev ","ef",str);
+				str=replaceAll("iv ","if",str);
+				str=replaceAll("ov ","of",str);
+				str=replaceAll("uv ","uf",str);
+				str=replaceAll("yv ","yf",str);
+				str=replaceAll("áv ","áf",str);
+				str=replaceAll("óv ","óf",str);
+				str=replaceAll("ýv ","ýf",str);
+				str=replaceAll("év ","éf",str);
+				str=replaceAll("az ","as",str);
+				str=replaceAll("ez ","es",str);
+				str=replaceAll("iz ","is",str);
+				str=replaceAll("oz ","os",str);
+				str=replaceAll("uz ","us",str);
+				str=replaceAll("yz ","ys",str);
+				str=replaceAll("áz ","ás",str);
+				str=replaceAll("óz ","ós",str);
+				str=replaceAll("ýz ","ýs",str);
+				str=replaceAll("éz ","és",str);
+			}
+			if (i>0) newstr+="~";
+			newstr+=str.trim();
 		}
-		if (stag==4)
-		{
-			str=replaceAll("ks","x",str);
-			str=replaceAll("Ks","X",str);
-			str=replaceAll("ka","ca",str);
-			str=replaceAll("ko","co",str);
-			str=replaceAll("ky","cy",str);
-			str=replaceAll("ku","cu",str);
-			str=replaceAll("kø","cø",str);
-			str=replaceAll("Ka","Ca",str);
-			str=replaceAll("Ko","Co",str);
-			str=replaceAll("Ky","Cy",str);
-			str=replaceAll("Ku","Cu",str);
-			str=replaceAll("Kø","Cø",str);
-			str=replaceAll("ki","qui",str);
-			str=replaceAll("ke","que",str);
-			str=replaceAll("Ki","Qui",str);
-			str=replaceAll("Ke","Que",str);
-			str=replaceAll("k","c",str);
-			str=replaceAll("K","C",str);
-			str=replaceAll("ø","eu",str);
-			str=replaceAll("Ø","Eu",str);
-			str=replaceAll("^ɲ","Nh",str);
-			str=replaceAll("^ʎ","Lh",str);
-			str=replaceAll("ɲ","nh",str);
-			str=replaceAll("ʎ","lh",str);
-			str=replaceAll("ui̯","ý",str);
-			str=replaceAll("Ui̯","Ý",str);
-			str=replaceAll("ou̯","ó",str);
-			str=replaceAll("Ou̯","Ó",str);
-			str=replaceAll("au̯","á",str);
-			str=replaceAll("Au̯","Á",str);
-			str=replaceAll("eu̯","é",str);
-			str=replaceAll("Eu̯","É",str);
-			str=replaceAll("ai̯","ae",str);
-			str=replaceAll("Ai̯","Ae",str);
-			str=replaceAll("oi̯","oe",str);
-			str=replaceAll("Oi̯","Oe",str);
-			str=replaceAll("t͡ʃ","ch",str);
-			str=replaceAll("d͡ʒ","gh",str);
-			str=replaceAll("t͡s","ts",str);
-			str=replaceAll("d͡z","dz",str);
-			str=replaceAll("j","i",str);
-			str=replaceAll("J","I",str);
-			str=replaceAll("W","U",str);
-			str=replaceAll("w","u",str);
-		}
-		if (stag==5)
-		{
-			str=replaceAll("ks","x",str);
-			str=replaceAll("Ks","X",str);
-			str=replaceAll("ka","ca",str);
-			str=replaceAll("ko","co",str);
-			str=replaceAll("ky","cy",str);
-			str=replaceAll("ku","cu",str);
-			str=replaceAll("kø","cø",str);
-			str=replaceAll("Ka","Ca",str);
-			str=replaceAll("Ko","Co",str);
-			str=replaceAll("Ky","Cy",str);
-			str=replaceAll("Ku","Cu",str);
-			str=replaceAll("Kø","Cø",str);
-			str=replaceAll("ki","qui",str);
-			str=replaceAll("ke","que",str);
-			str=replaceAll("Ki","Qui",str);
-			str=replaceAll("Ke","Que",str);
-			str=replaceAll("k","c",str);
-			str=replaceAll("K","C",str);
-			str=replaceAll("ø","eu",str);
-			str=replaceAll("Ø","Eu",str);
-			str=replaceAll("^ɲ","Nh",str);
-			str=replaceAll("^ʎ","Lh",str);
-			str=replaceAll("ɲ","nh",str);
-			str=replaceAll("ʎ","lh",str);
-			str=replaceAll("ui̯","ý",str);
-			str=replaceAll("Ui̯","Ý",str);
-			str=replaceAll("ou̯","ó",str);
-			str=replaceAll("Ou̯","Ó",str);
-			str=replaceAll("au̯","á",str);
-			str=replaceAll("Au̯","Á",str);
-			str=replaceAll("eu̯","é",str);
-			str=replaceAll("Eu̯","É",str);
-			str=replaceAll("ai̯","ae",str);
-			str=replaceAll("Ai̯","Ae",str);
-			str=replaceAll("oi̯","oe",str);
-			str=replaceAll("Oi̯","Oe",str);
-			str=replaceAll("t͡ʃ","ch",str);
-			str=replaceAll("d͡ʒ","gh",str);
-			str=replaceAll("t͡s","ts",str);
-			str=replaceAll("d͡z","dz",str);
-			str=replaceAll("j","i",str);
-			str=replaceAll("J","I",str);
-		}
-		if (stag==6)
-		{
-			str=replaceAll("ks","x",str);
-			str=replaceAll("Ks","X",str);
-			str=replaceAll("ka","ca",str);
-			str=replaceAll("ko","co",str);
-			str=replaceAll("ky","cy",str);
-			str=replaceAll("ku","cu",str);
-			str=replaceAll("kø","cø",str);
-			str=replaceAll("Ka","Ca",str);
-			str=replaceAll("Ko","Co",str);
-			str=replaceAll("Ky","Cy",str);
-			str=replaceAll("Ku","Cu",str);
-			str=replaceAll("Kø","Cø",str);
-			str=replaceAll("ki","qui",str);
-			str=replaceAll("ke","que",str);
-			str=replaceAll("Ki","Qui",str);
-			str=replaceAll("Ke","Que",str);
-			str=replaceAll("k","c",str);
-			str=replaceAll("K","C",str);
-			str=replaceAll("ø","eu",str);
-			str=replaceAll("Ø","Eu",str);
-			str=replaceAll("^ɲ","Nh",str);
-			str=replaceAll("^ʎ","Lh",str);
-			str=replaceAll("ɲ","nh",str);
-			str=replaceAll("ʎ","lh",str);
-			str=replaceAll("ui̯","ý",str);
-			str=replaceAll("Ui̯","Ý",str);
-			str=replaceAll("ou̯","ó",str);
-			str=replaceAll("Ou̯","Ó",str);
-			str=replaceAll("au̯","á",str);
-			str=replaceAll("Au̯","Á",str);
-			str=replaceAll("eu̯","é",str);
-			str=replaceAll("Eu̯","É",str);
-			str=replaceAll("ai̯","ae",str);
-			str=replaceAll("Ai̯","Ae",str);
-			str=replaceAll("oi̯","oe",str);
-			str=replaceAll("Oi̯","Oe",str);
-			str=replaceAll("ʃ","ch",str);
-			str=replaceAll("ʒ","gh",str);
-			str=replaceAll("j","i",str);
-			str=replaceAll("J","I",str);
-		}
-		if (stag==7)
-		{
-			str=replaceAll("ks","x",str);
-			str=replaceAll("Ks","X",str);
-			str=replaceAll("ka","ca",str);
-			str=replaceAll("ko","co",str);
-			str=replaceAll("ky","cy",str);
-			str=replaceAll("ku","cu",str);
-			str=replaceAll("kø","cø",str);
-			str=replaceAll("Ka","Ca",str);
-			str=replaceAll("Ko","Co",str);
-			str=replaceAll("Ky","Cy",str);
-			str=replaceAll("Ku","Cu",str);
-			str=replaceAll("Kø","Cø",str);
-			str=replaceAll("ki","qui",str);
-			str=replaceAll("ke","que",str);
-			str=replaceAll("Ki","Qui",str);
-			str=replaceAll("Ke","Que",str);
-			str=replaceAll("k","c",str);
-			str=replaceAll("K","C",str);
-			str=replaceAll("r̩","r",str);
-			str=replaceAll("l̩","l",str);
-			str=replaceAll("n̩","n",str);
-			str=replaceAll("ø","eu",str);
-			str=replaceAll("Ø","Eu",str);
-			str=replaceAll("^ɲ","Nh",str);
-			str=replaceAll("^ʎ","Lh",str);
-			str=replaceAll("ɲ","nh",str);
-			str=replaceAll("ʎ","lh",str);
-			str=replaceAll("ui̯","ý",str);
-			str=replaceAll("Ui̯","Ý",str);
-			str=replaceAll("ou̯","ó",str);
-			str=replaceAll("Ou̯","Ó",str);
-			str=replaceAll("au̯","á",str);
-			str=replaceAll("Au̯","Á",str);
-			str=replaceAll("eu̯","é",str);
-			str=replaceAll("Eu̯","É",str);
-			str=replaceAll("ai̯","ae",str);
-			str=replaceAll("Ai̯","Ae",str);
-			str=replaceAll("oi̯","oe",str);
-			str=replaceAll("Oi̯","Oe",str);
-			str=replaceAll("ʃ","ch",str);
-			str=replaceAll("ʒ","gh",str);
-			str=replaceAll("j","i",str);
-			str=replaceAll("J","I",str);
-		}
-		return(str);
+		return(newstr);
 	}
 	
 function parseDbase()
@@ -577,12 +695,16 @@ function parseDbase()
 		{
 			lexlist=[];
 			var cat="";
-			var ended=false;
+			var endborder=-1;
 			for(var i=3;i<dbase.length;i++)
 			{
 				if (dbase[i][0]=="//") cat=dbase[i][1];
-				if (dbase[i][0]=="@@@@") ended=true;
-				else if (!ended&&dbase[i][0]!="//")
+				if (dbase[i][0]=="@@@@")
+				{
+					endborder=i;
+					i=dbase.length;
+				}
+				else if (endborder==-1&&dbase[i][0]!="//")
 				{
 					lexlist.push([(orthGraph(dbase[i][orthcolumn].replace(/\[.*?\]/g,""),7).split("~"))[0],i,cat]);
 				}
@@ -613,6 +735,13 @@ function parseDbase()
 			    if(keyA < keyB) return 1;
 			    return 0;
 			});
+			
+			var j=-1;
+			declensionlist=[];
+			for(var i=endborder;i<dbase.length;i++)
+			{
+				if (dbase[i][0]=="//") declensionlist.push([dbase[i][1],dbase[i][2],i+1]);
+			}
 			
 			openLexicon();
 		}
