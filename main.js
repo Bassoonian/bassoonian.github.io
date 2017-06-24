@@ -286,7 +286,7 @@ function openLex(qid)
 			if (happenings[i][0]!="STAGE")
 			{
 				var temparr=dbase[nid][happenings[i][1]].split(" ");
-				newhtml2+="loaned from "+temparr[0].replace("L^L","Latin").replace("L^C","Proto-Celtic").replace("L^G","Ancient Greek").replace("L^B","Proto-Basque").replace("L^","").replace("_"," ")+" <i>"+temparr[1]+"</i> around "+happenings[i][0];
+				newhtml2+="loaned from "+temparr[0].replace("L^L","Latin").replace("L^C","Proto-Celtic").replace("L^G","Ancient Greek").replace("L^B","Proto-Basque").replace("L^NL","New Latin").replace("L^","").replace("_"," ")+" <i>"+temparr[1]+"</i> around "+happenings[i][0];
 				i=happenings.length;
 			}
 			else
@@ -676,6 +676,8 @@ function orthGraph(str2,stag)
 				str=replaceAll("óz ","ós",str);
 				str=replaceAll("ýz ","ýs",str);
 				str=replaceAll("éz ","és",str);
+				str=replaceAll("zv","sv",str);
+				str=replaceAll("vz","fz",str);
 			}
 			if (i>0) newstr+="~";
 			newstr+=str.trim();
