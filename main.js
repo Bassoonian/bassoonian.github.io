@@ -313,6 +313,7 @@ function doInflect(input,dectype,numb)
 	
 	//Fix numb accordingly if merged back in PIE
 	if (dbase[offset+numb][1]==">>-1") numb-=1;
+	else if (dbase[offset+numb][1]==">>-2") numb-=2;
 	
 	var suffix=dbase[offset+numb][orthcolumn];
 	
