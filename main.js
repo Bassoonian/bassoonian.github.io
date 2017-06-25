@@ -152,11 +152,11 @@ function openLex(qid)
 	
 	//Basic information
 	var cl=qid[2];
-	if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS"||cl=="ĒR"||cl=="US")
+	if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS"||cl=="ĒR"||cl=="US"||cl=="S_TS")
 	{
 		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='common gender'>c</span>";
 	}
-	if (cl=="THEM_NEUT"||cl=="OR"||cl=="U")
+	if (cl=="THEM_NEUT"||cl=="OR"||cl=="U"||cl=="MUN")
 	{
 		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='neuter gender'>n</span>";
 	}
