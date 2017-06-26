@@ -1,9 +1,9 @@
 function openLexicon()
 {
-	var newhtml="<div id='buttons2'><span class='titlestuff'>"+lexlist.length+" entries found</span></div><div id='div_searchbox'><input type='text' class='searchclass' id='searchbox' oninput='loadLexList();' placeholder='Search...'> <!--- <button type='button' class='searchclass' onclick='openSearchOverlay();'>Advanced...</button> ---></div><div id='div_buttonleft'><span class='button2' onclick='openSoundChanges();'>Sound Changes</span></div><div id='searchresults'>";
+	var newhtml="<div id='buttons2'><span class='titlestuff'>"+lexlist.length+" entries found</span></div><div id='div_searchbox'><input type='text' class='searchclass' id='searchbox' oninput='loadLexList();' placeholder='Search...'> <select id='searchselect' class='searchclass' onchange='loadLexList();'><option value='1'>CAR</option><option value='2'>ENG</option></select> <!--- <button type='button' class='searchclass' onclick='openSearchOverlay();'>Advanced...</button> ---></div><div id='div_buttonleft'><span class='button2' onclick='openSoundChanges();'>Sound Changes</span></div><div id='searchresults'>";
 	newhtml+="</div><div id='entryinformation'>Select a word on the left to learn more about it.</div>";
 	document.getElementById("content").innerHTML=newhtml;
-	newhtml="<table border='0' style='width: 100%; text-align: center;'><tr><th colspan='2'>Advanced Search</th></tr><tr><td colspan='2'><input type='text' class='searchclass' id='searchbox_dummy' oninput='updateNonDummySearch();loadLexList();'></td></tr><tr><td style='width: 50%;'>Search Field: <select id='searchselect' class='searchclass' onchange='loadLexList();'><option value='1'>Carisitt</option><option value='2'>English</option></select></td><td>Classes:</br><input type='checkbox' id='search_check_noun' onchange='loadLexList();' checked> Nouns<br><input type='checkbox' id='search_check_adj' onchange='loadLexList();' checked> Adjectives<br><input type='checkbox' id='search_check_num' onchange='loadLexList();' checked> Numerals<br><input type='checkbox' id='search_check_verb' onchange='loadLexList();' checked> Verbs<br><input type='checkbox' id='search_check_pref' onchange='loadLexList();' checked> Prefixes</br><input type='checkbox' id='search_check_suf' onchange='loadLexList();' checked> Suffixes<br><input type='checkbox' id='search_check_prep' onchange='loadLexList();' checked> Prepositions<br><input type='checkbox' id='search_check_part' onchange='loadLexList();' checked> Particles</td></tr><tr><td colspan='2'><button type='button' class='searchclass' onclick='closeSearchOverlay();'>Back</button></td></tr></table>";
+	newhtml="<table border='0' style='width: 100%; text-align: center;'><tr><th colspan='2'>Advanced Search</th></tr><tr><td colspan='2'><input type='text' class='searchclass' id='searchbox_dummy' oninput='updateNonDummySearch();loadLexList();'></td></tr><tr><td style='width: 50%;'>Search Field: NANANA IM BATMAN</td><td>Classes:</br><input type='checkbox' id='search_check_noun' onchange='loadLexList();' checked> Nouns<br><input type='checkbox' id='search_check_adj' onchange='loadLexList();' checked> Adjectives<br><input type='checkbox' id='search_check_num' onchange='loadLexList();' checked> Numerals<br><input type='checkbox' id='search_check_verb' onchange='loadLexList();' checked> Verbs<br><input type='checkbox' id='search_check_pref' onchange='loadLexList();' checked> Prefixes</br><input type='checkbox' id='search_check_suf' onchange='loadLexList();' checked> Suffixes<br><input type='checkbox' id='search_check_prep' onchange='loadLexList();' checked> Prepositions<br><input type='checkbox' id='search_check_part' onchange='loadLexList();' checked> Particles</td></tr><tr><td colspan='2'><button type='button' class='searchclass' onclick='closeSearchOverlay();'>Back</button></td></tr></table>";
 	document.getElementById("search_overlay3").innerHTML=newhtml;
 	loadLexList();
 }
@@ -89,13 +89,18 @@ function loadLexList()
 	var searchdata=document.getElementById("searchbox").value;
 	searchdata=searchRemoveDiacritics(searchdata);
 	searchdata=replaceAll("*","",searchdata);
+	searchdata=replaceAll("~","",searchdata);
 	searchdata=escapeRegExp(searchdata);
 	for(var i=0;i<lexlist.length;i++)
 	{
 		var success=false;
 		if (document.getElementById("searchselect").value==1)
 		{
-			if (searchdata==""|searchRemoveDiacritics(lexlist[i][0]).search(searchdata)!=-1) success=true;
+			if (searchdata==""|searchRemoveDiacritics(dbase[lexlist[i][1]][orthcolumn]).search(searchdata)!=-1) success=true;
+		}
+		if (document.getElementById("searchselect").value==2)
+		{
+			if (searchdata==""|searchRemoveDiacritics(dbase[lexlist[i][1]][dbase[0].length-1]).search(searchdata)!=-1) success=true;
 		}
 		if (success==true)
 		{
@@ -762,7 +767,7 @@ function orthGraph(str2,stag)
 				str=replaceAll("ýz ","ýs",str);
 				str=replaceAll("éz ","és",str);
 				str=replaceAll("zv","sv",str);
-				str=replaceAll("vz","fz",str);
+				str=replaceAll("Zv","Sv",str);
 				str=replaceAll(" j","y",str);
 				str=replaceAll(" J","Y",str);
 				
