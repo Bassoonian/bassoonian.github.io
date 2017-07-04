@@ -58,7 +58,7 @@ body
 {
 	position: absolute;
 	width: 25%;
-	bottom: 48px;
+	bottom: 0px;
 	left: 0px;
 	top: 80px;
 	border-right: solid 1px black;
@@ -79,7 +79,7 @@ body
 {
 	position: absolute;
 	width: 74%;
-	bottom: 48px;
+	bottom: 0px;
 	right: -12px;
 	top: 80px;
 	overflow-x: none;
@@ -90,7 +90,7 @@ body
 {
 	position: absolute;
 	top: 80px;
-	bottom: 48px;
+	bottom: 0px;
 	padding: 6px;
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -175,18 +175,6 @@ body
 	border-radius: 16px;
 	padding: 4px;
 	width: 20%;
-	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
-}
-#timescroll
-{
-	position: absolute;
-	background-color: black;
-	color: white;
-	text-align: center;
-	width: 100%;
-	left: 0px;
-	height: 48px;
-	bottom: 0px;
 	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
 }
 #loadingbar
