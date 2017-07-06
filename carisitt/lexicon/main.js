@@ -507,6 +507,7 @@ function getLangCode(ii)
 		case "frm": ii="Middle French";break;
 		case "osp": ii="Old Spanish";break;
 		case "pro": ii="Old Occitan";break;
+		case "lat": ii="Latin";break;
 	}
 	return(ii);
 }
