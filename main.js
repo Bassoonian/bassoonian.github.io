@@ -1,10 +1,22 @@
 function openLexicon()
 {
 	var newhtml="<div id='buttons2'><span class='titlestuff'>"+lexlist.length+" entries found</span></div><div id='div_searchbox'><input type='text' class='searchclass' id='searchbox' oninput='loadLexList();' placeholder='Search...'> <select id='searchselect' class='searchclass' onchange='loadLexList();'><option value='1'>CAR</option><option value='2'>ENG</option></select> <!--- <button type='button' class='searchclass' onclick='openSearchOverlay();'>Advanced...</button> ---></div><div id='div_buttonleft'><span class='button2' onclick='openSoundChanges();'>Sound Changes</span></div><div id='searchresults'>";
-	newhtml+="</div><div id='entryinformation'>Select a word on the left to learn more about it.</div>";
+	newhtml+="</div><div id='entryinformation'></div>";
+	
 	document.getElementById("content").innerHTML=newhtml;
 	newhtml="<table border='0' style='width: 100%; text-align: center;'><tr><th colspan='2'>Advanced Search</th></tr><tr><td colspan='2'><input type='text' class='searchclass' id='searchbox_dummy' oninput='updateNonDummySearch();loadLexList();'></td></tr><tr><td style='width: 50%;'>Search Field: NANANA IM BATMAN</td><td>Classes:</br><input type='checkbox' id='search_check_noun' onchange='loadLexList();' checked> Nouns<br><input type='checkbox' id='search_check_adj' onchange='loadLexList();' checked> Adjectives<br><input type='checkbox' id='search_check_num' onchange='loadLexList();' checked> Numerals<br><input type='checkbox' id='search_check_verb' onchange='loadLexList();' checked> Verbs<br><input type='checkbox' id='search_check_pref' onchange='loadLexList();' checked> Prefixes</br><input type='checkbox' id='search_check_suf' onchange='loadLexList();' checked> Suffixes<br><input type='checkbox' id='search_check_prep' onchange='loadLexList();' checked> Prepositions<br><input type='checkbox' id='search_check_part' onchange='loadLexList();' checked> Particles</td></tr><tr><td colspan='2'><button type='button' class='searchclass' onclick='closeSearchOverlay();'>Back</button></td></tr></table>";
 	document.getElementById("search_overlay3").innerHTML=newhtml;
+	
+	newhtml="<h1>Carisitt Lexicon</h1><p>Welcome to the Carisitt Lexicon! Click a word from the list on the left to learn more about it.</p><h3>Word of the Day</h3>";
+	var now=Date.now();//milliseconds
+	now=Math.floor(now/1000);//seconds
+	now=Math.floor(now/60);//minutes
+	now=Math.floor(now/60);//hours
+	now=Math.floor(now/24);//days
+	var wid=now % lexlist.length;
+	newhtml+="<span class='link' onclick='openLex(lexlist["+wid+"]);'>"+(lexlist[wid][0].split("~"))[0]+"</span>";
+	document.getElementById("entryinformation").innerHTML=newhtml;
+	
 	loadLexList();
 }
 
@@ -91,12 +103,14 @@ function loadLexList()
 	searchdata=replaceAll("*","",searchdata);
 	searchdata=replaceAll("~","",searchdata);
 	searchdata=escapeRegExp(searchdata);
+	var g="";
+	var k="";
 	for(var i=0;i<lexlist.length;i++)
 	{
 		var success=false;
 		if (document.getElementById("searchselect").value==1)
 		{
-			if (searchdata==""|searchRemoveDiacritics(dbase[lexlist[i][1]][orthcolumn]).search(searchdata)!=-1) success=true;
+			if (searchdata==""|searchRemoveDiacritics(lexlist[i][0]).search(searchdata)!=-1) success=true;
 		}
 		if (document.getElementById("searchselect").value==2)
 		{
@@ -104,8 +118,13 @@ function loadLexList()
 		}
 		if (success==true)
 		{
-			newhtml+="<div class='searchresult' onclick='openLex(lexlist["+i+"])'>";
-			newhtml+=lexlist[i][0]+"</div>";
+			k=(lexlist[i][0].split("~"))[0];
+			if (k!=g)
+			{
+				newhtml+="<div class='searchresult' onclick='openLex(lexlist["+i+"])'>";
+				newhtml+=(lexlist[i][0].split("~"))[0]+"</div>";
+				g=k;
+			}
 		}
 	}
 	document.getElementById("searchresults").innerHTML=newhtml;
@@ -139,265 +158,357 @@ function openLex(qid)
 {
 	/**/ var timePass=(new Date()).getTime();
 	var nid=qid[1];
-	var newhtml="<h1>"+(orthGraph(dbase[nid][orthcolumn],7).split("~"))[0]+"</h1>";
-	var pron1=dbase[nid][dbase[0].length-2].replace(/\[.*?\]/g,"").toLowerCase();
-	var pron2=dbase[nid][dbase[0].length-2].toLowerCase().replace(pron1,"").replace("[","").replace("]","");
-	if (pron2=="") pron2=pron1;
+	var newhtml="";
 	
-	if ((pron1.match(/\./g) || []).length<2) pron1="ˈ"+pron1;
-	else pron1=replace_nth_instance(pron1,(pron1.match(/\./g) || []).length-1,/\./g,".ˈ");
-	if ((pron2.match(/\./g) || []).length<2) pron2="ˈ"+pron2;
-	else pron2=replace_nth_instance(pron2,(pron2.match(/\./g) || []).length-1,/\./g,".ˈ");
+	var iterations=0;
+	var iterate=true;
 	
-	if ((pron1.match(/%/g) || []).length==1) pron1=pron1.replace("ˈ","");
-	if ((pron2.match(/%/g) || []).length==1) pron2=pron2.replace("ˈ","");
-	pron1=pron1.replace("%","");
-	pron2=pron2.replace("%","");
-	
-	newhtml+="<h2>/"+pron1+"/ ["+pron2+"]</h2>";
-	
-	//Basic information
-	var cl=qid[2];
-	if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS"||cl=="ĒR"||cl=="US"||cl=="S_TS")
+	while(iterate)
 	{
-		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='common gender'>c</span>";
-	}
-	if (cl=="THEM_NEUT"||cl=="OR"||cl=="U"||cl=="MUN")
-	{
-		newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='neuter gender'>n</span>";
-	}
-	if (cl=="ADJ_THEM")
-	{
-		newhtml+="<h3>Adjective</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>";
-	}
-	if (cl=="PART")
-	{
-		newhtml+="<h3>Particle</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
-	}
-	if (cl=="PREP")
-	{
-		newhtml+="<h3>Preposition</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
-	}
-	if (cl=="ADVERB")
-	{
-		newhtml+="<h3>Adverb</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
-	}
-	if (cl=="VERB_A")
-	{
-		newhtml+="<h3>Verb</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>";
-	}
-	if (cl=="NUMERALS")
-	{
-		newhtml+="<h3>Numeral</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
-	}
-	
-	//Translation
-	newhtml+="<h4>Translation</h4><ol><li>"+replaceAll("§","</li><li>",dbase[nid][dbase[0].length-1])+"</li></ol>";
-	
-	//Inflection
-	var j=-1;
-	for(var i=0;i<declensionlist.length;i++)
-	{
-		if (declensionlist[i][0]==cl) j=i;
-	}
-	if (j!=-1)
-	{
-		newhtml+="<h4>Inflection</h4><table>"
-		if (cl!="VERB_A")
-		{
-			newhtml+="<tr><th colspan='3' class='darktd'>"+declensionlist[j][1]+"</th></tr>";
-			newhtml+="<tr><th class='darktd'><i>Case</i></th><th class='darktd'><i>Singular</i></th><th class='darktd'><i>Plural</i></th></tr>";
+		iterations+=1;
+		newhtml+="<h2>Meaning "+iterations+"</h2>";
 		
-			newhtml+="<tr><td class='darktd'><i>Nom.</i></td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,0)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,6)+"</td>";
-			
-			newhtml+="</tr><tr><td class='darktd'><i>Acc.</i></td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,2)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,8)+"</td>";
-			
-			newhtml+="</tr><tr><td class='darktd'><i>Gen.</i></td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,3)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,9)+"</td>";
-			
-			newhtml+="</tr><tr><td class='darktd'><i>Dat.</i></td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,4)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,10)+"</td>";
-			
-			newhtml+="</tr></table>";
-		}
-		else
-		{
-			newhtml+="<tr><th colspan='8' class='darktd'>"+declensionlist[j][1]+"</th></tr>";
-			newhtml+="<tr><th rowspan='2' colspan='2' class='darktd'><i>Person</i></th><th colspan='3' class='darktd'><i>Singular</i></th><th colspan='3' class='darktd'><i>Plural</i></th></tr>"
-			newhtml+="<tr><th class='darktd'><i>First</i></th><th class='darktd'><i>Second</i></th><th class='darktd'><i>Third</i></th><th class='darktd'><i>First</i></th><th class='darktd'><i>Second</i></th><th class='darktd'><i>Third</i></th></tr>";
-			
-			newhtml+="<tr><th class='darktd' colspan='8'><i>Active</i></th></tr><tr><th class='darktd' rowspan='4'>Simple</br>tenses</th><th class='darktd'>Present</th>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,1)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,2)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,3)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,4)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,5)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,6)+"</td>";
-			
-			newhtml+="</tr><tr><th class='darktd'>Imperfect</th>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,7)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,8)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,9)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,10)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,11)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,12)+"</td>";
-
-			newhtml+="</tr><tr><th class='darktd'>Future</th>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,13)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,14)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,15)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,16)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,17)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,18)+"</td>";
-
-			newhtml+="</tr><tr><th class='darktd'>Optative</th>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,31)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,32)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,33)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,34)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,35)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,36)+"</td>";
-			
-			//newhtml+="<tr><th class='darktd' rowspan='4'>Compound</br>tenses</th><th class='darktd'>Preterite</th>";//Preterite, pluperfect, future past
-			
-			newhtml+="</tr><tr><th class='darktd' colspan='2'>Imperative</th><td></td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,37)+"</td><td></td><td></td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,38)+"</td><td>";
-			
-			newhtml+="</tr><tr><th class='darktd' colspan='8'><i>Middle</i></th></tr><tr><th class='darktd' rowspan='4'>Simple</br>tenses</th><th class='darktd'>Present</th>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,39)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,40)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,41)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,42)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,43)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,44)+"</td>";
-			
-			newhtml+="</tr><tr><th class='darktd'>Imperfect</th>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,45)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,46)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,47)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,48)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,49)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,50)+"</td>";
-
-			newhtml+="</tr><tr><th class='darktd'>Future</th>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,51)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,52)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,53)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,54)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,55)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,56)+"</td>";
-
-			newhtml+="</tr><tr><th class='darktd'>Optative</th>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,69)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,70)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,71)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,72)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,73)+"</td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,74)+"</td>";
-			
-			//Compound tenses etc
-			
-			newhtml+="</tr><tr><th class='darktd' colspan='2'>Imperative</th><td></td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,75)+"</td><td></td><td></td>";
-			newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,76)+"</td><td>";
-			
-			newhtml+="</tr></table>";
-		}
-	}
+		var pron1=dbase[nid][dbase[0].length-2].replace(/\[.*?\]/g,"").toLowerCase();
+		var pron2=dbase[nid][dbase[0].length-2].toLowerCase().replace(pron1,"").replace("[","").replace("]","");
+		if (pron2=="") pron2=pron1;
 	
-	//Synonyms
-	var syn=[];
-	for(var j=0;j<(dbase[nid][dbase[0].length-1].split("§")).length;j++)
-	{
-		for(var i=3;i<dbase.length;i++)
-		{
-			if (dbase[i][0]!="//"&&i!=nid)
-			{
-				for(var k=0;k<(dbase[i][dbase[0].length-1].split("§")).length;k++)
-				{
-					if ((dbase[i][dbase[0].length-1].split("§"))[k]==(dbase[nid][dbase[0].length-1].split("§"))[j]) syn.push([j,i]);
-				}
-			}
-		}
-	}
-	if (syn.length>0)
-	{
-		newhtml+="<h4>Synonyms</h4><ul>";
-		var i=-1;
-		var k=false;
-		for(var j=0;j<syn.length;j++)
-		{
-			if (syn[j][0]!=i)
-			{
-				if (i==-1) newhtml+="<li>(<i>"+dbase[nid][dbase[0].length-1].split("§")[syn[j][0]]+"</i>): ";
-				i=syn[j][0];
-				k=false;
-			}
-			if (k==true) newhtml+=", ";
-			newhtml+="<span class='link' onclick='openLex2("+syn[j][1]+");'>"+(orthGraph(dbase[syn[j][1]][orthcolumn],7).split("~"))[0]+"</span>";
-		}
-		newhtml+="</li></ul>"
-	}
+		if ((pron1.match(/\./g) || []).length<2) pron1="ˈ"+pron1;
+		else pron1=replace_nth_instance(pron1,(pron1.match(/\./g) || []).length-1,/\./g,".ˈ");
+		if ((pron2.match(/\./g) || []).length<2) pron2="ˈ"+pron2;
+		else pron2=replace_nth_instance(pron2,(pron2.match(/\./g) || []).length-1,/\./g,".ˈ");
 	
-	//Anagrams
-	var ana1=((orthGraph(dbase[nid][orthcolumn],7).split("~"))[0].toLowerCase().split("")).sort();
-	var ana2=[];
-	var syn=[];
-	for(var j=3;j<dbase.length;j++)
-	{
-		if (dbase[j][0]!="//"&&j!=nid)
-		{
-			ana2=((orthGraph(dbase[j][orthcolumn],7).split("~"))[0].toLowerCase().split("")).sort();
-			if (ana1.toString()==ana2.toString())
-			{
-				syn.push(j);
-			}
-		}
-	}
-	if (syn.length>0)
-	{
-		newhtml+="<h4>Anagrams</h4><ul>";
-		for(var j=0;j<syn.length;j++)
-		{
-			newhtml+="<li><span class='link' onclick='openLex2("+syn[j]+");'>"+(orthGraph(dbase[syn[j]][orthcolumn],7).split("~"))[0]+"</span></li>"
-		}
-		newhtml+="</ul>";
-	}
+		if ((pron1.match(/%/g) || []).length==1) pron1=pron1.replace("ˈ","");
+		if ((pron2.match(/%/g) || []).length==1) pron2=pron2.replace("ˈ","");
+		pron1=pron1.replace("%","");
+		pron2=pron2.replace("%","");
 	
-	//Etymology
-	newhtml+="<h4>Etymology</h4>"
-	var newhtml2="";
-	var stagepass=stagelist.length-2;
-	for(var i=0;i<happenings.length;i++)
-	{
-		if (dbase[nid][happenings[i][1]]!="")
+		//Basic information
+		var cl=qid[2];
+		if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS"||cl=="ĒR"||cl=="US"||cl=="S_TS"||cl=="S"||cl=="S_NS")
 		{
-			if (newhtml2!="") newhtml2+=", ";
-			if (happenings[i][0]!="STAGE")
+			newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='common gender'>c</span>";
+		}
+		if (cl=="THEM_NEUT"||cl=="OR"||cl=="U"||cl=="MUN")
+		{
+			newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='neuter gender'>n</span>";
+		}
+		if (cl=="ADJ_THEM")
+		{
+			newhtml+="<h3>Adjective</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>";
+		}
+		if (cl=="PART")
+		{
+			newhtml+="<h3>Particle</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
+		}
+		if (cl=="PREP")
+		{
+			newhtml+="<h3>Preposition</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
+		}
+		if (cl=="ADVERB")
+		{
+			newhtml+="<h3>Adverb</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
+		}
+		if (cl=="VERB_A")
+		{
+			newhtml+="<h3>Verb</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>";
+		}
+		if (cl=="NUMERALS")
+		{
+			newhtml+="<h3>Numeral</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
+		}
+		
+		var irregularpron=false;
+		if (pron1.charAt(0)=="!"||pron1.charAt(1)=="!")
+		{
+			irregularpron=true;
+			pron1=pron1.replace("!","");
+			pron2=pron2.replace("!","");
+		}
+		newhtml+="</br>/"+pron1+"/ ["+pron2+"]";
+		if (irregularpron) newhtml+=" <span class='hovertext' title='irregular pronunciation'>!</span>";
+	
+		//Translation
+		newhtml+="<h4>Translation</h4><ol>";
+		var transarray=dbase[nid][dbase[0].length-1].split("§");
+		for(var i=0;i<transarray.length;i++)
+		{
+			var transarray2=transarray[i].split("£");
+			newhtml+="<li>"+transarray2[0];
+			if (transarray2.length==2) newhtml+=" ("+transarray2[1]+")";
+			newhtml+="</li>";
+		}
+		newhtml+="</ol>";
+	
+		//Inflection
+		var j=-1;
+		for(var i=0;i<declensionlist.length;i++)
+		{
+			if (declensionlist[i][0]==cl) j=i;
+		}
+		if (j!=-1)
+		{
+			newhtml+="<h4>Inflection</h4><table>"
+			if (cl!="VERB_A")
 			{
-				var temparr=dbase[nid][happenings[i][1]].split(" ");
-				newhtml2+="loaned from "+temparr[0].replace("L^L","Latin").replace("L^C","Proto-Celtic").replace("L^G","Ancient Greek").replace("L^B","Proto-Basque").replace("L^NL","New Latin").replace("L^","").replace("_"," ")+" <i>"+temparr[1]+"</i> around "+happenings[i][0];
-				i=happenings.length;
+				newhtml+="<tr><th colspan='3' class='darktd'>"+declensionlist[j][1]+"</th></tr>";
+				newhtml+="<tr><th class='darktd'><i>Case</i></th><th class='darktd'><i>Singular</i></th><th class='darktd'><i>Plural</i></th></tr>";
+		
+				newhtml+="<tr><td class='darktd'><i>Nom.</i></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,0)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,6)+"</td>";
+			
+				newhtml+="<tr><td class='darktd'><i>Voc.</i></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,1)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,7)+"</td>";
+			
+				newhtml+="</tr><tr><td class='darktd'><i>Acc.</i></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,2)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,8)+"</td>";
+			
+				newhtml+="</tr><tr><td class='darktd'><i>Gen.</i></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,3)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,9)+"</td>";
+			
+				newhtml+="</tr><tr><td class='darktd'><i>Dat.</i></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,4)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,10)+"</td>";
+			
+				newhtml+="</tr></table>";
 			}
 			else
 			{
-				if (stagepass!=8) newhtml2+="from "+stagelist[stagepass][0]+" <i>"+orthGraph(dbase[nid][happenings[i][1]].replace(/\[.*?\]/g,""),stagepass-1).replace("~"," ~ ")+"</i>";
-				stagepass-=1;
+				newhtml+="<tr><th colspan='8' class='darktd'>"+declensionlist[j][1]+"</th></tr>";
+				newhtml+="<tr><th rowspan='2' colspan='2' class='darktd'><i>Person</i></th><th colspan='3' class='darktd'><i>Singular</i></th><th colspan='3' class='darktd'><i>Plural</i></th></tr>"
+				newhtml+="<tr><th class='darktd'><i>First</i></th><th class='darktd'><i>Second</i></th><th class='darktd'><i>Third</i></th><th class='darktd'><i>First</i></th><th class='darktd'><i>Second</i></th><th class='darktd'><i>Third</i></th></tr>";
+			
+				newhtml+="<tr><th class='darktd' colspan='8'><i>Active</i></th></tr><tr><th class='darktd' rowspan='4'>Simple</br>tenses</th><th class='darktd'>Present</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,1)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,2)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,3)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,4)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,5)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,6)+"</td>";
+			
+				newhtml+="</tr><tr><th class='darktd'>Imperfect</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,7)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,8)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,9)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,10)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,11)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,12)+"</td>";
+
+				newhtml+="</tr><tr><th class='darktd'>Future</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,13)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,14)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,15)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,16)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,17)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,18)+"</td>";
+
+				newhtml+="</tr><tr><th class='darktd'>Optative</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,31)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,32)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,33)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,34)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,35)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,36)+"</td>";
+			
+				//newhtml+="<tr><th class='darktd' rowspan='4'>Compound</br>tenses</th><th class='darktd'>Preterite</th>";//Preterite, pluperfect, future past
+			
+				newhtml+="</tr><tr><th class='darktd' colspan='2'>Imperative</th><td></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,37)+"</td><td></td><td></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,38)+"</td><td>";
+			
+				newhtml+="</tr><tr><th class='darktd' colspan='8'><i>Middle</i></th></tr><tr><th class='darktd' rowspan='4'>Simple</br>tenses</th><th class='darktd'>Present</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,39)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,40)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,41)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,42)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,43)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,44)+"</td>";
+			
+				newhtml+="</tr><tr><th class='darktd'>Imperfect</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,45)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,46)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,47)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,48)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,49)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,50)+"</td>";
+
+				newhtml+="</tr><tr><th class='darktd'>Future</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,51)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,52)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,53)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,54)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,55)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,56)+"</td>";
+
+				newhtml+="</tr><tr><th class='darktd'>Optative</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,69)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,70)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,71)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,72)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,73)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,74)+"</td>";
+			
+				//Compound tenses etc
+			
+				newhtml+="</tr><tr><th class='darktd' colspan='2'>Imperative</th><td></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,75)+"</td><td></td><td></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,76)+"</td><td>";
+			
+				newhtml+="</tr></table>";
 			}
 		}
+	
+		//Synonyms
+		var syn=[];
+		for(var j=0;j<(dbase[nid][dbase[0].length-1].split("§")).length;j++)
+		{
+			for(var i=3;i<_endborder;i++)
+			{
+				if (dbase[i][0]!="//"&&i!=nid)
+				{
+					for(var k=0;k<(dbase[i][dbase[0].length-1].split("§")).length;k++)
+					{
+						if (((dbase[i][dbase[0].length-1].split("§"))[k].split("£"))[0]==((dbase[nid][dbase[0].length-1].split("§"))[j].split("£"))[0]) syn.push([j,i]);
+					}
+				}
+			}
+		}
+		if (syn.length>0)
+		{
+			newhtml+="<h4>Synonyms</h4><ul>";
+			var i=-1;
+			var k=false;
+			for(var j=0;j<syn.length;j++)
+			{
+				if (syn[j][0]!=i)
+				{
+					if (i==-1) newhtml+="<li>(<i>"+(dbase[nid][dbase[0].length-1].split("§")[syn[j][0]].split("£"))[0]+"</i>): ";
+					i=syn[j][0];
+					k=false;
+				}
+				if (k==true) newhtml+=", ";
+				newhtml+="<span class='link' onclick='openLex2("+syn[j][1]+");'>"+(orthGraph(dbase[syn[j][1]][orthcolumn],7).split("~"))[0]+"</span>";
+			}
+			newhtml+="</li></ul>"
+		}
+	
+		//Anagrams
+	
+		/* DISABLED, in need of optimalisations
+	
+		var ana1=((orthGraph(dbase[nid][orthcolumn],7).split("~"))[0].toLowerCase().split("")).sort();
+		var ana2=[];
+		var syn=[];
+		for(var j=3;j<_endborder;j++)
+		{
+			if (dbase[j][0]!="//"&&j!=nid&&(orthGraph(dbase[j][orthcolumn],7).split("~"))[0].toLowerCase()!=(orthGraph(dbase[nid][orthcolumn],7).split("~"))[0].toLowerCase())
+			{
+				ana2=((orthGraph(dbase[j][orthcolumn],7).split("~"))[0].toLowerCase().split("")).sort();
+				if (ana1.toString()==ana2.toString())
+				{
+					syn.push(j);
+				}
+			}
+		}
+		if (syn.length>0)
+		{
+			newhtml+="<h4>Anagrams</h4><ul>";
+			for(var j=0;j<syn.length;j++)
+			{
+				newhtml+="<li><span class='link' onclick='openLex2("+syn[j]+");'>"+(orthGraph(dbase[syn[j]][orthcolumn],7).split("~"))[0]+"</span></li>"
+			}
+			newhtml+="</ul>";
+		}
+	
+		*/
+	
+		//Etymology
+		newhtml+="<h4>Etymology</h4>"
+		var newhtml2="";
+		var stagepass=stagelist.length-2;
+		for(var i=0;i<happenings.length;i++)
+		{
+			if (dbase[nid][happenings[i][1]]!="")
+			{
+				if (newhtml2!="") newhtml2+=", ";
+				if (happenings[i][0]!="STAGE")
+				{
+					var temparr=dbase[nid][happenings[i][1]].split(" ");
+					if (temparr[0].charAt(0)=="L")
+					{
+						newhtml2+="loaned from "+getLangCode(temparr[0])+" <i>"+temparr[1]+"</i> around "+happenings[i][0];
+					}
+					if (temparr[0].charAt(0)=="D")
+					{
+						temparr[0]=temparr[0].replace("D.","");
+						temparr=temparr[0].split("%");
+						if (temparr[1]=="apheris") newhtml2+="Aphetic variant";
+						newhtml2+=" of <span class='link' onclick='openLex2("+eval(nid+temparr[0])+")'>";
+						if (stagepass==stagelist.length-2) newhtml2+=orthGraph(dbase[eval(nid+temparr[0])][orthcolumn],7).replace("~"," ~ ");
+						//LATER
+						newhtml2+="</span> first attested in "+happenings[i][0];
+					}
+					i=happenings.length;
+				}
+				else
+				{
+					if (stagepass!=8) newhtml2+="from "+stagelist[stagepass][0]+" <i>"+orthGraph(dbase[nid][happenings[i][1]].replace(/\[.*?\]/g,""),stagepass-1).replace("~"," ~ ")+"</i>";
+					stagepass-=1;
+				}
+			}
+		}
+		newhtml+=newhtml2.charAt(0).toUpperCase()+newhtml2.slice(1)+".";
+		
+		//Scoop up
+		var llid=-1;
+		for(var i=0;i<lexlist.length;i++)
+		{
+			if (lexlist[i]==qid) llid=i;
+		}
+		if (llid==lexlist.length-1) iterate=false;
+		else
+		{
+			if ((lexlist[llid][0].split("~"))[0]==(lexlist[llid+1][0].split("~"))[0])
+			{
+				qid=lexlist[llid+1];
+				nid=qid[1];
+			}
+			else iterate=false;
+		}
 	}
-	newhtml+=newhtml2.charAt(0).toUpperCase()+newhtml2.slice(1)+".";
+	
+	if (iterations==1) newhtml=newhtml.replace("<h2>Meaning 1</h2>","");
+	
+	newhtml="<h1>"+(orthGraph(dbase[nid][orthcolumn],7).split("~"))[0]+"</h1>"+newhtml;
 	
 	document.getElementById("entryinformation").innerHTML=newhtml;
 	
 	console.log((new Date()).getTime()-timePass);
+}
+
+function getLangCode(ii)
+{
+	ii=ii.replace("L.","");
+	switch(ii)
+	{
+		case "spa": ii="Spanish";break;
+		case "por": ii="Portuguese";break;
+		case "nld": ii="Dutch";break;
+		case "fra": ii="French";break;
+		case "dan": ii="Danish";break;
+		case "ell": ii="Greek";break;
+		case "grc": ii="Ancient Greek";break;
+		case "pclt": ii="Proto-Celtic";break;
+		case "peus": ii="Proto-Basque";break;
+		case "MED": ii="a Meditteranean substrate word";break;
+		case "frm": ii="Middle French";break;
+		case "osp": ii="Old Spanish";break;
+		case "pro": ii="Old Occitan";break;
+	}
+	return(ii);
 }
 
 function reverseString(inp)
@@ -766,7 +877,7 @@ function parseDbase()
 				}
 				else if (endborder==-1&&dbase[i][0]!="//")
 				{
-					lexlist.push([(orthGraph(dbase[i][orthcolumn].replace(/\[.*?\]/g,""),7).split("~"))[0],i,cat]);
+					lexlist.push([orthGraph(dbase[i][orthcolumn].replace(/\[.*?\]/g,""),7),i,cat]);
 				}
 			}
 			lexlist.sort(function(a, b){
@@ -804,6 +915,7 @@ function parseDbase()
 			}
 			
 			openLexicon();
+			_endborder=endborder;
 		}
 	}
 
