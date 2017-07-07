@@ -878,11 +878,11 @@ function orthGraph(str2,stag)
 				
 					str=replaceAll("zv","sv",str);
 					str=replaceAll("Zv","Sv",str);
-					str=replaceAll(" j","y",str);
-					str=replaceAll(" J","Y",str);
 					
-					str=replaceAll("j","i",str);
-					str=replaceAll("J","I",str);
+					str=replaceAll("y","í",str);
+					str=replaceAll("Y","Í",str);
+					str=replaceAll("j","y",str);
+					str=replaceAll("J","Y",str);
 					break;
 			}
 			if (i>0) newstr+="~";
@@ -980,7 +980,11 @@ function lexStats()
 			declA: 0,
 			declB: 0,
 			declC: 0,
-			declD: 0
+			declD: 0,
+			declA2: 0,
+			declB2: 0,
+			declC2: 0,
+			declD2: 0
 		},
 		letters: {
 			A: 0,
@@ -1011,6 +1015,7 @@ function lexStats()
 			EE: 0,
 			OO: 0,
 			YY: 0,
+			II: 0
 		}
 	}
 	
@@ -1026,6 +1031,10 @@ function lexStats()
 		if (qq=="Declension B") stats.nounclasses.declB+=1;
 		if (qq=="Declension C") stats.nounclasses.declC+=1;
 		if (qq=="Declension D") stats.nounclasses.declD+=1;
+		if (qq=="Declension A (Palatal)") stats.nounclasses.declA2+=1;
+		if (qq=="Declension B (Palatal)") stats.nounclasses.declB2+=1;
+		if (qq=="Declension C (Palatal)") stats.nounclasses.declC2+=1;
+		if (qq=="Declension D (Palatal)") stats.nounclasses.declD2+=1;
 		qq=(lexlist[i][0].split("~"))[0].toLowerCase().split("");
 		for(var j=0;j<qq.length;j++)
 		{
@@ -1059,6 +1068,7 @@ function lexStats()
 				case "é": stats.letters.EE+=1;break;
 				case "ó": stats.letters.OO+=1;break;
 				case "ý": stats.letters.YY+=1;break;
+				case "í": stats.letters.II+=1;break;
 			}
 		}
 	}
@@ -1072,9 +1082,13 @@ function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['Class', 'Occurences'],
           ['Declension A',     stats.nounclasses.declA],
+			['Declension A (Palatal)',     stats.nounclasses.declA2],
           ['Declension B',      stats.nounclasses.declB],
+			['Declension B (Palatal)',     stats.nounclasses.declB2],
           ['Declension C',  stats.nounclasses.declC],
-          ['Declension D', stats.nounclasses.declD]
+			['Declension C (Palatal)',     stats.nounclasses.declC2],
+          ['Declension D', stats.nounclasses.declD],
+			['Declension D (Palatal)',     stats.nounclasses.declD2]
         ]);
 
         var options = {
@@ -1114,6 +1128,7 @@ function drawChart() {
 			['Z',stats.letters.Z],
 			['Á',stats.letters.AA],
 			['É',stats.letters.EE],
+			['Í',stats.letters.II],
 			['Ó',stats.letters.OO],
 			['Ý',stats.letters.YY]
         ]);
