@@ -184,15 +184,15 @@ function openLex(qid)
 	
 		//Basic information
 		var cl=qid[2];
-		if (cl=="THEM_MASC"||cl=="THEM_FEM"||cl=="IS"||cl=="ĒR"||cl=="US"||cl=="S_TS"||cl=="S"||cl=="S_NS")
+		if (cl=="THEM_MASC"||cl=="THEM_MASC_PAL"||cl=="THEM_FEM"||cl=="THEM_FEM_PAL"||cl=="IS"||cl=="IS_PAL"||cl=="ĒR"||cl=="ĒR_PAL"||cl=="US"||cl=="US_PAL"||cl=="S_TS"||cl=="S_TS_PAL"||cl=="S"||cl=="S_PAL"||cl=="S_NS"||cl=="S_NS_PAL")
 		{
 			newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='common gender'>c</span>";
 		}
-		if (cl=="THEM_NEUT"||cl=="OR"||cl=="U"||cl=="MUN")
+		if (cl=="THEM_NEUT"||cl=="THEM_NEUT_PAL"||cl=="OR"||cl=="OR_PAL"||cl=="U"||cl=="U_PAL"||cl=="MUN"||cl=="MUN_PAL")
 		{
 			newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='neuter gender'>n</span>";
 		}
-		if (cl=="ADJ_THEM")
+		if (cl=="ADJ_THEM"||cl=="ADJ_THEM_PAL")
 		{
 			newhtml+="<h3>Adjective</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>";
 		}
@@ -208,7 +208,7 @@ function openLex(qid)
 		{
 			newhtml+="<h3>Adverb</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
 		}
-		if (cl=="VERB_A")
+		if (cl=="VERB_A"||cl=="VERB_A_PAL")
 		{
 			newhtml+="<h3>Verb</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>";
 		}
@@ -248,7 +248,7 @@ function openLex(qid)
 		if (j!=-1)
 		{
 			newhtml+="<h4>Inflection</h4><table>"
-			if (cl!="VERB_A")
+			if (cl!="VERB_A"&&cl!="VERB_A_PAL")
 			{
 				newhtml+="<tr><th colspan='3' class='darktd'>"+declensionlist[j][1]+"</th></tr>";
 				newhtml+="<tr><th class='darktd'><i>Case</i></th><th class='darktd'><i>Singular</i></th><th class='darktd'><i>Plural</i></th></tr>";
@@ -610,12 +610,49 @@ function orthGraph(str2,stag)
 		for(var i=0;i<(str2.match(/~/g) || []).length+1;i++)
 		{
 			str=(str2.split("~"))[i].trim();
-			if (stag<3)
-				{
-					str="*"+str;
-					str=replaceAll("x","h",str);
-					str=replaceAll("X","H",str);
-				}
+			if (stag==0)
+			{
+				var str3=reverseString(str.toLowerCase());
+				str3=replaceAll("a","𐌀",str3);
+				str3=replaceAll("ā","𐌀",str3);
+				str3=replaceAll("b","𐌁",str3);
+				str3=replaceAll("d","𐌃",str3);
+				str3=replaceAll("e","𐌄",str3);
+				str3=replaceAll("ē","𐌇",str3);
+				str3=replaceAll("ê","𐌇",str3);
+				str3=replaceAll("f","𐌅",str3);
+				str3=replaceAll("v","𐌅",str3);
+				str3=replaceAll("g","𐌂",str3);
+				str3=replaceAll("h","𐌇",str3);
+				str3=replaceAll("i","𐌉",str3);
+				str3=replaceAll("ī","𐌉",str3);
+				str3=replaceAll("j","𐌉",str3);
+				str3=replaceAll("k","𐌊",str3);
+				str3=replaceAll("l","𐌋",str3);
+				str3=replaceAll("m","𐌌",str3);
+				str3=replaceAll("n","𐌍",str3);
+				str3=replaceAll("o","𐌏",str3);
+				str3=replaceAll("ō","𐌏",str3);
+				str3=replaceAll("ô","𐌏",str3);
+				str3=replaceAll("p","𐌐",str3);
+				str3=replaceAll("r","𐌓",str3);
+				str3=replaceAll("ts","𐌆",str3);
+				str3=replaceAll("s","𐌔",str3);
+				str3=replaceAll("z","𐌔",str3);
+				str3=replaceAll("t","𐌕",str3);
+				str3=replaceAll("u","𐌖",str3);
+				str3=replaceAll("ū","𐌖",str3);
+				str3=replaceAll("w","𐌖",str3);
+				str3=replaceAll("ȳ","𐌖",str3);
+				
+				str=str3+" (<i>*"+str+"</i>)";
+			}
+			if (stag==1||stag==2)
+			{
+				str="*"+str;
+				str=replaceAll("x","h",str);
+				str=replaceAll("X","H",str);
+			}
 			str=" "+replaceAll("%","",str)+" ";
 			switch(stag)
 			{
@@ -931,3 +968,161 @@ function applyNec(str,before,after,l,r)
 	}
 	return(str);
 }
+
+function lexStats()
+{
+	var newhtml="<div id='buttons2'><span class='titlestuff'>Sound Changes</span></div><div id='div_searchbox'><span class='button2' onclick='openSoundChanges();'>Refresh</span></div><div id='div_buttonleft'><span class='button2' onclick='openLexicon();'>Lexicon</span></div><div id='textblock'>";
+	newhtml+="<div id='nounclasses' class='piechart'></div><div id='letterspread' class='piechart'></div></div>";
+	document.getElementById("content").innerHTML=newhtml;
+	
+	stats={
+		nounclasses: {
+			declA: 0,
+			declB: 0,
+			declC: 0,
+			declD: 0
+		},
+		letters: {
+			A: 0,
+			B: 0,
+			C: 0,
+			D: 0,
+			E: 0,
+			F: 0,
+			G: 0,
+			H: 0,
+			I: 0,
+			K: 0,
+			L: 0,
+			M: 0,
+			N: 0,
+			O: 0,
+			P: 0,
+			Q: 0,
+			R: 0,
+			S: 0,
+			T: 0,
+			U: 0,
+			V: 0,
+			X: 0,
+			Y: 0,
+			Z: 0,
+			AA: 0,
+			EE: 0,
+			OO: 0,
+			YY: 0,
+		}
+	}
+	
+	var qq="";
+	for(var i=0;i<lexlist.length;i++)
+	{
+		qq=lexlist[i][2];
+		for(var j=0;j<declensionlist.length;j++)
+		{
+			if (qq==declensionlist[j][0]) qq=declensionlist[j][1]; 
+		}
+		if (qq=="Declension A") stats.nounclasses.declA+=1;
+		if (qq=="Declension B") stats.nounclasses.declB+=1;
+		if (qq=="Declension C") stats.nounclasses.declC+=1;
+		if (qq=="Declension D") stats.nounclasses.declD+=1;
+		qq=(lexlist[i][0].split("~"))[0].toLowerCase().split("");
+		for(var j=0;j<qq.length;j++)
+		{
+			switch(qq[j])
+			{
+				case "a": stats.letters.A+=1;break;
+				case "b": stats.letters.B+=1;break;
+				case "c": stats.letters.C+=1;break;
+				case "d": stats.letters.D+=1;break;
+				case "e": stats.letters.E+=1;break;
+				case "f": stats.letters.F+=1;break;
+				case "g": stats.letters.G+=1;break;
+				case "h": stats.letters.H+=1;break;
+				case "i": stats.letters.I+=1;break;
+				case "k": stats.letters.K+=1;break;
+				case "l": stats.letters.L+=1;break;
+				case "m": stats.letters.M+=1;break;
+				case "n": stats.letters.N+=1;break;
+				case "o": stats.letters.O+=1;break;
+				case "p": stats.letters.P+=1;break;
+				case "q": stats.letters.Q+=1;break;
+				case "r": stats.letters.R+=1;break;
+				case "s": stats.letters.S+=1;break;
+				case "t": stats.letters.T+=1;break;
+				case "u": stats.letters.U+=1;break;
+				case "v": stats.letters.V+=1;break;
+				case "x": stats.letters.X+=1;break;
+				case "y": stats.letters.Y+=1;break;
+				case "z": stats.letters.Z+=1;break;
+				case "á": stats.letters.AA+=1;break;
+				case "é": stats.letters.EE+=1;break;
+				case "ó": stats.letters.OO+=1;break;
+				case "ý": stats.letters.YY+=1;break;
+			}
+		}
+	}
+	
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawChart);
+}
+
+function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Class', 'Occurences'],
+          ['Declension A',     stats.nounclasses.declA],
+          ['Declension B',      stats.nounclasses.declB],
+          ['Declension C',  stats.nounclasses.declC],
+          ['Declension D', stats.nounclasses.declD]
+        ]);
+
+        var options = {
+          title: 'Noun Classes'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('nounclasses'));
+
+        chart.draw(data, options);
+		
+        var data2 = google.visualization.arrayToDataTable([
+          ['Letter', 'Occurences'],
+          ['A',stats.nounclasses.declA],
+			['A',stats.letters.A],
+			['B',stats.letters.B],
+			['C',stats.letters.C],
+			['D',stats.letters.D],
+			['E',stats.letters.E],
+			['F',stats.letters.F],
+			['G',stats.letters.G],
+			['H',stats.letters.H],
+			['I',stats.letters.I],
+			['K',stats.letters.K],
+			['L',stats.letters.L],
+			['M',stats.letters.M],
+			['N',stats.letters.N],
+			['O',stats.letters.O],
+			['P',stats.letters.P],
+			['Q',stats.letters.Q],
+			['R',stats.letters.R],
+			['S',stats.letters.S],
+			['T',stats.letters.T],
+			['U',stats.letters.U],
+			['V',stats.letters.V],
+			['X',stats.letters.X],
+			['Y',stats.letters.Y],
+			['Z',stats.letters.Z],
+			['Á',stats.letters.AA],
+			['É',stats.letters.EE],
+			['Ó',stats.letters.OO],
+			['Ý',stats.letters.YY]
+        ]);
+
+        var options2 = {
+          title: 'Letter distribution'
+        };
+
+        var chart2 = new google.visualization.PieChart(document.getElementById('letterspread'));
+
+        chart2.draw(data2, options2);
+      }

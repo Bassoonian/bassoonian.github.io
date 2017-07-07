@@ -91,6 +91,8 @@ body
 	position: absolute;
 	top: 80px;
 	bottom: 0px;
+	left: 0px;
+	right: 0px;
 	padding: 6px;
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -187,4 +189,9 @@ body
 .unknownchange
 {
 	color: red;
+}
+.piechart
+{
+	width: 100%;
+	height: 800px;
 }
