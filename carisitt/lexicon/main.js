@@ -503,11 +503,12 @@ function getLangCode(ii)
 		case "grc": ii="Ancient Greek";break;
 		case "pclt": ii="Proto-Celtic";break;
 		case "peus": ii="Proto-Basque";break;
-		case "MED": ii="a Meditteranean substrate word";break;
+		case "MED": ii="a Mediterranean substrate word";break;
 		case "frm": ii="Middle French";break;
 		case "osp": ii="Old Spanish";break;
 		case "pro": ii="Old Occitan";break;
 		case "lat": ii="Latin";break;
+		case "arb": ii="Arabic";break;
 	}
 	return(ii);
 }
@@ -545,7 +546,12 @@ function doInflect(input,dectype,numb)
 		stem=reverseString(stem);
 	}
 	//Append the correct suffix if not a null suffix
-	if ((suffix.split("-"))[1]!="Ø") stem+=(suffix.split("-"))[1];
+	if ((suffix.split("-"))[1]!="Ø")
+	{
+		var fs=stem.charAt(stem.length-1);
+		if (fs=="a"||fs=="e"||fs=="i"||fs=="o"||fs=="y"||fs=="u"||fs=="œ"||fs=="ɛ"||fs=="e̯"||fs=="i̯"||fs=="u̯"||fs=="ɨ") stem+="j";
+		stem+=(suffix.split("-"))[1];
+	}
 	return(orthGraph(stem,7));
 }
 
@@ -843,10 +849,6 @@ function orthGraph(str2,stag)
 					str=replaceAll("K","C",str);
 					str=replaceAll("ø","eu",str);
 					str=replaceAll("Ø","Eu",str);
-					str=replaceAll("^ɲ","Nh",str);
-					str=replaceAll("^ʎ","Lh",str);
-					str=replaceAll("ɲ","nh",str);
-					str=replaceAll("ʎ","lh",str);
 					str=replaceAll("ui̯","ý",str);
 					str=replaceAll("Ui̯","Ý",str);
 					str=replaceAll("ou̯","ó",str);
@@ -879,10 +881,17 @@ function orthGraph(str2,stag)
 					str=replaceAll("zv","sv",str);
 					str=replaceAll("Zv","Sv",str);
 					
+					str=applyNec(str,"j ","i",["b","d","f","g","k","l","m","n","p","r","s","t","v","w","z"],[""]);
+					
 					str=replaceAll("y","í",str);
 					str=replaceAll("Y","Í",str);
 					str=replaceAll("j","y",str);
 					str=replaceAll("J","Y",str);
+					
+					str=replaceAll("^ɲ","Ny",str);
+					str=replaceAll("^ʎ","Ly",str);
+					str=replaceAll("ɲ","ny",str);
+					str=replaceAll("ʎ","ly",str);
 					break;
 			}
 			if (i>0) newstr+="~";
