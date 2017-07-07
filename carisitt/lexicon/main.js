@@ -645,7 +645,7 @@ function orthGraph(str2,stag)
 				str3=replaceAll("w","𐌖",str3);
 				str3=replaceAll("ȳ","𐌖",str3);
 				
-				str=str3+" (<i>*"+str+"</i>)";
+				str=str3+" (*"+str+")";
 			}
 			if (stag==1||stag==2)
 			{
