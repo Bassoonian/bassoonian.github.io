@@ -647,7 +647,7 @@ function orthGraph(str2,stag)
 				
 				str=str3+" (*"+str+")";
 			}
-			if (stag==1||stag==2)
+			if (stag<3&&stag!=0)
 			{
 				str="*"+str;
 				str=replaceAll("x","h",str);
