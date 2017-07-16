@@ -13,6 +13,7 @@ function openLexicon()
 	now=Math.floor(now/60);//minutes
 	now=Math.floor(now/60);//hours
 	now=Math.floor(now/24);//days
+	now*=now;
 	var wid=now % lexlist.length;
 	newhtml+="<span class='link' onclick='openLex(lexlist["+wid+"]);'>"+(lexlist[wid][0].split("~"))[0]+"</span>";
 	document.getElementById("entryinformation").innerHTML=newhtml;
@@ -843,8 +844,8 @@ function orthGraph(str2,stag)
 				case 7:
 					str=replaceAll("ks","x",str);
 					str=replaceAll("Ks","X",str);
-					str=applyNec(str,"k","qu",[""],["e","i"]);
-					str=applyNec(str,"K","Qu",[""],["e","i"]);
+					str=applyNec(str,"k","qu",[""],["e","i","y"]);
+					str=applyNec(str,"K","Qu",[""],["e","i","y"]);
 					str=replaceAll("k","c",str);
 					str=replaceAll("K","C",str);
 					str=replaceAll("ø","eu",str);
