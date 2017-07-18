@@ -185,15 +185,15 @@ function openLex(qid)
 	
 		//Basic information
 		var cl=qid[2];
-		if (cl=="THEM_MASC"||cl=="THEM_MASC_PAL"||cl=="THEM_FEM"||cl=="THEM_FEM_PAL"||cl=="IS"||cl=="IS_PAL"||cl=="ĒR"||cl=="ĒR_PAL"||cl=="US"||cl=="US_PAL"||cl=="S_TS"||cl=="S_TS_PAL"||cl=="S"||cl=="S_PAL"||cl=="S_NS"||cl=="S_NS_PAL")
+		if (cl=="THEM_MASC"||cl=="THEM_MASC_PAL"||cl=="THEM_FEM"||cl=="THEM_FEM_PAL"||cl=="IS"||cl=="IS_PAL"||cl=="ĒR"||cl=="ĒR_PAL"||cl=="US"||cl=="US_PAL"||cl=="S_TS"||cl=="S_TS_PAL"||cl=="S"||cl=="S_PAL"||cl=="S_NS"||cl=="S_NS_PAL"||cl=="Ō"||cl=="Ō_PAL")
 		{
 			newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='common gender'>c</span>";
 		}
-		if (cl=="THEM_NEUT"||cl=="THEM_NEUT_PAL"||cl=="OR"||cl=="OR_PAL"||cl=="U"||cl=="U_PAL"||cl=="MUN"||cl=="MUN_PAL")
+		if (cl=="THEM_NEUT"||cl=="THEM_NEUT_PAL"||cl=="OR"||cl=="OR_PAL"||cl=="U"||cl=="U_PAL"||cl=="MUN"||cl=="MUN_PAL"||cl=="I"||cl=="I_PAL")
 		{
 			newhtml+="<h3>Noun</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>; <span class='hovertext' title='neuter gender'>n</span>";
 		}
-		if (cl=="ADJ_THEM"||cl=="ADJ_THEM_PAL")
+		if (cl=="ADJ_THEM"||cl=="ADJ_THEM_PAL"||cl=="ADJ_IS"||cl=="ADJ_IS_PAL")
 		{
 			newhtml+="<h3>Adjective</h3><b>"+orthGraph(dbase[nid][orthcolumn],7).replace("~"," ~ ")+"</b>";
 		}
@@ -216,6 +216,10 @@ function openLex(qid)
 		if (cl=="NUMERALS")
 		{
 			newhtml+="<h3>Numeral</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
+		}
+		if (cl=="INTERJEC")
+		{
+			newhtml+="<h3>Interjection</h3><b>"+orthGraph(dbase[nid][orthcolumn],7)+"</b>";
 		}
 		
 		var irregularpron=false;
@@ -840,8 +844,15 @@ function orthGraph(str2,stag)
 					str=replaceAll("ʒ","gh",str);
 					str=replaceAll("j","i",str);
 					str=replaceAll("J","I",str);
+					str=replaceAll("r̥","hr",str);
+					str=replaceAll("R̥","Hr",str);
+					str=replaceAll("l̥","hl",str);
+					str=replaceAll("L̥","Hl",str);
 					break;
 				case 7:
+					str=replaceAll("x","°",str);
+					str=replaceAll("X","^°",str);
+					
 					str=replaceAll("ks","x",str);
 					str=replaceAll("Ks","X",str);
 					str=applyNec(str,"k","qu",[""],["e","i","y"]);
@@ -889,10 +900,20 @@ function orthGraph(str2,stag)
 					str=replaceAll("j","y",str);
 					str=replaceAll("J","Y",str);
 					
-					str=replaceAll("^ɲ","Ny",str);
-					str=replaceAll("^ʎ","Ly",str);
-					str=replaceAll("ɲ","ny",str);
-					str=replaceAll("ʎ","ly",str);
+					str=replaceAll("^ɲ","Gn",str);
+					str=replaceAll("^ʎ","Gl",str);
+					str=replaceAll("ɲ","gn",str);
+					str=replaceAll("ʎ","gl",str);
+					
+					str=replaceAll("r̥","hr",str);
+					str=replaceAll("R̥","Hr",str);
+					str=replaceAll("l̥","hl",str);
+					str=replaceAll("L̥","Hl",str);
+					
+					str=replaceAll("°","j",str);
+					str=replaceAll("^°","J",str);
+					
+					str=applyNec(str,"y","i",["b","d","f","g","k","l","m","n","p","r","s","t","v","w","z"],["a","e","i","o","u","á","é","í","ó","ý"]);
 					break;
 			}
 			if (i>0) newstr+="~";
