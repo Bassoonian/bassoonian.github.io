@@ -787,6 +787,7 @@ function getLangCode(ii)
 		case "pclt": ii="Proto-Celtic";break;
 		case "peus": ii="Proto-Basque";break;
 		case "MED": ii="a Mediterranean substrate word";break;
+		case "substrate": ii="an unknown substrate word";break;
 		case "frm": ii="Middle French";break;
 		case "osp": ii="Old Spanish";break;
 		case "pro": ii="Old Occitan";break;
@@ -1089,7 +1090,7 @@ function orthGraph(str2,stag)
 				str3=replaceAll("w","𐌖",str3);
 				str3=replaceAll("ȳ","𐌖",str3);
 				
-				str="</i>"+str3+" (*"+str+")<i>";
+				str="</i>*"+str3+" (*"+str+")<i>";
 			}
 			if (stag==2)
 			{
@@ -1131,7 +1132,7 @@ function orthGraph(str2,stag)
 				str3=replaceAll("𐌽𐌺","𐌲𐌺",str3);
 				str3=replaceAll("𐌽𐌲","𐌲𐌲",str3);
 				
-				str="</i>"+str3+" (*"+str+")<i>";
+				str="</i>*"+str3+" (*"+str+")<i>";
 			}
 			if (stag==1||stag<0)
 			{
@@ -1183,13 +1184,14 @@ function orthGraph(str2,stag)
 					str=replaceAll("d͡ʒ","gh",str);
 					str=replaceAll("t͡s","ts",str);
 					str=replaceAll("d͡z","dz",str);
+					str=replaceAll(" j","𐌾",str);
+					str=replaceAll(" J","𐌾",str);
 					str=replaceAll("j","i",str);
 					str=replaceAll("J","I",str);
 					str=replaceAll("W","U",str);
 					str=replaceAll("w","u",str);
 					
-					str=replaceAll(" j","𐌾",str);
-					str=replaceAll(" J","𐌾",str);
+					str=replaceAll("ƈ","c",str);
 					break;
 				case 4:
 					str=replaceAll("ks","x",str);
@@ -1236,6 +1238,7 @@ function orthGraph(str2,stag)
 					str=replaceAll("J","I",str);
 					str=replaceAll("W","U",str);
 					str=replaceAll("w","u",str);
+					str=replaceAll("ƈ","c",str);
 					break;
 				case 5:
 					str=replaceAll("ks","x",str);
@@ -1280,6 +1283,7 @@ function orthGraph(str2,stag)
 					str=replaceAll("d͡z","dz",str);
 					str=replaceAll("j","i",str);
 					str=replaceAll("J","I",str);
+					str=replaceAll("ƈ","c",str);
 					break;
 				case 6:
 					str=replaceAll("ks","x",str);
@@ -1326,6 +1330,7 @@ function orthGraph(str2,stag)
 					str=replaceAll("R̥","Hr",str);
 					str=replaceAll("l̥","hl",str);
 					str=replaceAll("L̥","Hl",str);
+					str=replaceAll("ƈ","c",str);
 					break;
 				case 7:
 					str=replaceAll("x","°",str);
@@ -1351,6 +1356,7 @@ function orthGraph(str2,stag)
 					str=replaceAll("Ai̯","Ae",str);
 					str=replaceAll("oi̯","oe",str);
 					str=replaceAll("Oi̯","Oe",str);
+					
 					str=replaceAll("ʃ","ch",str);
 					
 					str=replaceAll("ge","gue",str);
@@ -1374,6 +1380,9 @@ function orthGraph(str2,stag)
 					str=applyNec(str,"v ","fe",["a","e","i","o","u","y","á","ó","ý","é"],[""]);
 					str=applyNec(str,"z ","se",["a","e","i","o","u","y","á","ó","ý","é"],[""]);
 					
+					str=replaceAll("r̩ ","re",str);
+					str=replaceAll("l̩ ","le",str);
+					str=replaceAll("n̩ ","ne",str);
 					str=replaceAll("r̩","r",str);
 					str=replaceAll("l̩","l",str);
 					str=replaceAll("n̩","n",str);
@@ -1387,6 +1396,29 @@ function orthGraph(str2,stag)
 					str=replaceAll("Y","Í",str);
 					str=replaceAll("j","y",str);
 					str=replaceAll("J","Y",str);
+					
+					str=replaceAll("ah","à",str);
+					str=replaceAll("Ah","À",str);
+					str=replaceAll("eh","è",str);
+					str=replaceAll("Eh","È",str);
+					str=replaceAll("ih","ì",str);
+					str=replaceAll("Ih","Ì",str);
+					str=replaceAll("oh","ò",str);
+					str=replaceAll("Oh","Ò",str);
+					str=replaceAll("uh","ù",str);
+					str=replaceAll("Uh","Ù",str);
+					str=replaceAll("yh","ỳ",str);
+					str=replaceAll("Yh","Ỳ",str);
+					str=replaceAll("áh","â",str);
+					str=replaceAll("Áh","Â",str);
+					str=replaceAll("éh","ê",str);
+					str=replaceAll("Éh","Ê",str);
+					str=replaceAll("íh","î",str);
+					str=replaceAll("Íh","Î",str);
+					str=replaceAll("óh","ô",str);
+					str=replaceAll("Óh","Ô",str);
+					str=replaceAll("ýh","ŷ",str);
+					str=replaceAll("Ýh","Ŷ",str);
 					
 					str=replaceAll("^ɲ","Gn",str);
 					str=replaceAll("^ʎ","Lh",str);
@@ -1405,6 +1437,7 @@ function orthGraph(str2,stag)
 					
 					str=replaceAll("ɸ","ph",str);
 					str=replaceAll("tʰ","th",str);
+					str=replaceAll("ƈ","c",str);
 					break;
 			}
 			if (i>0) newstr+="~";
@@ -1435,7 +1468,7 @@ function parseDbase()
 					endborder=i;
 					i=dbase.length;
 				}
-				else if (endborder==-1&&dbase[i][0]!="//")
+				else if (endborder==-1&&dbase[i][0]!="//"&&dbase[i][0]!="NEG"&&dbase[i][0]!="!!")
 				{
 					lexlist.push([orthGraph(dbase[i][orthcolumn].replace(/\[.*?\]/g,""),7),i,cat]);
 				}
