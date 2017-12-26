@@ -288,7 +288,7 @@ function openLex(qid)
 				newhtml+="<tr><th rowspan='2' colspan='2' class='darktd'><i>Person</i></th><th colspan='3' class='darktd'><i>Singular</i></th><th colspan='3' class='darktd'><i>Plural</i></th></tr>"
 				newhtml+="<tr><th class='darktd'><i>First</i></th><th class='darktd'><i>Second</i></th><th class='darktd'><i>Third</i></th><th class='darktd'><i>First</i></th><th class='darktd'><i>Second</i></th><th class='darktd'><i>Third</i></th></tr>";
 			
-				newhtml+="<tr><th class='darktd' colspan='8'><i>Active</i></th></tr><tr><th class='darktd' rowspan='4'>Simple</br>tenses</th><th class='darktd'>Present</th>";
+				newhtml+="<tr><th class='darktd' colspan='8'><i>Active Indicative</i></th></tr><tr><th class='darktd' rowspan='6'>Simple</br>tenses</th><th class='darktd'>Present Imperfective</th>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,1)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,2)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,3)+"</td>";
@@ -296,7 +296,7 @@ function openLex(qid)
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,5)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,6)+"</td>";
 			
-				newhtml+="</tr><tr><th class='darktd'>Imperfect</th>";
+				newhtml+="</tr><tr><th class='darktd'>Present Perfective</th>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,7)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,8)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,9)+"</td>";
@@ -304,7 +304,7 @@ function openLex(qid)
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,11)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,12)+"</td>";
 
-				newhtml+="</tr><tr><th class='darktd'>Future</th>";
+				newhtml+="</tr><tr><th class='darktd'>Past Imperfective</th>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,13)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,14)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,15)+"</td>";
@@ -312,7 +312,23 @@ function openLex(qid)
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,17)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,18)+"</td>";
 
-				newhtml+="</tr><tr><th class='darktd'>Optative</th>";
+				newhtml+="</tr><tr><th class='darktd'>Past Perfective</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,19)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,20)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,21)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,22)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,23)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,24)+"</td>";
+			
+				newhtml+="</tr><tr><th class='darktd'>Present Optative</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,25)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,26)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,27)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,28)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,29)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,30)+"</td>";
+				
+				newhtml+="</tr><tr><th class='darktd'>Past Optative</th>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,31)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,32)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,33)+"</td>";
@@ -322,47 +338,81 @@ function openLex(qid)
 			
 				//newhtml+="<tr><th class='darktd' rowspan='4'>Compound</br>tenses</th><th class='darktd'>Preterite</th>";//Preterite, pluperfect, future past
 			
-				newhtml+="</tr><tr><th class='darktd' colspan='2'>Imperative</th><td></td>";
-				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,37)+"</td><td></td><td></td>";
-				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,38)+"</td><td>";
+				newhtml+="</tr><tr><th class='darktd' colspan='8'><i>Active Imperative</i></th></tr><tr><th class='darktd' colspan='2'>Present</th><td></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,73)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,74)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,75)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,76)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,77)+"</td>";
+				newhtml+="</tr><tr><th class='darktd' colspan='2'>Future</th><td></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,78)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,79)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,80)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,81)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,82)+"</td>";
 			
-				newhtml+="</tr><tr><th class='darktd' colspan='8'><i>Middle</i></th></tr><tr><th class='darktd' rowspan='4'>Simple</br>tenses</th><th class='darktd'>Present</th>";
+				newhtml+="</tr><tr><th class='darktd' colspan='8'><i>Middle</i></th></tr><tr><th class='darktd' rowspan='6'>Simple</br>tenses</th><th class='darktd'>Present Imperfective</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,37)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,38)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,39)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,40)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,41)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,42)+"</td>";
+			
+				newhtml+="</tr><tr><th class='darktd'>Present Perfective</th>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,43)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,44)+"</td>";
-			
-				newhtml+="</tr><tr><th class='darktd'>Imperfect</th>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,45)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,46)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,47)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,48)+"</td>";
+
+				newhtml+="</tr><tr><th class='darktd'>Past Imperfective</th>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,49)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,50)+"</td>";
-
-				newhtml+="</tr><tr><th class='darktd'>Future</th>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,51)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,52)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,53)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,54)+"</td>";
+
+				newhtml+="</tr><tr><th class='darktd'>Past Perfective</th>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,55)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,56)+"</td>";
-
-				newhtml+="</tr><tr><th class='darktd'>Optative</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,57)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,58)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,59)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,60)+"</td>";
+				
+				newhtml+="</tr><tr><th class='darktd'>Present Optative</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,61)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,62)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,63)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,64)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,65)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,66)+"</td>";
+				
+				newhtml+="</tr><tr><th class='darktd'>Past Optative</th>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,67)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,68)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,69)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,70)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,71)+"</td>";
 				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,72)+"</td>";
-				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,73)+"</td>";
-				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,74)+"</td>";
 			
 				//Compound tenses etc
 			
-				newhtml+="</tr><tr><th class='darktd' colspan='2'>Imperative</th><td></td>";
-				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,75)+"</td><td></td><td></td>";
-				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,76)+"</td><td>";
+				newhtml+="</tr><tr><th class='darktd' colspan='8'><i>Middle Imperative</i></th></tr><tr><th class='darktd' colspan='2'>Present</th><td></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,83)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,84)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,85)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,86)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,87)+"</td>";
+				newhtml+="</tr><tr><th class='darktd' colspan='2'>Future</th><td></td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,88)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,89)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,90)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,91)+"</td>";
+				newhtml+="<td>"+doInflect(dbase[nid][orthcolumn],j,92)+"</td>";
 			
 				newhtml+="</tr></table>";
 			}
@@ -819,7 +869,7 @@ function doInflect(input,dectype,numb)
 	var stemid=(suffix.split("-"))[0].replace("(","").replace(")","");
 	if ((input.match(/~/g) || []).length>=stemid) var stem=(input.split("~"))[stemid];
 	else var stem=(input.split("~"))[0];
-	if ((input.match(/-/g) || []).length>0) stem=stem.replace("-","");
+	if ((stem.match(/-/g) || []).length>0) stem=stem.replace("-","");
 	else
 	{
 		//Take off the nominative suffix
@@ -831,6 +881,7 @@ function doInflect(input,dectype,numb)
 		}
 		stem=reverseString(stem);
 	}
+	
 	//Append the correct suffix if not a null suffix
 	if ((suffix.split("-"))[1]!="Ø")
 	{
@@ -1438,6 +1489,8 @@ function orthGraph(str2,stag)
 					str=replaceAll("ɸ","ph",str);
 					str=replaceAll("tʰ","th",str);
 					str=replaceAll("ƈ","c",str);
+					
+					str=replaceAll("yý","ŷ",str);
 					break;
 			}
 			if (i>0) newstr+="~";
