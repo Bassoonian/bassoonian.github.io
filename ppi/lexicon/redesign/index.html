@@ -10,11 +10,48 @@
 	<style>
 	body
 	{
-      position: relative; 
+      position: relative;
+	  overflow-x: hidden;
 	}
-	.alphsection
+	.alphsection, #actualcontent
 	{
 		padding-top: 50px;
+	}
+	#actualcontent
+	{
+		border-left: 1px solid #ccc;
+		height: 100%;
+	}
+	.alphabetstripe
+	{
+		display: block;
+		overflow: hidden;
+		white-space: nowrap;
+		text-align: center;
+	}
+	.alphabetstripe > span
+	{
+		position: relative;
+		display: inline-block;
+	}
+	.alphabetstripe > span:after, .alphabetstripe > span:before
+	{
+		content: "";
+		position: absolute;
+		top: 50%;
+		width: 9999px;
+		height: 1px;
+		background: #ccc;
+	}
+	.alphabetstripe > span:after
+	{
+		left: 100%;
+		margin-left: 5px;
+	}
+	.alphabetstripe > span:before
+	{
+		right: 100%;
+		margin-right: 5px;
 	}
   	</style>
 </head>
@@ -96,173 +133,144 @@
 						</ul>
 						<li><a href="#Z">Z</a></li>
 					</ul>
-					<form class="navbar-form navbar-right">
+					<div class="navbar-form navbar-right">
 						<div class="input-group">
 							<input type="text" class="form-control" placeholder="Search" name="search">
 							<div class="input-group-btn">
-								<button class="btn btn-default" type="submit">
+								<button class="btn btn-default">
 									<i class="glyphicon glyphicon-search"></i>
 								</button>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</nav>    
-
-	<div id="A" class="container-fluid alphsection">
-		<h1>A</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Á" class="container-fluid alphsection">
-		<h1>Á</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="À" class="container-fluid alphsection">
-		<h1>À</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Â" class="container-fluid alphsection">
-		<h1>Â</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="B" class="container-fluid alphsection">
-		<h1>B</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="C" class="container-fluid alphsection">
-		<h1>C</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="D" class="container-fluid alphsection">
-		<h1>D</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="E" class="container-fluid alphsection">
-		<h1>E</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="É" class="container-fluid alphsection">
-		<h1>E</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="È" class="container-fluid alphsection">
-		<h1>È</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Ê" class="container-fluid alphsection">
-		<h1>Ê</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="F" class="container-fluid alphsection">
-		<h1>F</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="G" class="container-fluid alphsection">
-		<h1>G</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="H" class="container-fluid alphsection">
-		<h1>H</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="I" class="container-fluid alphsection">
-		<h1>I</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Í" class="container-fluid alphsection">
-		<h1>Í</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Ì" class="container-fluid alphsection">
-		<h1>Ì</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Î" class="container-fluid alphsection">
-		<h1>Î</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="J" class="container-fluid alphsection">
-		<h1>J</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="L" class="container-fluid alphsection">
-		<h1>L</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="M" class="container-fluid alphsection">
-		<h1>M</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="N" class="container-fluid alphsection">
-		<h1>N</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="O" class="container-fluid alphsection">
-		<h1>O</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Ó" class="container-fluid alphsection">
-		<h1>Ó</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Ò" class="container-fluid alphsection">
-		<h1>Ò</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Ô" class="container-fluid alphsection">
-		<h1>Ô</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="P" class="container-fluid alphsection">
-		<h1>P</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Q" class="container-fluid alphsection">
-		<h1>Q</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="R" class="container-fluid alphsection">
-		<h1>R</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="S" class="container-fluid alphsection">
-		<h1>S</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="T" class="container-fluid alphsection">
-		<h1>T</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="U" class="container-fluid alphsection">
-		<h1>U</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Ù" class="container-fluid alphsection">
-		<h1>Ù</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="V" class="container-fluid alphsection">
-		<h1>V</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="X" class="container-fluid alphsection">
-		<h1>X</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Y" class="container-fluid alphsection">
-		<h1>Y</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Ŷ" class="container-fluid alphsection">
-		<h1>Ŷ</h1>
-		<p>List of words comes here</p>
-	</div>
-	<div id="Z" class="container-fluid alphsection">
-		<h1>Z</h1>
-		<p>List of words comes here</p>
-	</div>
-
+	<div class="row">
+		<div id="wordlist" class="col-sm-3">
+			<div id="A" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>A</span></h5>
+			</div>
+			<div id="Á" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Á</span></h5>
+			</div>
+			<div id="À" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>À</span></h5>
+			</div>
+			<div id="Â" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Â</span></h5>
+			</div>
+			<div id="B" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>B</span></h5>
+			</div>
+			<div id="C" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>C</span></h5>
+			</div>
+			<div id="D" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>D</span></h5>
+			</div>
+			<div id="E" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>E</span></h5>
+			</div>
+			<div id="É" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>É</span></h5>
+			</div>
+			<div id="È" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>È</span></h5>
+			</div>
+			<div id="Ê" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Ê</span></h5>
+			</div>
+			<div id="F" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>F</span></h5>
+			</div>
+			<div id="G" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>G</span></h5>
+			</div>
+			<div id="H" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>H</span></h5>
+			</div>
+			<div id="I" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>I</span></h5>
+			</div>
+			<div id="Í" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Í</span></h5>
+			</div>
+			<div id="Ì" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Ì</span></h5>
+			</div>
+			<div id="Î" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Î</span></h5>
+			</div>
+			<div id="J" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>J</span></h5>
+			</div>
+			<div id="L" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>L</span></h5>
+			</div>
+			<div id="M" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>M</span></h5>
+			</div>
+			<div id="N" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>N</span></h5>
+			</div>
+			<div id="O" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>O</span></h5>
+			</div>
+			<div id="Ó" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Ó</span></h5>
+			</div>
+			<div id="Ò" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Ò</span></h5>
+			</div>
+			<div id="Ô" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Ô</span></h5>
+			</div>
+			<div id="P" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>P</span></h5>
+			</div>
+			<div id="Q" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Q</span></h5>
+			</div>
+			<div id="R" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>R</span></h5>
+			</div>
+			<div id="S" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>S</span></h5>
+			</div>
+			<div id="T" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>T</span></h5>
+			</div>
+			<div id="U" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>U</span></h5>
+			</div>
+			<div id="Ù" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Ù</a></h5>
+			</div>
+			<div id="V" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>V</a></h5>
+			</div>
+			<div id="X" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>X</a></h5>
+			</div>
+			<div id="Y" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Y</a></h5>
+			</div>
+			<div id="Ŷ" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Ŷ</a></h5>
+			</div>
+			<div id="Z" class="container-fluid alphsection">
+				<h5 class="alphabetstripe"><span>Z</a></h5>
+			</div>
+		</div>
+		<div class="col-sm-9">
+			<div id="actualcontent" data-spy="affix" class="container-fluid">
+				<div class="alert alert-info alert-dismissable fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<strong>Notice:</strong> This entry was opened automatically as the word of the day.
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
