@@ -10,17 +10,27 @@
 	<style>
 	body
 	{
-      position: relative;
-	  overflow-x: hidden;
+		margin: 0;
+		overflow: hidden;
+		height: 100%;
 	}
-	.alphsection, #actualcontent
+	#wordlist
 	{
-		padding-top: 50px;
+		padding: 0;
+		position: fixed;
+		height: calc(100% - 52px);
+		top: 52px;
+		overflow-y: scroll;
 	}
 	#actualcontent
 	{
-		border-left: 1px solid #ccc;
-		height: 100%;
+		position: fixed;
+		padding: 0;
+		height: calc(100% - 52px);
+		top: 52px;
+		left: calc(25%);
+		right: 0px;
+		overflow-y: scroll;
 	}
 	.alphabetstripe
 	{
@@ -55,9 +65,8 @@
 	}
   	</style>
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="50">
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<body>
+<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -148,7 +157,7 @@
 		</div>
 	</nav>    
 	<div class="row">
-		<div id="wordlist" class="col-sm-3">
+		<div id="wordlist" class="col-sm-3" data-spy="scroll" data-target=".navbar" data-offset="0">
 			<div id="A" class="container-fluid alphsection">
 				<h5 class="alphabetstripe"><span>A</span></h5>
 			</div>
@@ -270,6 +279,14 @@
 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 					<strong>Notice:</strong> This entry was opened automatically as the word of the day.
 				</div>
+				<h3>WORD</h3>
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#">General</a></li>
+					<li><a href="#">Inflection</a></li>
+					<li><a href="#">Etymology</a></li>
+				</ul>
+				<br>
+				<p>General would contain the word, pronunciations and meanings; inflection shows tables while etymology shows the etymology (duh).</p>
 			</div>
 		</div>
 	</body>
