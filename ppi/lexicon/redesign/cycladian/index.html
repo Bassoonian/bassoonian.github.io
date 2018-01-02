@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$("#dictionary").load("../template.html");
+		});
+		sourcecsv="https://docs.google.com/spreadsheets/d/e/2PACX-1vTe8E8yH60LpBJZA9PfIgIfj7RxmVIPm97PUB1GBHEYPoT9G8dOfyFscqPYhHaEtbQ0Gt3xh6ESfQbF/pub?gid=1931865753&single=true&output=csv";
+		local={
+			name: "Cycladian",
+			alphabet: "A=Á=Â=Ā B C D E=É=Ê=Ē F G H I=Í=Î=Ī J L M N O=Ó=Ô=Ō P Q R S T U=Ú=Û=Ū V X Y=Ý=Ŷ=Ȳ Z",
+			notation: "",
+			allophony: []
+		};
+	</script>
+<html>
+	<div id="dictionary"></div>
+</html>

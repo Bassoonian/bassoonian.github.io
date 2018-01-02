@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title id="page_title">Loading...</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="../jquery.csv.js"></script>
+	<style>
+	body
+	{
+		margin: 0;
+		overflow: hidden;
+		height: 100%;
+	}
+	#wordlist
+	{
+		padding: 0;
+		position: fixed;
+		height: calc(100% - 52px);
+		top: 52px;
+		overflow-y: scroll;
+	}
+	#actualcontent
+	{
+		position: fixed;
+		padding: 0;
+		height: calc(100% - 52px);
+		top: 52px;
+		left: calc(100% / 6);
+		right: 0px;
+		overflow-y: auto;
+	}
+	.alphabetstripe
+	{
+		display: block;
+		overflow: hidden;
+		white-space: nowrap;
+		text-align: center;
+	}
+	.alphabetstripe > span
+	{
+		position: relative;
+		display: inline-block;
+	}
+	.alphabetstripe > span:after, .alphabetstripe > span:before
+	{
+		content: "";
+		position: absolute;
+		top: 50%;
+		width: 9999px;
+		height: 1px;
+		background: #ccc;
+	}
+	.alphabetstripe > span:after
+	{
+		left: 100%;
+		margin-left: 5px;
+	}
+	.alphabetstripe > span:before
+	{
+		right: 100%;
+		margin-right: 5px;
+	}
+	.wordentry
+	{
+		padding: 1px;
+		margin: 1px;
+		cursor: pointer;
+		-o-transition: color .2s ease-out, background .1s ease-out;
+		-ms-transition: color .2s ease-out, background .1s ease-out;
+		-moz-transition: color .2s ease-out, background .1s ease-out;
+		-webkit-transition: color .2s ease-out, background .1s ease-out;
+		transition: color .2s ease-out, background .1s ease-out;
+	}
+	.wordentry:hover
+	{
+		background-color: #E8E8E8;
+	}
+  	</style>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>                        
+			</button>
+			<a class="navbar-brand" id="lang_name" href="#"></a>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul id="navbar_alphabetlist" class="nav navbar-nav"></ul>
+				<div class="navbar-form navbar-right">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search" name="search">
+						<div class="input-group-btn">
+							<button class="btn btn-default">
+								<i class="glyphicon glyphicon-cog"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>   
+<div class="row">
+	<div id="wordlist" class="col-sm-2" data-spy="scroll" data-target=".navbar" data-offset="0"></div>
+	<div class="col-sm-10">
+		<div id="actualcontent" data-spy="affix" class="container-fluid">
+			<div class="alert alert-info alert-dismissable fade in" id="wotdnotice">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<strong>Notice:</strong> This entry was opened automatically as the word of the day.
+			</div>
+			<h2 id="entry_name"></h2>
+			<h3 id="entry_category"></h3>
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#tab_general" id="tab_click_general">General</a></li>
+				<li><a data-toggle="tab" href="#tab_inflection" id="tab_click_inflection">Inflection</a></li>
+				<li><a data-toggle="tab" href="#tab_etymo" id="tab_click_etymo">Etymology</a></li>
+			</ul>
+			<div class="tab-content">
+				<div id="tab_general" class="tab-pane fade in active">
+					<h4>Pronunciation</h4>
+					<ul>
+						<li>US: /ˈæ.pəl/ [ˈæ.pl̩]</li>
+						<li>UK: /ˈæ.pəl/ [ˈæ.pl̩]</li>
+					</ul>
+					<h4>Translation</h4>
+					<ol id="entry_translations">
+					</ol>
+				</div>
+				<div id="tab_inflection" class="tab-pane fade">
+					<h4>Inflection</h4>
+					<div class='col-md-4'>
+						<table class='table table-striped table-condensed'>
+							<thead>
+								<tr id='inflection_thead'></tr>
+							</thead>
+							<tbody id='inflection_tbody'>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div id="tab_etymo" class="tab-pane fade">
+					<h4>Etymology</h4>
+					<p>From Middle English appel, from Old English æppel (“apple, any kind of fruit, fruit in general, apple of the eye, ball, anything round, bolus, pill”), from Proto-Germanic *aplaz (“apple”), from Proto-Indo-European *h₂ébōl, *h₂ébl̥ (“apple”).</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	rawcsv=$.get(sourcecsv, function() {
+		console.log("Attempting to connect to server...");
+	})
+		.done(function(){
+			console.log("Lexicon retrieval succesful!");
+			dbase=$.csv.toArrays(rawcsv.responseText);
+			parseDbase();
+		})
+		.fail(function(){
+			console.log("Unable to connect to Google. Resorting to local copy which may be out of date.");
+			rawcsv=$.get("backup_csv.csv", function() {
+				console.log("Attempting to read local file...");
+			})
+				.done(function(){
+					console.log("Lexicon retrieval succesful!");
+					dbase=$.csv.toArrays(rawcsv.responseText);
+					parseDbase();
+				})
+				.fail(function(){
+					console.log("No local copy can be found.");
+					loaderror();
+				});
+		});
+	
+	function loaderror()
+		{
+			alert("An error has occurred while loading the lexicon. Please try again later.");
+		}
+	function parseDbase()
+		{
+			//Set title
+			document.getElementById("page_title").innerHTML=local.name+" Lexicon";
+			document.getElementById("lang_name").innerHTML=local.name.toUpperCase();
+			//Prepare alphabet for nav bar
+			var tempvar="";
+			var _alphabet=local.alphabet.split(" ");
+			_alphabet2=[];
+			var j=[];
+			var repl=[];
+			var alphvalue=0;
+			for(var i=0;i<_alphabet.length;i++)
+			{
+				j=_alphabet[i].split("~");
+				if (j.length>1)
+				{
+					//Dropdown menu
+					tempvar+="<li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href='#'>"+j[0]+" <span class='caret'></span></a><ul class='dropdown-menu'>";
+					for(var k=0;k<j.length;k++)
+					{
+						tempvar+="<li><a href='#scr"+alphvalue+"'>"+j[k]+"</a></li>";
+						_alphabet2.push(j[k]);
+						alphvalue++;
+					}
+					tempvar+="</ul></li>";
+				}
+				else
+				{
+					j=_alphabet[i].split("=");
+					tempvar+="<li><a href='#scr"+alphvalue+"'>"+j[0]+"</a></li>";
+					if (j.length>1)
+					{
+						repl.push(_alphabet[i]);
+					}
+					_alphabet2.push(j[0]);
+					alphvalue++;
+				}
+			}
+			document.getElementById("navbar_alphabetlist").innerHTML=tempvar;
+			//Parse dbase
+			orthcolumn=-1;
+			var k=dbase[1].length;
+			for(var i=0;i<k;i++)
+			{
+				if (dbase[1][i]=="ORTHO") orthcolumn=i;
+			}
+			if (orthcolumn==-1) loaderror();
+			else
+			{
+				lexlist=[];
+				alphoffset=[];
+				var endoflexicon=-1;
+				var cat="";
+				for(var i=3;i<dbase.length;i++)
+				{
+					if (dbase[i][0]=="//") cat=dbase[i][1];
+					else if (dbase[i][0]=="@@@@")
+					{
+						endoflexicon=i;
+						i=dbase.length;
+					}
+					else lexlist.push([apply_orthography(dbase[i][orthcolumn]),i,cat]);
+				}
+				
+				//Sort into alphabetical order as defined by _alphabet
+				//replace bits
+				for(var i=0;i<repl.length;i++)
+				{
+					j=repl[i].split("=");
+					for(var k=1;k<j.length;k++)
+					{
+						for(var l=0;l<lexlist.length;l++)
+						{
+							lexlist[l][0]=replaceAll(j[k],j[0],lexlist[l][0]);
+							lexlist[l][0]=replaceAll(j[k].toLowerCase(),j[0].toLowerCase(),lexlist[l][0]);
+						}
+					}
+				}
+				
+				//sort
+				lexlist.sort(function(a, b){
+				    return strSortAlph(a[0].toUpperCase(),b[0].toUpperCase());
+				});
+				
+				//Gather stagelist and happenings (=loans)
+				stagelist=[];
+				happenings=[];
+				for(var i=3;i<dbase[0].length;i++)
+				{
+					if (dbase[0][i]!="")
+					{
+						stagelist.push([dbase[0][i],i]);
+						happenings.push(["STAGE",i-2]);
+					}
+					if (dbase[1][i]=="LOANS") happenings.push([dbase[1][i],i]);
+				}
+				
+				declensionlist=[];
+				for(var i=endoflexicon;i<dbase.length;i++)
+				{
+					if (dbase[i][0]=="//") declensionlist.push([dbase[i][1],i]);
+				}
+				
+				setWordlist();
+				openWotd();
+			}
+		}
+		function escapeRegExp(string) {
+			    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+			}
+
+		function replaceAll(find, replace, string) {
+			  return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+			}
+		function strSortAlph(a,b)
+			{
+				for(var i=0;i<a.length&&i<b.length;i++)
+				{
+					var cha=_alphabet2.indexOf(a[i]);
+					var chb=_alphabet2.indexOf(b[i]);
+					if (cha<chb) return -1;
+					if (cha>chb) return 1;
+				}
+				return 0;
+			}
+		function setWordlist()
+			{
+				//Implement search support later
+				var temp="";
+				var alphvalue=-1;
+				for(var i=0;i<lexlist.length;i++)
+				{
+					var j=lexlist[i][0].charAt(0).toUpperCase();
+					while(alphvalue<_alphabet2.indexOf(j))
+					{
+						alphvalue++;
+						if (alphvalue>0) temp+="</div>";
+						temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+_alphabet2[alphvalue]+"</span></h5>";
+					}
+					temp+="<div class='wordentry' onclick='openWord("+i+",false)'><h5>"+lexlist[i][0]+" <small>";
+					j="???";
+					for(var k=0;k<declensionlist.length;k++)
+					{
+						if (declensionlist[k][0]==lexlist[i][2]) j=dbase[declensionlist[k][1]][3];
+					}
+					temp+=j+"</small></h5></div>";
+				}
+				while(alphvalue<_alphabet2.length-1)
+				{
+					alphvalue++;
+					if (alphvalue>0) temp+="</div>";
+					temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+_alphabet2[alphvalue]+"</span></h5>";
+				}
+				temp+="</div>";
+				document.getElementById("wordlist").innerHTML=temp;
+			}
+		function openWord(wid,first)
+			{
+				if (!first) $('.alert').alert("close");
+				$('#tab_click_general').trigger("click");
+				
+				document.getElementById("entry_name").innerHTML=lexlist[wid][0];
+				var j="";
+				for(var i=0;i<declensionlist.length;i++)
+				{
+					if (declensionlist[i][0]==lexlist[wid][2]) j=dbase[declensionlist[i][1]][3];
+				}
+				document.getElementById("entry_category").innerHTML=j;
+				
+				var temp="";
+				var translist=dbase[lexlist[wid][1]][dbase[0].length-1].split(",");
+				for(var i=0;i<translist.length;i++)
+				{
+					temp+="<li>";
+					var k=translist[i].split("£");
+					if (k.length>1) temp+="(<i>"+k[1]+"</i>) ";
+					temp+=k[0];
+					temp+="</li>";
+				}
+				document.getElementById("entry_translations").innerHTML=temp;
+				
+				if (j=="Noun")
+				{
+					document.getElementById("inflection_thead").innerHTML="<th>Case</th><th>Singular</th><th>Plural</th>";
+				}
+			}
+		function openWotd()
+			{
+				var now=Date.now();//milliseconds
+				now=Math.floor(now/1000);//seconds
+				now=Math.floor(now/60);//minutes
+				now=Math.floor(now/60);//hours
+				now=Math.floor(now/24);//days
+				now*=now;
+				var wid=now % lexlist.length;
+				openWord(wid,true);
+			}
+</script>
+</html>
