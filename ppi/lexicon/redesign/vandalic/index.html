@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$("#dictionary").load("../template.html");
+		});
+		sourcecsv="https://docs.google.com/spreadsheets/d/e/2PACX-1vTe8E8yH60LpBJZA9PfIgIfj7RxmVIPm97PUB1GBHEYPoT9G8dOfyFscqPYhHaEtbQ0Gt3xh6ESfQbF/pub?gid=1569819856&single=true&output=csv";
+		local={
+			name: "Vandalic",
+			alphabet: "A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V Z",
+			notation: "",
+			allophony: [],
+			cases: [["Nominative","Vocative","Accusative","Dative","Instrumental","Genitive"]],
+			numbers: [["Singular","Plural"]]
+		}
+		
+		function apply_orthography(string,orthid)
+		{
+			orthid = (typeof orthid !== 'undefined') ?  orthid : 0;
+			string=" "+replaceAll(".","",string)+" ";
+			string=replaceAll("%","",string);
+			return string.trim();
+		}
+	</script>
+<html>
+	<div id="dictionary"></div>
+</html>

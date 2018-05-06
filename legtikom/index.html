@@ -1,26 +1,180 @@
+<meta charset="UTF-8">
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Leǵtikóm</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-diwth, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+<div id="testing">Please wait, loading...</br><span id="currentspan"></span> - <span id="progressspan"></span></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jquery.csv.js"></script>
+<script>
+document.getElementById("currentspan").innerHTML="Retrieving master packages";
+document.getElementById("progressspan").innerHTML="0/3";
+downloadprogress=0;
+//Download bibliography
+var raw1=$.get("https://docs.google.com/spreadsheets/d/e/2PACX-1vTboSZ8CC7hN7sd9QwhI2dQMaQt4pcXWWp-vtwq6FayjrOGhjOUSRyeqdf0baBO67DkDgsKKMNYYmnq/pub?gid=1320290123&single=true&output=csv", function() {
+	console.log("Attempting to retrieve bibliography...");
+})
+	.done(function(){
+		console.log("Retrieval succesful!");
+		_bibliography=$.csv.toArrays(raw1.responseText);
+		upDownloadProgress(0);
+	})
+	.fail(function(){
+		loaderror();
+	});
+//Download PIE library
+var raw2=$.get("https://docs.google.com/spreadsheets/d/e/2PACX-1vTboSZ8CC7hN7sd9QwhI2dQMaQt4pcXWWp-vtwq6FayjrOGhjOUSRyeqdf0baBO67DkDgsKKMNYYmnq/pub?gid=0&single=true&output=csv", function() {
+		console.log("Attempting to download PIE library...");
+	})
+		.done(function(){
+			console.log("Retrieval succesful!");
+			_pielib=$.csv.toArrays(raw2.responseText);
+			upDownloadProgress(0);
+		})
+		.fail(function(){
+			loaderror();
+		});
+//Download reference list
+var raw3=$.get("https://docs.google.com/spreadsheets/d/e/2PACX-1vTboSZ8CC7hN7sd9QwhI2dQMaQt4pcXWWp-vtwq6FayjrOGhjOUSRyeqdf0baBO67DkDgsKKMNYYmnq/pub?gid=1202936518&single=true&output=csv", function() {
+				console.log("Attempting to download reference list...");
+			})
+				.done(function(){
+					console.log("Retrieval succesful!");
+					_reflist=$.csv.toArrays(raw3.responseText);
+					upDownloadProgress(0);
+				})
+				.fail(function(){
+					loaderror();
+				});
 
-<body>
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Leǵtikóm</a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#">Option</a></li>
-			</ul>
-		</div>
-	</nav>
-</body>
+function upDownloadProgress(trigger)
+	{
+		downloadprogress++;
+		var q;
+		if (trigger==0) q=3;
+		if (trigger==1) q=_reflist.length;
+		document.getElementById("progressspan").innerHTML=downloadprogress+"/"+q;
+		
+		if (downloadprogress==q)
+		{
+			if (trigger==0) parseReflist();
+			if (trigger==1) loadRoots();
+		}
+	}
+	
+function parseReflist()
+	{
+		document.getElementById("currentspan").innerHTML="Downloading additional packages";
+		document.getElementById("progressspan").innerHTML="0/"+_reflist.length;
+		downloadprogress=0;
+		_libraries=[];
+		rawlib=[undefined];
+		for(var i=0;i<_reflist.length;i++)
+		{
+			_libraries.push([_reflist[i][0]]);
+			loadLibrary(i);
+		}
+	}
+	
+function loadLibrary(refid)
+	{
+		rawlib[refid]=$.get(_reflist[refid][1], function() {
+				console.log("Attempting to download "+_reflist[refid][0]+" library...");
+			})
+				.done(function(){
+					console.log("Retrieval succesful!");
+					_libraries[refid].push($.csv.toArrays(rawlib[refid].responseText));
+					upDownloadProgress(1);
+				})
+				.fail(function(){
+					loaderror();
+				});
+	}
 
-</html>
+function loadRoots()
+	{
+		var newhtml="";
+		for(var i=1;i<_pielib.length;i++)
+		{
+			newhtml+="<h3>"+_pielib[i][0]+"</h3>";
+			newhtml+="<h4>Translations</h4><ul>";
+			var trans=_pielib[i][1].split(",");
+			for(var j=0;j<trans.length;j++)
+			{
+				newhtml+="<li>"+(trans[j].split("~"))[0]+" <sub>"+(trans[j].split("~"))[1]+"</sub></li>";
+			}
+			newhtml+="</ul><h4>Location</h4>"+_pielib[i][2];
+			newhtml+="<h4>Alternative Reconstructions</h4><ul>";
+			var trans=_pielib[i][3].split(",");
+			for(var j=0;j<trans.length;j++)
+			{
+				newhtml+="<li>"+(trans[j].split("~"))[0]+" <sub>"+(trans[j].split("~"))[1]+"</sub></li>";
+			}
+			newhtml+="</ul><h4>Notes</h4>"+_pielib[i][4]+"<h4>Formations & Descendants</h4><ul>";
+			var stack=_pielib[i].splice(5);
+			
+			var mrf="N/A";
+			for(var j=0;j<stack.length;j++)
+			{
+				var qq=stack[j].split(" ");
+				if (qq[0]!=mrf)
+				{
+					if (mrf!="N/A") newhtml+="</ul></li>";
+					mrf=qq[0];
+					newhtml+="<li>"+qq[0]+"<ul>";
+				}
+				//First order by formation
+				newhtml+="<li>"+qq[1]+" "+qq[2];
+				newhtml+=analyseStack([qq[1],(qq[2].split("~"))[0]]);
+				newhtml+="</li>";
+			}
+			if (mrf!="N/A") newhtml+="</ul>";
+			newhtml+="</ul>";
+		}
+		
+		document.getElementById("testing").innerHTML=newhtml;
+	}
+	
+function loaderror()
+	{
+		document.getElementById("testing").innerHTML="Unable to download libraries!";
+	}
+	
+function analyseStack(arg)
+	{
+		var addition="";
+		var pq=-1;
+		//Look up language name
+		for(var i=0;i<_libraries.length;i++)
+		{
+			if(_libraries[i][0]==arg[0]) pq=i;
+		}
+		if (pq==-1) addition="!Error: Unknown language code!";
+		else
+		{
+			pr=-1;
+			//Look up specific word in language
+			for(var i=1;i<_libraries[pq][1].length;i++)
+			{
+				if (_libraries[pq][1][i][0]==arg[1]) pr=i;
+			}
+			if (pr==-1) addition="!Error: Unknown word in language!";
+			else
+			{
+				//Separate specific word and strip apart important information
+				var qq=_libraries[pq][1][pr];
+				if (qq[2]!="")
+				{
+					//We have descendants
+					addition="<ul>";
+					for(var i=2;i<qq.length;i++)
+					{
+						var qqq=qq[i].split(" ")
+						addition+="<li>"+qq[i];
+						addition+=analyseStack([qqq[0],(qqq[1].split("~"))[0]]);
+						addition+="</li>";
+					}
+					addition+="</ul>";
+				}
+			}
+		}
+		return(addition);
+	}
+</script>

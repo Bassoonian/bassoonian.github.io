@@ -78,6 +78,13 @@
 	{
 		background-color: #E8E8E8;
 	}
+	#entryamountbox
+	{
+		text-align: center;
+		padding-top: 1px;
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+	}
   	</style>
 </head>
 <body>
@@ -95,9 +102,9 @@
 			<ul id="navbar_alphabetlist" class="nav navbar-nav"></ul>
 				<div class="navbar-form navbar-right">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Search" name="search">
+						<input type="text" id="searchinputvalue" class="form-control" placeholder="Search" name="search" oninput="setWordlist();">
 						<div class="input-group-btn">
-							<button class="btn btn-default">
+							<button class="btn btn-default" data-toggle="modal" data-target="#searchsettingsmodal">
 								<i class="glyphicon glyphicon-cog"></i>
 							</button>
 						</div>
@@ -119,16 +126,13 @@
 			<h3 id="entry_category"></h3>
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#tab_general" id="tab_click_general">General</a></li>
-				<li><a data-toggle="tab" href="#tab_inflection" id="tab_click_inflection">Inflection</a></li>
+				<li id="tab_inflect_li"><a data-toggle="tab" href="#tab_inflection" id="tab_click_inflection">Inflection</a></li>
 				<li><a data-toggle="tab" href="#tab_etymo" id="tab_click_etymo">Etymology</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="tab_general" class="tab-pane fade in active">
 					<h4>Pronunciation</h4>
-					<ul>
-						<li>US: /ˈæ.pəl/ [ˈæ.pl̩]</li>
-						<li>UK: /ˈæ.pəl/ [ˈæ.pl̩]</li>
-					</ul>
+					<ul id="entry_pronunciation"></ul>
 					<h4>Translation</h4>
 					<ol id="entry_translations">
 					</ol>
@@ -147,7 +151,20 @@
 				</div>
 				<div id="tab_etymo" class="tab-pane fade">
 					<h4>Etymology</h4>
-					<p>From Middle English appel, from Old English æppel (“apple, any kind of fruit, fruit in general, apple of the eye, ball, anything round, bolus, pill”), from Proto-Germanic *aplaz (“apple”), from Proto-Indo-European *h₂ébōl, *h₂ébl̥ (“apple”).</p>
+					<p id="entry_etymologytext"></p>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="searchsettingsmodal" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Search settings</h4>
+					</div>
+					<div class="modal-body">
+						<p>Test text lol</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -163,7 +180,8 @@
 			parseDbase();
 		})
 		.fail(function(){
-			console.log("Unable to connect to Google. Resorting to local copy which may be out of date.");
+			console.log("Unable to connect to Google, quite possibly because of Cross-Origin Restrictions.");
+			console.log("Want to debug the latest changes to your spreadsheet? Turn off Cross-Origin Restrictions for this page and refresh.");
 			rawcsv=$.get("backup_csv.csv", function() {
 				console.log("Attempting to read local file...");
 			})
@@ -232,6 +250,31 @@
 			if (orthcolumn==-1) loaderror();
 			else
 			{
+				//Gather stagelist and happenings (=loans)
+				stagelist=[];
+				happenings=[];
+				_applyalways=[];
+				_allophones=[];
+				for(var i=3;i<dbase[0].length;i++)
+				{
+					if (dbase[0][i]!="")
+					{
+						stagelist.push([dbase[0][i],i]);
+						happenings.push(["STAGE",i-2]);
+					}
+					if (dbase[1][i]=="LOANS") happenings.push([dbase[2][i],i]);
+					if (dbase[1][i]=="!applyalways")
+					{
+						if (_applyalways.indexOf(dbase[2][i])==-1) _applyalways.push(dbase[2][i]);
+						else _applyalways.splice(_applyalways.indexOf(dbase[2][i]),1);
+					}
+					if (dbase[1][i]=="!allophony")
+					{
+						if (_allophones.indexOf(dbase[2][i])==-1) _allophones.push(dbase[2][i]);
+						else _allophones.splice(_allophones.indexOf(dbase[2][i]),1);
+					}
+				}
+				//Gather words
 				lexlist=[];
 				alphoffset=[];
 				var endoflexicon=-1;
@@ -244,7 +287,7 @@
 						endoflexicon=i;
 						i=dbase.length;
 					}
-					else lexlist.push([apply_orthography(dbase[i][orthcolumn]),i,cat]);
+					else if (dbase[i][0].charAt(0)!="§"&&dbase[i][0]!="!!!") lexlist.push([apply_orthography((dbase[i][orthcolumn].split("~"))[0]),i,cat]);
 				}
 				
 				//Sort into alphabetical order as defined by _alphabet
@@ -266,19 +309,6 @@
 				lexlist.sort(function(a, b){
 				    return strSortAlph(a[0].toUpperCase(),b[0].toUpperCase());
 				});
-				
-				//Gather stagelist and happenings (=loans)
-				stagelist=[];
-				happenings=[];
-				for(var i=3;i<dbase[0].length;i++)
-				{
-					if (dbase[0][i]!="")
-					{
-						stagelist.push([dbase[0][i],i]);
-						happenings.push(["STAGE",i-2]);
-					}
-					if (dbase[1][i]=="LOANS") happenings.push([dbase[1][i],i]);
-				}
 				
 				declensionlist=[];
 				for(var i=endoflexicon;i<dbase.length;i++)
@@ -310,9 +340,10 @@
 			}
 		function setWordlist()
 			{
-				//Implement search support later
 				var temp="";
 				var alphvalue=-1;
+				var foundresult=0;
+				var searchval=document.getElementById("searchinputvalue").value;
 				for(var i=0;i<lexlist.length;i++)
 				{
 					var j=lexlist[i][0].charAt(0).toUpperCase();
@@ -322,13 +353,20 @@
 						if (alphvalue>0) temp+="</div>";
 						temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+_alphabet2[alphvalue]+"</span></h5>";
 					}
-					temp+="<div class='wordentry' onclick='openWord("+i+",false)'><h5>"+lexlist[i][0]+" <small>";
-					j="???";
-					for(var k=0;k<declensionlist.length;k++)
+					var success=false;
+					if (searchval=="") success=true;
+					if (lexlist[i][0].search(searchval)!=-1) success=true;
+					if (success==true)
 					{
-						if (declensionlist[k][0]==lexlist[i][2]) j=dbase[declensionlist[k][1]][3];
+						temp+="<div class='wordentry' onclick='openWord("+i+",false)'><h5>"+lexlist[i][0]+" <small>";
+						j="???";
+						for(var k=0;k<declensionlist.length;k++)
+						{
+							if (declensionlist[k][0]==lexlist[i][2]) j=dbase[declensionlist[k][1]][2];
+						}
+						temp+=j+"</small></h5></div>";
+						foundresult++;
 					}
-					temp+=j+"</small></h5></div>";
 				}
 				while(alphvalue<_alphabet2.length-1)
 				{
@@ -337,6 +375,11 @@
 					temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+_alphabet2[alphvalue]+"</span></h5>";
 				}
 				temp+="</div>";
+				//Attach amount of found entries
+				temp=" found.</small></div>"+temp;
+				if (foundresult==1) temp="entry"+temp;
+				else temp="entries"+temp;
+				temp="<div id='entryamountbox' class='container-fluid'><small>"+foundresult+" "+temp;
 				document.getElementById("wordlist").innerHTML=temp;
 			}
 		function openWord(wid,first)
@@ -346,9 +389,14 @@
 				
 				document.getElementById("entry_name").innerHTML=lexlist[wid][0];
 				var j="";
+				var clid=-1;
 				for(var i=0;i<declensionlist.length;i++)
 				{
-					if (declensionlist[i][0]==lexlist[wid][2]) j=dbase[declensionlist[i][1]][3];
+					if (declensionlist[i][0]==lexlist[wid][2])
+					{
+						j=dbase[declensionlist[i][1]][2];
+						clid=i;
+					}
 				}
 				document.getElementById("entry_category").innerHTML=j;
 				
@@ -358,16 +406,204 @@
 				{
 					temp+="<li>";
 					var k=translist[i].split("£");
-					if (k.length>1) temp+="(<i>"+k[1]+"</i>) ";
+					if (k.length>1) temp+="(<i>"+replaceAll("§",", ",k[1])+"</i>) ";
 					temp+=k[0];
 					temp+="</li>";
 				}
 				document.getElementById("entry_translations").innerHTML=temp;
+				//Build pronunciation
+				temp=dbase[lexlist[wid][1]][orthcolumn].toLowerCase();
+				temp=getPronunciation((temp.split("~"))[0]);
+				temp="<li>Debug: "+temp+"</li>";
 				
+				document.getElementById("entry_pronunciation").innerHTML=temp;
+				//Build inflection tables
 				if (j=="Noun")
 				{
-					document.getElementById("inflection_thead").innerHTML="<th>Case</th><th>Singular</th><th>Plural</th>";
+					temp="<th>Case</th>";
+					var numamount=(local.numbers[local.numbers.length-1]).length;
+					var tempoffsets=[];
+					for(var i=0;i<numamount;i++)
+					{
+						temp+="<th>"+local.numbers[local.numbers.length-1][i]+"</th>";
+						tempoffsets.push([]);
+					}
+					document.getElementById("inflection_thead").innerHTML=temp;
+					var qsd=0;
+					for(var i=0;i<tempoffsets.length;i++)
+					{
+						for(var k=0;k<(local.cases[local.cases.length-1]).length;k++)
+						{
+							tempoffsets[i].push(qsd);
+							qsd++;
+						}
+					}
+					temp="";
+					for(var i=0;i<(local.cases[local.cases.length-1]).length;i++)
+					{
+						if (local.cases[local.cases.length-1][i]!="")
+						{
+							temp+="<tr><td><b>"+local.cases[local.cases.length-1][i]+"</td>";
+							for(var j=0;j<numamount;j++)
+							{
+								temp+="<td>"+apply_orthography(doInflect(dbase[lexlist[wid][1]][orthcolumn],clid,tempoffsets[j][i]))+"</td>";
+							}
+							temp+="</tr>";
+						}
+					}
+					document.getElementById("inflection_tbody").innerHTML=temp;
+					document.getElementById("tab_inflect_li").style.display="block";
 				}
+				else if (j=="Verb")
+				{
+					var arrayoffs=local.verbnum.length-1;
+					var numamount=(local.verbnum[arrayoffs]).length;
+					var sam=0;
+					var pam=0;
+					var poffset=1;
+					for(var i=0;i<local.verbnum[arrayoffs].length;i++)
+					{
+						if (local.verbnum[arrayoffs][i].charAt(1)=="S") sam++;
+						if (local.verbnum[arrayoffs][i].charAt(1)=="P") pam++;
+					}
+					document.getElementById("inflection_thead").innerHTML="<th colspan='"+(numamount+2)+"'>Conjugation</th>";
+					temp="<tr><td colspan='2' rowspan='2'>Indicative</td><td colspan='"+sam+"'>singular</td><td colspan='"+pam+"'>plural</td></tr><tr>";
+					for(var i=0;i<local.verbnum[arrayoffs].length;i++)
+					{
+						temp+="<td>";
+						if (local.verbnum[arrayoffs][i].charAt(0)=="1") temp+="first";
+						if (local.verbnum[arrayoffs][i].charAt(0)=="2") temp+="second";
+						if (local.verbnum[arrayoffs][i].charAt(0)=="3") temp+="third";
+						temp+="</td>"
+					}
+					temp+="</tr>";
+					for(var i=0;i<local.voices[arrayoffs].length;i++)
+					{
+						temp+="<tr><td rowspan='"+local.tams[arrayoffs].length+"'>"+local.voices[arrayoffs][i]+"</td>";
+						for(var j=0;j<local.tams[arrayoffs].length;j++)
+						{
+							if (j>0) temp+="<tr>";
+							temp+="<td>"+local.tams[arrayoffs][j]+"</td>";
+							for(var k=0;k<local.verbnum[arrayoffs].length;k++)
+							{
+								temp+="<td>"+apply_orthography(doInflect(dbase[lexlist[wid][1]][orthcolumn],clid,poffset))+"</td>";
+								poffset++;
+							}
+							temp+="</tr>";
+						}
+					}
+					temp+="<tr><td colspan='2' rowspan='2'>Imperative</td><td colspan='"+sam+"'>singular</td><td colspan='"+pam+"'>plural</td></tr><tr>";
+					for(var i=0;i<local.verbnum[arrayoffs].length;i++)
+					{
+						temp+="<td>";
+						if (local.verbnum[arrayoffs][i].charAt(0)=="1") temp+="first";
+						if (local.verbnum[arrayoffs][i].charAt(0)=="2") temp+="second";
+						if (local.verbnum[arrayoffs][i].charAt(0)=="3") temp+="third";
+						temp+="</td>"
+					}
+					temp+="</tr>";
+					for(var i=0;i<local.imptam[arrayoffs].length;i++)
+					{
+						temp+="<tr><td colspan='2'>"+local.imptam[arrayoffs][i]+"</td>";
+						var impoffset=0;
+						for(var j=0;j<numamount;j++)
+						{
+							if (local.verbnum[arrayoffs][j]==local.impnum[arrayoffs][impoffset])
+							{
+								temp+="<td>"+apply_orthography(doInflect(dbase[lexlist[wid][1]][orthcolumn],clid,poffset))+"</td>";
+								impoffset++;
+								poffset++;
+							}
+							else temp+="<td></td>";
+						}
+						temp+="</tr>";
+					}
+					document.getElementById("inflection_tbody").innerHTML=temp;
+					document.getElementById("tab_inflect_li").style.display="block";
+				}
+				else if (j=="Adjective")
+				{
+					//
+					document.getElementById("tab_inflect_li").style.display="block";
+				}
+				else
+				{
+					document.getElementById("tab_inflect_li").style.display="none";
+				}
+				//Build etymology
+				temp="";
+				var stagecycle=stagelist.length-2;
+				var prevmeaning="";
+				for(var i=happenings.length-1;i>=0;i--)
+				{
+					if (dbase[lexlist[wid][1]][happenings[i][1]]!="")
+					{
+						if (temp!="") temp+=", ";
+						if (happenings[i][0]!="STAGE")
+						{
+							//Not inherited > loaned or contemporary derivation
+							var temparr=dbase[lexlist[wid][1]][happenings[i][1]].split(" ");
+							if (temparr[0].charAt(0)=="L")
+							{
+								//Loan
+								temp+="loaned from "+parseLoan(temparr,prevmeaning,happenings[i][0]);
+								i=-1; //Since it's not inherited, cancel the loop since we reached the earliest point
+							}
+						}
+						else
+						{
+							if (stagecycle<0)
+							{
+								//Lowest level
+								//Check if there's a "newer" formation
+								if (dbase[lexlist[wid][1]][happenings[i][1]+1]!="")
+								{
+									temp+="from Pre-"+stagelist[stagecycle+1][0]+" <i>*"+(dbase[lexlist[wid][1]][happenings[i][1]+1].split("{"))[0]+"</i>, ";
+									switch((dbase[lexlist[wid][1]][happenings[i][1]+1].split("{"))[1].replace("}",""))
+									{
+									case "them-obl":
+										temp+="a thematicisation of the oblique stem of";
+										break;
+									case "them-redup":
+										temp+="a thematicisation of the reduplication of";
+										break;
+									case "meta":
+										temp+="a metathesised variant of";
+										break;
+									case "them":
+										temp+="a thematicisation of";
+										break;
+									default:
+										temp+="from";
+										break;
+									}
+								}
+								else temp+="from";
+								temp+=" "+dbase[0][0]+" <i>*"+dbase[lexlist[wid][1]][happenings[i][1]]+"</i>";
+								//Check if there's a root provided IF Proto-Indo-European (to prevent negative checks)
+								if (dbase[0][0]=="Proto-Indo-European")
+								{
+									if (dbase[lexlist[wid][1]][happenings[i][1]-1]!="")
+										temp+=", from "+dbase[0][0]+" <i>*"+dbase[lexlist[wid][1]][happenings[i][1]-1]+"</i>";
+								}
+							}
+							else
+							{
+								temp+="from "+stagelist[stagecycle][0]+" ";
+								var temporarily=apply_orthography(dbase[lexlist[wid][1]][happenings[i][1]],stagecycle).split("§");
+								if (temporarily.length==1) temp+="<i>"+temporarily[0]+"</i> (";
+								else temp+=temporarily[0]+" (<i>"+temporarily[1]+"</i>, ";
+								temp+="“";
+								if (dbase[lexlist[wid][1]][happenings[i][1]+1]==prevmeaning) temp+="id.";
+								else temp+=replaceAll(",",", ",dbase[lexlist[wid][1]][happenings[i][1]+1]);
+								prevmeaning=dbase[lexlist[wid][1]][happenings[i][1]+1];
+								temp+="”)";
+							}
+							stagecycle--;
+						}
+					}
+				}
+				document.getElementById("entry_etymologytext").innerHTML=(temp.charAt(0).toUpperCase()+temp.slice(1)+".").replace("..",".");
 			}
 		function openWotd()
 			{
@@ -379,6 +615,191 @@
 				now*=now;
 				var wid=now % lexlist.length;
 				openWord(wid,true);
+			}
+		function applyNec(str,before,after,l,r)
+			{
+				for(var i=0;i<l.length;i++)
+				{
+					for(var j=0;j<r.length;j++)
+					{
+						str=replaceAll(l[i]+before+r[j],l[i]+after+r[j],str);
+					}
+				}
+				return(str);
+			}
+		function doInflect(input,dectype,numb)
+			{
+				input=replaceAll(".","",input);
+				var offset=declensionlist[dectype][1]+1;
+	
+				//Fix numb accordingly if merged back in the original source
+				if (dbase[offset+numb][1]==">>-1") numb-=1;
+				else if (dbase[offset+numb][1]==">>-2") numb-=2;
+				else if (dbase[offset+numb][1]==">>-3") numb-=3;
+				else if (dbase[offset+numb][1]==">>-4") numb-=4;
+	
+				var suffix=dbase[offset+numb][orthcolumn];
+	
+				//Get the correct stem
+				var stemid=(suffix.split("-"))[0].replace("(","").replace(")","");
+				if ((input.match(/~/g) || []).length>=stemid) var stem=(input.split("~"))[stemid];
+				else var stem=(input.split("~"))[0];
+				if ((stem.match(/-/g) || []).length>0) stem=stem.replace("-","");
+				else
+				{
+					//Take off the nominative suffix
+					stem=reverseString(stem);
+					var tempsuff=reverseString((dbase[offset][orthcolumn].split("-"))[1]);
+					if (tempsuff!="∅")
+					{
+						stem=stem.replace(tempsuff,"");
+					}
+					stem=reverseString(stem);
+				}
+	
+				//Append the correct suffix if not a null suffix
+				if ((suffix.split("-"))[1]!="∅")
+				{
+					var fs=stem.charAt(stem.length-1);
+					if (fs=="a"||fs=="e"||fs=="i"||fs=="o"||fs=="y"||fs=="u"||fs=="œ"||fs=="ɛ"||fs=="e̯"||fs=="i̯"||fs=="u̯"||fs=="ɨ") stem+="j";
+					stem+=(suffix.split("-"))[1];
+				}
+				return(stem);
+			}
+			function reverseString(inp)
+			{
+				return((inp.split("")).reverse().join(""));
+			}
+			function parseLoan(raw,prevm,whenpoint)
+			{
+				var output="";
+				var isproto=false;
+				switch(raw[0])
+				{
+					case "Lgrc": output+="Ancient Greek"; break;
+					case "Lpclt": output+="Proto-Celtic"; isproto=true; break;
+					case "Larn": output+="Mapuche"; break;
+					case "Llat": output+="Latin"; break;
+					case "Lspa": output+="Spanish"; break;
+					case "Losp": output+="Old Spanish"; break;
+					case "Lfrm": output+="Middle French"; break;
+					case "Lfra": output+="French"; break;
+					case "Larb": output+="Arabic"; break;
+					case "Lpor": output+="Portuguese"; break;
+					case "Lgot": output+="Gothic"; break;
+					case "Lsubstrate": output+="an unknown substrate"; break;
+					case "Lfas": output+="Persian"; break;
+					case "Lpeus": output+="Proto-Basque"; isproto=true; break;
+					case "Lpro": output+="Old Provençal"; break;
+					case "Lita": output+="Italian"; break;
+					case "Lell": output+="Greek"; break;
+					case "Lnld": output+="Dutch"; break;
+					case "Ldan": output+="Danish"; break;
+					case "Lglg": output+="Galician"; break;
+					case "LMED": output+="an unidentified Mediterranean substrate"; break;
+					case "LONOM": output+="an onomatopoeia"; break;
+				}
+				output+=" ";
+				var word=(raw[1].split("/"))[0].split("=");
+				var trans=(raw[1].split("/"))[1];
+				if (raw[0]!="Lsubstrate"&&raw[0]!="LMED"&&raw[0]!="LONOM")
+				{
+					if (word.length==1)
+					{
+						output+="<i>";
+						if (isproto) output+="*";
+						output+=replaceAll("_"," ",word[0])+"</i> (";
+					}
+					else
+					{
+						if (isproto) output+="*";
+						output+=replaceAll("_"," ",word[0])+" (<i>";
+						if (isproto) output+="*";
+						output+=replaceAll("_"," ",word[1])+"</i>, ";
+					}
+					output+="“";
+					if (replaceAll("_"," ",trans)==prevm) output+="id.";
+					else output+=replaceAll(",",", ",replaceAll("_"," ",trans));
+					output+="”)";
+				}
+				if (whenpoint!="UNDEFINED") output+=" around "+whenpoint;
+				output+=".";
+				var extranote="";
+				if (raw[3].split("!").length>1)
+				{
+					extranote=raw.join(" ");
+					extranote=(extranote.split("!"))[1];
+				}
+				if (extranote!="") output+=" "+extranote;
+				return(output);
+			}
+		function applyalwayses(inp,arr)
+			{
+				for(i=0;i<arr.length;i++)
+				{
+					var f=(arr[i].split(">"))[0].replace("[","");
+					var t=((arr[i].split(">"))[1].split("/"))[0];
+					var q=((arr[i].split(">"))[1].split("/"))[1].replace("]","");
+					inp=applyNec(inp,f,t,getCondition(q,0),getCondition(q,1));
+				}
+				return inp;
+			}
+		function getPronunciation(inp)
+			{
+				//Apply alwayses
+				inp=applyalwayses(inp,_applyalways);
+				//Apply local notation
+				for(var i=0;i<local.notation.length;i++)
+				{
+					inp=replaceAll(local.notation[i][0],local.notation[i][1],inp);
+				}
+				//Divide into syllables
+				for(var i=0;i<local.vowels.length;i++)
+				{
+					inp=replaceAll(local.vowels[i],local.vowels[i]+"_",inp);
+				}
+				//Fix semivowels
+				for(var i=0;i<local.semivowels.length;i++)
+				{
+					inp=replaceAll("_"+local.semivowels[i]+"_̯",local.semivowels[i]+"_̯",inp);
+				}
+				//TO ADD LATER: fix syllabic sonorants
+				//Apply maximum onset principle
+				var _a=(inp.split("_"))[0];
+				var _b="";
+				var _c=(inp.split("_"))[(inp.match(/_/g) || []).length];
+				for(var i=0;i<(inp.match(/_/g) || []).length-1;i++)
+				{
+					//Extract consonants between previous and next vowel
+					var temp="#"+(inp.split("_"))[i+1];
+					for(var j=0;j<local.vowels.length;j++)
+					{
+						temp=replaceAll(local.vowels[j],"§"+local.vowels[j],temp);
+					}
+					
+					var allowed=false;
+					while(!allowed)
+					{
+						allowed=true;
+						for(var j=0;j<local.onsetfalse.length;j++)
+						{
+							if (((temp.split("#"))[1].split("§"))[0].includes(local.onsetfalse[j])) allowed=false;
+						}
+						if (!allowed)
+						{
+							var qqq=(temp.split("#"))[1].charAt(0);
+							temp=temp.replace("#"+qqq,qqq+"#");
+						}
+					}
+					_b+=temp;
+				}
+				inp=_a+_b+_c;
+				inp=replaceAll("#",".",inp);
+				inp=replaceAll("§","",inp);
+				inp=replaceAll("^","",inp);
+				
+				var out=inp;
+				return out;
 			}
 </script>
 </html>
