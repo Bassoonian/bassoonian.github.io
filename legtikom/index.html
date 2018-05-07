@@ -1,8 +1,89 @@
 <meta charset="UTF-8">
 <!DOCTYPE html>
-<div id="testing">Please wait, loading...</br><span id="currentspan"></span> - <span id="progressspan"></span></div>
+<title>Leǵtikóm</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body id="myPage">
+	<nav class="navbar navbar-default navbar-fixed-top">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span> 
+	      </button>
+	      <a class="navbar-brand" href="#">Leǵtikóm</a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#myPage">Back to top</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+	<div class="jumbotron text-center">
+		<div id="div_loading">Leǵtikóm is currently loading. Please wait...</br><span id="currentspan"></span> - <span id="progressspan"></span></div>
+	</div>
+	<div class="container-fluid">
+		<div id="content"></div>
+	</div>
+		<div id="main_modal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="modalrootname"></h4>
+					</div>
+					<div class="modal-body" id="modalrootcontent"></div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="jquery.csv.js"></script>
+<style>
+	.jumbotron
+	{
+		background-color: #f4511e;
+		color: #ffffff;
+		padding: 100px 25px;
+	}
+	.container-fluid
+	{
+		padding: 60px 50px;
+	}
+	.navbar
+	{
+		margin-bottom: 0px;
+		background-color: #f4511e;
+		border: 0;
+		font-size: 12px !important;
+		line-height: 1.42857143 !important;
+		letter-spacing: 4px;
+		border-radius: 0;
+	}
+	.navbar li a, .navbar .navbar-brand
+	{
+		color: #fff !important;
+	}
+	.navbar li a:hover, .navbar-nav li.active a
+	{
+		color: #f4511e !important;
+		background-color: #fff !important;
+	}
+	.navbar-default .navbar-toggle
+	{
+		border-color: transparent;
+		color: #fff !important;
+	}
+	.linktoroot
+	{
+		cursor: pointer;
+	}
+</style>
 <script>
 document.getElementById("currentspan").innerHTML="Retrieving master packages";
 document.getElementById("progressspan").innerHTML="0/3";
@@ -55,7 +136,7 @@ function upDownloadProgress(trigger)
 		if (downloadprogress==q)
 		{
 			if (trigger==0) parseReflist();
-			if (trigger==1) loadRoots();
+			if (trigger==1) search();
 		}
 	}
 	
@@ -88,30 +169,50 @@ function loadLibrary(refid)
 				});
 	}
 
-function loadRoots()
+function search()
 	{
-		var newhtml="";
+		//Disable search for now
+		document.getElementById("div_loading").innerHTML="Loading finished! Since this is a very early protobuild, search is not yet supported. Please pick a root from the list below.";
+		var newhtml="<ul>";
 		for(var i=1;i<_pielib.length;i++)
 		{
-			newhtml+="<h3>"+_pielib[i][0]+"</h3>";
-			newhtml+="<h4>Translations</h4><ul>";
-			var trans=_pielib[i][1].split(",");
-			for(var j=0;j<trans.length;j++)
+			if (1==1) //if search result matches
 			{
-				newhtml+="<li>"+(trans[j].split("~"))[0]+" <sub>"+(trans[j].split("~"))[1]+"</sub></li>";
+				newhtml+="<li><a class='linktoroot' onclick='openRoot("+i+")'>"+parseAPIE(_pielib[i][0])+"</a></li>";
 			}
-			newhtml+="</ul><h4>Location</h4>"+_pielib[i][2];
+		}
+		newhtml+="</ul>";
+		document.getElementById("content").innerHTML=newhtml;
+	}
+
+function openRoot(i)
+	{
+		var newhtml="";
+		newhtml+="<h3>"+parseAPIE(_pielib[i][0])+"</h3>";
+		newhtml+="<h4>Translations</h4><ul>";
+		var trans=_pielib[i][1].split(",");
+		for(var j=0;j<trans.length;j++)
+		{
+			newhtml+="<li>"+(trans[j].split("~"))[0]+" <sub>"+(trans[j].split("~"))[1]+"</sub></li>";
+		}
+		newhtml+="</ul><h4>Location</h4>"+_pielib[i][2];
+		if (_pielib[i][3]!="")
+		{
 			newhtml+="<h4>Alternative Reconstructions</h4><ul>";
 			var trans=_pielib[i][3].split(",");
 			for(var j=0;j<trans.length;j++)
 			{
-				newhtml+="<li>"+(trans[j].split("~"))[0]+" <sub>"+(trans[j].split("~"))[1]+"</sub></li>";
+				newhtml+="<li>"+parseAPIE((trans[j].split("~"))[0])+" <sub>"+(trans[j].split("~"))[1]+"</sub></li>";
 			}
-			newhtml+="</ul><h4>Notes</h4>"+_pielib[i][4]+"<h4>Formations & Descendants</h4><ul>";
-			var stack=_pielib[i].splice(5);
-			
-			var mrf="N/A";
-			for(var j=0;j<stack.length;j++)
+		}
+		newhtml+="</ul><h4>Notes</h4>"+parseNotes(_pielib[i][4])+"<h4>Formations & Descendants</h4><ul>";
+		var stack=_pielib[i].splice(5);
+		
+		var mrf="N/A";
+		for(var j=0;j<stack.length;j++)
+		{
+			_pielib[i].push(stack[j]);
+			if (stack[j]!="")
 			{
 				var qq=stack[j].split(" ");
 				if (qq[0]!=mrf)
@@ -121,20 +222,22 @@ function loadRoots()
 					newhtml+="<li>"+qq[0]+"<ul>";
 				}
 				//First order by formation
-				newhtml+="<li>"+qq[1]+" "+qq[2];
+				newhtml+="<li>"+parseLangCode(qq[1])+" "+qq[2];
 				newhtml+=analyseStack([qq[1],(qq[2].split("~"))[0]]);
 				newhtml+="</li>";
 			}
-			if (mrf!="N/A") newhtml+="</ul>";
-			newhtml+="</ul>";
 		}
+		if (mrf!="N/A") newhtml+="</ul>";
+		newhtml+="</ul>";
 		
-		document.getElementById("testing").innerHTML=newhtml;
+		document.getElementById("modalrootcontent").innerHTML=newhtml;
+		document.getElementById("modalrootname").innerHTML=parseAPIE(_pielib[i][0]);
+		$("#main_modal").modal();
 	}
 	
 function loaderror()
 	{
-		document.getElementById("testing").innerHTML="Unable to download libraries!";
+		document.getElementById("div_loading").innerHTML="Unable to download libraries!";
 	}
 	
 function analyseStack(arg)
@@ -146,14 +249,17 @@ function analyseStack(arg)
 		{
 			if(_libraries[i][0]==arg[0]) pq=i;
 		}
-		if (pq==-1) addition="!Error: Unknown language code!";
+		if (pq==-1)
+		{
+			if (arg[0]!="eng") addition="!Error: Unknown language code!";
+		}
 		else
 		{
 			pr=-1;
 			//Look up specific word in language
 			for(var i=1;i<_libraries[pq][1].length;i++)
 			{
-				if (_libraries[pq][1][i][0]==arg[1]) pr=i;
+				if ((_libraries[pq][1][i][0].split("="))[0]==arg[1]) pr=i;
 			}
 			if (pr==-1) addition="!Error: Unknown word in language!";
 			else
@@ -166,10 +272,13 @@ function analyseStack(arg)
 					addition="<ul>";
 					for(var i=2;i<qq.length;i++)
 					{
-						var qqq=qq[i].split(" ")
-						addition+="<li>"+qq[i];
-						addition+=analyseStack([qqq[0],(qqq[1].split("~"))[0]]);
-						addition+="</li>";
+						if (qq[i]!="")
+						{
+							var qqq=qq[i].split(" ")
+							addition+="<li>"+parseLangCode(qqq[0])+" "+qqq[1];
+							addition+=analyseStack([qqq[0],(qqq[1].split("~"))[0]]);
+							addition+="</li>";
+						}
 					}
 					addition+="</ul>";
 				}
@@ -177,4 +286,104 @@ function analyseStack(arg)
 		}
 		return(addition);
 	}
+	
+function parseNotes(note)
+	{
+		for(var i=1;i<_bibliography.length;i++)
+		{
+			note=replaceAll(note,"{"+(i+1)+"}",_bibliography[i][1]+" ("+_bibliography[i][2]+")");
+		}
+		return(note);
+	}
+	
+	function escapeRegExp(str) {
+	    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+	}
+
+	function replaceAll(str, find, replace) {
+	    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+	}
+	
+function parseLangCode(inp)
+	{
+		for(var i=0;i<_libraries.length;i++)
+		{
+			if (inp==_libraries[i][0]) inp=_libraries[i][1][0][0];
+		}
+		if (inp=="eng") inp="English";
+		return(inp);
+	}
+
+function parseAPIE(inp)
+	{
+		inp=replaceAll(inp,'"e:',"ḗ");
+		inp=replaceAll(inp,'"o:',"ṓ");
+		inp=replaceAll(inp,'"a:',"ā́");
+		inp=replaceAll(inp,'"i:',"ī́");
+		inp=replaceAll(inp,'"u:',"ū́");
+		inp=replaceAll(inp,"h","ʰ");
+		inp=replaceAll(inp,"x1.","h̥ₑ");
+		inp=replaceAll(inp,"x2.","h̥ₐ");
+		inp=replaceAll(inp,"x3.","h̥ₒ");
+		inp=replaceAll(inp,"x4.","h̥ₐ");
+		inp=replaceAll(inp,"x@.","h̥ₐ");
+		inp=replaceAll(inp,"xx.","h̥ₓ");
+		inp=replaceAll(inp,'"r.',"ŕ̥");
+		inp=replaceAll(inp,'"l.',"ĺ̥");
+		inp=replaceAll(inp,'"m.',"ḿ̥");
+		inp=replaceAll(inp,'"n.',"ń̥");
+		inp=replaceAll(inp,"g'h","ǵʰ");
+		inp=replaceAll(inp,"gvh","gʷʰ");
+		inp=replaceAll(inp,"e:","ē");
+		inp=replaceAll(inp,"o:","ō");
+		inp=replaceAll(inp,"a:","ā");
+		inp=replaceAll(inp,"i:","ī");
+		inp=replaceAll(inp,"u:","ū");
+		inp=replaceAll(inp,'"e',"é");
+		inp=replaceAll(inp,'"a',"á");
+		inp=replaceAll(inp,'"o',"ó");
+		inp=replaceAll(inp,'"i',"í");
+		inp=replaceAll(inp,'"u',"ú");
+		inp=replaceAll(inp,"x1","hₑ");
+		inp=replaceAll(inp,"x2","hₐ");
+		inp=replaceAll(inp,"x4","hₐ");
+		inp=replaceAll(inp,"x@","hₐ");
+		inp=replaceAll(inp,"x3","hₒ");
+		inp=replaceAll(inp,"xx","hₓ");
+		inp=replaceAll(inp,"r.","r̥");
+		inp=replaceAll(inp,"l.","l̥");
+		inp=replaceAll(inp,"m.","m̥");
+		inp=replaceAll(inp,"n.","n̥");
+		inp=replaceAll(inp,"k'","ḱ");
+		inp=replaceAll(inp,"v","ʷ");
+		inp=replaceAll(inp,"g'","ǵ");
+		return(inp);
+	}
+</script>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+
+   // Make sure this.hash has a value before overriding default behavior
+  if (this.hash !== "") {
+
+    // Prevent default anchor click behavior
+    event.preventDefault();
+
+    // Store hash
+    var hash = this.hash;
+
+    // Using jQuery's animate() method to add smooth page scroll
+    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+    $('html, body').animate({
+      scrollTop: $(hash).offset().top
+    }, 900, function(){
+
+      // Add hash (#) to URL when done scrolling (default click behavior)
+      //window.location.hash = hash;
+      });
+    } // End if
+  });
+})
 </script>
