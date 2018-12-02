@@ -5,15 +5,15 @@
 		$(function(){
 			$("#dictionary").load("../template.html");
 		});
-		sourcecsv="https://docs.google.com/spreadsheets/d/e/2PACX-1vTe8E8yH60LpBJZA9PfIgIfj7RxmVIPm97PUB1GBHEYPoT9G8dOfyFscqPYhHaEtbQ0Gt3xh6ESfQbF/pub?gid=0&single=true&output=csv";
+		sourcecsv="https://docs.google.com/spreadsheets/d/e/2PACX-1vTe8E8yH60LpBJZA9PfIgIfj7RxmVIPm97PUB1GBHEYPoT9G8dOfyFscqPYhHaEtbQ0Gt3xh6ESfQbF/pub?gid=284553596&single=true&output=csv";
 		local={
-			name: "Carisitt",
+			name: "Carite",
 			alphabet: "A~Á~À~Â B C D E~É~È~Ê F G H I~Í~Ì~Î J L M N O~Ó~Ò~Ô P Q R S T U~Ú~Ù~Û V X Y Z",
 			notation: [["ē","eː"], ["ō","oː"], ["ā","aː"], ["ī","iː"], ["ȳ","yː"], ["ū","uː"], ["ø̄","øː"], ["ą","ã"], ["ę","ẽ"], ["į","ĩ"], ["ǫ","õ"], ["ų","ũ"], ["y̨","ỹ"], ["ô","oːː"], ["ê","eːː"], ["þ","θ"], ["ą̄","ãː"], ["ę̄","ẽː"], ["į̄","ĩː"], ["ǭ","õː"], ["ų̄","ũː"], ["ȳ̨","ỹː"], ["ø̨̄","ø̃ː"], ["ƈ","s"], ["pʰ","f"], ["ǁ","ʃ"]],
 			allophony: ["prevelar=_k|_ḱ|_g|_ǵ|_w", "Hvoicing=₁_h|₂_h|₃_h|ₓ_h|₁_e|₂_e|₃_e|ₓ_e|₁_é|₂_é|₃_é|ₓ_é|₁_o|₂_o|₃_o|ₓ_o|₁_ó|₂_ó|₃_ó|ₓ_ó|₁_a|₂_a|₃_a|ₓ_a|₁_á|₂_á|₃_á|ₓ_á|₁_i|₂_i|₃_i|ₓ_i|₁_í|₂_í|₃_í|ₓ_í|₁_u|₂_u|₃_u|ₓ_u|₁_ú|₂_ú|₃_ú|ₓ_ú","intervoc=a_a|a_e|a_i|a_o|a_u|a_y|a_ø|a_œ|e_a|e_e|e_i|e_o|e_u|e_y|e_ø|e_œ|i_a|i_e|i_i|i_o|i_u|i_y|i_ø|i_œ|o_a|o_e|o_i|o_o|o_u|o_y|o_ø|o_œ|u_a|u_e|a_i|u_o|u_u|u_y|u_ø|u_œ|y_a|y_e|y_i|y_o|y_u|y_y|y_ø|y_œ|ø_a|ø_e|ø_i|ø_o|ø_u|ø_y|ø_ø|ø_œ|œ_a|œ_e|œ_i|œ_o|œ_u|œ_y|œ_ø|œ_œ|ː_a|ː_e|ː_i|ː_o|ː_u|ː_y|ː_ø|ː_œ|i̯_a|i̯_e|i̯_i|i̯_o|i̯_u|i̯_y|i̯_ø|i̯_œ|u̯_a|u̯_e|u̯_i|u̯_o|u̯_u|u̯_y|u̯_ø|u̯_œ", "precons=_b|_d|_f|_g|_j|_k|_l|_m|_n|_p|_r|_s|_t|_v|_w|_z", "spala=_p|_t|_k|_m|_n|_l", "rhotavowel=a_#|e_#|i_#|o_#|u_#|y_#|ø_#|i̯_#|u̯_#", "mnsh=_n", "vreduc=_$#"],
-			cases: [["Nominative","Vocative","Accusative","Genitive","Dative","Ablative"], ["Nominative","Vocative","Accusative","Genitive","Dative","Ablative"], ["Nominative","","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""]],
+			cases: [["Nominative","Vocative","Accusative","Genitive","Ablative","Dative","Locative","Instrumental"]],
 			numbers: [["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"]],
-			genders: [["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Common","Neuter"],["Common","Neuter"]],
+			genders: [["Masculine","Feminine","Neuter"]],
 			verbnum: [["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"]],
 			voices: [["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Middle"]],
 			tams: [["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","",""],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","",""],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","",""],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","",""],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","Present Conditional","Past Conditional"],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","Conditional","Admirative"],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","Conditional","Admirative"],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","Conditional","Admirative"]],
@@ -28,7 +28,7 @@
 		
 		function apply_orthography(string,orthid,alwapp)
 		{
-			orthid = (typeof orthid !== 'undefined') ?  orthid : 8;
+			orthid = (typeof orthid !== 'undefined') ?  orthid : -1;
 			allwap = (typeof alwapp !== 'undefined') ? allway : _applyalways;
 			string=" "+replaceAll("%","",replaceAll("~"," ~ ",string))+" ";
 			string=applyalwayses(string,allwap);

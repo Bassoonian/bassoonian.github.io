@@ -1,0 +1,118 @@
+<meta charset="utf-8">
+<p>Please enter a word in PIE below using the PIE notation and hit the button to get the reflexes. In the case of separate morphemes, please use § to separate them.</p>
+<p><input type="text" id="inputt"><button type="button" onclick="go();">Go</button></p>
+<ul id="results"></ul>
+<script>
+		function escapeRegExp(string) {
+			    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+			}
+
+		function replaceAll(find, replace, string) {
+			  return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+			}
+		function fixUp(af)
+			{
+				af=replaceAll("#","",af);
+				af=replaceAll("§","",af);
+				return(af);
+			}
+		function go()
+			{
+				inp="#"+document.getElementById("inputt").value+"#";
+				full="";
+				//Germanic
+					//Centum
+					res=replaceAll("ḱ","k",inp);
+					res=replaceAll("ǵ","g",res);
+					//Sonorants
+					res=replaceAll("m̥","um",res);
+					res=replaceAll("n̥","un",res);
+					res=replaceAll("l̥","ul",res);
+					res=replaceAll("r̥","ur",res);
+					//Dentals
+					res=replaceAll("d§t","s§s",res);
+					res=replaceAll("t§t","s§s",res);
+					//Geminates shortened
+						//FIX
+					//Word-final overlong vowels
+					res=replaceAll("ē#","ê#",res);
+					res=replaceAll("ō#","ô#",res);
+					//Laryngeals
+						//FIX word-initial before consonant
+					res=replaceAll("oHo","ô",res);
+					res=replaceAll("eh₂e","â",res);//is this enough?
+			
+					res=replaceAll("h₁e","e",res);
+					res=replaceAll("h₁a","a",res);
+					res=replaceAll("h₁o","o",res);
+					res=replaceAll("h₁i","i",res);
+					res=replaceAll("h₁u","u",res);
+					res=replaceAll("eh₁","ē",res);
+					res=replaceAll("ah₁","ā",res);
+					res=replaceAll("oh₁","ō",res);
+					res=replaceAll("ih₁","ī",res);
+					res=replaceAll("oh₁","ū",res);
+			
+					res=replaceAll("h₂e","a",res);
+					res=replaceAll("h₂a","a",res);
+					res=replaceAll("h₂o","o",res);
+					res=replaceAll("h₂i","i",res);
+					res=replaceAll("h₂u","u",res);
+					res=replaceAll("eh₂","ā",res);
+					res=replaceAll("ah₂","ā",res);
+					res=replaceAll("oh₂","ō",res);
+					res=replaceAll("ih₂","ī",res);
+					res=replaceAll("oh₂","ū",res);
+			
+					res=replaceAll("h₃e","o",res);
+					res=replaceAll("h₃a","a",res);
+					res=replaceAll("h₃o","o",res);
+					res=replaceAll("h₃i","i",res);
+					res=replaceAll("h₃u","u",res);
+					res=replaceAll("eh₃","ō",res);
+					res=replaceAll("ah₃","ā",res);
+					res=replaceAll("oh₃","ō",res);
+					res=replaceAll("ih₃","ī",res);
+					res=replaceAll("oh₃","ū",res);
+					//Cowgill's law
+					res=replaceAll("mh₃w","mgw",res);
+					res=replaceAll("nh₃w","ngw",res);
+					res=replaceAll("rh₃w","rgw",res);
+					res=replaceAll("lh₃w","lgw",res);
+					res=replaceAll("mh₂w","mgw",res);
+					res=replaceAll("nh₂w","ngw",res);
+					res=replaceAll("rh₂w","rgw",res);
+					res=replaceAll("lh₂w","lgw",res);
+					//Vocalisation of laryngeals
+					res=replaceAll("H","ə",res);
+					res=replaceAll("h₁","ə",res);
+					res=replaceAll("h₂","ə",res);
+					res=replaceAll("h₃","ə",res);
+					//Velars are labialised
+					res=replaceAll("kw","kʷ",res);
+					res=replaceAll("gw","gʷ",res);
+					res=replaceAll("gʰw","gʷʰ",res);
+					//Delabialisation
+					res=replaceAll("ʷu","u",res);
+					res=replaceAll("ʷʰu","ʰu",res);
+					res=replaceAll("ʷt","t",res);
+					res=replaceAll("ʷʰt","ʰt",res);
+					//Loss of word-final vowels
+					res=replaceAll("ye#","#",res);
+					res=replaceAll("ya#","#",res);
+					res=replaceAll("yo#","#",res);
+					res=replaceAll("we#","#",res);
+					res=replaceAll("wa#","#",res);
+					res=replaceAll("wo#","#",res);
+					res=replaceAll("e#","#",res);
+					res=replaceAll("a#","#",res);
+					res=replaceAll("o#","#",res);
+						//FIX RECEDING ACCENT
+					//Grimm's law
+					//fix
+			
+					full+="<li>Germanic: *"+fixUp(res)+"</li>";
+				//Show output
+				document.getElementById("results").innerHTML=full;
+			}
+</script>

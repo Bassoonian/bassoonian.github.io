@@ -188,7 +188,6 @@ function search()
 function openRoot(i)
 	{
 		var newhtml="";
-		newhtml+="<h3>"+parseAPIE(_pielib[i][0])+"</h3>";
 		newhtml+="<h4>Translations</h4><ul>";
 		var trans=_pielib[i][1].split(",");
 		for(var j=0;j<trans.length;j++)
@@ -358,6 +357,26 @@ function parseAPIE(inp)
 		inp=replaceAll(inp,"v","ʷ");
 		inp=replaceAll(inp,"g'","ǵ");
 		return(inp);
+	}
+function applyAblaut(root,grade)
+	{
+		root=reverse(root);
+		if (grade=="o") root=root.replace("e","o");
+		if (grade=="ō") root=root.replace("e",":o");
+		if (grade=="ē") root=root.replace("e",":e");
+		if (grade=="X́") root=root.replace("e",'e"');
+		if (grade=="ḗ") root=root.replace("e",':e"');
+		if (grade=="ó") root=root.replace("e",'o"');
+		if (grade=="ṓ") root=root.replace("e",':o"');
+		if (grade=="Ø")
+		{
+			//to fix!
+		}
+		return(reverse(root));
+	}
+function reverse(s)
+	{
+	    return s.split("").reverse().join("");
 	}
 </script>
 <script>

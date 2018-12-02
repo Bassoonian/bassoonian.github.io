@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$("#dictionary").load("../template.html");
+		});
+		sourcecsv="https://docs.google.com/spreadsheets/d/e/2PACX-1vTe8E8yH60LpBJZA9PfIgIfj7RxmVIPm97PUB1GBHEYPoT9G8dOfyFscqPYhHaEtbQ0Gt3xh6ESfQbF/pub?gid=0&single=true&output=csv";
+		local={
+			name: "Carite",
+			alphabet: "A~Á~À~Â B C D E~É~È~Ê F G H I~Í~Ì~Î J L M N O~Ó~Ò~Ô P Q R S T U~Ú~Ù~Û V X Y Z",
+			notation: [["ē","eː"], ["ō","oː"], ["ā","aː"], ["ī","iː"], ["ȳ","yː"], ["ū","uː"], ["ø̄","øː"], ["ą","ã"], ["ę","ẽ"], ["į","ĩ"], ["ǫ","õ"], ["ų","ũ"], ["y̨","ỹ"], ["ô","oːː"], ["ê","eːː"], ["þ","θ"], ["ą̄","ãː"], ["ę̄","ẽː"], ["į̄","ĩː"], ["ǭ","õː"], ["ų̄","ũː"], ["ȳ̨","ỹː"], ["ø̨̄","ø̃ː"], ["ƈ","s"], ["pʰ","f"], ["ǁ","ʃ"]],
+			allophony: ["prevelar=_k|_ḱ|_g|_ǵ|_w", "Hvoicing=₁_h|₂_h|₃_h|ₓ_h|₁_e|₂_e|₃_e|ₓ_e|₁_é|₂_é|₃_é|ₓ_é|₁_o|₂_o|₃_o|ₓ_o|₁_ó|₂_ó|₃_ó|ₓ_ó|₁_a|₂_a|₃_a|ₓ_a|₁_á|₂_á|₃_á|ₓ_á|₁_i|₂_i|₃_i|ₓ_i|₁_í|₂_í|₃_í|ₓ_í|₁_u|₂_u|₃_u|ₓ_u|₁_ú|₂_ú|₃_ú|ₓ_ú","intervoc=a_a|a_e|a_i|a_o|a_u|a_y|a_ø|a_œ|e_a|e_e|e_i|e_o|e_u|e_y|e_ø|e_œ|i_a|i_e|i_i|i_o|i_u|i_y|i_ø|i_œ|o_a|o_e|o_i|o_o|o_u|o_y|o_ø|o_œ|u_a|u_e|a_i|u_o|u_u|u_y|u_ø|u_œ|y_a|y_e|y_i|y_o|y_u|y_y|y_ø|y_œ|ø_a|ø_e|ø_i|ø_o|ø_u|ø_y|ø_ø|ø_œ|œ_a|œ_e|œ_i|œ_o|œ_u|œ_y|œ_ø|œ_œ|ː_a|ː_e|ː_i|ː_o|ː_u|ː_y|ː_ø|ː_œ|i̯_a|i̯_e|i̯_i|i̯_o|i̯_u|i̯_y|i̯_ø|i̯_œ|u̯_a|u̯_e|u̯_i|u̯_o|u̯_u|u̯_y|u̯_ø|u̯_œ", "precons=_b|_d|_f|_g|_j|_k|_l|_m|_n|_p|_r|_s|_t|_v|_w|_z", "spala=_p|_t|_k|_m|_n|_l", "rhotavowel=a_#|e_#|i_#|o_#|u_#|y_#|ø_#|i̯_#|u̯_#", "mnsh=_n", "vreduc=_$#"],
+			cases: [["Nominative","Vocative","Accusative","Genitive","Dative","Ablative"], ["Nominative","Vocative","Accusative","Genitive","Dative","Ablative"], ["Nominative","","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""], ["Nominative","Vocative","Accusative","Genitive","Dative",""]],
+			numbers: [["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"], ["Singular","Plural"]],
+			genders: [["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Masculine","Feminine","Neuter"],["Common","Neuter"],["Common","Neuter"]],
+			verbnum: [["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"],["1S","2S","3S","1P","2P","3P"]],
+			voices: [["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Mediopassive"],["Active","Middle"]],
+			tams: [["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","",""],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","",""],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","",""],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","",""],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","Present Conditional","Past Conditional"],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","Conditional","Admirative"],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","Conditional","Admirative"],["Present Imperfective","Present Perfective","Past Imperfective","Past Perfective","Present Optative","Past Optative","Conditional","Admirative"]],
+			impnum: [["2S","3S","1P","2P","3P"],["2S","3S","1P","2P","3P"],["2S","3S","1P","2P","3P"],["2S","3S","1P","2P","3P"],["2S","3S","1P","2P","3P"],["2S","3S","1P","2P","3P"],["2S","3S","1P","2P","3P"],["2S","3S","1P","2P","3P"]],
+			imptam: [["Active Present","Active Future","Mediopassive Present","Mediopassive Future"],["Active Present","Active Future","Mediopassive Present","Mediopassive Future"],["Active Present","Active Future","Mediopassive Present","Mediopassive Future"],["Active Present","Active Future","Mediopassive Present","Mediopassive Future"],["Active Present","Active Future","Mediopassive Present","Mediopassive Future"],["Active Present","Active Future","Mediopassive Present","Mediopassive Future"],["Active Present","Active Future","Mediopassive Present","Mediopassive Future"],["Active Present","Active Future","Middle Present","Middle Future"]],
+			participles: [["Active Present","Active Past","Mediopassive Present","Mediopassive Past"],["Active Present","Active Past","Mediopassive Present","Mediopassive Past"],["Active Present","Active Past","Mediopassive Present","Mediopassive Past"],["Active Present","Active Past","Mediopassive Present","Mediopassive Past"],["Active Present","Active Past","Mediopassive Present","Mediopassive Past"],["Active Present","Active Past","Mediopassive Present","Mediopassive Past"],["Active Present","Active Past","Mediopassive Present","Mediopassive Past"],["Active Present","Active Past","Mediopassive Present","Mediopassive Past"]],
+			vowels: ["a","e","i","o","u","ø","y","œ","l̩","m̩","n̩","r̩","ə"],
+			semivowels: ["u","i"],
+			sylson: [["l̩","l"],["m̩","m"],["n̩","n"],["r̩","r"],["j̩","i"]],
+			onsetfalse: ["lf", "lb", "mb", "rʒ", "ll", "ld", "lʒ", "lg", "rk", "mp", "nt", "rt", "tt", "ns", "gg", "nl", "lv", "ng", "mv", "ʃt", "kt", "dv", "ks", "rb", "rr", "rd", "vn", "rv", "rf", "bb", "lt", "pt", "kk", "mm", "nk", "nn", "ʃp"]
+		}
+		
+		function apply_orthography(string,orthid,alwapp)
+		{
+			orthid = (typeof orthid !== 'undefined') ?  orthid : 8;
+			allwap = (typeof alwapp !== 'undefined') ? allway : _applyalways;
+			string=" "+replaceAll("%","",replaceAll("~"," ~ ",string))+" ";
+			string=applyalwayses(string,allwap);
+			switch(orthid)
+			{
+			case 0:
+				var str2=reverseString(string.toLowerCase());
+				str2=replaceAll("a","𐌀",str2);
+				str2=replaceAll("ā","𐌀",str2);
+				str2=replaceAll("b","𐌁",str2);
+				str2=replaceAll("d","𐌃",str2);
+				str2=replaceAll("e","𐌄",str2);
+				str2=replaceAll("ē","𐌇",str2);
+				str2=replaceAll("ê","𐌇",str2);
+				str2=replaceAll("f","𐌅",str2);
+				str2=replaceAll("v","𐌅",str2);
+				str2=replaceAll("g","𐌂",str2);
+				str2=replaceAll("h","𐌇",str2);
+				str2=replaceAll("i","𐌉",str2);
+				str2=replaceAll("ī","𐌉",str2);
+				str2=replaceAll("j","𐌉",str2);
+				str2=replaceAll("k","𐌊",str2);
+				str2=replaceAll("l","𐌋",str2);
+				str2=replaceAll("m","𐌌",str2);
+				str2=replaceAll("n","𐌍",str2);
+				str2=replaceAll("o","𐌏",str2);
+				str2=replaceAll("ō","𐌏",str2);
+				str2=replaceAll("ô","𐌏",str2);
+				str2=replaceAll("p","𐌐",str2);
+				str2=replaceAll("r","𐌓",str2);
+				str2=replaceAll("ts","𐌆",str2);
+				str2=replaceAll("s","𐌔",str2);
+				str2=replaceAll("z","𐌔",str2);
+				str2=replaceAll("t","𐌕",str2);
+				str2=replaceAll("u","𐌖",str2);
+				str2=replaceAll("ū","𐌖",str2);
+				str2=replaceAll("w","𐌖",str2);
+				str2=replaceAll("ȳ","𐌖",str2);
+				
+				string="*"+replaceAll("~ ","~ *",str2.trim())+"§*"+replaceAll("~ ","~ *",string.trim());
+				
+				break;
+			case 1:
+				string=replaceAll("x","h",string);
+				string=replaceAll("X","H",string);
+				break;
+			case 2:
+				var str2=string.toLowerCase();
+				str2=replaceAll("b","𐌱",str2);
+				str2=replaceAll("d","𐌳",str2);
+				str2=replaceAll("h","𐌷",str2);
+				str2=replaceAll("j","𐌾",str2);
+				str2=replaceAll("k","𐌺",str2);
+				str2=replaceAll("l","𐌻",str2);
+				str2=replaceAll("m","𐌼",str2);
+				str2=replaceAll("n","𐌽",str2);
+				str2=replaceAll("p","𐍀",str2);
+				str2=replaceAll("r","𐍂",str2);
+				str2=replaceAll("s","𐍃",str2);
+				str2=replaceAll("t","𐍄",str2);
+				str2=replaceAll("z","𐌶",str2);
+				str2=replaceAll("f","𐍆",str2);
+				str2=replaceAll("g","𐌲",str2);
+				str2=replaceAll("u","𐌿",str2);
+				str2=replaceAll("ū","𐍉𐌿",str2);
+				str2=replaceAll("i","𐌹",str2);
+				str2=replaceAll("ī","𐌴𐌹",str2);
+				str2=replaceAll("ǣ","𐌰𐌴",str2);
+				str2=replaceAll("æ","𐌰𐌹",str2);
+				str2=replaceAll("ō","𐍉",str2);
+				str2=replaceAll("o","𐌰𐌿",str2);
+				str2=replaceAll("a","𐌰",str2);
+				str2=replaceAll("ā","𐌰",str2);
+				str2=replaceAll("e","𐌰𐌹",str2);
+				str2=replaceAll("ē","𐌴",str2);
+				str2=replaceAll("ø","𐌰𐌿𐌹",str2);
+				str2=replaceAll("ø̄","𐍉𐌹",str2);
+				str2=replaceAll("w","𐍅",str2);
+				str2=replaceAll("y","𐌿𐌹",str2);
+				str2=replaceAll("ȳ","𐍉𐌿𐌹",str2);
+				str2=replaceAll("v","𐌱",str2);
+				str2=replaceAll("𐌽𐌺","𐌲𐌺",str2);
+				str2=replaceAll("𐌽𐌲","𐌲𐌲",str2);
+				
+				string="*"+replaceAll("~ ","~ *",str2.trim())+"§*"+replaceAll("~ ","~ *",string.trim());
+				
+				break;
+			case 8:
+				string=replaceAll("x","°",string);
+				string=replaceAll("X","°^",string);
+				
+				string=replaceAll("j̩ ","i ",string);
+				string=replaceAll("j̩","j",string);
+				
+				string=replaceAll("ks","x",string);
+				string=replaceAll("Ks","X",string);
+				string=applyNec(string,"k","qu",[""],["e","i","y","ø"]);
+				string=applyNec(string,"K","Qu",[""],["e","i","y","ø"]);
+				string=replaceAll("k ","que ",string);
+				string=replaceAll("k","c",string);
+				string=replaceAll("K","C",string);
+				
+				string=replaceAll("au̯","á",string);
+				string=replaceAll("Au̯","Á",string);
+				string=replaceAll("eu̯","é",string);
+				string=replaceAll("Eu̯","É",string);
+				string=replaceAll("ou̯","ó",string);
+				string=replaceAll("Ou̯","Ó",string);
+				string=replaceAll("ui̯","ú",string);
+				string=replaceAll("Ui̯","Ú",string);
+				string=replaceAll("ai̯","ae",string);
+				string=replaceAll("Ai̯","Ae",string);
+				string=replaceAll("oi̯","oe",string);
+				string=replaceAll("Oi̯","Oe",string);
+				string=replaceAll("ø","eu",string);
+				string=replaceAll("Ø","Eu",string);
+				
+				string=replaceAll("ʃ^","Ch",string);
+				string=replaceAll("ʃ","ch",string);
+				
+				string=replaceAll("j́","€",string);
+				
+				string=replaceAll("y","í",string);
+				string=replaceAll("Y","Í",string);
+				string=replaceAll("j","y",string);
+				string=replaceAll("J","Y",string);
+				
+				string=replaceAll("ʎ^","Lh",string);
+				string=replaceAll("ʎ","lh",string);
+				string=replaceAll("ɲ^","Gn",string);
+				string=replaceAll("ɲ","gn",string);
+				
+				string=replaceAll("ge","gue",string);
+				string=replaceAll("Ge","Gue",string);
+				string=replaceAll("gi","gui",string);
+				string=replaceAll("Gi","Gui",string);
+				string=replaceAll("gé","gué",string);
+				string=replaceAll("Gé","Gué",string);
+				string=replaceAll("gí","guí",string);
+				string=replaceAll("Gí","Guí",string);
+				string=replaceAll("ʒ^e","Ge",string);
+				string=replaceAll("ʒe","ge",string);
+				string=replaceAll("ʒ^i","Gi",string);
+				string=replaceAll("ʒi","gi",string);
+				string=replaceAll("ʒ^é","Gé",string);
+				string=replaceAll("ʒé","gé",string);
+				string=replaceAll("ʒ^í","Gí",string);
+				string=replaceAll("ʒí","gí",string);
+				string=replaceAll("ʒ ","ge ",string);
+				string=replaceAll("ʒ","gh",string);
+				string=replaceAll("ʒ^","Gh",string);
+				
+				string=replaceAll("r̩ ","re ",string);
+				string=replaceAll("r̩","r",string);
+				string=replaceAll("l̩ ","le ",string);
+				string=replaceAll("l̩","l",string);
+				string=replaceAll("n̩ ","ne ",string);
+				string=replaceAll("n̩","n",string);
+				
+				string=replaceAll("ah","à",string);
+				string=replaceAll("Ah","À",string);
+				string=replaceAll("áh","â",string);
+				string=replaceAll("Áh","Â",string);
+				string=replaceAll("eh","è",string);
+				string=replaceAll("Eh","È",string);
+				string=replaceAll("éh","ê",string);
+				string=replaceAll("Éh","Ê",string);
+				string=replaceAll("ih","ì",string);
+				string=replaceAll("Ih","Ì",string);
+				string=replaceAll("íh","î",string);
+				string=replaceAll("Íh","Î",string);
+				string=replaceAll("oh","ò",string);
+				string=replaceAll("Oh","Ò",string);
+				string=replaceAll("óh","ô",string);
+				string=replaceAll("Óh","Ô",string);
+				string=replaceAll("uh","ù",string);
+				string=replaceAll("Uh","Ù",string);
+				string=replaceAll("úh","û",string);
+				string=replaceAll("Úh","Û",string);
+				
+				string=replaceAll("l̥","hl",string);
+				string=replaceAll("r̥","hr",string);
+				
+				string=replaceAll("°^","J",string);
+				string=replaceAll("°","j",string);
+				string=replaceAll("pʰ","ph",string);
+				string=replaceAll("ƈ","c",string);
+				string=replaceAll("€","i",string);
+				string=replaceAll("ǁ","ch",string);
+				
+				string=replaceAll("z ","se ",string);
+				string=replaceAll("v ","fe ",string);
+				string=applyNec(string,"z","s",["a","e","i","o","u","á","é","í","ó","ú","à","è","ì","ò","ù","â","ê","î","ô","û","A","E","I","O","U","Á","É","Í","Ó","Ú","À","È","Ì","Ò","Ù","Â","Ê","Î","Ô","Û"],["a","e","i","o","u","á","é","í","ó","ú","à","è","ì","ò","ù","â","ê","î","ô","û"]);
+				string=applyNec(string,"v","f",["a","e","i","o","u","á","é","í","ó","ú","à","è","ì","ò","ù","â","ê","î","ô","û","A","E","I","O","U","Á","É","Í","Ó","Ú","À","È","Ì","Ò","Ù","Â","Ê","Î","Ô","Û"],["a","e","i","o","u","á","é","í","ó","ú","à","è","ì","ò","ù","â","ê","î","ô","û"]);
+				
+				string=replaceAll("ə","a",string);
+				
+				break;
+			}
+			return string.trim();
+		}
+		function getCondition(name,lr)
+		{
+			var out=[""];
+			switch(name)
+			{
+			case "vhvoice":
+				out=["a","e","i","o","u","y","ø","u̯","i̯","h"];
+				break;
+			case "prevelar":
+				if (lr==1) out=["ḱ","ǵ","k","g","w"];
+				break;
+			}
+			return out;
+		}
+	</script>
+<html>
+	<div id="dictionary"></div>
+</html>

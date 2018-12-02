@@ -1081,12 +1081,13 @@ rawcsv=$.get("https://docs.google.com/spreadsheets/d/1XJMnBv6NcE-YzmR7WPIryln0m_
 			})
 			.fail(function(){
 				console.log("No local copy can be found.");
-				loaderror();
+				loaderror(1);
 			});
 	});
 	
-function loaderror()
+function loaderror(lnerr)
 	{
+		console.log("Error code "+lnerr);
 		alert("An error has occurred while loading the lexicon. Please try again later.");
 	}
 	
@@ -1507,7 +1508,7 @@ function parseDbase()
 		{
 			if (dbase[1][i]=="ORTHO") orthcolumn=i;
 		}
-		if (orthcolumn==-1) loaderror();
+		if (orthcolumn==-1) loaderror(0);
 		else
 		{
 			lexlist=[];
