@@ -207,7 +207,7 @@
 			document.getElementById("lang_name").innerHTML=local.name.toUpperCase();
 			//Prepare alphabet for nav bar
 			var tempvar="";
-			var _alphabet=local.alphabet.split(" ");
+			var _alphabet=local.alphabet[local.alphabet.length-1].split(" ");
 			_alphabet2=[];
 			var j=[];
 			var repl=[];
@@ -558,8 +558,8 @@
 								//Check if there's a "newer" formation
 								if (dbase[lexlist[wid][1]][happenings[i][1]+1]!="")
 								{
-									temp+="from Pre-"+stagelist[stagecycle+1][0]+" <i>*"+(dbase[lexlist[wid][1]][happenings[i][1]+1].split("{"))[0]+"</i>, ";
-									switch((dbase[lexlist[wid][1]][happenings[i][1]+1].split("{"))[1].replace("}",""))
+									temp+="from Pre-"+stagelist[stagecycle+1][0]+" <i>*"+(((dbase[lexlist[wid][1]][happenings[i][1]+1]+"!").split("!"))[0].split("{"))[0]+"</i>, ";
+									switch(((((dbase[lexlist[wid][1]][happenings[i][1]+1]+"!").split("!"))[0]+"{").split("{"))[1].replace("}",""))
 									{
 									case "them-obl":
 										temp+="a thematicisation of the oblique stem of";
