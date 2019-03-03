@@ -20,6 +20,87 @@
 		
 		function apply_orthography(string,orthid,alwapp)
 		{
+			string=replaceAll("ɡ","g",string);
+			//Assign diphthongs numerical values to prevent overlap
+			string=replaceAll("eɪ̯","1",string);
+			string=replaceAll("øʏ̯","2",string);
+			string=replaceAll("ɵʉ̯","3",string);
+			string=replaceAll("oʊ̯","4",string);
+			string=replaceAll("ɛi̯","5",string);
+			string=replaceAll("œʏ̯","6",string);
+			string=replaceAll("ɔʊ̯","7",string);
+			string=replaceAll("ɑʊ̯","8",string);
+			
+			//Vowels
+			string=replaceAll("aː","â",string);
+			string=replaceAll("a","â",string);
+			string=replaceAll("ɑ","a",string);
+			string=replaceAll("eː","é",string);
+			string=replaceAll("e","i",string);
+			string=replaceAll("ɛː","e",string);
+			string=replaceAll("ɛ","e",string);
+			string=replaceAll("øː","ö",string);
+			string=replaceAll("œː","ö",string);
+			string=replaceAll("œ","ö",string);
+			string=replaceAll("ɤː","ô",string);
+			string=replaceAll("ɤ","ô",string);
+			string=replaceAll("ʏ","y",string);
+			string=replaceAll("ɵ","u",string);
+			string=replaceAll("ʊ","o",string);
+			string=replaceAll("ɔ","å",string);
+			
+			//Nasals
+			string=replaceAll("mː","mm",string);
+			string=replaceAll("nː","nn",string);
+			string=replaceAll("ɳː","rrn",string);
+			string=replaceAll("ɳ","rn",string);
+			string=replaceAll("ɲː","nnj",string);
+			string=replaceAll("ɲ","nj",string);
+			string=replaceAll("ŋŋ","nng",string);
+			string=replaceAll("ŋ","ng",string);
+			
+			//Plosives
+			string=replaceAll("pː","pp",string);
+			string=replaceAll("bː","bb",string);
+			string=replaceAll("tː","tt",string);
+			string=replaceAll("dː","dd",string);
+			string=replaceAll("ʈː","rtt",string);
+			string=replaceAll("ʈ","rt",string);
+			string=replaceAll("ɖː","rdd",string);
+			string=replaceAll("ɖ","rd",string);
+			string=replaceAll("tɕː","ttj",string);
+			string=replaceAll("tɕ","tj",string);
+			string=replaceAll("dʑː","ddj",string);
+			string=replaceAll("dʑ","dj",string);
+			string=replaceAll("kː","kk",string);
+			string=replaceAll("gː","gg",string);
+			
+			//Fricatives
+			string=replaceAll("ɸː","ff",string);
+			string=replaceAll("ɸ","f",string);
+			string=replaceAll("βː","vv",string);
+			string=replaceAll("β","v",string);
+			string=replaceAll("sː","ss",string);
+			string=replaceAll("ʂː","sch",string);
+			string=replaceAll("ʂ","sch",string);
+			
+			//Liquids & semivowels
+			string=replaceAll("ɽː","L",string);
+			string=replaceAll("ɽ","L",string);
+			string=replaceAll("rː","rr",string);
+			string=replaceAll("lː","ll",string);
+			string=replaceAll("jː","jj",string);
+			
+			//Fix diphthongs
+			string=replaceAll("1","ij",string);
+			string=replaceAll("2","yj",string);
+			string=replaceAll("3","uw",string);
+			string=replaceAll("4","ow",string);
+			string=replaceAll("5","ej",string);
+			string=replaceAll("6","öj",string);
+			string=replaceAll("7","åw",string);
+			string=replaceAll("8","aw",string);
+			
 			return(string);
 		}
 	</script>
