@@ -604,6 +604,71 @@
 					document.getElementById("inflection_thead2").style.display="table-row";
 					document.getElementById("dicentry_gender").style.display="none";
 				}
+				else if (j=="Numeral")
+				{
+					if (dbase[declensionlist[clid][1]][stagelist[stagelist.length-1][1]]!="NO_INFLECTION")
+					{
+						temp="<th>Case</th>";
+						var numamount=1;
+						var genderamount=(local.genders[local.genders.length-1]).length;
+						var tempoffsets=[];
+						for(var i=0;i<genderamount;i++)
+						{
+							temp+="<th>"+local.genders[local.genders.length-1][i]+"</th>";
+						}
+						document.getElementById("inflection_thead").innerHTML=temp;
+						for(var j=0;j<genderamount;j++)
+						{
+							for(var i=0;i<numamount;i++)
+							{
+								if (j==0) tempoffsets.push([]);
+							}
+						}
+						document.getElementById("inflection_thead2").style.display="none";
+						document.getElementById("inflection_thead_name").innerHTML="<th colspan='"+(numamount*genderamount+1)+"' style='text-align: center;'>"+dbase[declensionlist[clid][1]][stagelist[stagelist.length-1][1]]+"</th>";
+					
+						var qsd=0;
+						for(var i=0;i<tempoffsets.length;i++)
+						{
+							for(var k=0;k<(local.cases[local.cases.length-1]).length;k++)
+							{
+								tempoffsets[i].push(qsd);
+								qsd++;
+							}
+						}
+					
+						var clid2=[];
+						for(var i=0;i<genderamount;i++)
+						{
+							for(var j=0;j<declensionlist.length;j++)
+							{
+								if (declensionlist[j][0]==dbase[declensionlist[clid][1]][stagelist[stagelist.length-1][1]+i+1]) clid2.push(j);
+							}
+						}
+						
+						temp="";
+						for(var i=0;i<(local.cases[local.cases.length-1]).length;i++)
+						{
+							if (local.cases[local.cases.length-1][i]!="")
+							{
+								temp+="<tr><td><b>"+local.cases[local.cases.length-1][i]+"</td>";
+								for(var k=0;k<genderamount;k++)
+								{
+									for(var j=0;j<numamount;j++)
+									{
+										temp+="<td>"+apply_orthography(doInflect(dbase[lexlist[wid][1]][orthcolumn],clid2[k],tempoffsets[j][i],clid2[0]))+"</td>";
+									}
+								}
+								temp+="</tr>";
+							}
+						}
+						document.getElementById("inflection_tbody").innerHTML=temp;
+						document.getElementById("tab_inflect_li").style.display="block";
+						document.getElementById("inflection_thead2").style.display="table-row";
+					}
+					else document.getElementById("tab_inflect_li").style.display="none";
+					document.getElementById("dicentry_gender").style.display="none";
+				}
 				else
 				{
 					document.getElementById("tab_inflect_li").style.display="none";
