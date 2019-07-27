@@ -206,7 +206,7 @@
 </body>
 <script>
 	//Initialise important variables
-	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄","A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄"];
+	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Z Ø~Ø̄~Ø̨~Ø̨̄"];
 	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌅 𐌖 𐌆 𐌗",""];
 	activestage=_alphabet.length-1;
 	romanisationfirst=true;
@@ -394,7 +394,14 @@
 		}
 	function apply_orthography(word,stage)
 		{
-			return(word);
+			var w=word;
+			if (stage==1)
+			{
+				w=replaceAll("X","H",w);
+				w=replaceAll("x","h",w);
+				w=replaceAll("̯","",w);
+			}
+			return(w);
 		}
 	function apply_nativealphabet(word,stage)
 		{
