@@ -211,14 +211,11 @@
 		{
 			alert("An error has occurred while loading the lexicon. Please try again later.");
 		}
-	function parseDbase()
+	function setAlphabet(stagenumber)
 		{
-			//Set title
-			document.getElementById("page_title").innerHTML=local.name+" Lexicon";
-			document.getElementById("lang_name").innerHTML=local.name.toUpperCase();
 			//Prepare alphabet for nav bar
 			var tempvar="";
-			var _alphabet=local.alphabet[local.alphabet.length-1].split(" ");
+			var _alphabet=local.alphabet[stagenumber].split(" ");
 			_alphabet2=[];
 			var j=[];
 			var repl=[];
@@ -251,6 +248,15 @@
 				}
 			}
 			document.getElementById("navbar_alphabetlist").innerHTML=tempvar;
+			console.log(repl);
+		}
+	function parseDbase(stagenumber)
+		{
+			stagenumber = (typeof stagenumber !== 'undefined') ?  stagenumber : (local.alphabet.length-1);
+			setAlphabet(stagenumber);
+			//Set title
+			document.getElementById("page_title").innerHTML=local.name+" Lexicon";
+			document.getElementById("lang_name").innerHTML=local.name.toUpperCase();
 			//Parse dbase
 			orthcolumn=-1;
 			var k=dbase[1].length;
@@ -838,6 +844,9 @@
 					}
 					if (stemresult!="") stemresult+="</br>";
 					stemresult+=stem;
+					
+					//If unknown, return question mark
+					if (suffix[i]=="?") stemresult="?";
 				}
 				return(stemresult);
 			}
