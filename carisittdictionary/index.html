@@ -195,8 +195,8 @@
 						</p>
 						<h4>Search Settings</h4>
 						<p>Search bar purpose:
-							<input type="radio" name="search_destination" value="lang" checked> Language
-							<input type="radio" name="search_destination" value="eng"> Translations
+							<input type="radio" name="search_destination" value="lang" checked onchange="cleanSearch();"> Language
+							<input type="radio" name="search_destination" value="eng" onchange="cleanSearch();"> Translations
 						</p>
 					</div>
 				</div>
@@ -211,6 +211,7 @@
 	activestage=_alphabet.length-1;
 	romanisationfirst=true;
 	includeother=true;
+	searchenglish=false;
 	//Load csv from Google Sheets as javascript array
 	loadstr="";
 	loadNote("Loading...");
@@ -373,7 +374,6 @@
 	function loadStage(stagid)
 		{
 			//document.getElementById("lang_name").innerHTML=stagelist[stagid][0].toUpperCase();
-			//^ Scrapped because not enough space!
 			parseAlphabet(stagid);
 			//Create list of terms
 			wordlist=[];
@@ -456,8 +456,19 @@
 				}
 				var success=false;
 				if (searchval=="") success=true;
-				if (wordlist[i][0].search(searchval)!=-1) success=true;
-				if (wordlist[i][1].search(searchval)!=-1) success=true;
+				else
+				{
+					if (searchenglish)
+					{
+						var qqq=dbase[wordlist[i][2]][maincolumns[activestage]+1];//Needs improvemet
+						if (qqq.search(searchval)!=-1) success=true;
+					}
+					else
+					{
+						if (wordlist[i][0].search(searchval)!=-1) success=true;
+						if (wordlist[i][1].search(searchval)!=-1) success=true;
+					}
+				}
 				if (success==true)
 				{
 					temp+="<div class='wordentry' onclick='openWord("+i+",false)'><h5>"+display(wordlist[i])+" <small>";
@@ -608,6 +619,18 @@
 			//Load stage
 			loadStage(activestage);
 			
+		}
+	function cleanSearch()
+		{
+			document.getElementById("searchinputvalue").value="";
+			var rv="";
+			var radios=document.getElementsByName("search_destination");
+			for(var i=0;i<radios.length;i++)
+			{
+				if (radios[i].checked) rv=radios[i].value;
+			}
+			if (rv=="eng") searchenglish=true;
+			else searchenglish=false;
 		}
 </script>
 </html>
