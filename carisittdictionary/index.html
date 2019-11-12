@@ -109,7 +109,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>                        
 			</button>
-			<a class="navbar-brand" id="lang_name" href="#">CARITE</a>
+			<a class="navbar-brand" id="lang_name" href="#"><!-- Carite--></a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul id="navbar_alphabetlist" class="nav navbar-nav"></ul>
@@ -206,12 +206,21 @@
 </body>
 <script>
 	//Initialise important variables
-	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Z Ø~Ø̄~Ø̨~Ø̨̄"];
-	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗",""];
+	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Z Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~ʀ S T U~Ū~Ų~Ų̄ V W Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
+	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","",""];
 	activestage=_alphabet.length-1;
 	romanisationfirst=true;
 	includeother=true;
 	searchenglish=false;
+	sources=[
+		["ed_pgmc"	,"Kroonen, Guus. Etymological Dictionary of Proto-Germanic. Leiden, Koninklijke Brill NV, 2013."],
+		["ed_greek"	,"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010."],
+		["ed_pcelt"	,"Matasović, Ranko. Etymological Dictionary of Proto-Celtic. Leiden, Koninklijke Brill NV, 2009."],
+		["ed_latin"	,"de Vaan, Michiel. Etymological Dictionary of Latin and the other Italic Languages. Leiden, Koninklijke Brill NV, 2008."],
+		["ed_slavic","Derksen, Rick. Etymological Dictionary of the Slavic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2008."],
+		["oxf_intro","Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006."]
+	]
+	
 	//Load csv from Google Sheets as javascript array
 	loadstr="";
 	loadNote("Loading...");
@@ -557,7 +566,7 @@
 			var stagecycle=activestage-1;
 			for(var i=0;i<happenings.length;i++)
 			{
-				if (happenings[i][1]+2==stagelist[activestage][1]) startingpoint=i;
+				if (happenings[i][1]+2==stagelist[activestage][1]) startingpoint=i+1;
 			}
 			//else
 			{
