@@ -206,7 +206,7 @@
 </body>
 <script>
 	//Initialise important variables
-	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Z Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~ʀ S T U~Ū~Ų~Ų̄ V W Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
+	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Z Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
 	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","",""];
 	activestage=_alphabet.length-1;
 	romanisationfirst=true;
@@ -409,6 +409,10 @@
 				w=replaceAll("X","H",w);
 				w=replaceAll("x","h",w);
 				w=replaceAll("̯","",w);
+			}
+			if (stage==2)
+			{
+				w=replaceAll("ʰ","h",w);
 			}
 			return(w);
 		}
