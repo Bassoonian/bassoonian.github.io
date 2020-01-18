@@ -152,6 +152,10 @@
 					<h4>Translation</h4>
 					<ol id="entry_translations">
 					</ol>
+					<div id="synonyms_tab">
+						<h4>Synonyms</h4>
+						<ol id="synonym_list"></ol>
+					</div>
 				</div>
 				<div id="tab_inflection" class="tab-pane fade">
 					<h4>Inflection</h4>
@@ -173,7 +177,7 @@
 				</div>
 				<div id="tab_sources" class="tab-pane fade">
 					<h4>Sources</h4>
-					<p id="entry_etymologytext"></p>
+					<p id="entry_sourcetext"></p>
 				</div>
 			</div>
 		</div>
@@ -206,20 +210,28 @@
 </body>
 <script>
 	//Initialise important variables
-	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Z Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
+	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄"];
 	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","",""];
 	activestage=_alphabet.length-1;
 	romanisationfirst=true;
 	includeother=true;
 	searchenglish=false;
 	sources=[
-		["ed_pgmc"	,"Kroonen, Guus. Etymological Dictionary of Proto-Germanic. Leiden, Koninklijke Brill NV, 2013."],
-		["ed_greek"	,"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010."],
-		["ed_pcelt"	,"Matasović, Ranko. Etymological Dictionary of Proto-Celtic. Leiden, Koninklijke Brill NV, 2009."],
-		["ed_latin"	,"de Vaan, Michiel. Etymological Dictionary of Latin and the other Italic Languages. Leiden, Koninklijke Brill NV, 2008."],
-		["ed_slavic","Derksen, Rick. Etymological Dictionary of the Slavic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2008."],
-		["oxf_intro","Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006."]
+		["ed_germanic"		,"Kroonen, Guus. Etymological Dictionary of Proto-Germanic. Leiden, Koninklijke Brill NV, 2013."],
+		["ed_greek"			,"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010."],
+		["ed_celtic"		,"Matasović, Ranko. Etymological Dictionary of Proto-Celtic. Leiden, Koninklijke Brill NV, 2009."],
+		["ed_latin"			,"de Vaan, Michiel. Etymological Dictionary of Latin and the other Italic Languages. Leiden, Koninklijke Brill NV, 2008."],
+		["ed_slavic"		,"Derksen, Rick. Etymological Dictionary of the Slavic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2008."],
+		["oxf_intro"		,"Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006."],
+		["ed_basque"		,"Trask, R. L. Etymological Dictionary of Basque. University of Sussex, 2008."],
+		["ed_coptic"		,"Vycichl, Werner. Dictionnaire étymologique de la langue copte. Leuven, Éditions Peeters, 1983."],
+		["intro_egyptian"	,"Loprieno, Antonio. Ancient Egyptian: A Linguistic Introduction. Cambridge, Cambridge University Press, 1995."],
+		["dic_egyptian"		,"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004."]
 	]
+	
+	sources.sort(function(a,b){
+		return(a[1]<b[1])
+	});
 	
 	//Load csv from Google Sheets as javascript array
 	loadstr="";
@@ -259,6 +271,30 @@
 			if (loadstr!="") loadstr+="</br>";
 			loadstr+=txt;
 			document.getElementById("loadingcontent").innerHTML=loadstr;
+		}
+	
+	function getLangName(q)
+		{
+			switch(q)
+			{
+				case "lat": return("Latin");break;
+				case "eus": return("Basque");break;
+				case "peus": return("Proto-Basque");break;
+				case "grc": return("Ancient Greek");break;
+				case "peo": return("Old Persian");break;
+				case "pclt": return("Proto-Celtic");break;
+				case "legp": return("Late Egyptian");break;
+				case "eng": return("English");break;
+				case "pslv": return("Proto-Slavic");break;
+				case "pgmc": return("Proto-Germanic");break;
+				case "sqi": return("Albanian");break;
+				case "toch": return("Tocharian");break;
+				case "tchA": return("Tocharian A");break;
+				case "tchB": return("Tocharian B");break;
+				case "san": return("Sanskrit");break;
+				case "hit": return("Hittite");break;
+				default: return(q);break;
+			}
 		}
 	
 	function parseDbase()
@@ -563,6 +599,35 @@
 			
 			document.getElementById("entry_pronunciation").innerHTML=temp;
 			
+			//Find synonyms
+			document.getElementById("synonyms_tab").style.display="block";
+			temp="";
+			for(var i=0;i<translist.length;i++)
+			{
+				var ttt=[];
+				for(var j=0;j<wordlist.length;j++)
+				{
+					var l=wordlist[j][2];
+					var m=dbase[l][maincolumns[activestage]+1].split(",");
+					for(var k=0;k<m.length;k++)
+					{
+						if (translist[i]==m[k]&&j!=wid) ttt.push(j);
+					}
+				}
+				if (ttt.length>0)
+				{
+					temp+="<li>(<i>"+translist[i]+"</i>): ";
+					for(var j=0;j<ttt.length;j++)
+					{
+						if (j>0) temp+=", ";
+						temp+=wordlist[ttt[j]][0];
+					}
+					temp+="</li>";
+				}
+			}
+			document.getElementById("synonym_list").innerHTML=temp;
+			if (temp=="") document.getElementById("synonyms_tab").style.display="none";
+			
 			//Build etymology
 			temp="";
 			var prevmeaning="";
@@ -602,7 +667,7 @@
 							if (temparr[0].charAt(0)=="L")
 							{
 								//Loan
-								temp+="loaned from "+parseLoan(temparr,prevmeaning,happenings[i][0]);
+								temp+="loaned from "+parseLoan(temparr,happenings[i][0]);
 								i=-1; //Since it's not inherited, cancel the loop since we reached the earliest point
 							}
 						}
@@ -623,6 +688,24 @@
 				}
 			}
 			document.getElementById("entry_etymologytext").innerHTML=(temp.charAt(0).toUpperCase()+temp.slice(1)+".").replace("..",".");
+			
+			//Set sources
+			temp=dbase[wordlist[wid][2]][sourcecolumn];
+			if (temp=="") temp="No source specified.";
+			else
+			{
+				var qp=temp.split(",");
+				temp="<ol>";
+				for(var i=0;i<sources.length;i++)
+				{
+					for(var j=0;j<qp.length;j++)
+					{
+						if (sources[i][0]==qp[j]) temp+="<li>"+sources[i][1]+"</li>";
+					}
+				}
+				temp+="</ol>";
+			}
+			document.getElementById("entry_sourcetext").innerHTML=temp;
 		}
 	function updateStage()
 		{
@@ -645,6 +728,19 @@
 			if (rv=="eng") searchenglish=true;
 			else searchenglish=false;
 			setWordlist();
+		}
+	function parseLoan(arg0,arg1)
+		{
+			var tt=getLangName(arg0[0].replace("L",""))+" ";
+			var rv=arg0[1].split("/");
+			var ts=rv[0].split("=");
+			
+			if (ts.length==1) tt+='<i>"+ts[0]+"</i> ("'+rv[1]+'")'; //No romanisation necessary
+			else tt+=ts[0]+' (<i>'+ts[1]+'</i>, "'+rv[1]+'")';
+			
+			tt+=" prior to "+arg1;
+			
+			return(tt);
 		}
 </script>
 </html>
