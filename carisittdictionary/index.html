@@ -83,6 +83,10 @@
 	{
 		background-color: #E8E8E8;
 	}
+	.clickety
+	{
+		cursor: pointer;
+	}
 	#entryamountbox
 	{
 		text-align: center;
@@ -233,6 +237,8 @@
 		return(a[1]<b[1])
 	});
 	
+	cognateorder=["grc","pclt","lat","hye","pgmc","pslv","san","tchA","tchB","toch","eng"];
+	
 	//Load csv from Google Sheets as javascript array
 	loadstr="";
 	loadNote("Loading...");
@@ -293,8 +299,25 @@
 				case "tchB": return("Tocharian B");break;
 				case "san": return("Sanskrit");break;
 				case "hit": return("Hittite");break;
+				case "hye": return("Armenian");break;
 				default: return(q);break;
 			}
+		}
+		
+	function getWiktionaryLink(a,b)
+		{
+			var t="https://en.wiktionary.org/wiki/";
+			switch(a)
+			{
+				case "Late Egyptian": a="Egyptian";break;
+				case "pclt": t+="Reconstruction:Proto-Celtic/";a="";break;
+				case "pslv": t+="Reconstruction:Proto-Slavic/";a="";break;
+				case "pgmc": t+="Reconstruction:Proto-Germanic/";a="";break;
+			}
+			//Reformat b depending on entry: f > ɸ for Celtic, no macrons in Latin
+			t+=b;
+			if (a!="") t+="#"+replaceAll(" ","%20",a);
+			return(t);
 		}
 	
 	function parseDbase()
@@ -620,7 +643,7 @@
 					for(var j=0;j<ttt.length;j++)
 					{
 						if (j>0) temp+=", ";
-						temp+=wordlist[ttt[j]][0];
+						temp+="<a class='clickety' onclick='openWord("+ttt[j]+",false);'>"+wordlist[ttt[j]][0]+"</a>";
 					}
 					temp+="</li>";
 				}
@@ -687,7 +710,39 @@
 					}
 				}
 			}
-			document.getElementById("entry_etymologytext").innerHTML=(temp.charAt(0).toUpperCase()+temp.slice(1)+".").replace("..",".");
+			temp=(temp.charAt(0).toUpperCase()+temp.slice(1)+".").replace("..",".");
+			if (dbase[wordlist[wid][2]][cognatecolumn]!="")
+			{
+				temp+=" Cognate with ";
+				var qq=dbase[wordlist[wid][2]][cognatecolumn].split(",");
+				var callist=[];
+				for(var i=0;i<qq.length;i++)
+				{
+					var pp=(qq[i].trim()).split(" ");
+					callist.push(pp);
+				}
+				var ts="";
+				for(i=0;i<cognateorder.length;i++)
+				{
+					for(j=0;j<callist.length;j++)
+					{
+						if (cognateorder[i]==callist[j][0])
+						{
+							//Match
+							if (ts!="") temp+=", ";
+							ts=getLangName(cognateorder[i]);
+							var tf=callist[j][1].split("=");
+							temp+=ts+" "
+							if (tf.length==1) temp+="<i>";
+							temp+='<a href="'+getWiktionaryLink(ts,tf[0])+'" target="_blank">'+tf[0]+'</a>';
+							if (tf.length==1) temp+="</i>";
+							if (tf.length>1) temp+=" (<i>"+tf[1]+"</i>)"
+						}
+					}
+				}
+				temp+=".";
+			}
+			document.getElementById("entry_etymologytext").innerHTML=temp;
 			
 			//Set sources
 			temp=dbase[wordlist[wid][2]][sourcecolumn];
@@ -735,7 +790,7 @@
 			var rv=arg0[1].split("/");
 			var ts=rv[0].split("=");
 			
-			if (ts.length==1) tt+='<i>"+ts[0]+"</i> ("'+rv[1]+'")'; //No romanisation necessary
+			if (ts.length==1) tt+='<i>'+ts[0]+'</i> ("'+rv[1]+'")'; //No romanisation necessary
 			else tt+=ts[0]+' (<i>'+ts[1]+'</i>, "'+rv[1]+'")';
 			
 			tt+=" prior to "+arg1;
