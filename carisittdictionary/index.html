@@ -102,6 +102,15 @@
 		direction: rtl;
 		unicode-bidi: bidi-override;
 	}
+	.glosstext
+	{
+		font-variant: small-caps;
+	}
+	.hovertext, .glosstext
+	{
+		text-decoration-line: underline;
+		text-decoration-style: dotted;
+	}
   	</style>
 </head>
 <body>
@@ -178,6 +187,9 @@
 				<div id="tab_etymo" class="tab-pane fade">
 					<h4>Etymology</h4>
 					<p id="entry_etymologytext"></p>
+					<div id="etymo_relatedwords">
+						<h4>Related terms</h4><ul id="etymo_relatedtermslist"></ul>
+					</div>
 				</div>
 				<div id="tab_sources" class="tab-pane fade">
 					<h4>Sources</h4>
@@ -221,23 +233,23 @@
 	includeother=true;
 	searchenglish=false;
 	sources=[
-		["ed_germanic"		,"Kroonen, Guus. Etymological Dictionary of Proto-Germanic. Leiden, Koninklijke Brill NV, 2013."],
-		["ed_greek"			,"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010."],
-		["ed_celtic"		,"Matasović, Ranko. Etymological Dictionary of Proto-Celtic. Leiden, Koninklijke Brill NV, 2009."],
-		["ed_latin"			,"de Vaan, Michiel. Etymological Dictionary of Latin and the other Italic Languages. Leiden, Koninklijke Brill NV, 2008."],
-		["ed_slavic"		,"Derksen, Rick. Etymological Dictionary of the Slavic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2008."],
-		["oxf_intro"		,"Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006."],
-		["ed_basque"		,"Trask, R. L. Etymological Dictionary of Basque. University of Sussex, 2008."],
-		["ed_coptic"		,"Vycichl, Werner. Dictionnaire étymologique de la langue copte. Leuven, Éditions Peeters, 1983."],
-		["intro_egyptian"	,"Loprieno, Antonio. Ancient Egyptian: A Linguistic Introduction. Cambridge, Cambridge University Press, 1995."],
-		["dic_egyptian"		,"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004."]
+		["ed_germanic"		,"Kroonen, Guus. Etymological Dictionary of Proto-Germanic. Leiden, Koninklijke Brill NV, 2013"],
+		["ed_greek"			,"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010"],
+		["ed_celtic"		,"Matasović, Ranko. Etymological Dictionary of Proto-Celtic. Leiden, Koninklijke Brill NV, 2009"],
+		["ed_latin"			,"de Vaan, Michiel. Etymological Dictionary of Latin and the other Italic Languages. Leiden, Koninklijke Brill NV, 2008"],
+		["ed_slavic"		,"Derksen, Rick. Etymological Dictionary of the Slavic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2008"],
+		["oxf_intro"		,"Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006"],
+		["ed_basque"		,"Trask, R. L. Etymological Dictionary of Basque. University of Sussex, 2008"],
+		["ed_coptic"		,"Vycichl, Werner. Dictionnaire étymologique de la langue copte. Leuven, Éditions Peeters, 1983"],
+		["intro_egyptian"	,"Loprieno, Antonio. Ancient Egyptian: A Linguistic Introduction. Cambridge, Cambridge University Press, 1995"],
+		["dic_egyptian"		,"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004"]
 	]
 	
 	sources.sort(function(a,b){
 		return(a[1]<b[1])
 	});
 	
-	cognateorder=["grc","pclt","lat","hye","pgmc","pslv","san","tchA","tchB","toch","eng"];
+	cognateorder=["grc","pclt","lat","hye","pgmc","pslv","sqi","san","tchA","tchB","toch","hit","eng","eus"];
 	
 	//Load csv from Google Sheets as javascript array
 	loadstr="";
@@ -252,7 +264,6 @@
 		})
 		.fail(function(){
 			loadNote("Unable to connect to Google, quite possibly because of Cross-Origin Restrictions.");
-			loadNote("Want to debug the latest changes to your spreadsheet? Turn off Cross-Origin Restrictions for this page and refresh.");
 			rawcsv=$.get("backup_csv.csv", function() {
 				loadNote("Attempting to read local file...");
 			})
@@ -307,14 +318,28 @@
 	function getWiktionaryLink(a,b)
 		{
 			var t="https://en.wiktionary.org/wiki/";
+			//Reformat b depending on entry
+			switch(a)
+			{
+			case "Proto-Celtic":
+				b=replaceAll("f","ɸ",b);
+				break;
+			case "Latin":
+				b=replaceAll("ā","a",b);
+				b=replaceAll("ē","e",b);
+				b=replaceAll("ī","i",b);
+				b=replaceAll("ō","o",b);
+				b=replaceAll("ū","u",b);
+				break;
+			}
+			//Fix links
 			switch(a)
 			{
 				case "Late Egyptian": a="Egyptian";break;
-				case "pclt": t+="Reconstruction:Proto-Celtic/";a="";break;
-				case "pslv": t+="Reconstruction:Proto-Slavic/";a="";break;
-				case "pgmc": t+="Reconstruction:Proto-Germanic/";a="";break;
+				case "Proto-Celtic": t+="Reconstruction:Proto-Celtic/";a="";break;
+				case "Proto-Slavic": t+="Reconstruction:Proto-Slavic/";a="";break;
+				case "Proto-Germanic": t+="Reconstruction:Proto-Germanic/";a="";break;
 			}
-			//Reformat b depending on entry: f > ɸ for Celtic, no macrons in Latin
 			t+=b;
 			if (a!="") t+="#"+replaceAll(" ","%20",a);
 			return(t);
@@ -327,12 +352,20 @@
 			maincolumns=[];
 			sourcecolumn=-1;
 			cognatecolumn=-1;
+			formidcolumn=-1;
+			lasteditcolumn=-1;
+			etymonotecolumn=-1;
+			uidcolumn=-1;
 			var k=dbase[1].length;
 			for(var i=0;i<k;i++)
 			{
 				if (dbase[1][i]=="RESULT") maincolumns.push(i);
 				if (dbase[1][i]=="COGNATE") cognatecolumn=i;
 				if (dbase[1][i]=="SOURCE") sourcecolumn=i;
+				if (dbase[1][i]=="FORMID") formidcolumn=i;
+				if (dbase[1][i]=="LASTEDIT") lasteditcolumn=i;
+				if (dbase[1][i]=="ETYMONOTE") etymonotecolumn=i;
+				if (dbase[1][i]=="UID") uidcolumn=i;
 			}
 			if (maincolumns.length==0)
 			{
@@ -463,11 +496,13 @@
 	function apply_orthography(word,stage)
 		{
 			var w=word;
+			if (stage==0) w="*"+w;
 			if (stage==1)
 			{
 				w=replaceAll("X","H",w);
 				w=replaceAll("x","h",w);
 				w=replaceAll("̯","",w);
+				w="*"+w;
 			}
 			if (stage==2)
 			{
@@ -519,7 +554,8 @@
 			for(var i=0;i<wordlist.length;i++)
 			{
 				var j=wordlist[i][check].charAt(0).toUpperCase();
-				if(j=="-") j=wordlist[i][check].charAt(1).toUpperCase();
+				if(j=="-"||j=="*") j=wordlist[i][check].charAt(1).toUpperCase();
+				if(j=="-") j=wordlist[i][check].charAt(2).toUpperCase();
 				while(alphvalue<active_alphabet.indexOf(j))
 				{
 					alphvalue++;
@@ -579,7 +615,7 @@
 			now=Math.floor(now/60);//hours
 			now=Math.floor(now/24);//days
 			now*=now;
-			var wid=now % lexlist.length;
+			var wid=now % (lexlist.length-1);
 			openWord(wid,true);
 		}
 	function getPronunciation(word)
@@ -696,7 +732,7 @@
 						}
 						else
 						{
-							temp+="from "+stagelist[stagecycle][0]+" <i>"+dbase[wordlist[wid][2]][happenings[i][1]];
+							temp+="from "+stagelist[stagecycle][0]+" <i>"+apply_orthography(dbase[wordlist[wid][2]][happenings[i][1]],stagecycle);
 							temp+="</i> (“";
 							if (dbase[wordlist[wid][2]][happenings[i][1]+1]==prevmeaning) temp+="id.";
 							else
@@ -711,38 +747,66 @@
 				}
 			}
 			temp=(temp.charAt(0).toUpperCase()+temp.slice(1)+".").replace("..",".");
-			if (dbase[wordlist[wid][2]][cognatecolumn]!="")
+			//Handle cognates and formids
+			var coggies1=dbase[wordlist[wid][2]][cognatecolumn].split(",");
+			var formies1=dbase[wordlist[wid][2]][formidcolumn].split(",");
+			var coggies2=[];
+			var formies2=[];
+			//Break up further
+			for(var i=0;i<coggies1.length;i++)
 			{
-				temp+=" Cognate with ";
-				var qq=dbase[wordlist[wid][2]][cognatecolumn].split(",");
-				var callist=[];
-				for(var i=0;i<qq.length;i++)
+				coggies2.push((coggies1[i].trim()).split(" "));
+			}
+			for(var i=0;i<formies1.length;i++)
+			{
+				formies2.push((formies1[i].trim()).split(" "));
+			}
+			//Sort by language order
+			coggies2.sort(function(a,b){return cognateorder.indexOf(a[0])-cognateorder.indexOf(b[0]);});
+			formies2.sort(function(a,b){return cognateorder.indexOf(a[0])-cognateorder.indexOf(b[0]);});
+			console.log(coggies2,formies2);
+			if (coggies2[0]!=""||formies2[0]!="")
+			{
+				temp+=" "
+				var hasformids=false;
+				//Start with formally identicals
+				if (formies2[0]!="")
 				{
-					var pp=(qq[i].trim()).split(" ");
-					callist.push(pp);
+					hasformids=true;
+					temp+="Formally identical to ";
+					for(var i=0;i<formies2.length;i++) {if (i==formies2.length-1) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(formies2[i]);}
 				}
-				var ts="";
-				for(i=0;i<cognateorder.length;i++)
+				if (coggies2[0]!="")
 				{
-					for(j=0;j<callist.length;j++)
-					{
-						if (cognateorder[i]==callist[j][0])
-						{
-							//Match
-							if (ts!="") temp+=", ";
-							ts=getLangName(cognateorder[i]);
-							var tf=callist[j][1].split("=");
-							temp+=ts+" "
-							if (tf.length==1) temp+="<i>";
-							temp+='<a href="'+getWiktionaryLink(ts,tf[0])+'" target="_blank">'+tf[0]+'</a>';
-							if (tf.length==1) temp+="</i>";
-							if (tf.length>1) temp+=" (<i>"+tf[1]+"</i>)"
-						}
-					}
+					if (hasformids) temp+=" while cognate with ";
+					else temp+="Cognate with ";
+					for(var i=0;i<coggies2.length;i++) {if (i==coggies2.length-1) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(coggies2[i]);}
 				}
 				temp+=".";
 			}
+			
+			if (dbase[wordlist[wid][2]][etymonotecolumn]!="") temp+=" "+parseEtymoText(dbase[wordlist[wid][2]][etymonotecolumn]);
 			document.getElementById("entry_etymologytext").innerHTML=temp;
+			
+			//Get related terms
+			document.getElementById("etymo_relatedwords").style.display="block";
+			temp="";
+			var check1=dbase[wordlist[wid][2]][0];
+			var check2=dbase[wordlist[wid][2]][1];
+			var check3=dbase[wordlist[wid][2]][1];
+			if (check1!=""||check2!=""||check3!="")
+			{
+				for(var i=0;i<wordlist.length;i++)
+				{
+					var goahead=false;
+					if (check1==dbase[wordlist[i][2]][0]&&check1!="") goahead=true;
+					if (check2==dbase[wordlist[i][2]][1]&&check2!="") goahead=true;
+					if (check3==dbase[wordlist[i][2]][2]&&check3!="") goahead=true;
+					if (goahead&&i!=wid) temp+="<li><a class='clickety' onclick='openWord("+i+",false);'>"+wordlist[i][0]+"</a></li>";
+				}
+			}
+			document.getElementById("etymo_relatedtermslist").innerHTML=temp;
+			if (temp=="") document.getElementById("etymo_relatedwords").style.display="none";
 			
 			//Set sources
 			temp=dbase[wordlist[wid][2]][sourcecolumn];
@@ -755,12 +819,13 @@
 				{
 					for(var j=0;j<qp.length;j++)
 					{
-						if (sources[i][0]==qp[j]) temp+="<li>"+sources[i][1]+"</li>";
+						if (sources[i][0]==qp[j]) temp+="<li>"+sources[i][1]+".</li>";
 					}
 				}
 				temp+="</ol>";
 			}
 			document.getElementById("entry_sourcetext").innerHTML=temp;
+			$('[data-toggle="tooltip"]').tooltip();
 		}
 	function updateStage()
 		{
@@ -768,8 +833,23 @@
 			//Clear search bar
 			document.getElementById("searchinputvalue").value="";
 			//Load stage
-			loadStage(activestage);
-			
+			loadStage(activestage);	
+		}
+	function formatCognate(input)
+		{
+			var tf=input[1].split("=");
+			var ts=getLangName(input[0]);
+			var output=ts+" ";
+			if (tf.length==1) output+="<i>";
+			output+='<a href="'+getWiktionaryLink(ts,tf[0])+'" target="_blank">'+asterisk(input[0])+tf[0]+'</a>';
+			if (tf.length==1) output+="</i>";
+			if (tf.length>1) output+=" (<i>"+tf[1]+"</i>)";
+			return(output);
+		}
+	function asterisk(krl)
+		{
+			if (krl=="peus"||krl=="pclt"||krl=="pgmc"||krl=="pslv") return("*");
+			else return("");
 		}
 	function cleanSearch()
 		{
@@ -796,6 +876,29 @@
 			tt+=" prior to "+arg1;
 			
 			return(tt);
+		}
+	function parseEtymoText(txt)
+		{
+			//Cases
+			txt=replaceAll("$nom",glossText("nom","Nominative case"),txt);
+			txt=replaceAll("$voc",glossText("voc","Vocative case"),txt);
+			txt=replaceAll("$acc",glossText("acc","Accusative case"),txt);
+			txt=replaceAll("$gen",glossText("gen","Genitive case"),txt);
+			txt=replaceAll("$dat",glossText("dat","Dative case"),txt);
+			txt=replaceAll("$abl",glossText("abl","Ablative case"),txt);
+			txt=replaceAll("$loc",glossText("loc","Locative case"),txt);
+			txt=replaceAll("$ins",glossText("ins","Instrumental case"),txt);
+			//Sources
+			for(var i=0;i<sources.length;i++)
+			{
+				var tempvar=sources[i][1].split(",");
+				txt=replaceAll("§"+sources[i][0],"<span class='hovertext' data-placement='top' title='"+sources[i][1]+".' data-toggle='tooltip'>"+tempvar[0]+" ("+tempvar[tempvar.length-1].trim()+")</span>",txt);
+			}
+			return(txt);
+		}
+	function glossText(txt,hover)
+		{
+			return("<span class='glosstext' data-placement='top' title='"+hover+"' data-toggle='tooltip'>"+txt+"</span>");
 		}
 </script>
 </html>
