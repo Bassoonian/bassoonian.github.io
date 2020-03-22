@@ -239,15 +239,19 @@
 		["ed_latin"			,"de Vaan, Michiel. Etymological Dictionary of Latin and the other Italic Languages. Leiden, Koninklijke Brill NV, 2008"],
 		["ed_slavic"		,"Derksen, Rick. Etymological Dictionary of the Slavic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2008"],
 		["oxf_intro"		,"Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006"],
-		["ed_basque"		,"Trask, R. L. Etymological Dictionary of Basque. University of Sussex, 2008"],
+		["ed_basque"		,"Trask, R. L. Etymological Dictionary of Basque. Sussex, University of Sussex, 2008"],
 		["ed_coptic"		,"Vycichl, Werner. Dictionnaire étymologique de la langue copte. Leuven, Éditions Peeters, 1983"],
 		["intro_egyptian"	,"Loprieno, Antonio. Ancient Egyptian: A Linguistic Introduction. Cambridge, Cambridge University Press, 1995"],
-		["dic_egyptian"		,"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004"]
+		["dic_egyptian"		,"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004"],
+		["dic_gaulish"		,"Delamarre, Xavier. Dictionnaire de la langue gauloise. Une approche linguistique du vieux-celtique continental. Paris, Editions Errance, 2003"],
+		["pie_handbook"		,"Klein, Jared et al. Handbook of Comparative and Historical Indo-European Linguistics. Berlin/Boston, Walter de Gruyter GmbH, 2017."]
 	]
 	
 	sources.sort(function(a,b){
 		return(a[1]<b[1])
 	});
+	
+	dictionaryversion=0.1;
 	
 	cognateorder=["grc","pclt","lat","hye","pgmc","pslv","sqi","san","tchA","tchB","toch","hit","eng","eus"];
 	
@@ -311,6 +315,7 @@
 				case "san": return("Sanskrit");break;
 				case "hit": return("Hittite");break;
 				case "hye": return("Armenian");break;
+				case "gal": return("Gaulish");break;
 				default: return(q);break;
 			}
 		}
@@ -764,7 +769,6 @@
 			//Sort by language order
 			coggies2.sort(function(a,b){return cognateorder.indexOf(a[0])-cognateorder.indexOf(b[0]);});
 			formies2.sort(function(a,b){return cognateorder.indexOf(a[0])-cognateorder.indexOf(b[0]);});
-			console.log(coggies2,formies2);
 			if (coggies2[0]!=""||formies2[0]!="")
 			{
 				temp+=" "
@@ -774,13 +778,13 @@
 				{
 					hasformids=true;
 					temp+="Formally identical to ";
-					for(var i=0;i<formies2.length;i++) {if (i==formies2.length-1) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(formies2[i]);}
+					for(var i=0;i<formies2.length;i++) {if (i==formies2.length-1&&i!=0) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(formies2[i]);}
 				}
 				if (coggies2[0]!="")
 				{
 					if (hasformids) temp+=" while cognate with ";
 					else temp+="Cognate with ";
-					for(var i=0;i<coggies2.length;i++) {if (i==coggies2.length-1) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(coggies2[i]);}
+					for(var i=0;i<coggies2.length;i++) {if (i==coggies2.length-1&&i!=0) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(coggies2[i]);}
 				}
 				temp+=".";
 			}
@@ -810,7 +814,7 @@
 			
 			//Set sources
 			temp=dbase[wordlist[wid][2]][sourcecolumn];
-			if (temp=="") temp="No source specified.";
+			if (temp=="") temp="No source specified. If you believe you have a source that may be relevant, please get in touch.";
 			else
 			{
 				var qp=temp.split(",");
@@ -826,6 +830,10 @@
 			}
 			document.getElementById("entry_sourcetext").innerHTML=temp;
 			$('[data-toggle="tooltip"]').tooltip();
+			
+			//DEBUG!
+			console.log(dbase[wordlist[wid][2]][lasteditcolumn]);
+			console.log(Date.parse(dbase[wordlist[wid][2]][lasteditcolumn]));
 		}
 	function updateStage()
 		{
