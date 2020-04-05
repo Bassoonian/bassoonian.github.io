@@ -172,17 +172,7 @@
 				</div>
 				<div id="tab_inflection" class="tab-pane fade">
 					<h4>Inflection</h4>
-					<div class='col-md-4'>
-						<table class='table table-striped table-condensed'>
-							<thead>
-								<tr id='inflection_thead_name'></tr>
-								<tr id='inflection_thead'></tr>
-								<tr id='inflection_thead2'></tr>
-							</thead>
-							<tbody id='inflection_tbody'>
-							</tbody>
-						</table>
-					</div>
+					<div id="inflection_content" class="table-responsive"></div>
 				</div>
 				<div id="tab_etymo" class="tab-pane fade">
 					<h4>Etymology</h4>
@@ -245,7 +235,47 @@
 		["dic_egyptian"		,"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004"],
 		["dic_gaulish"		,"Delamarre, Xavier. Dictionnaire de la langue gauloise. Une approche linguistique du vieux-celtique continental. Paris, Editions Errance, 2003"],
 		["pie_handbook"		,"Klein, Jared et al. Handbook of Comparative and Historical Indo-European Linguistics. Berlin/Boston, Walter de Gruyter GmbH, 2017."]
+	];
+	glossterms=[
+		["nom"	,"Nominative case"],
+		["acc"	,"Accusative case"],
+		["gen"	,"Genitive case"],
+		["dat"	,"Dative case"],
+		["abl"	,"Ablative case"],
+		["ins"	,"Instrumental case"],
+		["voc"	,"Vocative case"],
+		["loc"	,"Locative case"],
+		["dir"	,"Direct case"],
+		["obl"	,"Oblique case"],
+		["sg"	,"Singular number"],
+		["pl"	,"Plural number"],
+		["act"	,"Active voice"],
+		["pas"	,"Passive voice"],
+		["m"	,"Masculine gender"],
+		["f"	,"Feminine gender"],
+		["n"	,"Neuter gender"],
+		["1"	,"First person"],
+		["2"	,"Second person"],
+		["3"	,"Third person"],
+		["ind"	,"Indicative mood"],
+		["imp"	,"Imperative mood"],
+		["sjv"	,"Subjunctive mood"],
+		["fut"	,"Future"],
+		["pst"	,"Past"],
+		["npst"	,"Non-past"],
+		["neg"	,"Negative"],
+		["pos"	,"Positive"],
+		["pcp"	,"Participle"],
+		["pret"	,"Preterite"],
+		["prs"	,"Present"],
+		["prf"	,"Perfect"],
+		["cnj"	,"Conjunctive"]
 	]
+	_caseslist=[
+		["nom","voc","acc","gen","abl","dat","loc","ins"],
+		["nom",""   ,"acc","gen",""   ,"dat","loc","ins"],
+		["nom",""   ,"acc","gen",""   ,"dat","loc",""   ]
+	];
 	
 	sources.sort(function(a,b){
 		return(a[1]<b[1])
@@ -487,7 +517,7 @@
 			for(var i=0;i<lexlist.length;i++)
 			{
 				orth=apply_orthography(dbase[lexlist[i][0]][maincolumns[stagid]],stagid);
-				if (orth!="") //If empty, this word does not yet/no longer exist in this stage!
+				if (orth!=""&&orth!="*") //If empty, this word does not yet/no longer exist in this stage!
 				{
 					orth2=apply_nativealphabet(orth,stagid);
 					wordlist.push([orth,orth2,lexlist[i][0],lexlist[i][1]]);
@@ -512,6 +542,12 @@
 			if (stage==2)
 			{
 				w=replaceAll("ʰ","h",w);
+				w=replaceAll("β","bh",w);
+				w=replaceAll("ð","dh",w);
+				w=replaceAll("ɣ","gh",w);
+				w=replaceAll("^b","B",w);
+				w=replaceAll("^d","D",w);
+				w=replaceAll("^g","G",w);
 			}
 			return(w);
 		}
@@ -643,6 +679,7 @@
 				}
 			}
 			document.getElementById("entry_category").innerHTML=j;
+			var wordcategoryopen=j;
 			
 			var temp="";
 			var translist=dbase[wordlist[wid][2]][maincolumns[activestage]+1].split(",");
@@ -831,9 +868,58 @@
 			document.getElementById("entry_sourcetext").innerHTML=temp;
 			$('[data-toggle="tooltip"]').tooltip();
 			
-			//DEBUG!
-			console.log(dbase[wordlist[wid][2]][lasteditcolumn]);
-			console.log(Date.parse(dbase[wordlist[wid][2]][lasteditcolumn]));
+			//Set inflection table
+			temp="";
+			if (wordcategoryopen=="Noun")
+			{
+				var stemarray=dbase[wordlist[wid][2]][maincolumns[activestage]].split("~");
+				//Figure out raw stem of the first index
+				var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
+				//Get precise moment
+				var kluku=-1;
+				for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==wordlist[wid][3]) kluku=declensionlist[i][1]+1;
+				var kloko=(((dbase[kluku][maincolumns[activestage]].replace("0-","")).split("")).reverse()).join("");
+				klaka=klaka.replace(kloko,"");
+				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+				console.log(stemarray);
+				
+				temp='<table class="table w-auto"><thead>'
+				temp+='<tr><th scope="col"></th><th scope="col">'+glossText("sg",returnGloss("sg"))+'</th><th scope="col">'+glossText("pl",returnGloss("pl"))+"</th></tr></thead><tbody>";
+				for(var i=0;i<_caseslist[0].length;i++)
+				{
+					if (_caseslist[activestage][i]!="")
+					{
+						temp+="<tr><th scope'row'>"+glossText(_caseslist[activestage][i],returnGloss(_caseslist[activestage][i]))+"</th>";
+						//singular
+						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+i)),activestage)+"</td>";
+						//plural
+						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length+i)),activestage)+"</td>";
+					}
+				}
+				temp+="</tbody></table>";
+			}
+			
+			document.getElementById("inflection_content").innerHTML=temp;
+			
+		}
+	function getSuffix(paipo)
+		{
+			var q="";
+			if (dbase[paipo][1]==">>-1") paipo-=1;
+			if (dbase[paipo][1]==">>-2") paipo-=2;
+			if (dbase[paipo][1]==">>-3") paipo-=3;
+			return(dbase[paipo][maincolumns[activestage]]);
+		}
+	function attachSuffix(array,suffix)
+		{
+			var q=suffix;
+			for(var i=0;i<10;i++)
+			{
+				var p=i;
+				if (p>array.length) p=0;
+				q=q.replace(i+"-",array[p]);
+			}
+			return(q);
 		}
 	function updateStage()
 		{
@@ -888,14 +974,7 @@
 	function parseEtymoText(txt)
 		{
 			//Cases
-			txt=replaceAll("$nom",glossText("nom","Nominative case"),txt);
-			txt=replaceAll("$voc",glossText("voc","Vocative case"),txt);
-			txt=replaceAll("$acc",glossText("acc","Accusative case"),txt);
-			txt=replaceAll("$gen",glossText("gen","Genitive case"),txt);
-			txt=replaceAll("$dat",glossText("dat","Dative case"),txt);
-			txt=replaceAll("$abl",glossText("abl","Ablative case"),txt);
-			txt=replaceAll("$loc",glossText("loc","Locative case"),txt);
-			txt=replaceAll("$ins",glossText("ins","Instrumental case"),txt);
+			for(var i=0;i<glossterms.length;i++) txt=replaceAll("$"+glossterms[i][0],glossText(glossterms[i][0],glossterms[i][1]),txt);
 			//Sources
 			for(var i=0;i<sources.length;i++)
 			{
@@ -907,6 +986,15 @@
 	function glossText(txt,hover)
 		{
 			return("<span class='glosstext' data-placement='top' title='"+hover+"' data-toggle='tooltip'>"+txt+"</span>");
+		}
+	function returnGloss(txt)
+		{
+			for(var i=0;i<glossterms.length;i++) if (txt==glossterms[i][0]) return(glossterms[i][1]);
+			return("<error>");
+		}
+	function listSourcesAll()
+		{
+			for(var i=0;i<sources.length;i++) console.log(sources[i][1]);
 		}
 </script>
 </html>
