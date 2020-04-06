@@ -553,7 +553,50 @@
 		}
 	function apply_nativealphabet(word,stage)
 		{
-			return(word);
+			var w=word;
+			if (stage==0)
+			{
+				w=replaceAll("st","𐌆",w);
+				w=replaceAll("sk","𐌗",w);
+				
+				w=replaceAll("a","𐌀",w);
+				w=replaceAll("ā","𐌀",w);
+				w=replaceAll("b","𐌁",w);
+				w=replaceAll("d","𐌃",w);
+				w=replaceAll("e","𐌄",w);
+				w=replaceAll("ē","𐌄",w);
+				w=replaceAll("ê","𐌄",w);
+				w=replaceAll("f","𐌅",w);
+				w=replaceAll("v","𐌅",w);
+				w=replaceAll("w","𐌅",w);
+				w=replaceAll("u","𐌅",w);
+				w=replaceAll("ū","𐌅",w);
+				w=replaceAll("g","𐌂",w);
+				w=replaceAll("h","𐌇",w);
+				w=replaceAll("i","𐌉",w);
+				w=replaceAll("ī","𐌉",w);
+				w=replaceAll("j","𐌉",w);
+				w=replaceAll("k","𐌊",w);
+				w=replaceAll("l","𐌋",w);
+				w=replaceAll("m","𐌌",w);
+				w=replaceAll("n","𐌍",w);
+				w=replaceAll("o","𐌏",w);
+				w=replaceAll("ō","𐌏",w);
+				w=replaceAll("ô","𐌏",w);
+				w=replaceAll("p","𐌐",w);
+				w=replaceAll("r","𐌓",w);
+				w=replaceAll("s","𐌔",w);
+				w=replaceAll("z","𐌔",w);
+				w=replaceAll("t","𐌕",w);
+				w=replaceAll("ȳ","𐌖",w);
+				
+				var qqq=Math.floor((Math.random()* 2));
+				if (qqq==0) w=replaceAll("ø̄","𐌄",w);
+				else w=replaceAll("ø̄","𐌏",w);
+				
+				w=((word.split("")).reverse()).join("");
+			}
+			return(w);
 		}
 	function order_alph(stagid)
 		{
@@ -881,9 +924,9 @@
 				var kloko=(((dbase[kluku][maincolumns[activestage]].replace("0-","")).split("")).reverse()).join("");
 				klaka=klaka.replace(kloko,"");
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
-				console.log(stemarray);
 				
 				temp='<table class="table w-auto"><thead>'
+				temp+="<tr><th colspan='3' scope='col'>"+dbase[kluku-1][stagelist[activestage][1]]+"</th></tr>";
 				temp+='<tr><th scope="col"></th><th scope="col">'+glossText("sg",returnGloss("sg"))+'</th><th scope="col">'+glossText("pl",returnGloss("pl"))+"</th></tr></thead><tbody>";
 				for(var i=0;i<_caseslist[0].length;i++)
 				{
