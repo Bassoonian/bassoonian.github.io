@@ -225,7 +225,7 @@
 </head>
 <body>
 	<header class="navbar navbar-expand navbar-dark bg-dark flex-column flex-md-row bd-navbar">
-		<a class="navbar-brand mr-0 mr-md-2" id="lang_name" href="#">CARITE</a>
+		<a class="navbar-brand mr-0 mr-md-2" id="lang_name" href="#">Loading...</a>
 		<div class="collapse navbar-collapse">
 	  		<ul class="navbar-nav mr-auto" id="navbar_alphabetlist"></ul>
 			<button class="btn btn-outline-secondary my-2 my-sm-0" data-toggle="modal" data-target="#searchsettingsmodal">
@@ -315,6 +315,21 @@
 							<input type="radio" name="search_destination" value="lang" checked onchange="cleanSearch();"> Language
 							<input type="radio" name="search_destination" value="eng" onchange="cleanSearch();"> Translations
 						</p>
+						<p>Sort order:
+							<input type="radio" name="lex_order" value="alph" checked onchange="refreshOrder();"> Alphabetically
+							<input type="radio" name="lex_order" value="time" onchange="refreshOrder();"> By last edited
+						</p>
+						<h4>Other</h4>
+						<p>Last framework update: <span id="lastdocupdate"></span></p>
+						<p>Last lexicon update: <span id="lastlexupdate"></span></p>
+						<table class="table">
+							<thead>
+								<tr>
+									<th><i class="fab fa-discord"></i> Jasper#5206</th>
+									<th><i class="fab fa-reddit"></i> /u/Iasper</th>
+								</tr>
+							</thead>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -330,6 +345,7 @@
 	romanisationfirst=true;
 	includeother=true;
 	searchenglish=false;
+	orderalph=true;
 	sources=[
 		["ed_germanic"		,"Kroonen, Guus. Etymological Dictionary of Proto-Germanic. Leiden, Koninklijke Brill NV, 2013"],
 		["ed_greek"			,"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010"],
@@ -377,13 +393,19 @@
 		["pret"	,"Preterite"],
 		["prs"	,"Present"],
 		["prf"	,"Perfect"],
-		["cnj"	,"Conjunctive"]
+		["cnj"	,"Conjunctive"],
+		["prm"	,"Primary"]
 	]
 	_caseslist=[
 		["nom","voc","acc","gen","abl","dat","loc","ins"],
 		["nom",""   ,"acc","gen",""   ,"dat","loc","ins"],
 		["nom",""   ,"acc","gen",""   ,"dat","loc",""   ]
 	];
+	_conjunctivelist=[
+		false,
+		true,
+		true
+	]
 	
 	sources.sort(function(a,b){
 		return(a[1]<b[1])
@@ -580,6 +602,18 @@
 			
 			//Load last stage
 			loadStage(activestage);
+			
+			//Update global dates
+			var qq=new Date(document.lastModified);
+			var dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
+			document.getElementById("lastdocupdate").innerHTML=qq.toLocaleDateString(undefined,dataformat);
+			var tt=0;
+			for(var i=0;i<dbase.length;i++)
+			{
+				if (dbase[i][lasteditcolumn]>tt) tt=dbase[i][lasteditcolumn];
+			}
+			var qq=new Date(tt);
+			document.getElementById("lastlexupdate").innerHTML=qq.toLocaleDateString(undefined,dataformat);
 		}
 	function parseAlphabet(stagid)
 		{
@@ -617,8 +651,9 @@
 		}
 	function loadStage(stagid)
 		{
-			//document.getElementById("lang_name").innerHTML=stagelist[stagid][0].toUpperCase();
-			parseAlphabet(stagid);
+			document.getElementById("lang_name").innerHTML=stagelist[stagid][0].toUpperCase();
+			if (orderalph) parseAlphabet(stagid);
+			else document.getElementById("navbar_alphabetlist").innerHTML="";
 			//Create list of terms
 			wordlist=[];
 			var orth="";
@@ -628,11 +663,12 @@
 				if (orth!=""&&orth!="*") //If empty, this word does not yet/no longer exist in this stage!
 				{
 					orth2=apply_nativealphabet(orth,stagid);
-					wordlist.push([orth,orth2,lexlist[i][0],lexlist[i][1]]);
+					wordlist.push([orth,orth2,lexlist[i][0],lexlist[i][1],dbase[lexlist[i][0]][lasteditcolumn]]);
 				}
 			}
 			//Order alphabetically
-			order_alph(stagid);
+			if (orderalph) order_alph(stagid);
+			else order_lastedit();
 			setWordlist(stagid);
 			openWotd();
 		}
@@ -716,6 +752,12 @@
 				return(strSortAlph(a[1].toUpperCase(),b[1].toUpperCase()));
 			});
 		}
+	function order_lastedit()
+		{
+			wordlist.sort(function(a,b){
+				return(a[4]<b[4]);
+			});
+		}
 	function strSortAlph(a,b)
 		{
 			a=replaceAll("-","",a);
@@ -740,19 +782,36 @@
 			var temp="";
 			var alphvalue=-1;
 			var foundresult=0;
+			var timevalue="";
 			var searchval=document.getElementById("searchinputvalue").value;
 			var check=0;
 			if (romanisationfirst==false&&_alphabet2[stagid]!="") check=1;
 			for(var i=0;i<wordlist.length;i++)
 			{
-				var j=wordlist[i][check].charAt(0).toUpperCase();
-				if(j=="-"||j=="*") j=wordlist[i][check].charAt(1).toUpperCase();
-				if(j=="-") j=wordlist[i][check].charAt(2).toUpperCase();
-				while(alphvalue<active_alphabet.indexOf(j))
+				var j="";
+				if (!orderalph)
 				{
-					alphvalue++;
-					if (alphvalue>0) temp+="</div>";
-					temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+active_alphabet[alphvalue]+"</span></h5>";
+					var checktime=new Date(wordlist[i][4]);
+					var ccq=checktime.toLocaleDateString(undefined,{timestyle: "short"});
+					if (wordlist[i][4]=="") ccq="Unknown";
+					if (timevalue!=ccq)
+					{
+						if (timevalue!="") temp+="</div>";
+						timevalue=ccq;
+						temp+="<div class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+timevalue+"</span></h5>";
+					}
+				}
+				if (orderalph)
+				{
+					var j=wordlist[i][check].charAt(0).toUpperCase();
+					if(j=="-"||j=="*") j=wordlist[i][check].charAt(1).toUpperCase();
+					if(j=="-") j=wordlist[i][check].charAt(2).toUpperCase();
+					while(alphvalue<active_alphabet.indexOf(j))
+					{
+						alphvalue++;
+						if (alphvalue>0) temp+="</div>";
+						temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+active_alphabet[alphvalue]+"</span></h5>";
+					}
 				}
 				var success=false;
 				if (searchval=="") success=true;
@@ -781,11 +840,14 @@
 					foundresult++;
 				}
 			}
-			while(alphvalue<active_alphabet.length-1)
+			if (orderalph)
 			{
-				alphvalue++;
-				if (alphvalue>0) temp+="</div>";
-				temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+active_alphabet[alphvalue]+"</span></h5>";
+				while(alphvalue<active_alphabet.length-1)
+				{
+					alphvalue++;
+					if (alphvalue>0) temp+="</div>";
+					temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+active_alphabet[alphvalue]+"</span></h5>";
+				}
 			}
 			temp+="</div>";
 			//Attach amount of found entries
@@ -1032,9 +1094,13 @@
 				klaka=klaka.replace(kloko,"");
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
 				
-				temp='<table class="table w-auto table-sm"><thead>'
-				temp+="<tr><th colspan='3' scope='col'>"+dbase[kluku-1][stagelist[activestage][1]]+"</th></tr>";
-				temp+='<tr><th scope="col"></th><th scope="col">'+glossText("sg",returnGloss("sg"))+'</th><th scope="col">'+glossText("pl",returnGloss("pl"))+"</th></tr></thead><tbody>";
+				temp='<table class="table w-auto table-sm"><thead>';
+				var beq=_conjunctivelist[activestage];
+				temp+="<tr><th colspan='"+(3+beq*2)+"' scope='col'>"+dbase[kluku-1][stagelist[activestage][1]]+"</th></tr>";
+				if (beq) temp+="<tr><th scope='col'></th><th scope='col' colspan='2'>"+glossText("prm",returnGloss("prm"))+"</th><th scope='col' colspan='2'>"+glossText("cnj",returnGloss("cnj"))+"</th></tr>";
+				temp+='<tr><th scope="col"></th>';
+				for(var i=0;i<=beq;i++) temp+='<th scope="col">'+glossText("sg",returnGloss("sg"))+'</th><th scope="col">'+glossText("pl",returnGloss("pl"))+"</th>";
+				temp+="</tr></thead><tbody>";
 				for(var i=0;i<_caseslist[0].length;i++)
 				{
 					if (_caseslist[activestage][i]!="")
@@ -1044,6 +1110,13 @@
 						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+i)),activestage)+"</td>";
 						//plural
 						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length+i)),activestage)+"</td>";
+						if (beq)
+						{
+							//singular
+							temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length*2+i)),activestage)+"</td>";
+							//plural
+							temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length*3+i)),activestage)+"</td>";
+						}
 					}
 				}
 				temp+="</tbody></table>";
@@ -1059,6 +1132,7 @@
 			if (dbase[paipo][1]==">>-1") paipo-=1;
 			if (dbase[paipo][1]==">>-2") paipo-=2;
 			if (dbase[paipo][1]==">>-3") paipo-=3;
+			if (dbase[paipo][1]==">>-4") paipo-=4;
 			return(dbase[paipo][maincolumns[activestage]]);
 		}
 	function attachSuffix(array,suffix)
@@ -1108,6 +1182,18 @@
 			if (rv=="eng") searchenglish=true;
 			else searchenglish=false;
 			setWordlist();
+		}
+	function refreshOrder()
+		{
+			var rv="";
+			var radios=document.getElementsByName("lex_order");
+			for(var i=0;i<radios.length;i++)
+			{
+				if (radios[i].checked) rv=radios[i].value;
+			}
+			if (rv=="alph") orderalph=true;
+			else orderalph=false;
+			loadStage(activestage);
 		}
 	function parseLoan(arg0,arg1)
 		{
