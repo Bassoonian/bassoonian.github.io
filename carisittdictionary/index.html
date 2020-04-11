@@ -226,8 +226,8 @@
 <body>
 	<header class="navbar navbar-expand navbar-dark bg-dark flex-column flex-md-row bd-navbar">
 		<a class="navbar-brand mr-0 mr-md-2" id="lang_name" href="#">Loading...</a>
-		<div class="collapse navbar-collapse">
-	  		<ul class="navbar-nav mr-auto" id="navbar_alphabetlist"></ul>
+		<div class="navbar-collapse collapse">
+	  		<ul class="navbar-nav mr-auto d-none d-lg-flex" id="navbar_alphabetlist"></ul>
 			<button class="btn btn-outline-secondary my-2 my-sm-0" data-toggle="modal" data-target="#searchsettingsmodal">
 				<i class="fas fa-cog"></i>
 			</button>
@@ -237,20 +237,20 @@
 	<div class="row flex-xl-nowrap">
 		<div class="col-md-3 col-xl-2 bd-sidebar">
 	    	<form class="bd-search d-flex align-items-center" role="search">
-				<span style="position: relative; display: inline-block; direction: ltr;">
+				<span style="position: relative; display: inline-block; direction: ltr; width: 100%;">
 	      			<input class="form-control mr-sm-2 ds-input" type="search" placeholder="Search..." aria-label="Search" id="searchinputvalue" oninput="setWordlist();" spellcheck="false" role="combobox" dir="auto" style="position: relative; vertical-align: top;">
 				</span>
-			<button aria-controls="wordlist" aria-expanded="false" aria-label="Toggle word list" class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3" data-target="#wordlist" date-toggle="collapse" type="button">
-				<svg focusable="false" height="30" role="img" viewBox="0 0 30 30" width="30" xmlns="http://www.w3.org/2000/svg">
-					<title>Menu</title>
-					<path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path>
-				</svg>
-			</button>
+				<button aria-controls="wordlist" aria-expanded="false" aria-label="Toggle word list" class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3" data-target="#wordlist" data-toggle="collapse" type="button">
+					<svg focusable="false" height="30" role="img" viewBox="0 0 30 30" width="30" xmlns="http://www.w3.org/2000/svg">
+						<title>Menu</title>
+						<path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path>
+					</svg>
+				</button>
 	    	</form>
-			<div id="wordlist" class="collapse bd-links" data-spy="scroll" data-target=".navbar" data-offset="0"></div>
+			<div id="wordlist" class="collapse bd-links" data-spy="scroll" data-target=".navbar" data-offset="0" aria-label="Main navigation"></div>
 		</div>
-	<main class="col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" role="main">
-		<div id="loadingcontent" class="container-fluid"></div>
+	<main class="col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content" role="main">
+		<div id="loadingcontent" class="container-fluid">Loading...</div>
 		<div id="actualcontent" data-spy="affix" class="container-fluid">
 			<div class="alert alert-info alert-dismissable fade show" role="alert" id="wotdnotice">
 				<strong>Notice:</strong> This entry was opened automatically as the word of the day.
@@ -399,10 +399,12 @@
 	_caseslist=[
 		["nom","voc","acc","gen","abl","dat","loc","ins"],
 		["nom",""   ,"acc","gen",""   ,"dat","loc","ins"],
-		["nom",""   ,"acc","gen",""   ,"dat","loc",""   ]
+		["nom",""   ,"acc","gen",""   ,"dat","loc",""   ],
+		["dir",""	,""   ,"gen",""   ,"dat","loc",""   ]
 	];
 	_conjunctivelist=[
 		false,
+		true,
 		true,
 		true
 	]
