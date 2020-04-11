@@ -270,12 +270,12 @@
 					<ul id="entry_pronunciation"></ul>
 					<p id="dicentry_gender"><b>Gender:</b> <span id="dicentry_gender2"></span></p>
 					<h4>Translation</h4>
-					<ol id="entry_translations">
-					</ol>
+					<ol id="entry_translations"></ol>
 					<div id="synonyms_tab">
 						<h4>Synonyms</h4>
 						<ol id="synonym_list"></ol>
 					</div>
+					<p>Last edited: <span id="word_last_edited_span"></span></p>
 				</div>
 				<div id="tab_inflection" class="tab-pane fade" role="tabpanel" aria-labelledby="tab_click_inflection">
 					<h4>Inflection</h4>
@@ -412,6 +412,8 @@
 	sources.sort(function(a,b){
 		return(a[1]<b[1])
 	});
+	
+	_dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
 	
 	dictionaryversion=0.1;
 	
@@ -607,15 +609,14 @@
 			
 			//Update global dates
 			var qq=new Date(document.lastModified);
-			var dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
-			document.getElementById("lastdocupdate").innerHTML=qq.toLocaleDateString(undefined,dataformat);
+			document.getElementById("lastdocupdate").innerHTML=qq.toLocaleDateString(undefined,_dataformat);
 			var tt=0;
 			for(var i=0;i<dbase.length;i++)
 			{
 				if (dbase[i][lasteditcolumn]>tt) tt=dbase[i][lasteditcolumn];
 			}
 			var qq=new Date(tt);
-			document.getElementById("lastlexupdate").innerHTML=qq.toLocaleDateString(undefined,dataformat);
+			document.getElementById("lastlexupdate").innerHTML=qq.toLocaleDateString(undefined,_dataformat);
 		}
 	function parseAlphabet(stagid)
 		{
@@ -1083,6 +1084,7 @@
 			document.getElementById("entry_sourcetext").innerHTML=temp;
 			
 			//Set inflection table
+			document.getElementById("dicentry_gender").style.display="none";
 			temp="";
 			if (wordcategoryopen=="Noun")
 			{
@@ -1095,6 +1097,9 @@
 				var kloko=(((dbase[kluku][maincolumns[activestage]].replace("0-","")).split("")).reverse()).join("");
 				klaka=klaka.replace(kloko,"");
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+				
+				document.getElementById("dicentry_gender").style.display="initial";
+				document.getElementById("dicentry_gender2").innerHTML=dbase[kluku-1][stagelist[activestage][1]+1];
 				
 				temp='<table class="table w-auto table-sm"><thead>';
 				var beq=_conjunctivelist[activestage];
@@ -1125,6 +1130,10 @@
 			}
 			
 			document.getElementById("inflection_content").innerHTML=temp;
+			
+			//Set last edited
+			var qq=new Date(wordlist[wid][4]);
+			document.getElementById("word_last_edited_span").innerHTML=qq.toLocaleDateString(undefined,_dataformat);
 			
 			$('[data-toggle="tooltip"]').tooltip();
 		}
