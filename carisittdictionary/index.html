@@ -833,7 +833,7 @@
 				}
 				if (success==true)
 				{
-					temp+="<div class='wordentry' onclick='openWord("+i+",false)'><h5>"+display(wordlist[i])+" <small>";
+					temp+="<div class='wordentry' onclick='openWord("+i+",false);collapseIfMobile();'><h5>"+display(wordlist[i])+" <small>";
 					j="???";
 					for(var k=0;k<declensionlist.length;k++)
 					{
@@ -1243,6 +1243,26 @@
 	function listSourcesAll()
 		{
 			for(var i=0;i<sources.length;i++) console.log(sources[i][1]);
+		}
+		
+	function collapseIfMobile()
+		{
+			var q=getViewport();
+			if (q=="sm"||q=="xs") $('#wordlist').collapse("toggle");
+		}
+		
+		
+		function getViewport () {
+		  // https://stackoverflow.com/a/8876069
+		  const width = Math.max(
+		    document.documentElement.clientWidth,
+		    window.innerWidth || 0
+		  )
+		  if (width <= 576) return 'xs'
+		  if (width <= 768) return 'sm'
+		  if (width <= 992) return 'md'
+		  if (width <= 1200) return 'lg'
+		  return 'xl'
 		}
 </script>
 </html>
