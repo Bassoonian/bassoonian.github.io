@@ -339,7 +339,7 @@
 </body>
 <script>
 	//Initialise important variables
-	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø̄","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄"];
+	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄"];
 	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","",""];
 	activestage=_alphabet.length-1;
 	romanisationfirst=true;
@@ -409,6 +409,16 @@
 		true,
 		true,
 		true
+	]
+	_vowels=[
+		["a","e","i","o","u","y","ø","ː"],
+		["a","e","i","o","u","y","ø","ː","ã","ẽ","ĩ","õ","ũ","ỹ","ø̃"],
+		["a","e","i","o","u","y","ø","æ","ː","ẽ","õ","ũ"]
+	]
+	_illegalonsets=[
+		["rj","lw","km","ks","lb","lm","lp","mb","mv","nd","ng","nk","nr","rf","rg","rk","vn","rgr","rks","rtr","rtw","ktr","rw","rm","lv","ngw","nt","rkn","ln","rstr","rt","rv","mf","mm","nn","nw","rp","nzd","nz","kt","zg","mr","nzg","sj","ns","bd","gd","lk","zd","mvn","rn","jw","nj","mbr","ksm","stw","gm","pj","rb","zn","ltr","rd","rdw","rz","ls","tt","fn","mvr","ksn","lg","mn","nsr","ld","rgw","pt","ft","mbl","rs","wj","wr","lj","vd","ptw","ldw","lt","rzg","ndw","ksl","rzw","gdr","vm","rgj"],
+		["rdj","rj","hs","lw","km","lb","lm","lp","mb","mn","ntj","nd","htl","ng","ngw","nk","rf","rgr","rk","rks","ks","rn","rtl","rp","lvd","vd","rkm","rw","tn","rm","nj","nt","rkn","kn","mbj","rnj","rns","ns","dn","mm","mp","rg","lht","ht","lj","rs","nw","bd","gd","gm","lf","rd","rgj","ln","rt","mbr","rstl","rv","hsm","tm","ntl","rb","bb","ltl","pm","rr","ls","ss","kk","hsn","dm","lg","ntr","ld","rgw","gn","lk","lt","rgm","pn","rdw"],
+		["bb","hs","lb","mb","mn","nk","rf","rgr","rk","rks","ks","rn","rtj","htj","lvd","vd","rkm","km","mbr","ngw","nt","ng","rm","nj","rkn","kn","nd","rw","lj","rnj","rb","rj","dn","lm","mm","rns","ns","rdj","rj","nw","rg","lht","ht","lw","gm","lf","lk","lp","rgj","rv","hsm","rd","ll","ntj","mp","rd","rp","rt","ls","ltr","mbj","kt","hsn","dm","ntr","ld","rgw","rs","rgm","ln","pt","hsl","gn","lg","rr","mbl","rdw"]
 	]
 	
 	sources.sort(function(a,b){
@@ -879,7 +889,85 @@
 		}
 	function getPronunciation(word)
 		{
-			return(word);
+			word=word.toLowerCase();
+			word=replaceAll("^","",word);
+			//applyalways
+			if (activestage<3)
+			{
+				word=replaceAll("ā","aː",word);
+				word=replaceAll("ē","eː",word);
+				word=replaceAll("ê","eːː",word);
+				word=replaceAll("ī","iː",word);
+				word=replaceAll("ō","oː",word);
+				word=replaceAll("ô","oːː",word);
+				word=replaceAll("ū","uː",word);
+				word=replaceAll("ȳ","yː",word);
+				word=replaceAll("ø̄","øː",word);
+			}
+			if (activestage==1||activestage==2) word=replaceAll("ǣ","æː",word);
+			if (activestage>0&&activestage<3)
+			{
+				word=replaceAll("ą̄","ãː",word);
+				word=replaceAll("ę̄","ẽː",word);
+				word=replaceAll("į̄","ĩː",word);
+				word=replaceAll("ǭ","õː",word);
+				word=replaceAll("ų̄","ũː",word);
+				word=replaceAll("ǣ̨","æ̃ː",word);
+				word=replaceAll("ø̨̄","ø̃ː",word);
+				word=replaceAll("ȳ̨","ỹː",word);
+				word=replaceAll("ą","ã",word);
+				word=replaceAll("ę","ẽ",word);
+				word=replaceAll("į","ĩ",word);
+				word=replaceAll("ǫ","õ",word);
+				word=replaceAll("ų","ũ",word);
+				word=replaceAll("æ̨","æ̃",word);
+				word=replaceAll("ø̨","ø̃",word);
+				word=replaceAll("y̨","ỹ",word);
+			}
+			if (activestage==2) word=replaceAll("ř","ʁ̞",word);
+			//split into syllables
+			for(var i=0;i<_vowels[activestage].length;i++)
+			{
+				word=replaceAll(_vowels[activestage][i],"§"+_vowels[activestage][i]+"§",word);
+			}
+			//Fix semivowels
+			for(var i=0;i<_vowels[activestage].length;i++)
+			{
+				word=replaceAll("§§"+_vowels[activestage][i]+"§̯",_vowels[activestage][i]+"̯§",word);
+			}
+			word=replaceAll("§§ː","ː",word);
+			var q=word.split("§");
+			word=".";
+			for(var i=0;i<q.length;i++)
+			{
+				if (_vowels[activestage].includes(q[i].charAt(0))) //is a syllabic component
+				{
+					word+=q[i];
+				}
+				else
+				{
+					if (i==q.length-1||i==0) word+=q[i];
+					else
+					{
+						var t="";
+						var k=q[i];
+						var p="";
+						while(_illegalonsets[activestage].includes(k))
+						{
+							p=k.charAt(0);
+							t+=p;
+							k=k.replace(p,"");
+						}
+						word+=t+"."+k;
+					}
+				}
+			}
+			//apply stress
+			if (activestage<2) word=word.replace(".",".ˈ")
+			word=word.replace("ˈ-","-");
+			//finalise
+			word=word.replace(".","");
+			return("/"+word+"/");
 		}
 	function openWord(wid,first)
 		{
