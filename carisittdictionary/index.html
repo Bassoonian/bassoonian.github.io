@@ -963,7 +963,15 @@
 				}
 			}
 			//apply stress
-			if (activestage<2) word=word.replace(".",".ˈ")
+			if (activestage<2) word=word.replace(".",".ˈ"); //Primary stress
+			if (activestage==2)
+			{
+				//Penultimate stress
+				var q=word.split(".");
+				if (q.length>2) q[q.length-2]="ˈ"+q[q.length-2];
+				else q[1]="ˈ"+q[1];
+				word=q.join(".");
+			}
 			word=word.replace("ˈ-","-");
 			//finalise
 			word=word.replace(".","");
