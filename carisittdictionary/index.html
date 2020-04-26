@@ -556,8 +556,6 @@
 			
 			stagelist=[];//List of different stage starts and names
 			happenings=[];//Above but also includes loans
-			applyalwayses=[];//List of when applyalwayses start/end
-			allophonies=[];//List of when allophones start/end
 			for(var i=3;i<dbase[0].length;i++)
 			{
 				if (dbase[0][i]!="")//Non-empty in this row means a new stage has started
@@ -565,13 +563,9 @@
 					stagelist.push([dbase[0][i],i]);
 				}
 				if (dbase[1][i]=="LOANS"||dbase[1][i]=="RESULT") happenings.push([dbase[2][i],i]);
-				if (dbase[1][i]=="applyalways") applyalwayses.push([dbase[2][i],i]);
-				if (dbase[1][i]=="allophony") allophonies.push([dbase[2][i],i]);
 			}
 			loadNote("Stages: "+stagelist);
 			loadNote("Happenings: "+happenings.length);
-			loadNote("Apply Always: "+applyalwayses.length);
-			loadNote("Allophonies: "+allophonies.length);
 			//Gather words and figure out the size of the lexicon
 			lexlist=[];
 			var endoflexicon=-1;
@@ -689,7 +683,8 @@
 		}
 	function apply_orthography(word,stage)
 		{
-			var w=word;
+			var w=(word.split("~"))[0];
+			w=pronFixOrtho(w,stage);
 			if (stage==0) w="*"+w;
 			if (stage==1)
 			{
@@ -712,7 +707,8 @@
 		}
 	function apply_nativealphabet(word,stage)
 		{
-			var w=word;
+			var w=(word.split("~"))[0];
+			w=pronFixOrtho(w,stage);
 			if (stage==0)
 			{
 				w=replaceAll("st","𐌆",w);
@@ -891,6 +887,7 @@
 		{
 			word=word.toLowerCase();
 			word=replaceAll("^","",word);
+			word=pronFixOrtho(word,activestage);
 			//applyalways
 			if (activestage<3)
 			{
@@ -924,7 +921,7 @@
 				word=replaceAll("ø̨","ø̃",word);
 				word=replaceAll("y̨","ỹ",word);
 			}
-			if (activestage==2) word=replaceAll("ř","ʁ̞",word);
+			if (activestage==2) word=replaceAll("ř","ʁ",word);
 			//split into syllables
 			for(var i=0;i<_vowels[activestage].length;i++)
 			{
@@ -975,7 +972,56 @@
 			word=word.replace("ˈ-","-");
 			//finalise
 			word=word.replace(".","");
-			return("/"+word+"/");
+			//fix quirks!
+			if (activestage==1) word=replaceAll("x","h",word);
+			
+			//applyalways + allophones
+			word=pronAlways(word);
+			word="/"+word+"/, "+pronAllophones(word);
+			word=replaceAll("g","ɡ",word);
+			return(word);
+		}
+	function pronFixOrtho(w,s)
+		{
+			//Nasal assimilation
+			w=w.replace(/(n)([mpb])/g,"m$2");
+			//Osthoff's law
+			w=w.replace(/(ā)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"a$2");
+			w=w.replace(/(ē)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"e$2");
+			w=w.replace(/(ī)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"i$2");
+			w=w.replace(/(ō)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"o$2");
+			w=w.replace(/(ū)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"u$2");
+			w=w.replace(/(ȳ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"y$2");
+			w=w.replace(/(ǣ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"æ$2");
+			w=w.replace(/(ø̄)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"ø$2");
+			return(w);
+		}
+	function pronAlways(w)
+		{
+			// voicing assimilation?
+			//bdg > BDG
+			if (activestage==2)
+			{
+				w=w.replace(/([ːaeiouyæøãẽõũ]ː?.ˈ?)(b)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1β$3");
+				w=w.replace(/([ːaeiouyæøãẽõũ]ː?.ˈ?)(d)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1ð$3");
+				w=w.replace(/([ːaeiouyæøãẽõũ]ː?.ˈ?)(g)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1ɣ$3");
+			}
+			return(w);
+		}
+	function pronAllophones(w)
+		{
+			//Nasal and labiodental velar
+			w=w.replace(/(n)(.?ˈ?[wkg])/g,"ŋ$2");
+			w=w.replace(/(m)(.?ˈ?[fv])/g,"ɱ$2");
+			//h > x / backvowel
+			if (activestage==1)
+			{
+				w=w.replace(/(h)(.?ˈ?[aou]ː?)/g,"x$2");
+				w=w.replace(/([aou]ː?.?ˈ?)(h)/g,"$1x");
+			}
+			
+			if (activestage==2) w=replaceAll("ʁ","ʁ̞",w);
+			return("["+w+"]");
 		}
 	function openWord(wid,first)
 		{
@@ -1010,7 +1056,7 @@
 			//Build pronunciation
 			temp=dbase[wordlist[wid][2]][maincolumns[activestage]].toLowerCase();
 			temp=getPronunciation((temp.split("~"))[0]);
-			temp="<li>Debug: "+temp+"</li>";
+			temp="<li>"+temp+"</li>";
 			
 			document.getElementById("entry_pronunciation").innerHTML=temp;
 			
@@ -1253,7 +1299,7 @@
 				if (p>array.length) p=0;
 				q=q.replace(i+"-",array[p]);
 			}
-			return(q);
+			return(q.replace("-",""));
 		}
 	function updateStage()
 		{
