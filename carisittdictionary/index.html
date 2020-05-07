@@ -289,6 +289,9 @@
 					</div>
 				</div>
 				<div id="tab_sources" class="tab-pane fade" role="tabpanel" aria-labelledby="tab_click_sources">
+					<!-- <div class="alert alert-warning" role="alert" id="libertyalert">
+						<strong>Notice:</strong> This entry was added as part of artistic liberty and is as such irrelevant to any actual scientific research.
+					</div> -->
 					<h4>Sources</h4>
 					<p id="entry_sourcetext"></p>
 				</div>
@@ -339,26 +342,62 @@
 </body>
 <script>
 	//Initialise important variables
-	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄"];
-	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","",""];
+	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄","A~Ā B C D E~Ē F G H I~Ī J L M N O~Ō P R S T U~Ū V W Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
+	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","","",""];
 	activestage=_alphabet.length-1;
 	romanisationfirst=true;
 	includeother=true;
 	searchenglish=false;
 	orderalph=true;
 	sources=[
-		["ed_germanic"		,"Kroonen, Guus. Etymological Dictionary of Proto-Germanic. Leiden, Koninklijke Brill NV, 2013"],
-		["ed_greek"			,"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010"],
-		["ed_celtic"		,"Matasović, Ranko. Etymological Dictionary of Proto-Celtic. Leiden, Koninklijke Brill NV, 2009"],
-		["ed_latin"			,"de Vaan, Michiel. Etymological Dictionary of Latin and the other Italic Languages. Leiden, Koninklijke Brill NV, 2008"],
-		["ed_slavic"		,"Derksen, Rick. Etymological Dictionary of the Slavic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2008"],
-		["oxf_intro"		,"Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006"],
-		["ed_basque"		,"Trask, R. L. Etymological Dictionary of Basque. Sussex, University of Sussex, 2008"],
-		["ed_coptic"		,"Vycichl, Werner. Dictionnaire étymologique de la langue copte. Leuven, Éditions Peeters, 1983"],
-		["intro_egyptian"	,"Loprieno, Antonio. Ancient Egyptian: A Linguistic Introduction. Cambridge, Cambridge University Press, 1995"],
-		["dic_egyptian"		,"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004"],
-		["dic_gaulish"		,"Delamarre, Xavier. Dictionnaire de la langue gauloise. Une approche linguistique du vieux-celtique continental. Paris, Editions Errance, 2003"],
-		["pie_handbook"		,"Klein, Jared et al. Handbook of Comparative and Historical Indo-European Linguistics. Berlin/Boston, Walter de Gruyter GmbH, 2017."]
+		["ed_greek",
+			"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010",
+			"https://www.worldcat.org/title/etymological-dictionary-of-greek/oclc/587850973"],
+		["dic_gaulish",
+			"Delamarre, Xavier. Dictionnaire de la langue gauloise : une approche linguistique du vieux-celtique continental. Paris, Editions Errance, 2003",
+			"https://www.worldcat.org/title/dictionnaire-de-la-langue-gauloise-une-approche-linguistique-du-vieux-celtique-continental/oclc/1038048625"],
+		["ed_slavic",
+			"Derksen, Rick. Etymological Dictionary of the Slavic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2008",
+			"https://www.worldcat.org/title/etymological-dictionary-of-the-slavic-inherited-lexicon/oclc/606382920"],
+		["ed_latin",
+			"de Vaan, Michiel. Etymological Dictionary of Latin and the other Italic Languages. Leiden, Koninklijke Brill NV, 2008",
+			"https://www.worldcat.org/title/etymological-dictionary-of-latin-and-the-other-italic-languages/oclc/962020667"],
+		["pie_handbook",
+			"Klein, Jared et al. Handbook of Comparative and Historical Indo-European Linguistics. Berlin/Boston, Walter de Gruyter GmbH, 2017.",
+			"https://www.worldcat.org/title/handbook-of-comparative-and-historical-indo-european-linguistics-an-international-handbook/oclc/1051139391"],
+		["ed_germanic",
+			"Kroonen, Guus. Etymological Dictionary of Proto-Germanic. Leiden, Koninklijke Brill NV, 2013",
+			"https://www.worldcat.org/title/etymological-dictionary-of-proto-germanic/oclc/851754510"],
+		["ed_gothic",
+			"Lehmann, Winfred P. A Gothic Etymological  Dictionary. Leiden, E.J. Brill, 1986",
+			"https://www.worldcat.org/title/gothic-etymological-dictionary/oclc/797186062"],
+		["dic_egyptian",
+			"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004",
+			"https://www.worldcat.org/title/dictionary-of-late-egyptian-1/oclc/634365751"],
+		["intro_egyptian",
+			"Loprieno, Antonio. Ancient Egyptian: A Linguistic Introduction. Cambridge, Cambridge University Press, 1995",
+			"https://www.worldcat.org/title/ancient-egyptian-a-linguistic-introduction/oclc/896426228"],
+		["oxf_intro",
+			"Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006",
+			"https://www.worldcat.org/title/oxford-introduction-to-proto-indo-european-and-the-proto-indo-european-world/oclc/901737820"],
+		["sketch_albanian",
+			"Matasović, Ranko. A Grammatical Sketch of Albanian for Students of Indo-European. Zagreb, 2018",
+			"https://www.academia.edu/37749523/_2018_RANKO_MATASOVI%C4%86_A_Grammatical_Sketch_of_Albanian_for_Students_of_Indo-European"],
+		["sketch_armenian",
+			"Matasović, Ranko. A Grammatical Sketch of Classical Armenian. Zagreb, 2009",
+			"https://www.academia.edu/1748235/An_Introduction_to_Classical_Armenian"],
+		["ed_celtic",
+			"Matasović, Ranko. Etymological Dictionary of Proto-Celtic. Leiden, Koninklijke Brill NV, 2009",
+			"https://www.worldcat.org/title/etymological-dictionary-of-proto-celtic/oclc/262430534"],
+		["ed_celtic_rev",
+			"Matasović, Ranko. Addenda et corrigenda to Ranko Matasović’s Etymological Dictionary of Proto-Celtic (Brill, Leiden 2009). Zagreb, 2011",
+			"https://www.academia.edu/1489376/Addenda_et_Corrigenda_to_Etymological_Dictionary_of_Proto-Celtic_Brill_Leiden_2009_"],
+		["ed_basque",
+			"Trask, R. L. Etymological Dictionary of Basque. Sussex, University of Sussex, 2008",
+			"https://www.worldcat.org/title/etymological-dictionary-of-basque/oclc/971735884"],
+		["ed_coptic",
+			"Vycichl, Werner. Dictionnaire étymologique de la langue copte. Leuven, Éditions Peeters, 1983",
+			"https://www.worldcat.org/title/dictionnaire-etymologique-de-la-langue-copte/oclc/995613647"]
 	];
 	glossterms=[
 		["nom"	,"Nominative case"],
@@ -410,20 +449,33 @@
 		true,
 		true
 	]
+	
+	_voicelist=[
+		["act","pas"],
+		["act","pas"],
+		["act","pas"],
+		["act","pas"]
+	]
+	
+	_tamlist=[
+		[["ind",["prs","pret","fut"]],["sjv",["npst","pst"]]],
+		[["ind",["prs","pret","fut"]],["sjv",["npst","pst"]]],
+		[["ind",["prs","pret","fut"]],["sjv",["npst","pst"]]],
+		[["ind",["prs","pret","fut"]],["sjv",["npst","pst"]]]
+	]
+	
 	_vowels=[
 		["a","e","i","o","u","y","ø","ː"],
 		["a","e","i","o","u","y","ø","ː","ã","ẽ","ĩ","õ","ũ","ỹ","ø̃"],
-		["a","e","i","o","u","y","ø","æ","ː","ẽ","õ","ũ"]
+		["a","e","i","o","u","y","ø","æ","ː","ẽ","õ","ũ"],
+		["a","e","i","o","u","y","ø","æ","ː","̩","%"]
 	]
 	_illegalonsets=[
 		["rj","lw","km","ks","lb","lm","lp","mb","mv","nd","ng","nk","nr","rf","rg","rk","vn","rgr","rks","rtr","rtw","ktr","rw","rm","lv","ngw","nt","rkn","ln","rstr","rt","rv","mf","mm","nn","nw","rp","nzd","nz","kt","zg","mr","nzg","sj","ns","bd","gd","lk","zd","mvn","rn","jw","nj","mbr","ksm","stw","gm","pj","rb","zn","ltr","rd","rdw","rz","ls","tt","fn","mvr","ksn","lg","mn","nsr","ld","rgw","pt","ft","mbl","rs","wj","wr","lj","vd","ptw","ldw","lt","rzg","ndw","ksl","rzw","gdr","vm","rgj"],
 		["rdj","rj","hs","lw","km","lb","lm","lp","mb","mn","ntj","nd","htl","ng","ngw","nk","rf","rgr","rk","rks","ks","rn","rtl","rp","lvd","vd","rkm","rw","tn","rm","nj","nt","rkn","kn","mbj","rnj","rns","ns","dn","mm","mp","rg","lht","ht","lj","rs","nw","bd","gd","gm","lf","rd","rgj","ln","rt","mbr","rstl","rv","hsm","tm","ntl","rb","bb","ltl","pm","rr","ls","ss","kk","hsn","dm","lg","ntr","ld","rgw","gn","lk","lt","rgm","pn","rdw"],
-		["bb","hs","lb","mb","mn","nk","rf","rgr","rk","rks","ks","rn","rtj","htj","lvd","vd","rkm","km","mbr","ngw","nt","ng","rm","nj","rkn","kn","nd","rw","lj","rnj","rb","rj","dn","lm","mm","rns","ns","rdj","rj","nw","rg","lht","ht","lw","gm","lf","lk","lp","rgj","rv","hsm","rd","ll","ntj","mp","rd","rp","rt","ls","ltr","mbj","kt","hsn","dm","ntr","ld","rgw","rs","rgm","ln","pt","hsl","gn","lg","rr","mbl","rdw"]
+		["bb","hs","lb","mb","mn","nk","rf","rgr","rk","rks","ks","rn","rtj","htj","lvd","vd","rkm","km","mbr","ngw","nt","ng","rm","nj","rkn","kn","nd","rw","lj","rnj","rb","rj","dn","lm","mm","rns","ns","rdj","rj","nw","rg","lht","ht","lw","gm","lf","lk","lp","rgj","rv","hsm","rd","ll","ntj","mp","rd","rp","rt","ls","ltr","mbj","kt","hsn","dm","ntr","ld","rgw","rs","rgm","ln","pt","hsl","gn","lg","rr","mbl","rdw"],
+		["bb","rg","nd","lθ","kt","mb"]
 	]
-	
-	sources.sort(function(a,b){
-		return(a[1]<b[1])
-	});
 	
 	_dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
 	
@@ -703,6 +755,66 @@
 				w=replaceAll("^d","D",w);
 				w=replaceAll("^g","G",w);
 			}
+			if (stage==3)
+			{
+				w=replaceAll("θ","th",w);
+				w=replaceAll("ð","dh",w);
+				w=replaceAll("x","kh",w);
+				w=replaceAll("X","Kh",w);
+				w=replaceAll("ɣ","gh",w);
+				
+				w=replaceAll("^t","T",w);
+				w=replaceAll("^d","D",w);
+				w=replaceAll("^g","G",w);
+				
+				//Accents TO FIX!
+				w=w.replace(/([AĀEĒIĪOŌUŪÆØYaāeēiīoōuūæyø̄%])/g,"$1§")
+				var q=w.split("§");
+				
+				
+				for(var i=0;i<q.length;i++)
+				{
+					if (q[i]=="̄"&&i>0)
+					{
+						q[i-1]+="̄";
+						q.splice(i,1);
+						i-=1;
+					}
+				}
+				
+				if (q[q.length-1]=="̄")
+				{
+					q[q.length-2]+="̄";
+					q.pop();
+				}
+				else if (q[q.length-1]=="") q.pop();
+				
+				if (q.length>0)
+				{
+					var ptk=q[q.length-1].replace(/([AĀEĒIĪOŌUŪÆØYaāeēiīoōuūæyø̄%])/g,"!");
+					if (!ptk.includes("!"))
+					{
+						q[q.length-2]+=q[q.length-1];
+						q.pop();
+					}
+				}
+				
+				if (q.length>2) //FIX! 1) don't display if stress is penultimate 2) take antestress into account (muy dificil señor!)
+				{
+					//q[q.length-1]=q[q.length-1].replace(/([mnlr]ˠ?ʲ?)\%/g,"§$1°");
+					q[q.length-2]+="́";
+				}
+				w=q.join("");
+				w=replaceAll("́̄","̄́",w);
+				w=replaceAll("%","",w);
+				
+				w=replaceAll("k","c",w);
+				w=replaceAll("K","C",w);
+				
+				//diacritics
+				w=replaceAll("ʲ","̇",w);
+				w=replaceAll("ˠ","̨",w);
+			}
 			return(w);
 		}
 	function apply_nativealphabet(word,stage)
@@ -880,7 +992,7 @@
 			now=Math.floor(now/60);//hours
 			now=Math.floor(now/24);//days
 			now*=now;
-			var wid=now % (lexlist.length-1);
+			var wid=now % (wordlist.length-1);
 			openWord(wid,true);
 		}
 	function getPronunciation(word)
@@ -889,7 +1001,7 @@
 			word=replaceAll("^","",word);
 			word=pronFixOrtho(word,activestage);
 			//applyalways
-			if (activestage<3)
+			if (activestage<4)
 			{
 				word=replaceAll("ā","aː",word);
 				word=replaceAll("ē","eː",word);
@@ -900,6 +1012,7 @@
 				word=replaceAll("ū","uː",word);
 				word=replaceAll("ȳ","yː",word);
 				word=replaceAll("ø̄","øː",word);
+				word=replaceAll("̄","ː",word);
 			}
 			if (activestage==1||activestage==2) word=replaceAll("ǣ","æː",word);
 			if (activestage>0&&activestage<3)
@@ -969,6 +1082,31 @@
 				else q[1]="ˈ"+q[1];
 				word=q.join(".");
 			}
+			if (activestage==3)
+			{
+				//Penultimate stress
+				var q=word.split(".");
+				if (q.length>2) q[q.length-2]="ˈ"+q[q.length-2];
+				else q[1]="ˈ"+q[1];
+				//Fix up %
+				if (q.length>1)
+				{
+					if (q[q.length-1].includes("%"))
+					{
+						var p=q[q.length-1];
+						p=p.replace(/([mnlr])(ʲ?ˠ?ʲ?ˠ?ʲ?)\%/g,"$1̩$2")
+						if (p==q[q.length-1])
+						{
+							q[q.length-2]+=q[q.length-1].replace("%","");
+							q.pop();
+						}
+						else q[q.length-1]=p;
+					}
+				}
+				word=q.join(".");
+				//Fix "oversyllabic" sonorants
+				word=word.replace(/([aeiouyæø]ː?).([mnlr])̩/g,"$1$2");
+			}
 			word=word.replace("ˈ-","-");
 			//finalise
 			word=word.replace(".","");
@@ -979,6 +1117,7 @@
 			word=pronAlways(word);
 			word="/"+word+"/, "+pronAllophones(word);
 			word=replaceAll("g","ɡ",word);
+			word=word.replace(/([a-z])(\1)([\]\/])/g,"$1ː$3");
 			return(word);
 		}
 	function pronFixOrtho(w,s)
@@ -994,33 +1133,60 @@
 			w=w.replace(/(ȳ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"y$2");
 			w=w.replace(/(ǣ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"æ$2");
 			w=w.replace(/(ø̄)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"ø$2");
+			//Break up vowels! to do
+			//initial mutation
+			if (activestage==2)
+			{
+				w=replaceAll("$b","β",w);
+				w=replaceAll("$d","ð",w);
+				w=replaceAll("$g","ɣ",w);
+				w=w.replace(/(\$)([aāeēiīoōuūyȳøø̄æǣęę̄ǫǭųų̄])/g,"j$2");
+				w=replaceAll("$","",w);
+			}
+			
+			//Neutralise velar/palatal
+			if (activestage==3)
+			{
+				w=replaceAll("ʲʲ","ʲ",w);
+				w=replaceAll("ˠˠ","ˠ",w);
+				w=replaceAll("ʲˠ","ʲ",w);
+				w=replaceAll("ˠʲ","ˠ",w);
+				w=w.replace(/([wkgŋ])(ˠ)/g,"$1");
+				w=replaceAll("jʲ","j",w);
+			}
 			return(w);
 		}
 	function pronAlways(w)
 		{
 			// voicing assimilation?
 			//bdg > BDG
-			if (activestage==2)
+			if (activestage==2) w=w.replace(/([ːaeiouyæøãẽõũ]ː?\.ˈ?)(b)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1β$3");
+			if (activestage==2||activestage==3)
 			{
-				w=w.replace(/([ːaeiouyæøãẽõũ]ː?.ˈ?)(b)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1β$3");
-				w=w.replace(/([ːaeiouyæøãẽõũ]ː?.ˈ?)(d)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1ð$3");
-				w=w.replace(/([ːaeiouyæøãẽõũ]ː?.ˈ?)(g)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1ɣ$3");
+				w=w.replace(/([ːaeiouyæøãẽõũ]ː?\.ˈ?)(d)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1ð$3");
+				w=w.replace(/([ːaeiouyæøãẽõũ]ː?\.ˈ?)(g)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1ɣ$3");
+			}
+			if (activestage==3)
+			{
+				w=w.replace(/(n)(\.?ˈ?[wkg])/g,"ŋ$2");
 			}
 			return(w);
 		}
 	function pronAllophones(w)
 		{
 			//Nasal and labiodental velar
-			w=w.replace(/(n)(.?ˈ?[wkg])/g,"ŋ$2");
-			w=w.replace(/(m)(.?ˈ?[fv])/g,"ɱ$2");
+			if (activestage<3) w=w.replace(/(n)(\.?ˈ?[wkg])/g,"ŋ$2");
+			w=w.replace(/(m)(\.?ˈ?[fv])/g,"ɱ$2");
 			//h > x / backvowel
 			if (activestage==1)
 			{
-				w=w.replace(/(h)(.?ˈ?[aou]ː?)/g,"x$2");
-				w=w.replace(/([aou]ː?.?ˈ?)(h)/g,"$1x");
+				w=w.replace(/(h)(\.?ˈ?[aou]ː?)/g,"x$2");
+				w=w.replace(/([aou]ː?\.?ˈ?)(h)/g,"$1x");
 			}
 			
 			if (activestage==2) w=replaceAll("ʁ","ʁ̞",w);
+			
+			if (activestage==3) w=w.replace(/(s)(\.?ˈ?[ptkmn])/g,"ʃ$2");
 			return("["+w+"]");
 		}
 	function openWord(wid,first)
@@ -1220,7 +1386,12 @@
 				{
 					for(var j=0;j<qp.length;j++)
 					{
-						if (sources[i][0]==qp[j]) temp+="<li>"+sources[i][1]+".</li>";
+						if (sources[i][0]==qp[j])
+						{
+							var pq="text-secondary";
+							if (sources[i][2].includes("academia.edu")) pq="text-success";
+							temp+="<li><a target='_blank' href='"+sources[i][2]+"' class='"+pq+"'>"+sources[i][1]+".</a></li>";
+						}
 					}
 				}
 				temp+="</ol>";
@@ -1272,6 +1443,42 @@
 				}
 				temp+="</tbody></table>";
 			}
+			if (wordcategoryopen=="Verb")
+			{
+				var stemarray=dbase[wordlist[wid][2]][maincolumns[activestage]].split("~");
+				//Figure out raw stem of the first index
+				var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
+				//Get precise moment
+				var kluku=-1;
+				for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==wordlist[wid][3]) kluku=declensionlist[i][1]+1;
+				var kloko=(((dbase[kluku][maincolumns[activestage]].replace("0-","")).split("")).reverse()).join("");
+				klaka=klaka.replace(kloko,"");
+				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+				
+				temp='<table class="table w-auto table-sm"><thead>';
+				temp+='<tr><th colspan="8" scope="col">'+dbase[kluku-1][stagelist[activestage][1]]+"</th></tr></thead><tbody>";
+				for(var i=0;i<_tamlist[activestage].length;i++)
+				{
+					var q=_tamlist[activestage][i][0];
+					temp+="<tr><th colspan='2' rowspan='2' scope='col'>"+glossText(q,returnGloss(q))+"</th><th colspan='3' scope='col'>"+glossText("sg",returnGloss("sg"))+"</th><th colspan='3' scope='col'>"+glossText("pl",returnGloss("pl"))+"</th></tr>";
+					temp+="<tr><th scope='col'>"+glossText("1",returnGloss("1"))+"</th><th scope='col'>"+glossText("2",returnGloss("2"))+"</th><th scope='col'>"+glossText("3",returnGloss("3"))+"</th><th scope='col'>"+glossText("1",returnGloss("1"))+"</th><th scope='col'>"+glossText("2",returnGloss("2"))+"</th><th scope='col'>"+glossText("3",returnGloss("3"))+"</th></tr>";
+					for(var j=0;j<_voicelist[activestage].length;j++)
+					{	
+						for(var k=0;k<_tamlist[activestage][i][1].length;k++)
+						{
+							temp+="<tr>";
+							if (k==0) temp+="<th scope='col' rowspan='"+_tamlist[activestage][i][1].length+"'>"+glossText(_voicelist[activestage][j],returnGloss(_voicelist[activestage][j]))+"</th>";
+							temp+="<th scope='col'>"+glossText(_tamlist[activestage][i][1][k],returnGloss(_tamlist[activestage][i][1][k]))+"</th>";
+							for(var l=0;l<6;l++)
+							{
+								temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+(l+k*6+j*_tamlist[activestage][i][1].length*6+i*_tamlist[activestage][i][1].length*6*(_voicelist[activestage].length+1)))),activestage)+"</td>";
+							}
+							temp+="</tr>";
+						}
+					}
+				}
+				temp+="</tbody></table>";
+			}
 			
 			document.getElementById("inflection_content").innerHTML=temp;
 			
@@ -1296,8 +1503,8 @@
 			for(var i=0;i<10;i++)
 			{
 				var p=i;
-				if (p>array.length) p=0;
-				q=q.replace(i+"-",array[p]);
+				if (p>=array.length) p=0;
+				q=q.replace(i+"-",array[p].replace("-",""));
 			}
 			return(q.replace("-",""));
 		}
