@@ -342,7 +342,7 @@
 </body>
 <script>
 	//Initialise important variables
-	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄","A~Ā B C D E~Ē F G H I~Ī J L M N O~Ō P R S T U~Ū V W Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
+	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄","A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
 	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","","",""];
 	activestage=_alphabet.length-1;
 	romanisationfirst=true;
@@ -810,6 +810,11 @@
 				
 				w=replaceAll("k","c",w);
 				w=replaceAll("K","C",w);
+				w=replaceAll("w","u",w);
+				w=replaceAll("W","U",w);
+				w=replaceAll("j","i",w);
+				w=replaceAll("J","I",w);
+				w=replaceAll("ŋ","nh",w);
 				
 				//diacritics
 				w=replaceAll("ʲ","̇",w);
@@ -1117,7 +1122,7 @@
 			word=pronAlways(word);
 			word="/"+word+"/, "+pronAllophones(word);
 			word=replaceAll("g","ɡ",word);
-			word=word.replace(/([a-z])(\1)([\]\/])/g,"$1ː$3");
+			word=word.replace(/([a-z])(\1)/g,"$1ː");
 			return(word);
 		}
 	function pronFixOrtho(w,s)
@@ -1153,6 +1158,9 @@
 				w=replaceAll("ˠʲ","ˠ",w);
 				w=w.replace(/([wkgŋ])(ˠ)/g,"$1");
 				w=replaceAll("jʲ","j",w);
+				
+				w=w.replace(/([aāeēiīoōuūyȳøø̄æǣęę̄ǫǭųų̄])(d)\%$/g,"$1ð%");
+				w=w.replace(/([aāeēiīoōuūyȳøø̄æǣęę̄ǫǭųų̄])(g)\%$/g,"$1ɣ%");
 			}
 			return(w);
 		}
@@ -1168,7 +1176,7 @@
 			}
 			if (activestage==3)
 			{
-				w=w.replace(/(n)(\.?ˈ?[wkg])/g,"ŋ$2");
+				w=w.replace(/(n)(\.?ˈ?[wkgx])/g,"ŋ$2");
 			}
 			return(w);
 		}
