@@ -1417,6 +1417,12 @@
 				//Get precise moment
 				var kluku=-1;
 				for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==wordlist[wid][3]) kluku=declensionlist[i][1]+1;
+				//Check if not a reference!
+				if (dbase[kluku-1][stagelist[activestage][1]].charAt(0)==">")
+				{
+					var newdb=dbase[kluku-1][stagelist[activestage][1]].replace(">","");
+					for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==newdb) kluku=declensionlist[i][1]+1;
+				}
 				var kloko=(((dbase[kluku][maincolumns[activestage]].replace("0-","")).split("")).reverse()).join("");
 				klaka=klaka.replace(kloko,"");
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
