@@ -1545,9 +1545,9 @@
 									for(var k=0;k<decolist.length;k++)
 									{
 										//singular
-										temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+j),decolist[k])),activestage)+"</td>";
+										temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*2*i+j),decolist[k])),activestage)+"</td>";
 										//plural
-										if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length+j),decolist[k])),activestage)+"</td>";
+										if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(2*i+1)+j),decolist[k])),activestage)+"</td>";
 									}
 									temp+="</tr>";
 								}
