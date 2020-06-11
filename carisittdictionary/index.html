@@ -13,30 +13,6 @@
 	<script src="jquery.csv.js"></script>
 	<script src="https://kit.fontawesome.com/d0b09f0ca1.js" crossorigin="anonymous"></script>
 	<style>
-	/*body
-	{
-		margin: 0;
-		overflow: hidden;
-		height: 100%;
-	}*/
-	/*#wordlist
-	{
-		padding: 0;
-		position: fixed;
-		height: calc(100% - 52px);
-		top: 52px;
-		overflow-y: scroll;
-	}*/
-	/*#actualcontent, #loadingcontent
-	{
-		position: fixed;
-		padding: 0;
-		height: calc(100% - 52px);
-		top: 52px;
-		left: calc(100% / 6);
-		right: 0px;
-		overflow-y: auto;
-	}*/
 	#actualcontent
 	{
 		display: none;
@@ -158,6 +134,10 @@
 	{
 	    -ms-flex-order: 1;
 	    order: 1;
+	}
+	th
+	{
+		text-align: center;
 	}
 	
 	/*Navbar media*/
@@ -354,6 +334,9 @@
 		["ed_greek",
 			"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010",
 			"https://www.worldcat.org/title/etymological-dictionary-of-greek/oclc/587850973"],
+		["etruscan_intro",
+			"Bonfante, Giuliano and Bonfante, Larissa. The Etruscan Language: An Introduction, 2nd ed. Manchester, Manchester University Press, 2002.",
+			"https://www.worldcat.org/title/etruscan-language-an-introduction/oclc/475129395"],
 		["dic_gaulish",
 			"Delamarre, Xavier. Dictionnaire de la langue gauloise : une approche linguistique du vieux-celtique continental. Paris, Editions Errance, 2003",
 			"https://www.worldcat.org/title/dictionnaire-de-la-langue-gauloise-une-approche-linguistique-du-vieux-celtique-continental/oclc/1038048625"],
@@ -399,12 +382,18 @@
 		["ed_celtic_rev",
 			"Matasović, Ranko. Addenda et corrigenda to Ranko Matasović’s Etymological Dictionary of Proto-Celtic (Brill, Leiden 2009). Zagreb, 2011",
 			"https://www.academia.edu/1489376/Addenda_et_Corrigenda_to_Etymological_Dictionary_of_Proto-Celtic_Brill_Leiden_2009_"],
+		["etruscan_rix",
+			"Rix, Helmut. Etruscan. In: Woodard, Roger D. The Ancient Languages of Europe. Cambridge, Cambridge University Press, 2010",
+			"https://www.worldcat.org/title/ancient-languages-of-europe/oclc/706988654"],
 		["ed_basque",
 			"Trask, R. L. Etymological Dictionary of Basque. Sussex, University of Sussex, 2008",
 			"https://www.worldcat.org/title/etymological-dictionary-of-basque/oclc/971735884"],
 		["ed_coptic",
 			"Vycichl, Werner. Dictionnaire étymologique de la langue copte. Leuven, Éditions Peeters, 1983",
-			"https://www.worldcat.org/title/dictionnaire-etymologique-de-la-langue-copte/oclc/995613647"]
+			"https://www.worldcat.org/title/dictionnaire-etymologique-de-la-langue-copte/oclc/995613647"],
+		["manual_etruscan",
+			"Wallace, Rex E. Zikh Rasna: A Manual of the Etruscan Language and Inscriptions. Ann Arbor/New York, Beech Stave Press, 2008",
+			"https://www.worldcat.org/title/zikh-rasna-a-manual-of-the-etruscan-language-and-inscriptions/oclc/233283707"]
 	];
 	glossterms=[
 		["nom"	,"Nominative case"],
@@ -446,8 +435,8 @@
 		["nom","voc","acc","gen","abl","dat","loc","ins"],
 		["nom",""   ,"acc","gen",""   ,"dat","loc","ins"],
 		["nom",""   ,"acc","gen",""   ,"dat","loc",""   ],
-		["nom",""	,"acc","gen",""   ,"dat","loc",""   ],
-		["dir",""	,""   ,""   ,""   ,"dat","loc",""   ]
+		["nom",""	,"acc","gen",""   ,"dat",""   ,""   ],//Loc is still on the sheet, so can be readded if deemed necessary
+		["dir",""	,""   ,""   ,""   ,"dat",""   ,""   ]
 	];
 	_conjunctivelist=[
 		false,
@@ -562,6 +551,7 @@
 				case "gal": return("Gaulish");break;
 				case "xpu": return("Punic");break;
 				case "sbi": return("Suebi");break;
+				case "ett": return("Etruscan");break;
 				default: return(q);break;
 			}
 		}
@@ -1418,11 +1408,19 @@
 				{
 					for(var j=0;j<qp.length;j++)
 					{
-						if (sources[i][0]==qp[j])
+						var ktk=qp[j].split(" ");
+						if (sources[i][0]==ktk[0])
 						{
 							var pq="text-secondary";
 							if (sources[i][2].includes("academia.edu")) pq="text-success";
-							temp+="<li><a target='_blank' href='"+sources[i][2]+"' class='"+pq+"'>"+sources[i][1]+".</a></li>";
+							temp+="<li><a target='_blank' href='"+sources[i][2]+"' class='"+pq+"'>"+sources[i][1]+".</a>";
+							if (ktk.length>1)
+							{
+								temp+=" Page";
+								if (ktk[1].includes("-")||ktk[1].includes("+")) temp+="s";
+								temp+=" "+replaceAll("+",", ",ktk[1])+".";
+							}
+							temp+="</li>";
 						}
 					}
 				}
@@ -1514,8 +1512,6 @@
 					klaka=klaka.replace(kloko,"");
 					stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
 				
-					console.log(stemarray);
-				
 					temp='<table class="table w-auto table-sm"><thead>';
 					temp+="<tr><th colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>"+dbase[kluku-1][stagelist[activestage][1]]+"</th></tr></thead><tbody>";
 					for(var i=0;i<=_conjunctivelist[activestage];i++)
@@ -1566,6 +1562,12 @@
 				//Get precise moment
 				var kluku=-1;
 				for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==wordlist[wid][3]) kluku=declensionlist[i][1]+1;
+				//Check if not a reference!
+				if (dbase[kluku-1][stagelist[activestage][1]].charAt(0)==">")
+				{
+					var newdb=dbase[kluku-1][stagelist[activestage][1]].replace(">","");
+					for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==newdb) kluku=declensionlist[i][1]+1;
+				}
 				var kloko=(((dbase[kluku][maincolumns[activestage]].replace("0-","")).split("")).reverse()).join("");
 				klaka=klaka.replace(kloko,"");
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
@@ -1696,6 +1698,25 @@
 		}
 	function parseEtymoText(txt)
 		{
+			var newtxt="";
+			var barray=txt.split(" ");
+			for(var i=0;i<barray.length;i++) //Do links
+			{
+				if (i>0) newtxt+=" ";
+				if (barray[i].includes("@"))
+				{
+					//It's a link!
+					var addtoend="";
+					if (barray[i].substr(-1)==".")
+					{
+						addtoend=barray[i].substr(-1);
+						barray[i]=barray[i].substring(0,barray[i].length-1);
+					}
+					newtxt+=formatCognate(barray[i].split("@"))+addtoend;
+				}
+				else newtxt+=barray[i];
+			}
+			txt=newtxt;
 			//Cases
 			for(var i=0;i<glossterms.length;i++) txt=replaceAll("$"+glossterms[i][0],glossText(glossterms[i][0],glossterms[i][1]),txt);
 			//Sources
