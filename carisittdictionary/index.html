@@ -364,12 +364,21 @@
 		["dic_egyptian",
 			"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004",
 			"https://www.worldcat.org/title/dictionary-of-late-egyptian-1/oclc/634365751"],
+		["contel_calendar",
+			"Le Contel, Jean-Michel and Verdier, Paul. Un calendrier celtique : le calendrier gaulois de Coligny. Paris, Editions Errance, 1997",
+			""],
 		["intro_egyptian",
 			"Loprieno, Antonio. Ancient Egyptian: A Linguistic Introduction. Cambridge, Cambridge University Press, 1995",
 			"https://www.worldcat.org/title/ancient-egyptian-a-linguistic-introduction/oclc/896426228"],
+		["macneill_calendar",
+			"Mac Neill, Eóin. On the Notation and Chronography of the Calendar of Coligny. 1926",
+			"https://www.jstor.org/stable/30007818"],
 		["oxf_intro",
 			"Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006",
 			"https://www.worldcat.org/title/oxford-introduction-to-proto-indo-european-and-the-proto-indo-european-world/oclc/901737820"],
+		["ed_armenian",
+			"Martirosyan, Hrach K. Etymological Dictionary of the Armenian Inherited Lexicon. Leiden, Koninklijke Brill, 2010",
+			"https://www.worldcat.org/title/etymological-dictionary-of-the-armenian-inherited-lexicon/oclc/742434857"],
 		["sketch_albanian",
 			"Matasović, Ranko. A Grammatical Sketch of Albanian for Students of Indo-European. Zagreb, 2018",
 			"https://www.academia.edu/37749523/_2018_RANKO_MATASOVI%C4%86_A_Grammatical_Sketch_of_Albanian_for_Students_of_Indo-European"],
@@ -382,6 +391,9 @@
 		["ed_celtic_rev",
 			"Matasović, Ranko. Addenda et corrigenda to Ranko Matasović’s Etymological Dictionary of Proto-Celtic (Brill, Leiden 2009). Zagreb, 2011",
 			"https://www.academia.edu/1489376/Addenda_et_Corrigenda_to_Etymological_Dictionary_of_Proto-Celtic_Brill_Leiden_2009_"],
+		["pie_to_gmc",
+			"Ringe, Don. From Proto-Indo-European to Proto-Germanic. Oxford, Oxford University Press, 2009",
+			"https://www.worldcat.org/title/from-proto-indo-european-to-proto-germanic/oclc/929323754"],
 		["etruscan_rix",
 			"Rix, Helmut. Etruscan. In: Woodard, Roger D. The Ancient Languages of Europe. Cambridge, Cambridge University Press, 2010",
 			"https://www.worldcat.org/title/ancient-languages-of-europe/oclc/706988654"],
@@ -393,7 +405,13 @@
 			"https://www.worldcat.org/title/dictionnaire-etymologique-de-la-langue-copte/oclc/995613647"],
 		["manual_etruscan",
 			"Wallace, Rex E. Zikh Rasna: A Manual of the Etruscan Language and Inscriptions. Ann Arbor/New York, Beech Stave Press, 2008",
-			"https://www.worldcat.org/title/zikh-rasna-a-manual-of-the-etruscan-language-and-inscriptions/oclc/233283707"]
+			"https://www.worldcat.org/title/zikh-rasna-a-manual-of-the-etruscan-language-and-inscriptions/oclc/233283707"],
+		["semiticlexicon",
+			"Weninger, Stefan et al. The Semitic Languages: An International Handbook. Berlin/Boston, Walter de Gruyter GmbH & Co. KG, 2011",
+			"https://www.worldcat.org/title/semitic-languages-an-international-handbook/oclc/775693894"],
+		["ie_poetry_myth",
+			"West, M. L. Indo-European Poetry and Myth. New York, Oxford University Press, 2007",
+			"https://www.worldcat.org/title/indo-european-poetry-and-myth/oclc/1126614179"]
 	];
 	glossterms=[
 		["nom"	,"Nominative case"],
@@ -552,6 +570,14 @@
 				case "xpu": return("Punic");break;
 				case "sbi": return("Suebi");break;
 				case "ett": return("Etruscan");break;
+				case "pie": return("Proto-Indo-European");break;
+				case "psmt": return("Proto-Semitic");break;
+				case "mga": return("Middle Irish");break;
+				case "got": return("Gothic");break;
+				case "ang": return("Old English");break;
+				case "purl": return("Proto-Uralice");break;
+				case "sga": return("Old Irish");break;
+				case "cym": return("Welsh");break;
 				default: return(q);break;
 			}
 		}
@@ -580,6 +606,8 @@
 				case "Proto-Celtic": t+="Reconstruction:Proto-Celtic/";a="";break;
 				case "Proto-Slavic": t+="Reconstruction:Proto-Slavic/";a="";break;
 				case "Proto-Germanic": t+="Reconstruction:Proto-Germanic/";a="";break;
+				case "Proto-Indo-European": t+="Reconstruction:Proto-Indo-European/";a="";break;
+				case "Proto-Semitic": t+="Reconstruction:Proto-Semitic/";a="";break;
 			}
 			t+=b;
 			if (a!="") t+="#"+replaceAll(" ","%20",a);
@@ -1646,7 +1674,7 @@
 		}
 	function asterisk(krl)
 		{
-			if (krl=="peus"||krl=="pclt"||krl=="pgmc"||krl=="pslv") return("*");
+			if (krl=="peus"||krl=="pclt"||krl=="pgmc"||krl=="pslv"||krl=="pie"||krl=="psmt"||krl=="purl") return("*");
 			else return("");
 		}
 	function cleanSearch()
@@ -1707,7 +1735,7 @@
 				{
 					//It's a link!
 					var addtoend="";
-					if (barray[i].substr(-1)==".")
+					if (barray[i].substr(-1)=="."||barray[i].substr(-1)==","||barray[i].substr(-1)=="?"||barray[i].substr(-1)==")")
 					{
 						addtoend=barray[i].substr(-1);
 						barray[i]=barray[i].substring(0,barray[i].length-1);
