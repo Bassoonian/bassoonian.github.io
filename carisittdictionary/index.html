@@ -290,6 +290,10 @@
 						<p>Active stage: <select id="stageselectlist" onchange="updateStage();">
 							</select>
 						</p>
+						<p>Pronunciation notation:
+							<input type="radio" name="use_xsampa" value="ipa" checked> IPA
+							<input type="radio" name="use_xsampa" value="xsampa"> X-SAMPA
+						</p>
 						<h4>Search Settings</h4>
 						<p>Search bar purpose:
 							<input type="radio" name="search_destination" value="lang" checked onchange="cleanSearch();"> Language
@@ -305,8 +309,8 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th><i class="fab fa-discord"></i> Jasper#5206</th>
-									<th><i class="fab fa-reddit"></i> /u/Iasper</th>
+									<th><i class="fab fa-discord" alt="Discord" title="Discord"></i> Jasper#5206</th>
+									<th><i class="fab fa-reddit" alt="Reddit" title="Reddit"></i> /u/Iasper</th>
 								</tr>
 							</thead>
 						</table>
@@ -890,6 +894,8 @@
 				w=replaceAll("Ô","Ω",w);
 				
 				w=w.replace(/(σ)($|\s)/g,"ς$2");
+				
+				w="*"+w;
 			}
 			if (stage==1)
 			{
@@ -1361,6 +1367,7 @@
 		{
 			if (!first) $('.alert').alert("close");
 			$('#tab_click_general').trigger("click");
+			_last_opened=wid;
 			document.getElementById("entry_name").innerHTML=display(wordlist[wid]);
 			var j="";
 			var clid=-1;
@@ -1886,6 +1893,12 @@
 		{
 			for(var i=0;i<sources.length;i++) console.log(sources[i][1]);
 		}
+		
+		$('input[type=radio][name=use_xsampa]').change(function() {
+		    if (this.value=='ipa') usexsampa=false;
+			else usexsampa=true;
+			openWord(_last_opened,false);
+		});
 		
 	function collapseIfMobile()
 		{
