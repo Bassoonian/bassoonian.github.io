@@ -287,10 +287,6 @@
 					</div>
 					<div class="modal-body">
 						<h4>Dictionary Settings</h4>
-						<p>Primary notation:
-							<input type="radio" name="search_prim_input" value="roman" checked> Romanisation
-							<input type="radio" name="search_prim_input" value="native"> Native Script
-						</p>
 						<p>Active stage: <select id="stageselectlist" onchange="updateStage();">
 							</select>
 						</p>
@@ -323,13 +319,21 @@
 </body>
 <script>
 	//Initialise important variables
-	_alphabet=["A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø","A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄","A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄","A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
-	_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","","",""];
+	_alphabet=[
+		"Α Β Γ Δ Ε Ζ Η Ι Κ Λ Μ Ν Ο Π Ρ Σ Τ Υ~Y Ϝ Φ Χ Ψ Ω",
+		"A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄",
+		"A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄",
+		"A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
+	_needsromanisation=[true,false,false,false];
+	
+	//"normal alphabet1" A~Ā B D E~Ē F G H I~Ī J K L M N O~Ō P R S T U~Ū V W Ȳ Z Ø
+	//_alphabet2=["Α Β Γ Δ Ε Ζ Η Ι Κ Λ Μ Ν Ο Π Ρ Σ Τ Υ~Y Ϝ Φ Χ Ψ Ω","","",""];
+	//_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","","",""];
 	activestage=_alphabet.length-1;
-	romanisationfirst=true;
 	includeother=true;
 	searchenglish=false;
 	orderalph=true;
+	usexsampa=false;
 	sources=[
 		["ed_greek",
 			"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010",
@@ -578,8 +582,46 @@
 				case "purl": return("Proto-Uralice");break;
 				case "sga": return("Old Irish");break;
 				case "cym": return("Welsh");break;
+				case "mhg": return("Middle High German");break;
+				case "gle": return("Irish");break;
 				default: return(q);break;
 			}
+		}
+		
+	function IPAtoXSampa(a)
+		{
+			//Stress, length, etc
+			a=replaceAll("ˈ",'"',a);
+			a=replaceAll("ː",":",a);
+			a=replaceAll("ʲ","_j",a);
+			a=replaceAll("ˠ","_G",a);
+			a=replaceAll("ʰ","_h",a);
+			a=replaceAll("̩","=",a);
+			a=replaceAll("̞","_o",a);
+			a=replaceAll("̃","~",a);
+			a=replaceAll("̯","_^",a);
+			
+			//Consonants
+			a=replaceAll("ɣ","G",a);
+			a=replaceAll("β","B",a);
+			a=replaceAll("ð","D",a);
+			a=replaceAll("ŋ","N",a);
+			a=replaceAll("ʃ","S",a);
+			a=replaceAll("ʁ","R",a);
+			a=replaceAll("ɡ","g",a);
+			a=replaceAll("ɾ","4",a);
+			a=replaceAll("ɲ","J",a);
+			a=replaceAll("θ","T",a);
+			
+			//Vowels
+			a=replaceAll("æ","{",a);
+			a=replaceAll("ø","2",a);
+			a=replaceAll("ɑ","A",a);
+			a=replaceAll("ɛ","E",a);
+			a=replaceAll("ɪ","I",a);
+			a=replaceAll("ɔ","O",a);
+			a=replaceAll("ʊ","U",a);
+			return(a);
 		}
 		
 	function getWiktionaryLink(a,b)
@@ -717,8 +759,7 @@
 			//Parse alphabet
 			var tempvar="";
 			var alph=[];
-			if (romanisationfirst==true) alph=_alphabet[stagid].split(" ");
-			if (romanisationfirst==false&&_alphabet2[stagid]!="") alph=_alphabet2[stagid].split(" ");
+			alph=_alphabet[stagid].split(" ");
 			active_alphabet=[];
 			var j=[];
 			var alphvalue=0;
@@ -759,7 +800,7 @@
 				orth=apply_orthography(dbase[lexlist[i][0]][maincolumns[stagid]],stagid);
 				if (orth!=""&&orth!="*") //If empty, this word does not yet/no longer exist in this stage!
 				{
-					orth2=apply_nativealphabet(orth,stagid);
+					orth2=""//apply_nativealphabet(orth,stagid);
 					wordlist.push([orth,orth2,lexlist[i][0],lexlist[i][1],dbase[lexlist[i][0]][lasteditcolumn]]);
 				}
 			}
@@ -773,7 +814,83 @@
 		{
 			var w=(word.split("~"))[0];
 			w=pronFixOrtho(w,stage);
-			if (stage==0) w="*"+w;
+			if (stage==0)
+			{
+				w=replaceAll("ks","χ",w);
+				w=replaceAll("nk","γk",w);
+				w=replaceAll("ng","γg",w);
+				
+				w=replaceAll("p","π",w);
+				w=replaceAll("P","Π",w);
+				w=replaceAll("b","β",w);
+				w=replaceAll("B","Β",w);
+				w=replaceAll("t","τ",w);
+				w=replaceAll("T","Τ",w);
+				w=replaceAll("d","δ",w);
+				w=replaceAll("D","Δ",w);
+				w=replaceAll("k","κ",w);
+				w=replaceAll("K","Κ",w);
+				w=replaceAll("g","γ",w);
+				w=replaceAll("G","Γ",w);
+				w=replaceAll("m","μ",w);
+				w=replaceAll("M","Μ",w);
+				w=replaceAll("n","ν",w);
+				w=replaceAll("N","Ν",w);
+				
+				w=replaceAll("f","φ",w);
+				w=replaceAll("F","Φ",w);
+				w=replaceAll("v","ϝ",w);
+				w=replaceAll("V","Ϝ",w);
+				w=replaceAll("s","σ",w);
+				w=replaceAll("S","Σ",w);
+				w=replaceAll("z","ζ",w);
+				w=replaceAll("Z","Ζ",w);
+				w=replaceAll("r","ρ",w);
+				w=replaceAll("R","Ρ",w);
+				w=replaceAll("l","λ",w);
+				w=replaceAll("L","Λ",w);
+				w=replaceAll("j","ι",w);
+				w=replaceAll("J","Ι",w);
+				w=replaceAll("w","υ",w);
+				w=replaceAll("W","Υ",w);
+				w=replaceAll("h","ψ",w);
+				w=replaceAll("H","Ψ",w);
+				
+				//Add back macrons later when you find a way not to make them look like shit lmao
+				w=replaceAll("ā","α",w);
+				w=replaceAll("Ā","Α",w);
+				w=replaceAll("ī","ι",w);
+				w=replaceAll("Ῑ","Ι",w);
+				w=replaceAll("ū","υ",w);
+				w=replaceAll("Ū","Υ",w);
+				
+				w=replaceAll("a","α",w);
+				w=replaceAll("A","Α",w);
+				w=replaceAll("i","ι",w);
+				w=replaceAll("I","Ι",w);
+				w=replaceAll("u","υ",w);
+				w=replaceAll("U","Υ",w);
+				
+				w=replaceAll("ȳ","y",w);
+				w=replaceAll("Ȳ","Y",w);
+				w=replaceAll("ø̄","ευ",w);
+				w=replaceAll("Ø̄","Ευ",w);
+				
+				w=replaceAll("e","ε",w);
+				w=replaceAll("E","Ε",w);
+				w=replaceAll("ē","ει",w);
+				w=replaceAll("Ē","Ει",w);
+				w=replaceAll("ê","η",w);
+				w=replaceAll("Ê","Η",w);
+				w=replaceAll("o","ο",w);
+				w=replaceAll("O","Ο",w);
+				w=replaceAll("ō","ου",w);
+				w=replaceAll("Ō","Ου",w);
+				w=replaceAll("ô","ω",w);
+				w=replaceAll("Ô","Ω",w);
+				
+				w=w.replace(/(σ)($|\s)/g,"ς$2");
+			}
 			if (stage==1)
 			{
 				w=replaceAll("X","H",w);
@@ -858,12 +975,13 @@
 			}
 			return(w);
 		}
-	function apply_nativealphabet(word,stage)
+	/*function apply_nativealphabet(word,stage) THIS IS A RELIC, left in case it's useful in the future
 		{
 			var w=(word.split("~"))[0];
 			w=pronFixOrtho(w,stage);
 			if (stage==0)
 			{
+				REPLACED!
 				w=replaceAll("st","𐌆",w);
 				w=replaceAll("sk","𐌗",w);
 				
@@ -905,15 +1023,12 @@
 				w=((word.split("")).reverse()).join("");
 			}
 			return(w);
-		}
+		}*/
 	function order_alph(stagid)
 		{
 			//This function orders the world list alphabetically - either by romanisation or native script
-			if (romanisationfirst==true||_alphabet2[stagid]=="") wordlist.sort(function(a,b){
+			wordlist.sort(function(a,b){
 				return(strSortAlph(a[0].toUpperCase(),b[0].toUpperCase()));
-			});
-			else wordlist.sort(function(a,b){
-				return(strSortAlph(a[1].toUpperCase(),b[1].toUpperCase()));
 			});
 		}
 	function order_lastedit()
@@ -949,7 +1064,7 @@
 			var timevalue="";
 			var searchval=document.getElementById("searchinputvalue").value;
 			var check=0;
-			if (romanisationfirst==false&&_alphabet2[stagid]!="") check=1;
+			//if (romanisationfirst==false&&_alphabet2[stagid]!="") check=1;
 			for(var i=0;i<wordlist.length;i++)
 			{
 				var j="";
@@ -1159,6 +1274,9 @@
 			word="/"+word+"/, "+pronAllophones(word);
 			word=replaceAll("g","ɡ",word);
 			word=word.replace(/([a-z])(\1)/g,"$1ː");
+			
+			//xsampa conversion if necessary
+			if (usexsampa) word=IPAtoXSampa(word);
 			return(word);
 		}
 	function pronFixOrtho(w,s)
