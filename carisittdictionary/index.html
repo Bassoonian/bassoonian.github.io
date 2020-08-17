@@ -215,19 +215,19 @@
 		<div class="navbar nav-scroll">
 			<ul class="navbar-nav bd-navbar-nav flex-row">
 				<li class="nav-item">
-					<a class="nav-link">Lexicon</a>
+					<a class="nav-link" onclick="switch_tab(0);">Lexicon</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link">Documentation</a>
+					<a class="nav-link" onclick="switch_tab(1);">Documentation</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link">Mythology</a>
+					<a class="nav-link" onclick="switch_tab(2);">Mythology</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link">History</a>
+					<a class="nav-link" onclick="switch_tab(3);">History</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link">Bibliography</a>
+					<a class="nav-link" onclick="switch_tab(4);">Bibliography</a>
 				</li>
 			</ul>
 		</div>
@@ -238,7 +238,7 @@
 			</button>
 	  	</div>
 	</header>   
-<div class="container-fluid">
+<div class="container-fluid" id="head_container_lexicon">
 	<div class="row flex-xl-nowrap">
 		<div class="col-md-3 col-xl-2 bd-sidebar">
 	    	<form class="bd-search d-flex align-items-center" role="search">
@@ -344,6 +344,14 @@
 		</div>
 	</div>
 </div>
+<div class="container-fluid" id="head_container_docu" style="display: none;">
+	docu
+</div>
+<div class="container-fluid" id="head_container_bib" style="display: none;">
+	<h1>Bibliography</h1>
+	<p>Below, you may find the full bibliography of this project, sorted alphabetically by author. Clicking any of the icons following a source links you to the relevant entry of that source on the mentioned website. For a more in-depth reference including page numbers, please refer to the individual entries.</p>
+	<ol id="bibliography_ollist"></ol>
+</div>
 </body>
 <script>
 	//Initialise important variables
@@ -359,7 +367,9 @@
 	//_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","","",""];
 	activestage=_alphabet.length-1;
 	includeother=true;
+	inbibliography=false;
 	searchenglish=false;
+	_has_rendered_bibliography=false;
 	orderalph=true;
 	usexsampa=false;
 	sources=[
@@ -477,7 +487,7 @@
 				["google",		"https://books.google.be/books?id=xvKH56aT5mEC"],
 				["worldcat",	"https://www.worldcat.org/title/a-concise-historical-grammar-of-the-albanian-language-reconstruction-of-proto-albanian/oclc/704530164"]
 		]],
-		["pie_to_gmc",
+		["pie_to_pgmc",
 			"Ringe, Don. From Proto-Indo-European to Proto-Germanic. Oxford, Oxford University Press, 2009",[
 				["google",		"https://books.google.be/books?id=ymcm0Lt9sR0C"],
 				["worldcat",	"https://www.worldcat.org/title/from-proto-indo-european-to-proto-germanic/oclc/929323754"]
@@ -1644,44 +1654,7 @@
 			//Set sources
 			temp=dbase[wordlist[wid][2]][sourcecolumn];
 			if (temp=="") temp="No source specified. If you believe you have a source that may be relevant, please get in touch.";
-			else
-			{
-				var qp=temp.split(",");
-				temp="<ol>";
-				for(var i=0;i<sources.length;i++)
-				{
-					for(var j=0;j<qp.length;j++)
-					{
-						var ktk=qp[j].split(" ");
-						if (sources[i][0]==ktk[0])
-						{
-							temp+="<li>"+sources[i][1]+".";
-							if (ktk.length>1)
-							{
-								temp+=" Page";
-								if (ktk[1].includes("-")||ktk[1].includes("+")) temp+="s";
-								temp+=" "+replaceAll("+",", ",ktk[1])+".";
-							}
-							temp+=" ";
-							for(var k=0;k<sources[i][2].length;k++)
-							{
-								if (k>0) temp+=" ";
-								temp+="<a target='_blank' href='"+sources[i][2][k][1]+"'>";
-								switch(sources[i][2][k][0])
-								{
-									case "google": temp+="<i alt='Google' title='Google' class='fab fa-google'></i>";break;
-									case "academia": temp+="<img alt='Academia' title='Academia' class='img_src_inline' src='logos/academia.svg'>";break;
-									case "jstor": temp+="<img alt='JSTOR' title='JSTOR' class='img_src_inline' src='logos/jstor.png'>";break;
-									case "worldcat": temp+="<img alt='WorldCat' title='WorldCat' class='img_src_inline' src='logos/worldcat.png'>";break;
-								}
-								temp+="</a>";
-							}
-							temp+="</li>";
-						}
-					}
-				}
-				temp+="</ol>";
-			}
+			else temp="<ol>"+list_sources(temp.split(","))+"</ol>";
 			document.getElementById("entry_sourcetext").innerHTML=temp;
 			
 			//Set inflection table
@@ -1992,16 +1965,116 @@
 			for(var i=0;i<glossterms.length;i++) if (txt==glossterms[i][0]) return(glossterms[i][1]);
 			return("<error>");
 		}
-	function listSourcesAll()
-		{
-			for(var i=0;i<sources.length;i++) console.log(sources[i][1]);
-		}
 		
 		$('input[type=radio][name=use_xsampa]').change(function() {
 		    if (this.value=='ipa') usexsampa=false;
 			else usexsampa=true;
 			openWord(_last_opened,false);
 		});
+		
+	function switch_tab(tabid)
+		{
+			document.getElementById("head_container_lexicon").style.display="none";
+			document.getElementById("head_container_docu").style.display="none";
+			document.getElementById("head_container_bib").style.display="none";
+			if (tabid>0) document.getElementById("lang_name").innerHTML="CARITE";
+			switch(tabid)
+			{
+				case 0: document.getElementById("head_container_lexicon").style.display="inherit";break;
+				case 4: document.getElementById("head_container_bib").style.display="inherit";render_bibliography();break;
+			}
+		}
+		
+	function render_bibliography()
+		{
+			if (!_has_rendered_bibliography)
+			{
+				_has_rendered_bibliography=true;
+				//Make a new temporary array with all sources plus amount of references
+				var sourcelist=[];
+				for(var i=0;i<sources.length;i++) sourcelist.push([sources[i][0],0]);
+				//Go through document to sum up references
+				for(var i=4;i<dbase.length;i++)
+				{
+					var refre=dbase[i][sourcecolumn];
+					if (refre!="")
+					{
+						var toarray=refre.split(",");
+						for(var j=0;j<toarray.length;j++)
+						{
+							var kolo=(toarray[j].split(" "))[0];
+							var found=false;
+							for(var k=0;k<sourcelist.length;k++)
+							{
+								if (sourcelist[k][0]==kolo)
+								{
+									sourcelist[k][1]++;
+									found=true;
+								}
+							}
+							if (!found) console.log("Unable to recognise "+kolo+" in "+i+"!");
+						}
+					}
+				}
+				var newlist=[];
+				for(var i=0;i<sourcelist.length;i++)
+				{
+					if (sourcelist[i][1]>0) newlist.push(sourcelist[i][0]+" "+sourcelist[i][1]);
+				}
+				inbibliography=true;
+				var temp=list_sources(newlist);
+				inbibliography=false;
+				document.getElementById("bibliography_ollist").innerHTML=temp;
+			}
+		}
+		
+	function list_sources(arraysource)
+		{
+			var qp=arraysource;
+			var temp="";
+			for(var i=0;i<sources.length;i++)
+			{
+				for(var j=0;j<qp.length;j++)
+				{
+					var ktk=qp[j].split(" ");
+					if (sources[i][0]==ktk[0])
+					{
+						temp+="<li>"+sources[i][1]+".";
+						if (ktk.length>1)
+						{
+							if (inbibliography)
+							{
+								temp+=" "+ktk[1]+" reference";
+								if (ktk[1]!=1) temp+="s";
+								temp+=".";
+							}
+							else
+							{
+								temp+=" Page";
+								if (ktk[1].includes("-")||ktk[1].includes("+")) temp+="s";
+								temp+=" "+replaceAll("+",", ",ktk[1])+".";
+							}
+						}
+						temp+=" ";
+						for(var k=0;k<sources[i][2].length;k++)
+						{
+							if (k>0) temp+=" ";
+							temp+="<a target='_blank' href='"+sources[i][2][k][1]+"'>";
+							switch(sources[i][2][k][0])
+							{
+								case "google": temp+="<i alt='Google' title='Google' class='fab fa-google'></i>";break;
+								case "academia": temp+="<img alt='Academia' title='Academia' class='img_src_inline' src='logos/academia.svg'>";break;
+								case "jstor": temp+="<img alt='JSTOR' title='JSTOR' class='img_src_inline' src='logos/jstor.png'>";break;
+								case "worldcat": temp+="<img alt='WorldCat' title='WorldCat' class='img_src_inline' src='logos/worldcat.png'>";break;
+							}
+							temp+="</a>";
+						}
+						temp+="</li>";
+					}
+				}
+			}
+			return(temp);
+		}
 		
 	function collapseIfMobile()
 		{
