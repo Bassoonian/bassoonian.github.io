@@ -302,46 +302,6 @@
 				</div>
 			</div>
 		</main>
-		<div class="modal fade" id="searchsettingsmodal" role="dialog">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Lexicon Settings</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					</div>
-					<div class="modal-body">
-						<h4>Dictionary Settings</h4>
-						<p>Active stage: <select id="stageselectlist" onchange="updateStage();">
-							</select>
-						</p>
-						<p>Pronunciation notation:
-							<input type="radio" name="use_xsampa" value="ipa" checked> IPA
-							<input type="radio" name="use_xsampa" value="xsampa"> X-SAMPA
-						</p>
-						<h4>Search Settings</h4>
-						<p>Search bar purpose:
-							<input type="radio" name="search_destination" value="lang" checked onchange="cleanSearch();"> Language
-							<input type="radio" name="search_destination" value="eng" onchange="cleanSearch();"> Translations
-						</p>
-						<p>Sort order:
-							<input type="radio" name="lex_order" value="alph" checked onchange="refreshOrder();"> Alphabetically
-							<input type="radio" name="lex_order" value="time" onchange="refreshOrder();"> By last edited
-						</p>
-						<h4>Other</h4>
-						<p>Last framework update: <span id="lastdocupdate"></span></p>
-						<p>Last lexicon update: <span id="lastlexupdate"></span></p>
-						<table class="table">
-							<thead>
-								<tr>
-									<th><i class="fab fa-discord" alt="Discord" title="Discord"></i> Jasper#5206</th>
-									<th><i class="fab fa-reddit" alt="Reddit" title="Reddit"></i> /u/Iasper</th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 </div>
 <div class="container-fluid" id="head_container_docu" style="display: none;">
@@ -351,6 +311,46 @@
 	<h1>Bibliography</h1>
 	<p>Below, you may find the full bibliography of this project, sorted alphabetically by author. Clicking any of the icons following a source links you to the relevant entry of that source on the mentioned website. For a more in-depth reference including page numbers, please refer to the individual entries.</p>
 	<ol id="bibliography_ollist"></ol>
+</div>
+<div class="modal fade" id="searchsettingsmodal" role="dialog">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Lexicon Settings</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<h4>Dictionary Settings</h4>
+				<p>Active stage: <select id="stageselectlist" onchange="updateStage();">
+					</select>
+				</p>
+				<p>Pronunciation notation:
+					<input type="radio" name="use_xsampa" value="ipa" checked> IPA
+					<input type="radio" name="use_xsampa" value="xsampa"> X-SAMPA
+				</p>
+				<h4>Search Settings</h4>
+				<p>Search bar purpose:
+					<input type="radio" name="search_destination" value="lang" checked onchange="cleanSearch();"> Language
+					<input type="radio" name="search_destination" value="eng" onchange="cleanSearch();"> Translations
+				</p>
+				<p>Sort order:
+					<input type="radio" name="lex_order" value="alph" checked onchange="refreshOrder();"> Alphabetically
+					<input type="radio" name="lex_order" value="time" onchange="refreshOrder();"> By last edited
+				</p>
+				<h4>Other</h4>
+				<p>Last framework update: <span id="lastdocupdate"></span></p>
+				<p>Last lexicon update: <span id="lastlexupdate"></span></p>
+				<table class="table">
+					<thead>
+						<tr>
+							<th><i class="fab fa-discord" alt="Discord" title="Discord"></i> Jasper#5206</th>
+							<th><i class="fab fa-reddit" alt="Reddit" title="Reddit"></i> /u/Iasper</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 <script>
@@ -374,150 +374,150 @@
 	usexsampa=false;
 	sources=[
 		["ed_greek",
-			"Beekes, Robert. Etymological Dictionary of Greek. Leiden, Koninklijke Brill NV, 2010",[
+			"Beekes, Robert. <i>Etymological Dictionary of Greek.</i> Leiden, Koninklijke Brill NV, 2010",[
 				["google",		"https://books.google.be/books?id=4qudQAAACAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-greek/oclc/587850973"]
 		]],
 		["etruscan_intro",
-			"Bonfante, Giuliano and Bonfante, Larissa. The Etruscan Language: An Introduction, 2nd ed. Manchester, Manchester University Press, 2002.",[
+			"Bonfante, Giuliano & Bonfante, Larissa. <i>The Etruscan Language: An Introduction, 2nd ed.</i> Manchester, Manchester University Press, 2002.",[
 				["google",		"https://books.google.be/books?id=VWGN6e5Rzf8C"],
 				["worldcat",	"https://www.worldcat.org/title/etruscan-language-an-introduction/oclc/475129395"]
 		]],
 		["dic_gaulish",
-			"Delamarre, Xavier. Dictionnaire de la langue gauloise : une approche linguistique du vieux-celtique continental. Paris, Editions Errance, 2003",[
+			"Delamarre, Xavier. <i>Dictionnaire de la langue gauloise : une approche linguistique du vieux-celtique continental.</i> Paris, Editions Errance, 2003",[
 				["google",		"https://books.google.be/books?id=i0QcAQAAIAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/dictionnaire-de-la-langue-gauloise-une-approche-linguistique-du-vieux-celtique-continental/oclc/1038048625"]
 		]],
 		["ed_baltic",
-			"Derksen, Rick. Etymological Dictionary of the Baltic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2015",[
+			"Derksen, Rick. <i>Etymological Dictionary of the Baltic Inherited Lexicon.</i> Leiden, Koninklijke Brill NV, 2015",[
 				["google",		"https://books.google.be/books?id=fILunwEACAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-the-baltic-inherited-lexicon/oclc/932186673"]
 		]],
 		["ed_slavic",
-			"Derksen, Rick. Etymological Dictionary of the Slavic Inherited Lexicon. Leiden, Koninklijke Brill NV, 2008",[
+			"Derksen, Rick. <i>Etymological Dictionary of the Slavic Inherited Lexicon.</i> Leiden, Koninklijke Brill NV, 2008",[
 				["google",		"https://books.google.be/books?id=LJFiAAAAMAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-the-slavic-inherited-lexicon/oclc/606382920"]
 		]],
 		["ed_latin",
-			"de Vaan, Michiel. Etymological Dictionary of Latin and the other Italic Languages. Leiden, Koninklijke Brill NV, 2008",[
+			"de Vaan, Michiel. <i>Etymological Dictionary of Latin and the other Italic Languages.</i> Leiden, Koninklijke Brill NV, 2008",[
 				["google",		"https://books.google.be/books?id=ecZ1DwAAQBAJ"],
 				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-latin-and-the-other-italic-languages/oclc/962020667"]
 		]],
 		["academia_nymph",
-			"Hyllested, Adam. The Water Spirit: Greek νὐμφη, Sanskrit Rámbhā, Lithuanian Lãumė and Some Other Possibly Related Forms. Copenhagen, 2004",[
+			"Hyllested, Adam. <i>The Water Spirit: Greek νὐμφη, Sanskrit Rámbhā, Lithuanian Lãumė and Some Other Possibly Related Forms.</i> Copenhagen, 2004",[
 				["academia",	"https://www.academia.edu/1429587/The_Water_Spirit_Greek_n%C3%BDmph%C4%93_Sanskrit_R%C3%A1mbh%C4%81_Lithuanian_L%C3%A3um%C4%97_amd_Some_Other_Possibly_Related_Forms"]
 		]],
 		["pie_handbook",
-			"Klein, Jared et al. Handbook of Comparative and Historical Indo-European Linguistics. Berlin/Boston, Walter de Gruyter GmbH, 2017",[
+			"Klein, Jared et al. <i>Handbook of Comparative and Historical Indo-European Linguistics.</i> Berlin/Boston, Walter de Gruyter GmbH, 2017",[
 				["google",		"https://books.google.be/books?id=QgA3DwAAQBAJ"],
 				["google",		"https://books.google.be/books?id=TVFKDwAAQBAJ"],
 				["google",		"https://books.google.be/books?id=SuR8DwAAQBAJ"],
 				["worldcat",	"https://www.worldcat.org/title/handbook-of-comparative-and-historical-indo-european-linguistics-an-international-handbook/oclc/1051139391"]
 		]],
 		["dic_punic",
-			"Krahmalkov, Charles R. Phoenician-Punic Dictionary. Leuven, Peeters, 2000",[
+			"Krahmalkov, Charles R. <i>Phoenician-Punic Dictionary.</i> Leuven, Peeters, 2000",[
 				["google",		"https://books.google.be/books?id=bh_jdzIT9GQC"],
 				["worldcat",	"https://www.worldcat.org/title/phoenician-punic-dictionary/oclc/860453014"]
 		]],
 		["ed_germanic",
-			"Kroonen, Guus. Etymological Dictionary of Proto-Germanic. Leiden, Koninklijke Brill NV, 2013",[
+			"Kroonen, Guus. <i>Etymological Dictionary of Proto-Germanic.</i> Leiden, Koninklijke Brill NV, 2013",[
 				["google",		"https://books.google.be/books?id=cgmFRAAACAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-proto-germanic/oclc/851754510"]
 		]],
 		["ed_gothic",
-			"Lehmann, Winfred P. A Gothic Etymological  Dictionary. Leiden, E.J. Brill, 1986",[
+			"Lehmann, Winfred P. <i>A Gothic Etymological Dictionary.</i> Leiden, E.J. Brill, 1986",[
 				["google",		"https://books.google.be/books?id=39UUAAAAIAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/gothic-etymological-dictionary/oclc/797186062"]
 		]],
 		["dic_egyptian",
-			"Lesko, Leonard H. A dictionary of Late Egyptian, 2nd ed., 2 vols. Providence, B.C. Scribe Publications, 2002 and 2004",[
+			"Lesko, Leonard H. <i>A dictionary of Late Egyptian, 2nd ed., 2 vols.</i> Providence, B.C. Scribe Publications, 2002 and 2004",[
 				["google",		"https://books.google.be/books?id=8GAqAQAAIAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/dictionary-of-late-egyptian-1/oclc/634365751"]
 		]],
 		["contel_calendar",
-			"Le Contel, Jean-Michel and Verdier, Paul. Un calendrier celtique : le calendrier gaulois de Coligny. Paris, Editions Errance, 1997",[
+			"Le Contel, Jean-Michel & Verdier, Paul. <i>Un calendrier celtique : le calendrier gaulois de Coligny.</i> Paris, Editions Errance, 1997",[
 				["google",		"https://books.google.be/books?id=H1pmAAAAMAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/calendrier-celtique-le-calendrier-gaulois-de-coligny/oclc/245807086"]
 		]],
 		["intro_egyptian",
-			"Loprieno, Antonio. Ancient Egyptian: A Linguistic Introduction. Cambridge, Cambridge University Press, 1995",[
+			"Loprieno, Antonio. <i>Ancient Egyptian: A Linguistic Introduction.</i> Cambridge, Cambridge University Press, 1995",[
 				["google",		"https://books.google.be/books?id=kW8Mzji0XRgC"],
 				["worldcat",	"https://www.worldcat.org/title/ancient-egyptian-a-linguistic-introduction/oclc/896426228"]
 		]],
 		["macneill_calendar",
-			"Mac Neill, Eóin. On the Notation and Chronography of the Calendar of Coligny. 1926",[
+			"Mac Neill, Eóin. <i>On the Notation and Chronography of the Calendar of Coligny.</i> 1926",[
 				["jstor",		"https://www.jstor.org/stable/30007818"],
 				["google",		"https://books.google.be/books?id=QFdAHAAACAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/on-the-notation-and-chronography-of-the-calendar-of-coligny/oclc/41962970&referer=brief_results"]
 		]],
 		["oxf_intro",
-			"Mallory, J. P. and Adams, D. Q. The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World. New York, Oxford University Press Inc., 2006",[
+			"Mallory, J. P. & Adams, D. Q. <i>The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World.</i> New York, Oxford University Press Inc., 2006",[
 				["google",		"https://books.google.be/books?id=lzilBQAAQBAJ"],
 				["worldcat",	"https://www.worldcat.org/title/oxford-introduction-to-proto-indo-european-and-the-proto-indo-european-world/oclc/901737820"]
 		]],
 		["ed_armenian",
-			"Martirosyan, Hrach K. Etymological Dictionary of the Armenian Inherited Lexicon. Leiden, Koninklijke Brill, 2010",[
+			"Martirosyan, Hrach K. <i>Etymological Dictionary of the Armenian Inherited Lexicon.</i> Leiden, Koninklijke Brill, 2010",[
 				["google",		"https://books.google.be/books?id=340lAQAAMAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-the-armenian-inherited-lexicon/oclc/742434857"]
 		]],
 		["sketch_albanian",
-			"Matasović, Ranko. A Grammatical Sketch of Albanian for Students of Indo-European. Zagreb, 2018",[
+			"Matasović, Ranko. <i>A Grammatical Sketch of Albanian for Students of Indo-European.</i> Zagreb, 2018",[
 				["academia",	"https://www.academia.edu/37749523/_2018_RANKO_MATASOVI%C4%86_A_Grammatical_Sketch_of_Albanian_for_Students_of_Indo-European"]
 		]],
 		["sketch_armenian",
-			"Matasović, Ranko. A Grammatical Sketch of Classical Armenian. Zagreb, 2009",[
+			"Matasović, Ranko. <i>A Grammatical Sketch of Classical Armenian.</i> Zagreb, 2009",[
 				["academia",	"https://www.academia.edu/1748235/An_Introduction_to_Classical_Armenian"]
 		]],
 		["ed_celtic",
-			"Matasović, Ranko. Etymological Dictionary of Proto-Celtic. Leiden, Koninklijke Brill NV, 2009",[
+			"Matasović, Ranko. <i>Etymological Dictionary of Proto-Celtic.</i> Leiden, Koninklijke Brill NV, 2009",[
 				["google",		"https://books.google.be/books?id=YN_YPQAACAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-proto-celtic/oclc/262430534"]
 		]],
 		["ed_celtic_rev",
-			"Matasović, Ranko. Addenda et corrigenda to Ranko Matasović’s Etymological Dictionary of Proto-Celtic (Brill, Leiden 2009). Zagreb, 2011",[
+			"Matasović, Ranko. <i>Addenda et corrigenda to Ranko Matasović's Etymological Dictionary of Proto-Celtic (Brill, Leiden 2009).</i> Zagreb, 2011",[
 				["academia",	"https://www.academia.edu/1489376/Addenda_et_Corrigenda_to_Etymological_Dictionary_of_Proto-Celtic_Brill_Leiden_2009_"]
 		]],
 		["ed_albanian",
-			"Orel, Vladimir. Albanian Etymological Dictionary. Leiden/Boston/Köln, 1998",[
+			"Orel, Vladimir. <i>Albanian Etymological Dictionary.</i> Leiden/Boston/Köln, 1998",[
 				["google",		"https://books.google.be/books?id=yJQYAQAAIAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/albanian-etymological-dictionary/oclc/466999284"]
 		]],
 		["albanian_grammar",
-			"Orel, Vladimir. A concise historical grammar of the Albanian language: reconstruction of Proto-Albanian. Leiden/Boston/Köln, 2000",[
+			"Orel, Vladimir. <i>A concise historical grammar of the Albanian language: reconstruction of Proto-Albanian.</i> Leiden/Boston/Köln, 2000",[
 				["google",		"https://books.google.be/books?id=xvKH56aT5mEC"],
 				["worldcat",	"https://www.worldcat.org/title/a-concise-historical-grammar-of-the-albanian-language-reconstruction-of-proto-albanian/oclc/704530164"]
 		]],
 		["pie_to_pgmc",
-			"Ringe, Don. From Proto-Indo-European to Proto-Germanic. Oxford, Oxford University Press, 2009",[
+			"Ringe, Don. <i>From Proto-Indo-European to Proto-Germanic.</i> Oxford, Oxford University Press, 2009",[
 				["google",		"https://books.google.be/books?id=ymcm0Lt9sR0C"],
 				["worldcat",	"https://www.worldcat.org/title/from-proto-indo-european-to-proto-germanic/oclc/929323754"]
 		]],
 		["etruscan_rix",
-			"Rix, Helmut. Etruscan. In: Woodard, Roger D. The Ancient Languages of Europe. Cambridge, Cambridge University Press, 2010",[
+			"Rix, Helmut. Etruscan. In: <i>Woodard, Roger D. The Ancient Languages of Europe.</i> Cambridge, Cambridge University Press, 2010",[
 				["google",		"https://books.google.be/books?id=aPEENAEp938C"],
 				["worldcat",	"https://www.worldcat.org/title/ancient-languages-of-europe/oclc/706988654"]
 		]],
 		["ed_basque",
-			"Trask, R. L. Etymological Dictionary of Basque. Sussex, University of Sussex, 2008",[
+			"Trask, R. L. <i>Etymological Dictionary of Basque.</i> Sussex, University of Sussex, 2008",[
 				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-basque/oclc/971735884"]
 		]],
 		["ed_coptic",
-			"Vycichl, Werner. Dictionnaire étymologique de la langue copte. Leuven, Éditions Peeters, 1983",[
+			"Vycichl, Werner. <i>Dictionnaire étymologique de la langue copte.</i> Leuven, Éditions Peeters, 1983",[
 				["google",		"https://books.google.be/books?id=C80XAQAAIAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/dictionnaire-etymologique-de-la-langue-copte/oclc/995613647"]
 		]],
 		["manual_etruscan",
-			"Wallace, Rex E. Zikh Rasna: A Manual of the Etruscan Language and Inscriptions. Ann Arbor/New York, Beech Stave Press, 2008",[
+			"Wallace, Rex E. <i>Zikh Rasna: A Manual of the Etruscan Language and Inscriptions.</i> Ann Arbor/New York, Beech Stave Press, 2008",[
 				["google",		"https://books.google.be/books?id=KH7pNwAACAAJ"],
 				["worldcat",	"https://www.worldcat.org/title/zikh-rasna-a-manual-of-the-etruscan-language-and-inscriptions/oclc/233283707"]
 		]],
 		["semiticlexicon",
-			"Weninger, Stefan et al. The Semitic Languages: An International Handbook. Berlin/Boston, Walter de Gruyter GmbH & Co. KG, 2011",[
+			"Weninger, Stefan et al. <i>The Semitic Languages: An International Handbook.</i> Berlin/Boston, Walter de Gruyter GmbH & Co. KG, 2011",[
 				["google",		"https://books.google.be/books?id=SMzgBLT87MkC"],
 				["worldcat",	"https://www.worldcat.org/title/semitic-languages-an-international-handbook/oclc/775693894"]
 		]],
 		["ie_poetry_myth",
-			"West, M. L. Indo-European Poetry and Myth. New York, Oxford University Press, 2007",[
+			"West, M. L. <i>Indo-European Poetry and Myth.</i> New York, Oxford University Press, 2007",[
 				["google",		"https://books.google.be/books?id=ZXrJA_5LKlYC"],
 				["worldcat",	"https://www.worldcat.org/title/indo-european-poetry-and-myth/oclc/1126614179"]
 		]]
@@ -1952,7 +1952,7 @@
 			for(var i=0;i<sources.length;i++)
 			{
 				var tempvar=sources[i][1].split(",");
-				txt=replaceAll("§"+sources[i][0],"<span class='hovertext' data-placement='top' title='"+sources[i][1]+".' data-toggle='tooltip'>"+tempvar[0]+" ("+tempvar[tempvar.length-1].trim()+")</span>",txt);
+				txt=replaceAll("§"+sources[i][0],"<span class='hovertext' data-placement='top' title='"+sources[i][1].replace(/<\/?i>/g,"")+".' data-toggle='tooltip'>"+tempvar[0]+" ("+tempvar[tempvar.length-1].trim()+")</span>",txt);
 			}
 			return(txt);
 		}
@@ -2012,7 +2012,7 @@
 									found=true;
 								}
 							}
-							if (!found) console.log("Unable to recognise "+kolo+" in "+i+"!");
+							if (!found&&kolo.charAt(0)!=">") console.log("Unable to recognise "+kolo+" in "+i+"!");
 						}
 					}
 				}
