@@ -909,6 +909,7 @@
 				case "mhg": return("Middle High German");break;
 				case "gle": return("Irish");break;
 				case "rus": return("Russian");break;
+				case "xlu": return("Luwian");break;
 				default: return(q);break;
 			}
 		}
@@ -2158,7 +2159,7 @@
 				{
 					//It's a link!
 					var addtoend="";
-					if (barray[i].substr(-1)=="."||barray[i].substr(-1)==","||barray[i].substr(-1)=="?"||barray[i].substr(-1)==")")
+					if (barray[i].substr(-1)=="."||barray[i].substr(-1)==","||barray[i].substr(-1)=="?"||barray[i].substr(-1)==")"||barray[i].substr(-1)==";")
 					{
 						addtoend=barray[i].substr(-1);
 						barray[i]=barray[i].substring(0,barray[i].length-1);
