@@ -207,6 +207,136 @@
 	        display: block !important;
 	    }
 	}
+	
+	/*DOC STUFF*/
+	.DOC_bd-sidebar {
+	    -ms-flex-order: 0;
+	    order: 0;
+	    border-bottom:1px solid rgba(0, 0, 0, .1)
+	}
+	@media (min-width: 768px) {
+	    .DOC_bd-sidebar {
+	        border-right:1px solid rgba(0, 0, 0, .1)
+	    }
+
+	    @supports ((position: -webkit-sticky) or(position: sticky)) {
+	        .DOC_bd-sidebar {
+	            position: -webkit-sticky;
+	            position: sticky;
+	            top: 4rem;
+	            z-index: 1000;
+	            height:calc(100vh - 4rem)
+	        }
+	    }
+	}
+	@media (min-width: 1200px) {
+	    .DOC_bd-sidebar {
+	        -ms-flex: 0 1 320px;
+	        flex:0 1 320px
+	    }
+	}
+	.DOC_bd-sidebar .nav > li > a {
+	    display: block;
+	    padding: .25rem 1.5rem;
+	    font-size: 90%;
+	    color:rgba(0, 0, 0, .65)
+	}
+	.DOC_bd-sidebar .nav > li > a:hover {
+	    color: rgba(0, 0, 0, .85);
+	    text-decoration: none;
+	    background-color:transparent
+	}
+	.DOC_bd-sidebar .nav > .active:hover > a, .DOC_bd-sidebar .nav > .active > a {
+	    font-weight: 600;
+	    color: rgba(0, 0, 0, .85);
+	    background-color:transparent
+	}
+	.DOC_bd-links {
+	    padding-top: 1rem;
+	    padding-bottom: 1rem;
+	    margin-right: -15px;
+	    margin-left:-15px
+	}
+	@media (min-width: 768px) {
+	    @supports ((position: -webkit-sticky) or(position: sticky)) {
+	        .DOC_bd-links {
+	            max-height: calc(100vh); /* - 9rem*/
+	            overflow-y:auto
+	        }
+	    }
+	}
+	@media (min-width: 768px) {
+	    .DOC_bd-links {
+	        display:block !important
+	    }
+	}
+	.DOC_bd-toc-item.active {
+	    margin-bottom:1rem
+	}
+	.DOC_bd-toc-item.active:not(:first-child) {
+	    margin-top:1rem
+	}
+	.DOC_bd-toc-item.active > .DOC_bd-toc-link {
+	    color:rgba(0, 0, 0, .85)
+	}
+	.DOC_bd-toc-item.active > .DOC_bd-toc-link:hover {
+	    background-color:transparent
+	}
+	.DOC_bd-toc-item.active > .DOC_bd-sidenav {
+	    display:block
+	}
+	.DOC_bd-toc-link {
+	    display: block;
+	    padding: .25rem 1.5rem;
+	    font-weight: 600;
+	    color:rgba(0, 0, 0, .65)
+	}
+	.DOC_bd-toc-link:hover {
+	    color: rgba(0, 0, 0, .85);
+	    text-decoration:none
+	}
+	/*.DOC_bd-sidenav {
+	    display:none
+	}*/
+	.DOC_bd-toc {
+	    -ms-flex-order: 2;
+	    order: 2;
+	    padding-top: 1.5rem;
+	    padding-bottom: 1.5rem;
+	    font-size:.875rem
+	}
+	@supports ((position: -webkit-sticky) or(position: sticky)) {
+	    .DOC_bd-toc {
+	        position: -webkit-sticky;
+	        position: sticky;
+	        top: 4rem;
+	        height: calc(100vh - 4rem);
+	        overflow-y:auto
+	    }
+	}
+	.DOC_section-nav ul {
+	    padding-left:1rem
+	}
+	.DOC_section-nav {
+	    padding-left: 0;
+	    border-left:1px solid #eee
+	}
+	.DOC_toc-entry {
+	    display:block
+	}
+	.DOC_toc-entry a {
+	    display: block;
+	    padding: .125rem 1.5rem;
+	    color:#77757a
+	}
+	.DOC_toc-entry a:hover {
+	    color: #007bff;
+	    text-decoration:none
+	}
+	.DOC_bd-content {
+	    -ms-flex-order: 1;
+	    order:1
+	}
   	</style>
 </head>
 <body>
@@ -219,12 +349,6 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" onclick="switch_tab(1);">Documentation</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" onclick="switch_tab(2);">Mythology</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" onclick="switch_tab(3);">History</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" onclick="switch_tab(4);">Bibliography</a>
@@ -305,7 +429,34 @@
 	</div>
 </div>
 <div class="container-fluid" id="head_container_docu" style="display: none;">
-	docu
+	<div class="row flex-xl-nowrap">
+		<div class="col-md-3 col-xl-2 DOC_bd-sidebar">
+			<nav class="collapse DOC_bd-links" id="DOC_bd-docs-nav" aria-label="Documentation navigation">
+				<div class="DOC_bd-toc-item">
+					<a class="DOC_bd-toc-link">Introduction</a>
+				</div>
+				<div class="DOC_bd-toc-item active">
+					<a class="DOC_bd-toc-link">Anthropology</a>
+					<ul class="nav DOC_bd-sidenav">
+						<li class="active DOC_bd-sidenav-active"><a>History</a></li>
+						<li><a>Mythology</a></li>
+					</ul>
+				</div>
+				<div class="DOC_bd-toc-item">
+					<a class="DOC_bd-toc-link">Language</a>
+					<ul class="nav DOC_bd-sidenav" id="DOC_sidenav_langlist"></ul>
+				</div>
+			</nav>
+		</div>
+		<nav class="d-none d-xl-block col-xl-2 DOC_bd-toc" aria-label="Secondary documentation navigation">
+			<ul class="DOC_section-nav" id="doc_quick_navigation">
+				Loading...
+			</ul>
+		</nav>
+		<main class="col-md-9 col-xl-8 py-md-3 pl-md-5 DOC_bd-content" id="doc_main_content">
+			Loading...
+		</main>
+	</div>
 </div>
 <div class="container-fluid" id="head_container_bib" style="display: none;">
 	<h1>Bibliography</h1>
@@ -419,12 +570,22 @@
 			"Hyllested, Adam. <i>The Water Spirit: Greek νὐμφη, Sanskrit Rámbhā, Lithuanian Lãumė and Some Other Possibly Related Forms.</i> Copenhagen, 2004",[
 				["academia",	"https://www.academia.edu/1429587/The_Water_Spirit_Greek_n%C3%BDmph%C4%93_Sanskrit_R%C3%A1mbh%C4%81_Lithuanian_L%C3%A3um%C4%97_amd_Some_Other_Possibly_Related_Forms"]
 			]],
+		["ielangcult",
+			"Fortson IV, Benjamin W. <i>Indo-European Language and Culture: An Introduction.</i> Malden/Oxford/Carlton, Blackwell Publishing Ltd, 2004",[
+				["google",		"https://books.google.be/books?id=bSxHgej4tKMC"],
+				["worldcat",	"https://www.worldcat.org/title/indo-european-language-and-culture-an-introduction/oclc/778339290"]
+			]],
 		["pie_handbook",
 			"Klein, Jared et al. <i>Handbook of Comparative and Historical Indo-European Linguistics.</i> Berlin/Boston, Walter de Gruyter GmbH, 2017",[
 				["google",		"https://books.google.be/books?id=QgA3DwAAQBAJ"],
 				["google",		"https://books.google.be/books?id=TVFKDwAAQBAJ"],
 				["google",		"https://books.google.be/books?id=SuR8DwAAQBAJ"],
 				["worldcat",	"https://www.worldcat.org/title/handbook-of-comparative-and-historical-indo-european-linguistics-an-international-handbook/oclc/1051139391"]
+			]],
+		["ed_hittite",
+			"Kloekhorst, Alwin. <i>Etymological Dictionary of the Hittite Inherited Lexicon.</i> Leiden/Bosten, Koninklijke Brill NV, 2008",[
+				["google",		"https://books.google.be/books?id=JmdiAAAAMAAJ"],
+				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-the-hittite-inherited-lexicon/oclc/781175802"]
 			]],
 		["dic_punic",
 			"Krahmalkov, Charles R. <i>Phoenician-Punic Dictionary.</i> Leuven, Peeters, 2000",[
@@ -503,6 +664,11 @@
 				["google",		"https://books.google.be/books?id=xvKH56aT5mEC"],
 				["worldcat",	"https://www.worldcat.org/title/a-concise-historical-grammar-of-the-albanian-language-reconstruction-of-proto-albanian/oclc/704530164"]
 			]],
+		["spanhist",
+			"Penny, Ralph. <i>A History of the Spanish Language.</i> Cambridge, Cambridge University Press, 2002",[
+				["google",		"https://books.google.be/books?id=ZjcrhyQlFa0C"],
+				["worldcat",	"https://www.worldcat.org/title/history-of-the-spanish-language/oclc/633641168"]
+			]],
 		["pie_to_pgmc",
 			"Ringe, Don. <i>From Proto-Indo-European to Proto-Germanic.</i> Oxford, Oxford University Press, 2009",[
 				["google",		"https://books.google.be/books?id=ymcm0Lt9sR0C"],
@@ -528,9 +694,19 @@
 				["google",		"https://books.google.be/books?id=leNBAAAAQBAJ"],
 				["worldcat",	"https://www.worldcat.org/title/history-of-indo-european-verb-morphology/oclc/802746544"]
 			]],
+		["compgrammar",
+			"Sihler, Andrew L. <i>New Comparative Grammar of Latin and Greek.</i> New York/Oxford, Oxford University Press, 1995",[
+				["google",		"https://books.google.be/books?id=tJh15AcIdLgC"],
+				["worldcat",	"https://www.worldcat.org/title/new-comparative-grammar-of-greek-and-latin/oclc/860485555"]
+			]],
 		["ed_basque",
 			"Trask, R. L. <i>Etymological Dictionary of Basque.</i> Sussex, University of Sussex, 2008",[
 				["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-basque/oclc/971735884"]
+			]],
+		["lat_vulg",
+			"Väänänen, Veikko. <i>Introduction au latin vulgaire.</i> Klincksieck, 2006",[
+				["google",		"https://books.google.be/books?id=vATEmAEACAAJ"],
+				["worldcat",	"https://www.worldcat.org/title/introduction-au-latin-vulgaire/oclc/889929195"]
 			]],
 		["ed_coptic",
 			"Vycichl, Werner. <i>Dictionnaire étymologique de la langue copte.</i> Leuven, Éditions Peeters, 1983",[
@@ -732,6 +908,7 @@
 				case "cym": return("Welsh");break;
 				case "mhg": return("Middle High German");break;
 				case "gle": return("Irish");break;
+				case "rus": return("Russian");break;
 				default: return(q);break;
 			}
 		}
@@ -2029,6 +2206,10 @@
 					document.getElementById("head_container_lexicon").style.display="inherit";
 					document.getElementById("lang_name").innerHTML=stagelist[_currentstage][0].toUpperCase();
 					break;
+				case 1:
+					document.getElementById("head_container_docu").style.display="inherit";
+					prepDoc();
+					break;
 				case 4:
 					document.getElementById("head_container_bib").style.display="inherit";
 					render_bibliography();
@@ -2151,4 +2332,5 @@
 		  return 'xl'
 		}
 </script>
+<script src="documentation.js"></script>
 </html>
