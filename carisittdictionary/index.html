@@ -481,7 +481,7 @@
 					<input type="radio" name="use_xsampa" value="ipa" checked> IPA
 					<input type="radio" name="use_xsampa" value="xsampa"> X-SAMPA
 				</p>
-				<h4>Search Settings</h4>
+				<h6>Search Settings</h6>
 				<p>Search bar purpose:
 					<input type="radio" name="search_destination" value="lang" checked onchange="cleanSearch();"> Language
 					<input type="radio" name="search_destination" value="eng" onchange="cleanSearch();"> Translations
@@ -490,6 +490,11 @@
 					<input type="radio" name="lex_order" value="alph" checked onchange="refreshOrder();"> Alphabetically
 					<input type="radio" name="lex_order" value="time" onchange="refreshOrder();"> By last edited
 				</p>
+				<h4>Documentation Settings</h4>
+				<p>Include explanations for sound changes: </p>
+				<p>Include approximate percentages: </p>
+				<p>Include irrelevant sound changes: </p>
+				<p></p>
 				<h4>Other</h4>
 				<p>Last framework update: <span id="lastdocupdate"></span></p>
 				<p>Last lexicon update: <span id="lastlexupdate"></span></p>
@@ -525,6 +530,7 @@
 	_has_rendered_bibliography=false;
 	orderalph=true;
 	usexsampa=false;
+	enablesoundchangetooltips=true;
 	sources=[
 		["ed_greek",
 			"Beekes, Robert. <i>Etymological Dictionary of Greek.</i> Leiden, Koninklijke Brill NV, 2010",[
@@ -2177,6 +2183,7 @@
 				var tempvar=sources[i][1].split(",");
 				txt=replaceAll("§"+sources[i][0],"<span class='hovertext' data-placement='top' title='"+sources[i][1].replace(/<\/?i>/g,"")+".' data-toggle='tooltip'>"+tempvar[0]+" ("+tempvar[tempvar.length-1].trim()+")</span>",txt);
 			}
+			txt=replaceAll(" - ","—",txt);
 			return(txt);
 		}
 	function glossText(txt,hover)
