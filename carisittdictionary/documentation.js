@@ -8,7 +8,7 @@ function prepDoc()
 		var temp="";
 		for(var i=0;i<stagelist.length;i++)
 		{
-			temp+="<li><a>"+stagelist[i][0]+"</a></li>";
+			temp+="<li><a onclick='loadDocContent("+i+")'>"+stagelist[i][0]+"</a></li>";
 		}
 		document.getElementById("DOC_sidenav_langlist").innerHTML=temp;
 		loadDocContent(0);
@@ -50,13 +50,23 @@ function loadDocContent(contentid)
 		var temp="";
 		for(var i=0;i<tree.length;i++)
 		{
-			temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].level+"' <a>"+tree[i].text+"</a>";
+			temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].level+"'> <a>"+tree[i].text+"</a>";
 			if (tree[i].children.length>0)
 			{
 				temp+="<ul>";
 				for(var j=0;j<tree[i].children.length;j++)
 				{
-					temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].children[j].level+"' <a>"+tree[i].children[j].text+"</a>";
+					temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].children[j].level+"'> <a>"+tree[i].children[j].text+"</a>";
+					if (tree[i].children[j].children.length>0)
+					{
+						temp+="<ul>";
+						for(var k=0;k<tree[i].children[j].children.length;k++)
+						{
+							temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].children[j].children[k].level+"'> <a>"+tree[i].children[j].children[k].text+"</a></li>";
+						}
+						temp+="</ul>";
+					}
+					temp+="</li>";
 				}
 				temp+="</ul>";
 			}
@@ -80,8 +90,9 @@ function getDocTitle(idi)
 
 function docParseData(dat)
 {
+	console.log(dat);
 	for(var i=0;i<stagelist.length;i++) dat=replaceAll("§lang_"+i,stagelist[i][0],dat);
-	if (dat.search("||SOUNDCHANGES||")>-1)
+	if (dat.includes("||SOUNDCHANGES||"))
 	{
 		var temp="";
 		var pipo=stagelist[_last_loaded_file][1];
@@ -130,36 +141,28 @@ function parseSoundChange(pp)
 		var c=a[1].split("_");
 		c[0]=c[0].trim();
 	}
-	var generaltalk=false;
+	generaltalk=false;
 	//Change words yo
 	var prefix="";
-	b[0]=b[0].trim().replace("ʰ","[+aspirated]");
+	b[0]=b[0].trim();
+	b[0]=b[0].replace("ʰ","[+aspirated]");
+	b[0]=b[0].replace("ʷ","[+rounded]");
+	b[0]=b[0].replace("̥","[+syllabic]");
 	if (b[0].includes("["))
 	{
 		var tempo=b[0].split("[");
 		tempo[1]=tempo[1].replace("]","");
 		b[0]=tempo[0];
 		
-		if (tempo[1]=="+voice") prefix+=" voiced";
-		if (tempo[1]=="-voice") prefix+=" voiceless";
-		if (tempo[1]=="+aspirated") prefix+=" aspirated";
-		if (tempo[1]=="-aspirated") prefix+=" unaspirated";
-		prefix=prefix.trim();
+		prefix=getFeatureName(tempo[1]);
 	}
-	if (b[0]=="C")
-	{
-		b[0]="consonants";
-		generaltalk=true;
-	}
+	b[0]=getCategoryName(b[0],true);
 	
-	if (prefix=="") b[0]=b[0].charAt(0).toUpperCase()+b[0].slice(1);
-	else prefix=prefix.charAt(0).toUpperCase()+prefix.slice(1);
+	if (generaltalk&&prefix=="") b[0]=b[0].charAt(0).toUpperCase()+b[0].slice(1);
+	else if (prefix!="") prefix=prefix.charAt(0).toUpperCase()+prefix.slice(1);
 	b[0]=prefix+" "+b[0];
 	
-	b[1]=b[1].trim();
-	if (b[1]=="[+voice]") b[1]="voiced";
-	if (b[1]=="[-voice]") b[1]="voiceless";
-	if (b[1]=="[-aspirated]") b[1]="deaspirated";
+	b[1]=getFeatureName(b[1]);
 	
 	if (a.length>1)
 	{	
@@ -167,6 +170,10 @@ function parseSoundChange(pp)
 		if (c[0].charAt(0)=="#")
 		{
 			c[0]="word-initial "+c[0].replace("#","");
+		}
+		if (c.length>1)
+		{
+			c[1]=c[1].trim();
 		}
 	}
 	
@@ -182,10 +189,63 @@ function parseSoundChange(pp)
 		if (c[0]=="") wherecheck++;
 		if (c[1]=="") wherecheck--;
 		temp+=" when ";
-		if (wherecheck<1) temp+="following "+c[0];
+		if (wherecheck<1)
+		{
+			if (c[0]=="word-initial") temp+=c[0];
+			else temp+="following "+c[0];
+		}
 		if (wherecheck==0) temp+" and ";
-		if (wherecheck>-1) temp+="preceding "+c[1];
+		if (wherecheck>-1)
+		{
+			temp+="preceding "+c[1];
+		}
 	}
 	temp+=".";
 	return(temp);
+}
+
+function getFeatureName(list)
+{
+	var p="";
+	if (list.includes("+voice")) p+=" voiced";
+	if (list.includes("-voice")) p+=" voiceless";
+	if (list.includes("+stress")) p+=" stressed";
+	if (list.includes("-stress")) p+=" unstressed";
+	if (list.includes("+aspirated")) p+=" aspirated";
+	if (list.includes("-aspirated")) p+=" unaspirated";
+	if (list.includes("+syllabic")) p+=" syllabic";
+	if (list.includes("+long")) p+=" long";
+	if (list.includes("+overlong")) p+=" overlong";
+	if (list.includes("+rounded")) p+=" rounded";
+	if (list.includes("-rounded")) p+=" unrounded";
+	if (list.includes("-long")) p+=" short";
+	if (list.includes("-semivowel")) p+=" non-semivowel";
+	if (list.includes("+alveolar")) p+=" alveolar";
+	if (list.includes("+bilabial")) p+=" bilabial";
+	if (p!="") return(p.trim());
+	else return(list);
+}
+
+function getCategoryName(list,gen)
+{
+	var pa="";
+	if (list=="P") pa="plosive";
+	if (list=="C") pa="consonant";
+	if (list=="H") pa="laryngeal";
+	if (list=="V") pa="vowel";
+	if (list=="R") pa="resonant";
+	if (list=="S") pa="sonorant";
+	if (list=="T") pa="dental";
+	if (list=="K") pa="velar";
+	if (list=="N") pa="nasal";
+	if (pa!="")
+	{
+		if (gen)
+		{
+			generaltalk=true;
+			pa+="s";
+		}
+		return(pa);
+	}
+	else return(list);
 }
