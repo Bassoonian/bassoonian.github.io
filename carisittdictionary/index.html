@@ -206,6 +206,7 @@
 	orderalph=true;
 	usexsampa=false;
 	enablesoundchangetooltips=true;
+	_uidlist=[];
 	sources=[
 		["ed_greek",
 			"Beekes, Robert. <i>Etymological Dictionary of Greek.</i> Leiden, Koninklijke Brill NV, 2010",[
@@ -715,7 +716,11 @@
 					endoflexicon=i;
 					i=dbase.length;
 				}
-				else if (dbase[i][0].charAt(0)!="§"&&dbase[i][0]!="!!!") lexlist.push([i,cat]);
+				else
+				{
+					if (dbase[i][0].charAt(0)!="§"&&dbase[i][0]!="!!!") lexlist.push([i,cat]);
+					if (dbase[i][uidcolumn]!="") _uidlist.push([dbase[i][uidcolumn],i]);
+				}
 			}
 			if (endoflexicon==-1)
 			{
@@ -1427,7 +1432,7 @@
 					for(var j=0;j<ttt.length;j++)
 					{
 						if (j>0) temp+=", ";
-						temp+="<a class='clickety' onclick='openWord("+ttt[j]+",false);'>"+wordlist[ttt[j]][0]+"</a>";
+						temp+="<a class='clickety' href='javascript:void(0);' onclick='openWord("+ttt[j]+",false);'>"+wordlist[ttt[j]][0]+"</a>";
 					}
 					temp+="</li>";
 				}
@@ -1549,7 +1554,7 @@
 					if (check1==dbase[wordlist[i][2]][0]&&check1!="") goahead=true;
 					if (check2==dbase[wordlist[i][2]][1]&&check2!="") goahead=true;
 					if (check3==dbase[wordlist[i][2]][2]&&check3!="") goahead=true;
-					if (goahead&&i!=wid) temp+="<li><a class='clickety' onclick='openWord("+i+",false);'>"+wordlist[i][0]+"</a></li>";
+					if (goahead&&i!=wid) temp+="<li><a href='javascript:void(0);' class='clickety' onclick='openWord("+i+",false);'>"+wordlist[i][0]+"</a></li>";
 				}
 			}
 			document.getElementById("etymo_relatedtermslist").innerHTML=temp;

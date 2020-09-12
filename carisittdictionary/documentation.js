@@ -88,9 +88,55 @@ function getDocTitle(idi)
 	return(t);
 }
 
+function getExample(changecolumn,set)
+{
+	var pit=[];
+	var out="";
+	for(var i=3;i<dbase.length;i++)
+	{
+		if(dbase[i][changecolumn]!=""&&dbase[i][0]!="//")
+		{
+			if (!dbase[i][changecolumn].includes("~")) pit.push(i);//Temporarily exclude ablauting stuff for nicer display
+		}
+	}
+	if (pit.length==0) out="N/A";
+	else
+	{
+		var selected=pit[~~(pit.length*Math.random())];
+		var s=dbase[selected][changecolumn];
+		if (s.charAt(1)=="-") s=s.slice(1);
+		out="<i><b>"+s+"</b></i>";
+		var lookup=changecolumn;
+		for(var i=0;i<maincolumns.length;i++)
+		{
+			if (lookup<maincolumns[i])
+			{
+				lookup=maincolumns[i];
+				i=maincolumns.length;
+			}
+		}
+		s=dbase[selected][lookup];
+		if (s.charAt(1)=="-") s=s.slice(1);
+		out+=" > <i>"+s+"</i>";
+		var lookup=changecolumn-1;
+		for(var i=lookup;i>0;i--)
+		{
+			if (dbase[selected][i]!=""&&dbase[1][i]!="MEANING"&&dbase[1][i]!="GRAMMAR")
+			{
+				lookup=i;
+				i=0;
+			}
+		}
+		s=dbase[selected][lookup];
+		if (s.charAt(1)=="-") s=s.slice(1);
+		out="<i>"+s+"</i> > "+out;
+	}
+	if (!set) return(out);
+	else document.getElementById("span_change_"+changecolumn).innerHTML=out;
+}
+
 function docParseData(dat)
 {
-	console.log(dat);
 	for(var i=0;i<stagelist.length;i++) dat=replaceAll("§lang_"+i,stagelist[i][0],dat);
 	if (dat.includes("||SOUNDCHANGES||"))
 	{
@@ -118,9 +164,11 @@ function docParseData(dat)
 				temp+="<span";
 				if (enablesoundchangetooltips)
 				{
-					temp+=' data-toggle="tooltip" data-placement="right" title="'+parseSoundChange(dbase[2][pipo])+'"';
+					temp+=' data-toggle="tooltip" data-placement="right" title="'+parseSoundChange(replaceAll("Ø","∅",dbase[2][pipo]))+'"';
 				}
-				temp+=">"+dbase[2][pipo]+"</span>";
+				temp+=">"+replaceAll("Ø","∅",dbase[2][pipo])+"</span>";
+				//Include in example
+				temp+=" (ex. <span id='span_change_"+pipo+"'>"+getExample(pipo,false)+"</span> <a onclick='getExample("+pipo+",true);' class='clickety'><i class='fas fa-redo'></i></a>)";
 			}
 			pipo++;
 		}
@@ -162,6 +210,7 @@ function parseSoundChange(pp)
 	else if (prefix!="") prefix=prefix.charAt(0).toUpperCase()+prefix.slice(1);
 	b[0]=prefix+" "+b[0];
 	
+	b[1]=b[1].trim();
 	b[1]=getFeatureName(b[1]);
 	
 	if (a.length>1)
@@ -175,6 +224,7 @@ function parseSoundChange(pp)
 		{
 			c[1]=c[1].trim();
 		}
+		c[0]=c[0].trim();
 	}
 	
 	//Formulate
@@ -194,14 +244,17 @@ function parseSoundChange(pp)
 			if (c[0]=="word-initial") temp+=c[0];
 			else temp+="following "+c[0];
 		}
-		if (wherecheck==0) temp+" and ";
+		if (wherecheck==0) temp+=" and ";
 		if (wherecheck>-1)
 		{
 			temp+="preceding "+c[1];
 		}
 	}
 	temp+=".";
-	return(temp);
+	
+	temp=temp.replace("becomes ∅","is deleted");
+	temp=temp.replace("become ∅","are deleted");
+	return(temp.trim());
 }
 
 function getFeatureName(list)
