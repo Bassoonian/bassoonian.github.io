@@ -142,6 +142,11 @@ sources=[
 			["google",		"https://books.google.be/books?id=ZjcrhyQlFa0C"],
 			["worldcat",	"https://www.worldcat.org/title/history-of-the-spanish-language/oclc/633641168"]
 		]],
+	["mythandlaw",
+		"Puhvel, Jaan. <i>Myth and Law Among the Indo-Europeans: Studies in Indo-European Comparative Mythology.</i> Berkeley/Los Angeles/London, University of California Press, 1970",[
+			["google",		"https://books.google.be/books?id=IdMoAAAAYAAJ"],
+			["worldcat",	"https://www.worldcat.org/title/myth-and-law-among-the-indo-europeans-studies-in-indo-european-comparative-mythology/oclc/900530374"]
+		]],
 	["pie_to_pgmc",
 		"Ringe, Don. <i>From Proto-Indo-European to Proto-Germanic.</i> Oxford, Oxford University Press, 2009",[
 			["google",		"https://books.google.be/books?id=ymcm0Lt9sR0C"],

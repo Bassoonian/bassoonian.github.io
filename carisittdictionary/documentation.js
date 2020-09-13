@@ -217,6 +217,7 @@ function getRandomInflectionTable(pattern,stage,forceblank)
 			else if (referrent==true&&dbase[i][maincolumns[stage]]!="") pit.push(i);
 		}
 	}
+	if (pit.length==0) return("N/A");
 	var selected=pit[~~(pit.length*Math.random())];
 	//Make actual table
 	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false);
