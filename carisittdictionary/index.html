@@ -989,73 +989,7 @@
 			if (wordcategoryopen=="Adjective"||(wordcategoryopen=="Numeral"&&wordlist[wid][3]!="NUM_GEN"))
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
-				var iamnumeral=(wordcategoryopen=="Numeral");
-				if (wordlist[wid][3]!="NUM_ONE"&&wordlist[wid][3]!="NUM_TWO"&&wordlist[wid][3]!="NUM_THREE") iamnumeral=false;
-				
-				var stemarray=dbase[wordlist[wid][2]][maincolumns[activestage]].split("~");
-				//Figure out raw stem of the first index
-				var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
-				//Get precise moment
-				var kluku=-1;
-				for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==wordlist[wid][3]) kluku=declensionlist[i][1]+1;
-
-				//Figure out which declensions to draw data from
-				var decolist=[];
-				for(var i=0;i<_genders[activestage].length;i++)
-				{
-					for(var j=0;j<declensionlist.length;j++)
-					{
-						if (declensionlist[j][0]==dbase[kluku-1][stagelist[activestage][1]+1+i]) decolist.push(declensionlist[j][1]+1);
-					}
-				}
-				
-				temp="Error loading declension! Please get in touch to report this bug.";
-				if (decolist.length>0)
-				{
-					var kloko=(((dbase[decolist[0]][maincolumns[activestage]].replace("0-","")).split("")).reverse()).join("");
-					klaka=klaka.replace(kloko,"");
-					stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
-				
-					temp='<table class="table w-auto table-sm"><thead>';
-					temp+="<tr><th colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>"+dbase[kluku-1][stagelist[activestage][1]]+"</th></tr></thead><tbody>";
-					for(var i=0;i<=_conjunctivelist[activestage];i++)
-					{
-						if (_conjunctivelist[activestage])
-						{
-							temp+="<tr><th colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>";
-							if (i==0) temp+=glossText("prm",returnGloss("prm"));
-							else temp+=glossText("cnj",returnGloss("cnj"));
-							temp+="</th></tr>";
-						}
-							//Genders + number
-							temp+="<tr><th></th>";
-							for(var j=0;j<decolist.length;j++) temp+="<th colspan='"+(1+!(iamnumeral))+"'>"+glossText(_genders[activestage][j],returnGloss(_genders[activestage][j]))+"</th>";
-							temp+="</tr><tr>";
-							if (!iamnumeral)
-							{
-								temp+="<th></th>";
-								for(var j=0;j<decolist.length;j++) temp+="<th>"+glossText("sg",returnGloss("sg"))+"</th><th>"+glossText("pl",returnGloss("pl"))+"</th>";
-								temp+="</tr>";
-							}
-							for(var j=0;j<_caseslist[0].length;j++)
-							{
-								if (_caseslist[activestage][j]!="")
-								{
-									temp+="<tr><th scope='row'>"+glossText(_caseslist[activestage][j],returnGloss(_caseslist[activestage][j]))+"</th>";
-									for(var k=0;k<decolist.length;k++)
-									{
-										//singular
-										temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*2*i+j),decolist[k],activestage)),activestage)+"</td>";
-										//plural
-										if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(2*i+1)+j),decolist[k],activestage)),activestage)+"</td>";
-									}
-									temp+="</tr>";
-								}
-							}
-					}
-					
-					temp+="</tbody></table>";
-				}
+				temp+=tableAdjective(wordlist[wid][2],wordlist[wid][3],activestage,(wordcategoryopen=="Numeral"));
 			}
 			if (wordcategoryopen=="Verb")
 			{
@@ -1421,6 +1355,74 @@
 				}
 			}
 			temp+="</tbody></table>";
+			return(temp);
+		}
+	function tableAdjective(dbaserow,pattern,stage,iamnumeral)
+		{
+			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
+			//Figure out raw stem of the first index
+			var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
+			//Get precise moment
+			var kluku=-1;
+			for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==pattern) kluku=declensionlist[i][1]+1;
+
+			//Figure out which declensions to draw data from
+			var decolist=[];
+			for(var i=0;i<_genders[stage].length;i++)
+			{
+				for(var j=0;j<declensionlist.length;j++)
+				{
+					if (declensionlist[j][0]==dbase[kluku-1][stagelist[stage][1]+1+i]) decolist.push(declensionlist[j][1]+1);
+				}
+			}
+			
+			temp="Error loading declension! Please get in touch to report this bug.";
+			if (decolist.length>0)
+			{
+				var kloko=(((dbase[decolist[0]][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
+				klaka=klaka.replace(kloko,"");
+				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+			
+				temp='<table class="table w-auto table-sm"><thead>';
+				temp+="<tr><th colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr></thead><tbody>";
+				for(var i=0;i<=_conjunctivelist[stage];i++)
+				{
+					if (_conjunctivelist[activestage])
+					{
+						temp+="<tr><th colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>";
+						if (i==0) temp+=glossText("prm",returnGloss("prm"));
+						else temp+=glossText("cnj",returnGloss("cnj"));
+						temp+="</th></tr>";
+					}
+						//Genders + number
+						temp+="<tr><th></th>";
+						for(var j=0;j<decolist.length;j++) temp+="<th colspan='"+(1+!(iamnumeral))+"'>"+glossText(_genders[stage][j],returnGloss(_genders[stage][j]))+"</th>";
+						temp+="</tr><tr>";
+						if (!iamnumeral)
+						{
+							temp+="<th></th>";
+							for(var j=0;j<decolist.length;j++) temp+="<th>"+glossText("sg",returnGloss("sg"))+"</th><th>"+glossText("pl",returnGloss("pl"))+"</th>";
+							temp+="</tr>";
+						}
+						for(var j=0;j<_caseslist[0].length;j++)
+						{
+							if (_caseslist[stage][j]!="")
+							{
+								temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][j],returnGloss(_caseslist[stage][j]))+"</th>";
+								for(var k=0;k<decolist.length;k++)
+								{
+									//singular
+									temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*2*i+j,stage),decolist[k])),stage)+"</td>";
+									//plural
+									if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(2*i+1)+j,stage),decolist[k])),stage)+"</td>";
+								}
+								temp+="</tr>";
+							}
+						}
+				}
+				
+				temp+="</tbody></table>";
+			}
 			return(temp);
 		}
 		

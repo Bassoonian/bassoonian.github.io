@@ -220,6 +220,7 @@ function getRandomInflectionTable(pattern,stage,forceblank)
 	var selected=pit[~~(pit.length*Math.random())];
 	//Make actual table
 	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false);
+	if (inflectioncategory=="Adjective") temp=tableAdjective(selected,pattern,stage,false);
 	return(temp);
 }
 
