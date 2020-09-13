@@ -138,6 +138,7 @@ function getExample(changecolumn,set)
 function docParseData(dat)
 {
 	for(var i=0;i<stagelist.length;i++) dat=replaceAll("§lang_"+i,stagelist[i][0],dat);
+	//Include sound changs
 	if (dat.includes("||SOUNDCHANGES||"))
 	{
 		var temp="";
@@ -176,7 +177,50 @@ function docParseData(dat)
 		if (texto!="") temp+="<p>"+texto+"</p>"
 		dat=dat.replace("||SOUNDCHANGES||",temp);
 	}
+	//Do tables
+	for(var i=0;i<declensionlist.length;i++)
+	{
+		if (dat.includes("||TABLE-"+declensionlist[i][0]+"||"))
+		{
+			var temp="Table of "+declensionlist[i][0];
+			temp=getRandomInflectionTable(declensionlist[i][0],_last_loaded_file,true);
+			dat=dat.replace("||TABLE-"+declensionlist[i][0]+"||",temp);
+		}
+	}
 	return(parseEtymoText(dat));
+}
+
+function getRandomInflectionTable(pattern,stage,forceblank)
+{
+	var temp="";
+	//Make list of candidate categories
+	var pit_cat=[];
+	var inflectioncategory="";
+	for(var i=0;i<declensionlist.length;i++)
+	{
+		if (dbase[declensionlist[i][1]][1]==pattern||dbase[declensionlist[i][1]][stagelist[stage][1]].replace(">","")==pattern) pit_cat.push(dbase[declensionlist[i][1]][1]);
+		if (dbase[declensionlist[i][1]][1]==pattern) inflectioncategory=dbase[declensionlist[i][1]][2];
+	}
+	//Populate possible words
+	var pit=[];
+	var referrent=false;
+	for(var i=3;i<dbase.length;i++)
+	{
+		if (dbase[i][0]=="@@@@") i=dbase.length;
+		else
+		{
+			if (dbase[i][0]=="//")
+			{
+				referrent=false;
+				if (pit_cat.includes(dbase[i][1])) referrent=true;
+			}
+			else if (referrent==true&&dbase[i][maincolumns[stage]]!="") pit.push(i);
+		}
+	}
+	var selected=pit[~~(pit.length*Math.random())];
+	//Make actual table
+	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false);
+	return(temp);
 }
 
 function parseSoundChange(pp)

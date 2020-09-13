@@ -13,6 +13,7 @@
 	<script src="jquery.csv.js"></script>
 	<script src="constants.js"></script>
 	<script src="replacescripts.js"></script>
+	<script src="documentation/bibliographies.js"></script>
 	<script src="https://kit.fontawesome.com/d0b09f0ca1.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="stylesheet.css">
 </head>
@@ -983,52 +984,7 @@
 			if (wordcategoryopen=="Noun")
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
-				var stemarray=dbase[wordlist[wid][2]][maincolumns[activestage]].split("~");
-				//Figure out raw stem of the first index
-				var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
-				//Get precise moment
-				var kluku=-1;
-				for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==wordlist[wid][3]) kluku=declensionlist[i][1]+1;
-				//Check if not a reference!
-				if (dbase[kluku-1][stagelist[activestage][1]].charAt(0)==">")
-				{
-					var newdb=dbase[kluku-1][stagelist[activestage][1]].replace(">","");
-					for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==newdb) kluku=declensionlist[i][1]+1;
-				}
-				var kloko=(((dbase[kluku][maincolumns[activestage]].replace("0-","")).split("")).reverse()).join("");
-				klaka=klaka.replace(kloko,"");
-				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
-				
-				document.getElementById("dicentry_gender").style.display="initial";
-				document.getElementById("dicentry_gender2").innerHTML=dbase[kluku-1][stagelist[activestage][1]+1];
-				
-				temp='<table class="table w-auto table-sm"><thead>';
-				var beq=_conjunctivelist[activestage];
-				temp+="<tr><th colspan='"+(3+beq*2)+"' scope='col'>"+dbase[kluku-1][stagelist[activestage][1]]+"</th></tr>";
-				if (beq) temp+="<tr><th scope='col'></th><th scope='col' colspan='2'>"+glossText("prm",returnGloss("prm"))+"</th><th scope='col' colspan='2'>"+glossText("cnj",returnGloss("cnj"))+"</th></tr>";
-				temp+='<tr><th scope="col"></th>';
-				for(var i=0;i<=beq;i++) temp+='<th scope="col">'+glossText("sg",returnGloss("sg"))+'</th><th scope="col">'+glossText("pl",returnGloss("pl"))+"</th>";
-				temp+="</tr></thead><tbody>";
-				for(var i=0;i<_caseslist[0].length;i++)
-				{
-					if (_caseslist[activestage][i]!="")
-					{
-						temp+="<tr><th scope='row'>"+glossText(_caseslist[activestage][i],returnGloss(_caseslist[activestage][i]))+"</th>";
-						//singular
-						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+i)),activestage)+"</td>";
-						//plural
-						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length+i)),activestage)+"</td>";
-						if (beq)
-						{
-							//singular
-							temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length*2+i)),activestage)+"</td>";
-							//plural
-							temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length*3+i)),activestage)+"</td>";
-						}
-						temp+="</tr>";
-					}
-				}
-				temp+="</tbody></table>";
+				temp+=tableNoun(wordlist[wid][2],wordlist[wid][3],activestage,true);
 			}
 			if (wordcategoryopen=="Adjective"||(wordcategoryopen=="Numeral"&&wordlist[wid][3]!="NUM_GEN"))
 			{
@@ -1089,9 +1045,9 @@
 									for(var k=0;k<decolist.length;k++)
 									{
 										//singular
-										temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*2*i+j),decolist[k])),activestage)+"</td>";
+										temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*2*i+j),decolist[k],activestage)),activestage)+"</td>";
 										//plural
-										if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(2*i+1)+j),decolist[k])),activestage)+"</td>";
+										if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(2*i+1)+j),decolist[k],activestage)),activestage)+"</td>";
 									}
 									temp+="</tr>";
 								}
@@ -1136,7 +1092,7 @@
 							temp+="<th scope='col'>"+glossText(_tamlist[activestage][i][1][k],returnGloss(_tamlist[activestage][i][1][k]))+"</th>";
 							for(var l=0;l<6;l++)
 							{
-								temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+(l+k*6+j*_tamlist[activestage][i][1].length*6+i*_tamlist[activestage][i][1].length*6*(_voicelist[activestage].length+1)))),activestage)+"</td>";
+								temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+(l+k*6+j*_tamlist[activestage][i][1].length*6+i*_tamlist[activestage][i][1].length*6*(_voicelist[activestage].length+1)),activestage)),activestage)+"</td>";
 							}
 							temp+="</tr>";
 						}
@@ -1153,14 +1109,14 @@
 			
 			$('[data-toggle="tooltip"]').tooltip();
 		}
-	function getSuffix(paipo)
+	function getSuffix(paipo,stageused)
 		{
 			var q="";
 			if (dbase[paipo][1]==">>-1") paipo-=1;
 			if (dbase[paipo][1]==">>-2") paipo-=2;
 			if (dbase[paipo][1]==">>-3") paipo-=3;
 			if (dbase[paipo][1]==">>-4") paipo-=4;
-			return(dbase[paipo][maincolumns[activestage]]);
+			return(dbase[paipo][maincolumns[stageused]]);
 		}
 	function attachSuffix(array,suffix)
 		{
@@ -1410,6 +1366,61 @@
 					}
 				}
 			}
+			return(temp);
+		}
+		
+	function tableNoun(dbaserow,pattern,stage,indicategender)
+		{
+			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
+			//Figure out raw stem of the first index
+			var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
+			//Get precise moment
+			var kluku=-1;
+			for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==pattern) kluku=declensionlist[i][1]+1;
+			//Check if not a reference!
+			if (dbase[kluku-1][stagelist[stage][1]].charAt(0)==">")
+			{
+				var newdb=dbase[kluku-1][stagelist[stage][1]].replace(">","");
+				for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==newdb) kluku=declensionlist[i][1]+1;
+			}
+			var kloko=(((dbase[kluku][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
+			klaka=klaka.replace(kloko,"");
+			stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+			
+			if (indicategender)
+			{
+				document.getElementById("dicentry_gender").style.display="initial";
+				document.getElementById("dicentry_gender2").innerHTML=dbase[kluku-1][stagelist[stage][1]+1];
+			}
+			
+			var temp='<table class="table w-auto table-sm"><thead>';
+			var beq=_conjunctivelist[stage];
+			temp+="<tr><th colspan='"+(3+beq*2)+"' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr>";
+			if (beq) temp+="<tr><th scope='col'></th><th scope='col' colspan='2'>"+glossText("prm",returnGloss("prm"))+"</th><th scope='col' colspan='2'>"+glossText("cnj",returnGloss("cnj"))+"</th></tr>";
+			temp+='<tr><th scope="col"></th>';
+			for(var i=0;i<=beq;i++) temp+='<th scope="col">'+glossText("sg",returnGloss("sg"))+'</th><th scope="col">'+glossText("pl",returnGloss("pl"))+"</th>";
+			temp+="</tr></thead><tbody>";
+			
+			for(var i=0;i<_caseslist[0].length;i++)
+			{
+				if (_caseslist[stage][i]!="")
+				{
+					temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][i],returnGloss(_caseslist[stage][i]))+"</th>";
+					//singular
+					temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+i,stage)),stage)+"</td>";
+					//plural
+					temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length+i,stage)),stage)+"</td>";
+					if (beq)
+					{
+						//singular
+						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length*2+i,stage)),stage)+"</td>";
+						//plural
+						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length*3+i,stage)),stage)+"</td>";
+					}
+					temp+="</tr>";
+				}
+			}
+			temp+="</tbody></table>";
 			return(temp);
 		}
 		
