@@ -785,6 +785,13 @@
 			if (activestage==3) w=w.replace(/(s)(\.?ˈ?[ptkmn])/g,"ʃ$2");
 			return("["+w+"]");
 		}
+	function parseTransCondition(text)
+		{
+			var out=text;
+			for(var i=0;i<glossterms.length;i++) out=out.replace(glossterms[i][0].toUpperCase(),glossText(glossterms[i][0],glossterms[i][1]));
+			if (out==text) out="<i>"+text+"</i>";
+			return(out);
+		}
 	function openWord(wid,first)
 		{
 			if (!first) $('#wotdnotice').alert("close");
@@ -810,8 +817,8 @@
 			{
 				temp+="<li>";
 				var k=translist[i].split("£");
-				if (k.length>1) temp+="(<i>"+replaceAll("§",", ",k[1])+"</i>) ";
-				temp+=k[0];
+				if (k.length>1) temp+="("+parseTransCondition(k[1])+") ";
+				temp+=replaceAll("&",",",k[0]);
 				temp+="</li>";
 			}
 			document.getElementById("entry_translations").innerHTML=temp;
@@ -839,7 +846,7 @@
 				}
 				if (ttt.length>0)
 				{
-					temp+="<li>(<i>"+translist[i]+"</i>): ";
+					temp+="<li>(<i>"+(translist[i].split("£"))[0]+"</i>): ";
 					for(var j=0;j<ttt.length;j++)
 					{
 						if (j>0) temp+=", ";
