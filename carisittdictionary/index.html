@@ -1000,7 +1000,7 @@
 				temp+=".";
 			}
 			
-			if (dbase[wordlist[wid][2]][etymonotecolumn]!="") temp+=" "+parseEtymoText(dbase[wordlist[wid][2]][etymonotecolumn]);
+			if (dbase[wordlist[wid][2]][etymonotecolumn]!="") temp+=" "+parseEtymoText(dbase[wordlist[wid][2]][etymonotecolumn],activestage);
 			document.getElementById("entry_etymologytext").innerHTML=temp;
 			
 			//Get related terms
@@ -1224,8 +1224,11 @@
 		}
 	function timeTravel(word,stage)
 		{
-			document.getElementById("stageselectlist").selectedIndex=stage;
-			updateStage();
+			if (document.getElementById("stageselectlist").selectedIndex!=stage)
+			{
+				document.getElementById("stageselectlist").selectedIndex=stage;
+				updateStage();
+			}
 			var wlist=-1;
 			for(var i=0;i<wordlist.length;i++)
 			{
@@ -1236,8 +1239,9 @@
 				}
 			}
 			if (wlist>-1) openWord(wlist,false);
+			switch_tab(0);
 		}
-	function parseEtymoText(txt)
+	function parseEtymoText(txt,stage)
 		{
 			var newtxt="";
 			var barray=txt.split(" ");
@@ -1270,6 +1274,12 @@
 			txt=replaceAll(" - ","—",txt);
 			txt=replaceAll("<<","⟨",txt);
 			txt=replaceAll(">>","⟩",txt);
+			//Links
+			for(var i=0;i<_uidlist.length;i++)
+			{
+				txt=replaceAll("°"+_uidlist[i][0],"<a class='clickety' href='javascript:void(0);' onclick='timeTravel("+_uidlist[i][1]+","+stage+");'>"+apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage)+"</a>",txt);
+				txt=replaceAll("€"+_uidlist[i][0],apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage),txt);
+			}
 			return(txt);
 		}
 	function glossText(txt,hover)

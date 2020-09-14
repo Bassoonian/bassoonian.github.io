@@ -189,7 +189,13 @@ function docParseData(dat)
 			dat=dat.replace("||TABLE-"+declensionlist[i][0]+"||",temp);
 		}
 	}
-	return(parseEtymoText(dat));
+	return(parseEtymoText(dat,getBoop(_last_loaded_file)));
+}
+
+function getBoop(pop)
+{
+	if (pop=="mythology") pop="3";//Change to four!
+	return(pop);
 }
 
 function getRandomInflectionTable(pattern,stage,forceblank,adddiv,tablid)
