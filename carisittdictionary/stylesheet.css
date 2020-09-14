@@ -2,6 +2,10 @@
 	{
 		display: none;
 	}
+	#libertyalert
+	{
+		margin-top: 1rem;
+	}
 	.alphabetstripe
 	{
 		display: block;

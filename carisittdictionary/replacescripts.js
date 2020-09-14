@@ -112,20 +112,20 @@ function apply_orthography(word,stage)
 			w=replaceAll("R","Ρ",w);
 			w=replaceAll("l","λ",w);
 			w=replaceAll("L","Λ",w);
-			w=replaceAll("j","ι",w);
-			w=replaceAll("J","Ι",w);
-			w=replaceAll("w","υ",w);
-			w=replaceAll("W","Υ",w);
+			w=replaceAll("j","ῐ",w);
+			w=replaceAll("J","Ῐ",w);
+			w=replaceAll("w","ῠ",w);
+			w=replaceAll("W","Ῠ",w);
 			w=replaceAll("h","ψ",w);
 			w=replaceAll("H","Ψ",w);
 			
 			//Add back macrons later when you find a way not to make them look like shit lmao
-			w=replaceAll("ā","α",w);
-			w=replaceAll("Ā","Α",w);
-			w=replaceAll("ī","ι",w);
-			w=replaceAll("Ῑ","Ι",w);
-			w=replaceAll("ū","υ",w);
-			w=replaceAll("Ū","Υ",w);
+			w=replaceAll("ā","ᾱ",w);
+			w=replaceAll("Ā","Ᾱ",w);
+			w=replaceAll("ī","ῑ",w);
+			w=replaceAll("Ῑ","Ῑ",w);
+			w=replaceAll("ū","ῡ",w);
+			w=replaceAll("Ū","Ῡ",w);
 			
 			w=replaceAll("a","α",w);
 			w=replaceAll("A","Α",w);

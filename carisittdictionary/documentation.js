@@ -18,6 +18,7 @@ function prepDoc()
 function loadDocContent(contentid)
 {
 	_last_loaded_file=contentid;
+	_inflection_table_id=0;
 	$.get("documentation/"+contentid+".html",function(dat){
 		dat=docParseData(dat);
 		//Append title
@@ -183,14 +184,15 @@ function docParseData(dat)
 		if (dat.includes("||TABLE-"+declensionlist[i][0]+"||"))
 		{
 			var temp="Table of "+declensionlist[i][0];
-			temp=getRandomInflectionTable(declensionlist[i][0],_last_loaded_file,true);
+			temp=getRandomInflectionTable(declensionlist[i][0],_last_loaded_file,false,true,_inflection_table_id);
+			_inflection_table_id++;
 			dat=dat.replace("||TABLE-"+declensionlist[i][0]+"||",temp);
 		}
 	}
 	return(parseEtymoText(dat));
 }
 
-function getRandomInflectionTable(pattern,stage,forceblank)
+function getRandomInflectionTable(pattern,stage,forceblank,adddiv,tablid)
 {
 	var temp="";
 	//Make list of candidate categories
@@ -220,9 +222,17 @@ function getRandomInflectionTable(pattern,stage,forceblank)
 	if (pit.length==0) return("N/A");
 	var selected=pit[~~(pit.length*Math.random())];
 	//Make actual table
-	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false);
-	if (inflectioncategory=="Adjective") temp=tableAdjective(selected,pattern,stage,false);
+	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false,tablid);
+	if (inflectioncategory=="Adjective") temp=tableAdjective(selected,pattern,stage,false,tablid);
+	if (inflectioncategory=="Numeral") temp=tableAdjective(selected,pattern,stage,true,tablid);
+	if (adddiv) temp="<div id='randomInflectionTable"+tablid+"'>"+temp+"</div>";
 	return(temp);
+}
+
+function findNewTable(tableid,pattern,stage,forceblank)
+{
+	var temp=getRandomInflectionTable(pattern,stage,forceblank,false,tableid);
+	document.getElementById("randomInflectionTable"+tableid).innerHTML=temp;
 }
 
 function parseSoundChange(pp)

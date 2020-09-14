@@ -96,9 +96,9 @@
 					</div>
 				</div>
 				<div id="tab_sources" class="tab-pane fade" role="tabpanel" aria-labelledby="tab_click_sources">
-					<!-- <div class="alert alert-warning" role="alert" id="libertyalert">
+					<div class="alert alert-warning" role="alert" id="libertyalert">
 						<strong>Notice:</strong> This entry was added as part of artistic liberty and is as such irrelevant to any actual scientific research.
-					</div> -->
+					</div>
 					<h4>Sources</h4>
 					<p id="entry_sourcetext"></p>
 				</div>
@@ -192,7 +192,7 @@
 <script>
 	//Initialise important variables
 	_alphabet=[
-		"Α Β Γ Δ Ε Ϝ Ζ Η Ι Κ Λ Μ Ν Ο Π Ρ Σ Τ Υ~Y Φ Χ Ψ Ω",
+		"Α~Ᾱ Β Γ Δ Ε Ϝ Ζ Η Ι~Ῑ~Ῐ Κ Λ Μ Ν Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y Φ Χ Ψ Ω",
 		"A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄",
 		"A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄",
 		"A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄"];
@@ -279,6 +279,7 @@
 			switch(a)
 			{
 				case "Late Egyptian": a="Egyptian";break;
+				case "Armenian": a="Old Armenian";break;
 				case "Proto-Celtic": t+="Reconstruction:Proto-Celtic/";a="";break;
 				case "Proto-Slavic": t+="Reconstruction:Proto-Slavic/";a="";break;
 				case "Proto-Germanic": t+="Reconstruction:Proto-Germanic/";a="";break;
@@ -439,7 +440,7 @@
 				if (orth!=""&&orth!="*") //If empty, this word does not yet/no longer exist in this stage!
 				{
 					orth2=""//apply_nativealphabet(orth,stagid);
-					wordlist.push([orth,orth2,lexlist[i][0],lexlist[i][1],dbase[lexlist[i][0]][lasteditcolumn]]);
+					wordlist.push([orth,orth2,lexlist[i][0],lexlist[i][1],new Date(dbase[lexlist[i][0]][lasteditcolumn])]);
 				}
 			}
 			//Order alphabetically
@@ -461,7 +462,7 @@
 	function order_lastedit()
 		{
 			wordlist.sort(function(a,b){
-				return(a[4]<b[4]);
+				return(a[4].getTime()<b[4].getTime());
 			});
 		}
 	function strSortAlph(a,b)
@@ -786,7 +787,7 @@
 		}
 	function openWord(wid,first)
 		{
-			if (!first) $('.alert').alert("close");
+			if (!first) $('#wotdnotice').alert("close");
 			$('#tab_click_general').trigger("click");
 			_last_opened=wid;
 			document.getElementById("entry_name").innerHTML=display(wordlist[wid]);
@@ -819,7 +820,6 @@
 			temp=dbase[wordlist[wid][2]][maincolumns[activestage]].toLowerCase();
 			temp=getPronunciation((temp.split("~"))[0]);
 			temp="<li>"+temp+"</li>";
-			
 			document.getElementById("entry_pronunciation").innerHTML=temp;
 			
 			//Find synonyms
@@ -855,61 +855,94 @@
 			temp="";
 			var prevmeaning="";
 			var startingpoint=-1;
-			var stagecycle=activestage-1;
+			var checkpie=true;
+			var isloan=false;
+			document.getElementById("libertyalert").style.display="none";
 			for(var i=0;i<happenings.length;i++)
 			{
-				if (happenings[i][1]+2==stagelist[activestage][1]) startingpoint=i+1;
-			}
-			//else
-			{
-				for(var i=startingpoint;i>-2;i--)
+				if (happenings[i][1]==maincolumns[activestage])
 				{
-					if (i==-1)
+					startingpoint=i;
+					i=happenings.length;
+				}
+			}
+			//Backwards
+			for(var i=startingpoint-1;i>=0;i--)
+			{
+				if (dbase[wordlist[wid][2]][happenings[i][1]]!="")
+				{
+					if (temp!="") temp+=", ";
+					if (happenings[i][0]=="VVV")
 					{
-						if (temp!="") temp+=", ";
-						temp+="from Proto-Indo-European ";
-						if (dbase[wordlist[wid][2]][2]!="")
-						{
-							temp+="<i>*"+dbase[wordlist[wid][2]][2];
-							temp+="</i>, from Proto-Indo-European ";
-						}
-						temp+="<i>*"+dbase[wordlist[wid][2]][1]+"</i>";
-						if (dbase[wordlist[wid][2]][0]!="")
-						{
-							temp+=", from Proto-Indo-European ";
-							temp+="<i>*"+dbase[wordlist[wid][2]][0]+"</i>";
-						}
+						//It's a stage!
+						temp+="from "+stagelist[maincolumns.indexOf(happenings[i][1])][0]+" "+dbase[wordlist[wid][2]][happenings[i][1]];
 					}
-					else if (dbase[wordlist[wid][2]][happenings[i][1]]!="")
+					else
 					{
-						if (temp!="") temp+=", ";
-						if (happenings[i][0]!="VVV")
+						var evaluate=dbase[wordlist[wid][2]][happenings[i][1]].split(" ");
+						switch(evaluate[0].charAt(0))
 						{
-							//Not inherited aka loan/contemporary derivation
-							var temparr=dbase[wordlist[wid][2]][happenings[i][1]].split(" ");
-							if (temparr[0].charAt(0)=="L")
-							{
-								//Loan
-								temp+="loaned from "+parseLoan(temparr,happenings[i][0]);
-								i=-1; //Since it's not inherited, cancel the loop since we reached the earliest point
-							}
+							case "L"://Loan
+								evaluate[0]=evaluate[0].slice(1);
+								if (evaluate[0]=="artlib") document.getElementById("libertyalert").style.display="inherit";
+								temp+=parseLoan(evaluate,happenings[i][0]);
+								isloan=true;
+								break;
+							case "D":
+								checkpie=false;
+								temp+="derivation";
+								break;
 						}
-						else
-						{
-							temp+="from "+stagelist[stagecycle][0]+" <i>"+apply_orthography(dbase[wordlist[wid][2]][happenings[i][1]],stagecycle);
-							temp+="</i> (“";
-							if (dbase[wordlist[wid][2]][happenings[i][1]+1]==prevmeaning) temp+="id.";
-							else
-							{
-								prevmeaning=dbase[wordlist[wid][2]][happenings[i][1]+1];
-								temp+=replaceAll(",",", ",prevmeaning);
-							}
-							temp+="”)"
-							stagecycle--;
-						}
+						i=-1;//End of journey
 					}
 				}
 			}
+			if (checkpie)
+			{
+				if (dbase[wordlist[wid][2]][2]!="")
+				{
+					if (temp!="") temp+=", ";
+					temp+="from Pre-"+stagelist[0][0]+" <i>*"+dbase[wordlist[wid][2]][2]+"</i>";
+				}
+				if (dbase[wordlist[wid][2]][1]!="")
+				{
+					if (temp!="") temp+=", ";
+					if (isloan)
+					{
+						temp+="ultimately ";
+						isloan=false;
+					}
+					temp+="from "+formatCognate(["pie",dbase[wordlist[wid][2]][1]],false);
+				}
+				if (dbase[wordlist[wid][2]][0]!="")
+				{
+					if (temp!="") temp+=", ";
+					var pp="!";
+					if (isloan)
+					{
+						temp+="ultimately ";
+						pp="";
+					}
+					temp+="derived from the root "+formatCognate([pp+"pie",dbase[wordlist[wid][2]][0]],false);
+				}
+			}
+			//Forwards
+			var addforward=false;
+			for(var i=activestage+1;i<stagelist.length;i++)
+			{
+				if (dbase[wordlist[wid][2]][maincolumns[i]]=="") i=stagelist.length;
+				else
+				{
+					if (!addforward)
+					{
+						temp+=". Regularly develops into ";
+						addforward=true;
+					}
+					else temp+=", whence ";
+					temp+=stagelist[i][0]+" "+dbase[wordlist[wid][2]][maincolumns[i]];
+				}
+			}
+			
 			temp=(temp.charAt(0).toUpperCase()+temp.slice(1)+".").replace("..",".");
 			//Handle cognates and formids
 			var coggies1=dbase[wordlist[wid][2]][cognatecolumn].split(",");
@@ -937,13 +970,13 @@
 				{
 					hasformids=true;
 					temp+="Formally identical to ";
-					for(var i=0;i<formies2.length;i++) {if (i==formies2.length-1&&i!=0) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(formies2[i]);}
+					for(var i=0;i<formies2.length;i++) {if (i==formies2.length-1&&i!=0) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(formies2[i],false);}
 				}
 				if (coggies2[0]!="")
 				{
 					if (hasformids) temp+=" while cognate with ";
 					else temp+="Cognate with ";
-					for(var i=0;i<coggies2.length;i++) {if (i==coggies2.length-1&&i!=0) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(coggies2[i]);}
+					for(var i=0;i<coggies2.length;i++) {if (i==coggies2.length-1&&i!=0) temp+=" and ";else if (i>0) temp+=", "; temp+=formatCognate(coggies2[i],false);}
 				}
 				temp+=".";
 			}
@@ -984,12 +1017,12 @@
 			if (wordcategoryopen=="Noun")
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
-				temp+=tableNoun(wordlist[wid][2],wordlist[wid][3],activestage,true);
+				temp+=tableNoun(wordlist[wid][2],wordlist[wid][3],activestage,true,-1);
 			}
 			if (wordcategoryopen=="Adjective"||(wordcategoryopen=="Numeral"&&wordlist[wid][3]!="NUM_GEN"))
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
-				temp+=tableAdjective(wordlist[wid][2],wordlist[wid][3],activestage,(wordcategoryopen=="Numeral"));
+				temp+=tableAdjective(wordlist[wid][2],wordlist[wid][3],activestage,(wordcategoryopen=="Numeral"),-1);
 			}
 			if (wordcategoryopen=="Verb")
 			{
@@ -1038,7 +1071,8 @@
 			document.getElementById("inflection_content").innerHTML=temp;
 			
 			//Set last edited
-			var qq=new Date(wordlist[wid][4]);
+			//var qq=new Date(wordlist[wid][4]);
+			var qq=wordlist[wid][4];
 			document.getElementById("word_last_edited_span").innerHTML=qq.toLocaleDateString(undefined,_dataformat);
 			
 			$('[data-toggle="tooltip"]').tooltip();
@@ -1071,15 +1105,27 @@
 			//Load stage
 			loadStage(activestage);	
 		}
-	function formatCognate(input)
+	function formatCognate(input,addmeaning)
 		{
 			var tf=input[1].split("=");
 			var ts=getLangName(input[0]);
-			var output=ts+" ";
+			var output="";
+			if (input[0].charAt(0)!="!") output=ts+" ";
+			else
+			{
+				input[0]=input[0].slice(1);
+				ts=getLangName(input[0]);
+			}
 			if (tf.length==1) output+="<i>";
 			output+='<a href="'+getWiktionaryLink(ts,tf[0])+'" target="_blank">'+asterisk(input[0])+tf[0]+'</a>';
 			if (tf.length==1) output+="</i>";
-			if (tf.length>1) output+=" (<i>"+tf[1]+"</i>)";
+			if (tf.length>1)
+			{
+				output+=" (<i>"+tf[1]+"</i>";
+				if (addmeaning) output+=", ";
+				else output+=")";
+			}
+			else if (addmeaning) output+=" (";
 			return(output);
 		}
 	function asterisk(krl)
@@ -1123,15 +1169,10 @@
 		}
 	function parseLoan(arg0,arg1)
 		{
-			var tt=getLangName(arg0[0].replace("L",""))+" ";
-			var rv=arg0[1].split("/");
-			var ts=rv[0].split("=");
-			
-			if (ts.length==1) tt+='<i>'+ts[0]+'</i> ("'+rv[1]+'")'; //No romanisation necessary
-			else tt+=ts[0]+' (<i>'+ts[1]+'</i>, "'+rv[1]+'")';
-			
-			tt+=" prior to "+arg1;
-			
+			var tt="";
+			if (arg0[0]=="MED") tt="of Mediterranean origin";
+			else if (arg0[0]=="artlib") tt="further origin unknown";
+			else tt="loaned from "+formatCognate([arg0[0],(arg0[1].split("/"))[0]],true)+'“'+replaceAll("_"," ",(arg0[1].split("/"))[1])+'”) prior to '+arg1;
 			return(tt);
 		}
 	function parseEtymoText(txt)
@@ -1150,7 +1191,7 @@
 						addtoend=barray[i].substr(-1);
 						barray[i]=barray[i].substring(0,barray[i].length-1);
 					}
-					newtxt+=formatCognate(barray[i].split("@"))+addtoend;
+					newtxt+=formatCognate(barray[i].split("@"),false)+addtoend;
 				}
 				else newtxt+=barray[i];
 			}
@@ -1303,7 +1344,7 @@
 			return(temp);
 		}
 		
-	function tableNoun(dbaserow,pattern,stage,indicategender)
+	function tableNoun(dbaserow,pattern,stage,indicategender,isdoc)
 		{
 			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
 			//Figure out raw stem of the first index
@@ -1330,6 +1371,7 @@
 			var temp='<table class="table w-auto table-sm"><thead>';
 			var beq=_conjunctivelist[stage];
 			temp+="<tr><th colspan='"+(3+beq*2)+"' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr>";
+			if (isdoc>-1) temp+="<tr><td style='text-align:center;' colspan='"+(3+beq*2)+"' scope='col'>(ex. "+(dbase[dbaserow][maincolumns[stage]].split("~"))[0]+" <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
 			if (beq) temp+="<tr><th scope='col'></th><th scope='col' colspan='2'>"+glossText("prm",returnGloss("prm"))+"</th><th scope='col' colspan='2'>"+glossText("cnj",returnGloss("cnj"))+"</th></tr>";
 			temp+='<tr><th scope="col"></th>';
 			for(var i=0;i<=beq;i++) temp+='<th scope="col">'+glossText("sg",returnGloss("sg"))+'</th><th scope="col">'+glossText("pl",returnGloss("pl"))+"</th>";
@@ -1357,7 +1399,7 @@
 			temp+="</tbody></table>";
 			return(temp);
 		}
-	function tableAdjective(dbaserow,pattern,stage,iamnumeral)
+	function tableAdjective(dbaserow,pattern,stage,iamnumeral,isdoc)
 		{
 			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
 			//Figure out raw stem of the first index
@@ -1384,7 +1426,9 @@
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
 			
 				temp='<table class="table w-auto table-sm"><thead>';
-				temp+="<tr><th colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr></thead><tbody>";
+				temp+="<tr><th colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr>";
+				if (isdoc>-1) temp+="<tr><td style='text-align:center;' colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>(ex. "+(dbase[dbaserow][maincolumns[stage]].split("~"))[0]+" <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
+				temp+="</thead><tbody>";
 				for(var i=0;i<=_conjunctivelist[stage];i++)
 				{
 					if (_conjunctivelist[activestage])
