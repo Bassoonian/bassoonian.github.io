@@ -875,7 +875,14 @@
 					if (happenings[i][0]=="VVV")
 					{
 						//It's a stage!
-						temp+="from "+stagelist[maincolumns.indexOf(happenings[i][1])][0]+" "+dbase[wordlist[wid][2]][happenings[i][1]];
+						var showmeaning="";
+						if (prevmeaning!=dbase[wordlist[wid][2]][happenings[i][1]+1])
+						{
+							prevmeaning=dbase[wordlist[wid][2]][happenings[i][1]+1];
+							showmeaning=prevmeaning;
+						}
+						else showmeaning="id.";
+						temp+="from "+etymoStep(maincolumns.indexOf(happenings[i][1]),wordlist[wid][2],showmeaning);
 					}
 					else
 					{
@@ -927,19 +934,31 @@
 				}
 			}
 			//Forwards
-			var addforward=false;
+			var prevmeaning="";
 			for(var i=activestage+1;i<stagelist.length;i++)
 			{
 				if (dbase[wordlist[wid][2]][maincolumns[i]]=="") i=stagelist.length;
 				else
 				{
-					if (!addforward)
+					var showmeaning="";
+					if (prevmeaning=="")
 					{
 						temp+=". Regularly develops into ";
-						addforward=true;
+						prevmeaning=dbase[wordlist[wid][2]][maincolumns[i]+1];
+						showmeaning=prevmeaning;
 					}
-					else temp+=", whence ";
-					temp+=stagelist[i][0]+" "+dbase[wordlist[wid][2]][maincolumns[i]];
+					else if (prevmeaning!=dbase[wordlist[wid][2]][maincolumns[i]+1])
+					{
+						prevmeaning=dbase[wordlist[wid][2]][maincolumns[i]+1];
+						showmeaning=prevmeaning;
+						temp+=", whence ";
+					}
+					else
+					{
+						showmeaning="id.";
+						temp+=", whence ";
+					}
+					temp+=etymoStep(i,wordlist[wid][2],showmeaning);
 				}
 			}
 			
@@ -1174,6 +1193,49 @@
 			else if (arg0[0]=="artlib") tt="further origin unknown";
 			else tt="loaned from "+formatCognate([arg0[0],(arg0[1].split("/"))[0]],true)+'“'+replaceAll("_"," ",(arg0[1].split("/"))[1])+'”) prior to '+arg1;
 			return(tt);
+		}
+	function etymoStep(stage,word,meaning)
+		{
+			var t=stagelist[stage][0]+" ";
+			var qq=dbase[word][maincolumns[stage]];
+			//Get word
+			var tt="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+word+","+stage+")'>"+apply_orthography(qq,stage)+"</a>";
+			if (!_needsromanisation[stage]) tt="<i>"+tt+"</i>";
+			t+=tt+" (";
+			if (_needsromanisation[stage]) t+="<i>"+apply_romanisation(qq,stage)+"</i>, ";
+			var meaningdisp="";
+			var mengar=meaning.split(",");
+			for(var i=0;i<mengar.length;i++)
+			{
+				if (i<3)
+				{
+					if (meaningdisp!="") meaningdisp+=", ";
+					mengar[i]=mengar[i].split("£")[0];
+					meaningdisp+=mengar[i];
+				}
+				else
+				{
+					i=mengar.length;
+					meaningdisp+=", etc.";
+				}
+			}
+			t+="“"+replaceAll("_"," ",meaningdisp)+"”)";
+			return(t);
+		}
+	function timeTravel(word,stage)
+		{
+			document.getElementById("stageselectlist").selectedIndex=stage;
+			updateStage();
+			var wlist=-1;
+			for(var i=0;i<wordlist.length;i++)
+			{
+				if (wordlist[i][2]==word)
+				{
+					wlist=i;
+					i=wordlist.length;
+				}
+			}
+			if (wlist>-1) openWord(wlist,false);
 		}
 	function parseEtymoText(txt)
 		{

@@ -73,6 +73,16 @@ function IPAtoXSampa(a)
 		a=replaceAll("ʊ","U",a);
 		return(a);
 	}
+function apply_romanisation(word,stage)
+	{
+		var w=(word.split("~"))[0];
+		w=pronFixOrtho(w,stage);
+		if (stage==0)
+		{
+			w="*"+w;
+		}
+		return(w);
+	}
 function apply_orthography(word,stage)
 	{
 		var w=(word.split("~"))[0];
