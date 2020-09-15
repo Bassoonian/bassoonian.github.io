@@ -31,7 +31,7 @@
 			</ul>
 		</div>
 		<div class="navbar-collapse collapse">
-	  		<ul class="navbar-nav ml-auto d-none" id="navbar_alphabetlist"></ul> <!-- add d-xl-flex to reenable-->
+	  		<ul class="navbar-nav d-none d-xl-flex" id="navbar_alphabetlist"></ul>
 			<button class="btn ml-auto btn-outline-secondary my-2 my-sm-0" data-toggle="modal" data-target="#searchsettingsmodal">
 				<i class="fas fa-cog"></i>
 			</button>
@@ -196,6 +196,7 @@
 	//_alphabet2=["𐌀 𐌁 𐌃 𐌄 𐌅 𐌂 𐌇 𐌉 𐌊 𐌋 𐌌 𐌍 𐌏 𐌐 𐌓 𐌔 𐌕 𐌖 𐌆 𐌗","","",""];
 	activestage=_alphabet.length-1;
 	includeother=true;
+	_navbarcontent="";
 	inbibliography=false;
 	searchenglish=false;
 	orderalph=true;
@@ -1312,15 +1313,19 @@
 		{
 			document.getElementById("head_container_lexicon").style.display="none";
 			document.getElementById("head_container_docu").style.display="none";
+			if (_navbarcontent=="") _navbarcontent=document.getElementById("navbar_alphabetlist").innerHTML;
 			if (tabid>0) document.getElementById("lang_name").innerHTML="CARITE";
 			switch(tabid)
 			{
 				case 0:
 					document.getElementById("head_container_lexicon").style.display="inherit";
 					document.getElementById("lang_name").innerHTML=stagelist[_currentstage][0].toUpperCase();
+					document.getElementById("navbar_alphabetlist").innerHTML=_navbarcontent;
+					_navbarcontent="";
 					break;
 				case 1:
 					document.getElementById("head_container_docu").style.display="inherit";
+					document.getElementById("navbar_alphabetlist").innerHTML="";
 					prepDoc();
 					break;
 				}
