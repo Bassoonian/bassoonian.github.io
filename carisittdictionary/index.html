@@ -28,9 +28,6 @@
 				<li class="nav-item">
 					<a class="nav-link" onclick="switch_tab(1);">Documentation</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" onclick="switch_tab(4);">Bibliography</a>
-				</li>
 			</ul>
 		</div>
 		<div class="navbar-collapse collapse">
@@ -124,6 +121,9 @@
 					<a class="DOC_bd-toc-link">Language</a>
 					<ul class="nav DOC_bd-sidenav" id="DOC_sidenav_langlist"></ul>
 				</div>
+				<div class="DOC_bd-toc-item">
+					<a onclick="loadDocContent('bibliography');" class="DOC_bd-toc-link">Bibliography</a>
+				</div>
 			</nav>
 		</div>
 		<nav class="d-none d-xl-block col-xl-2 DOC_bd-toc" aria-label="Secondary documentation navigation">
@@ -135,13 +135,6 @@
 			Loading...
 		</main>
 	</div>
-</div>
-<div class="container-fluid" id="head_container_bib" style="display: none;">
-	<h1>Bibliography</h1>
-	<p>Below, you may find the full bibliography of this project, sorted alphabetically by author. Clicking any of the icons following a source links you to the relevant entry of that source on the mentioned website. For a more in-depth reference including page numbers, please refer to the individual entries.</p>
-	<ol id="bibliography_ollist"></ol>
-	<p>Additionally, the following sources have been flagged as potentially useful in the future but have not (yet) contributed to the project:</p>
-	<ol id="bibliography_ollist2"></ol>
 </div>
 <div class="modal fade" id="searchsettingsmodal" role="dialog">
 	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -205,7 +198,6 @@
 	includeother=true;
 	inbibliography=false;
 	searchenglish=false;
-	_has_rendered_bibliography=false;
 	orderalph=true;
 	usexsampa=false;
 	enablesoundchangetooltips=true;
@@ -904,10 +896,18 @@
 								break;
 							case "D":
 								checkpie=false;
-								temp+="derivation";
+								temp+="a derivation";
+								break;
+							case "C":
+								checkpie=false;
+								temp+="a compound";
 								break;
 						}
 						i=-1;//End of journey
+						if (!checkpie)
+						{
+							temp+=" of ";
+						}
 					}
 				}
 			}
@@ -1282,10 +1282,13 @@
 			txt=replaceAll("<<","⟨",txt);
 			txt=replaceAll(">>","⟩",txt);
 			//Links
-			for(var i=0;i<_uidlist.length;i++)
+			if (stage>-1)
 			{
-				txt=replaceAll("°"+_uidlist[i][0],"<a class='clickety' href='javascript:void(0);' onclick='timeTravel("+_uidlist[i][1]+","+stage+");'>"+apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage)+"</a>",txt);
-				txt=replaceAll("€"+_uidlist[i][0],apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage),txt);
+			for(var i=0;i<_uidlist.length;i++)
+				{
+					txt=replaceAll("°"+_uidlist[i][0],"<a class='clickety' href='javascript:void(0);' onclick='timeTravel("+_uidlist[i][1]+","+stage+");'>"+apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage)+"</a>",txt);
+					txt=replaceAll("€"+_uidlist[i][0],apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage),txt);
+				}
 			}
 			return(txt);
 		}
@@ -1309,7 +1312,6 @@
 		{
 			document.getElementById("head_container_lexicon").style.display="none";
 			document.getElementById("head_container_docu").style.display="none";
-			document.getElementById("head_container_bib").style.display="none";
 			if (tabid>0) document.getElementById("lang_name").innerHTML="CARITE";
 			switch(tabid)
 			{
@@ -1321,58 +1323,50 @@
 					document.getElementById("head_container_docu").style.display="inherit";
 					prepDoc();
 					break;
-				case 4:
-					document.getElementById("head_container_bib").style.display="inherit";
-					render_bibliography();
-					break;
-			}
+				}
 		}
 		
 	function render_bibliography()
 		{
-			if (!_has_rendered_bibliography)
+			//Make a new temporary array with all sources plus amount of references
+			var sourcelist=[];
+			for(var i=0;i<sources.length;i++) sourcelist.push([sources[i][0],0]);
+			//Go through document to sum up references
+			for(var i=4;i<dbase.length;i++)
 			{
-				_has_rendered_bibliography=true;
-				//Make a new temporary array with all sources plus amount of references
-				var sourcelist=[];
-				for(var i=0;i<sources.length;i++) sourcelist.push([sources[i][0],0]);
-				//Go through document to sum up references
-				for(var i=4;i<dbase.length;i++)
+				var refre=dbase[i][sourcecolumn];
+				if (refre!="")
 				{
-					var refre=dbase[i][sourcecolumn];
-					if (refre!="")
+					var toarray=refre.split(",");
+					for(var j=0;j<toarray.length;j++)
 					{
-						var toarray=refre.split(",");
-						for(var j=0;j<toarray.length;j++)
+						var kolo=(toarray[j].split(" "))[0];
+						var found=false;
+						for(var k=0;k<sourcelist.length;k++)
 						{
-							var kolo=(toarray[j].split(" "))[0];
-							var found=false;
-							for(var k=0;k<sourcelist.length;k++)
+							if (sourcelist[k][0]==kolo)
 							{
-								if (sourcelist[k][0]==kolo)
-								{
-									sourcelist[k][1]++;
-									found=true;
-								}
+								sourcelist[k][1]++;
+								found=true;
 							}
-							if (!found&&kolo.charAt(0)!=">") console.log("Unable to recognise "+kolo+" in "+i+"!");
 						}
+						if (!found&&kolo.charAt(0)!=">") console.log("Unable to recognise "+kolo+" in "+i+"!");
 					}
 				}
-				var newlist=[];
-				var newlist2=[];
-				for(var i=0;i<sourcelist.length;i++)
-				{
-					if (sourcelist[i][1]>0) newlist.push(sourcelist[i][0]+" "+sourcelist[i][1]);
-					else newlist2.push(sourcelist[i][0]);
-				}
-				inbibliography=true;
-				var temp=list_sources(newlist);
-				inbibliography=false;
-				document.getElementById("bibliography_ollist").innerHTML=temp;
-				temp=list_sources(newlist2);
-				document.getElementById("bibliography_ollist2").innerHTML=temp;
 			}
+			var newlist=[];
+			var newlist2=[];
+			for(var i=0;i<sourcelist.length;i++)
+			{
+				if (sourcelist[i][1]>0) newlist.push(sourcelist[i][0]+" "+sourcelist[i][1]);
+				else newlist2.push(sourcelist[i][0]);
+			}
+			inbibliography=true;
+			var temp=list_sources(newlist);
+			inbibliography=false;
+			document.getElementById("bibliography_ollist").innerHTML=temp;
+			temp=list_sources(newlist2);
+			document.getElementById("bibliography_ollist2").innerHTML=temp;
 		}
 		
 	function list_sources(arraysource)

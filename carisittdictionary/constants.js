@@ -215,6 +215,11 @@ sources=[
 		"Wodtko, Dagmar S. et al. <i>Nomina im Indogermanischen Lexikon.</i> Memmingen, Universitätsverlag Winter Heidelberg GmbH, 2008",[
 			["google",		"https://books.google.be/books?id=BBxSAQAAIAAJ"],
 			["worldcat",	"https://www.worldcat.org/title/nomina-im-indogermanischen-lexikon/oclc/778236996"]
+		]],
+	["phoinikeia",
+		"Woodard, Roger D. <i>Phoinikēia Grammata: An Alphabet for the Greek Language.</i> In: <i>A Companian to the Ancient Greek Language.</i> Singapore, Blackwell Publishing Ltd, 2010",[
+			["google",		"https://books.google.be/books?id=oa42E3DP3icC"],
+			["worldcat",	"https://www.worldcat.org/title/companion-to-the-ancient-greek-language/oclc/882197874"]
 		]]
 ];
 glossterms=[

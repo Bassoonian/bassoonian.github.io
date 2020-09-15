@@ -24,6 +24,7 @@ function loadDocContent(contentid)
 		//Append title
 		dat="<h1>"+getDocTitle(_last_loaded_file)+"</h1>"+dat;
 		document.getElementById("doc_main_content").innerHTML=dat;
+		if (contentid=="bibliography") render_bibliography();
 		//Make level list
 		var tree=[];
 		var leaf=null;
@@ -86,6 +87,7 @@ function getDocTitle(idi)
 	{
 		if (idi==i) t=stagelist[i][0];
 	}
+	if (t=="") return(idi.charAt(0).toUpperCase()+idi.slice(1));
 	return(t);
 }
 
@@ -195,6 +197,7 @@ function docParseData(dat)
 function getBoop(pop)
 {
 	if (pop=="mythology") pop="3";//Change to four!
+	else if (pop!=0&&pop!=1&&pop!=2&&pop!=3&&pop!=4) pop=-1;
 	return(pop);
 }
 
