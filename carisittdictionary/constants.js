@@ -263,7 +263,7 @@ _caseslist=[
 	["nom",""   ,"acc","gen",""   ,"dat","loc","ins"],
 	["nom",""   ,"acc","gen",""   ,"dat","loc",""   ],
 	["nom",""	,"acc","gen",""   ,"dat",""   ,""   ],//Loc is still on the sheet, so can be readded if deemed necessary
-	["dir",""	,""   ,""   ,""   ,"dat",""   ,""   ]
+	["dir",""	,""   ,"gen",""   ,"dat",""   ,""   ]
 ];
 _conjunctivelist=[
 	false,
@@ -275,10 +275,10 @@ _conjunctivelist=[
 ];
 
 _voicelist=[
-	["act","pas"],
-	["act","pas"],
-	["act","pas"],
-	["act","pas"]
+	["act"],
+	["act"],
+	["act"],
+	["act"]
 ];
 
 _genders=[

@@ -5,13 +5,13 @@ function prepDoc()
 	if (!_haspreppeddoc)
 	{
 		_haspreppeddoc=true;
-		var temp="";
+		/*var temp=""; <<<< now defunct
 		for(var i=0;i<stagelist.length;i++)
 		{
 			temp+="<li><a onclick='loadDocContent("+i+")'>"+stagelist[i][0]+"</a></li>";
 		}
-		document.getElementById("DOC_sidenav_langlist").innerHTML=temp;
-		loadDocContent(0);
+		document.getElementById("DOC_sidenav_langlist").innerHTML=temp;*/
+		loadDocContent("introduction");
 	}
 }
 
@@ -21,14 +21,12 @@ function loadDocContent(contentid)
 	_inflection_table_id=0;
 	$.get("documentation/"+contentid+".html",function(dat){
 		dat=docParseData(dat);
-		//Append title
-		dat="<h1>"+getDocTitle(_last_loaded_file)+"</h1>"+dat;
 		document.getElementById("doc_main_content").innerHTML=dat;
 		if (contentid=="bibliography") render_bibliography();
 		//Make level list
 		var tree=[];
 		var leaf=null;
-		for(var node of (document.getElementById("doc_main_content")).querySelectorAll("h2, h3, h4, h5, h6"))
+		for(var node of (document.getElementById("doc_main_content")).querySelectorAll("h2, h3"))
 		{
 			var nodeLevel=parseInt(node.tagName[1]);
 			var newLeaf={
@@ -78,17 +76,59 @@ function loadDocContent(contentid)
 		
 		$('[data-toggle="tooltip"]').tooltip();
 	});
+	//Update sidebar to the left
+	updateLeftSidebar();
 }
 
-function getDocTitle(idi)
+function updateLeftSidebar()
 {
-	var t="";
-	for(var i=0;i<stagelist.length;i++)
+	var sb=[
+		["Introduction","introduction"],
+		["Anthropology",
+			["History","history"],
+			["Mythology","mythology"]
+		],
+		["0",
+			["Preface","0_preface"],
+			["Phonology","0_phono"],
+			["Orthography","0_ortho"],
+			["Sound Changes","0_sc"],
+			["Nominal Morphology","0_nom"],
+			["Verbal Morphology","0_vrb"],
+			["Derivatonal Morphology","0_deriv"],
+			["Syntax","0_syn"]
+		],
+		["Bibliography","bibliography"]
+	];
+	var temp="";
+	for(var i=0;i<sb.length;i++)
 	{
-		if (idi==i) t=stagelist[i][0];
+		var tt=sb[i][0];
+		for(var j=0;j<stagelist.length;j++) tt=tt.replace(j,stagelist[j][0]);
+		temp+="<div class='DOC_bd-toc-item'";
+		if (sb[i].length==2) temp+=" id='DOC_left_sidenav_unexpandable_"+sb[i][1]+"'";
+		temp+="><a class='DOC_bd-toc-link' href='javascript:void(0);' onclick='loadDocContent(\"";
+		if (sb[i].length>2) temp+=sb[i][1][1];
+		else temp+=sb[i][1];
+		temp+="\");'>"+tt+"</a>";
+		if (sb[i].length>2)
+		{
+			temp+="<ul class='nav DOC_bd-sidenav'>";
+			for(var j=1;j<sb[i].length;j++)
+			{
+				temp+="<li";
+				if (_last_loaded_file==sb[i][j][1]) temp+=" class='active DOC_bd-sidenav-active'";
+				temp+="><a href='javascript:void(0);' onclick='loadDocContent(\""+sb[i][j][1]+"\");'>"+sb[i][j][0]+"</a></li>";
+			}
+			temp+="</ul>";
+		}
+		temp+="</div>";
 	}
-	if (t=="") return(idi.charAt(0).toUpperCase()+idi.slice(1));
-	return(t);
+	document.getElementById("DOC_bd-docs-nav").innerHTML=temp;
+	//
+	var q=document.getElementsByClassName("DOC_bd-sidenav-active");
+	if (q.length>0) q[0].parentNode.parentNode.classList.add("active");
+	else document.getElementById("DOC_left_sidenav_unexpandable_"+_last_loaded_file).classList.add("active");
 }
 
 function getExample(changecolumn,set)
@@ -141,17 +181,18 @@ function getExample(changecolumn,set)
 function docParseData(dat)
 {
 	for(var i=0;i<stagelist.length;i++) dat=replaceAll("§lang_"+i,stagelist[i][0],dat);
+	var qqp=Number(_last_loaded_file.charAt(0));
 	//Include sound changs
 	if (dat.includes("||SOUNDCHANGES||"))
 	{
 		var temp="";
-		var pipo=stagelist[_last_loaded_file][1];
+		var pipo=stagelist[qqp][1];
 		var texto="";
 		while(pipo<dbase[0].length)
 		{
-			if (_last_loaded_file!=stagelist.length-1)
+			if (qqp!=stagelist.length-1)
 			{
-				if (pipo==stagelist[_last_loaded_file+1][1]) break;
+				if (pipo==stagelist[qqp+1][1]) break;
 			}
 			if (dbase[1][pipo].charAt(0)!="!"&&dbase[2][pipo]!="VVV"&&dbase[1][pipo]!="GRAMMAR"&&dbase[1][pipo]!="LOANS")
 			{
@@ -186,7 +227,7 @@ function docParseData(dat)
 		if (dat.includes("||TABLE-"+declensionlist[i][0]+"||"))
 		{
 			var temp="Table of "+declensionlist[i][0];
-			temp=getRandomInflectionTable(declensionlist[i][0],_last_loaded_file,false,true,_inflection_table_id);
+			temp=getRandomInflectionTable(declensionlist[i][0],qqp,false,true,_inflection_table_id);
 			_inflection_table_id++;
 			dat=dat.replace("||TABLE-"+declensionlist[i][0]+"||",temp);
 		}
@@ -197,7 +238,12 @@ function docParseData(dat)
 function getBoop(pop)
 {
 	if (pop=="mythology") pop="3";//Change to four!
-	else if (pop!=0&&pop!=1&&pop!=2&&pop!=3&&pop!=4) pop=-1;
+	else if (pop.includes("0_")) pop="0";
+	else if (pop.includes("1_")) pop="1";
+	else if (pop.includes("2_")) pop="2";
+	else if (pop.includes("3_")) pop="3";
+	else if (pop.includes("4_")) pop="4";
+	else pop=-1;
 	return(pop);
 }
 
@@ -234,6 +280,7 @@ function getRandomInflectionTable(pattern,stage,forceblank,adddiv,tablid)
 	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false,tablid);
 	if (inflectioncategory=="Adjective") temp=tableAdjective(selected,pattern,stage,false,tablid);
 	if (inflectioncategory=="Numeral") temp=tableAdjective(selected,pattern,stage,true,tablid);
+	if (inflectioncategory=="Verb") temp=tableVerb(selected,pattern,stage,tablid);
 	if (adddiv) temp="<div id='randomInflectionTable"+tablid+"'>"+temp+"</div>";
 	return(temp);
 }

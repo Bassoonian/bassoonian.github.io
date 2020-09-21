@@ -285,9 +285,9 @@
 	    color: rgba(0, 0, 0, .85);
 	    text-decoration:none
 	}
-	/*.DOC_bd-sidenav {
+	.DOC_bd-sidenav {
 	    display:none
-	}*/
+	}
 	.DOC_bd-toc {
 	    -ms-flex-order: 2;
 	    order: 2;
