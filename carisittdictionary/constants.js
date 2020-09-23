@@ -281,6 +281,13 @@ _voicelist=[
 	["act"]
 ];
 
+_imperatives=[
+	["y","y","y"],
+	["y","y","y"],
+	["y","y","y"],
+	["y","y","y"]
+]
+
 _genders=[
 	["m","f","n"],
 	["m","f","n"],

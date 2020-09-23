@@ -1040,7 +1040,7 @@
 			if (wordcategoryopen=="Verb")
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
-				temp+=tableVerb(wordlist[wid][2],wordlist[wid][3],activestage,-1);
+				temp+=tableVerb(wordlist[wid][2],wordlist[wid][3],activestage,false,-1);
 			}
 			
 			document.getElementById("inflection_content").innerHTML=temp;
@@ -1486,7 +1486,7 @@
 			}
 			return(temp);
 		}
-	function tableVerb(dbaserow,pattern,stage,isdoc)
+	function tableVerb(dbaserow,pattern,stage,putparticiple,isdoc)
 		{
 			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
 			//Figure out raw stem of the first index
@@ -1531,7 +1531,33 @@
 					}
 				}
 			}
+			//
+			if (!(_imperatives[stage][0]==""&&_imperatives[stage][1]==""&&_imperatives[stage][2]==""))
+			{
+				//Has imperative
+				temp+="<tr><th colspan='2' rowspan='3' scope='col'>"+glossText("imp",returnGloss("imp"))+"</th><th colspan='3' scope='col'>"+glossText("sg",returnGloss("sg"))+"</th><th colspan='3' scope='col'>"+glossText("pl",returnGloss("pl"))+"</th></tr>";
+				temp+="<tr><th scope='col'>"+glossText("1",returnGloss("1"))+"</th><th scope='col'>"+glossText("2",returnGloss("2"))+"</th><th scope='col'>"+glossText("3",returnGloss("3"))+"</th><th scope='col'>"+glossText("1",returnGloss("1"))+"</th><th scope='col'>"+glossText("2",returnGloss("2"))+"</th><th scope='col'>"+glossText("3",returnGloss("3"))+"</th></tr>";
+				temp+="<tr><td></td><td>";
+				if (_imperatives[stage][0]=="y") temp+=apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+1,stage)),stage);
+				temp+="</td><td></td><td>";
+				if (_imperatives[stage][1]=="y") temp+=apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+2,stage)),stage);
+				temp+="</td><td>";
+				if (_imperatives[stage][2]=="y") temp+=apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+3,stage)),stage);
+				temp+="</td><td></td></tr>";
+			}
+			if (putparticiple)
+			{
+				//Put participles
+				temp+="<tr><th colspan='2' rowspan='2' scope='col'>"+glossText("pcp",returnGloss("pcp"))+"</th><th colspan='3' scope='col'>"+glossText("prs",returnGloss("prs"))+"</th><th colspan='3' scope='col'>"+glossText("pst",returnGloss("pst"))+"</th></tr>";
+				temp+="<tr><td scope='col' colspan='3' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+4,stage)),stage)+"</td><td scope='col' colspan='3' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+5,stage)),stage)+"</td></tr>"
+			}
 			temp+="</tbody></table>";
+			if (!putparticiple)
+			{
+				//Beep boop!
+				temp+="";//Present
+				temp+="";//Past
+			}
 			return(temp);
 		}
 //Other functions

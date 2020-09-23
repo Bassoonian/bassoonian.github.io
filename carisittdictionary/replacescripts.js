@@ -89,9 +89,9 @@ function apply_orthography(word,stage)
 		w=pronFixOrtho(w,stage);
 		if (stage==0)
 		{
-			w=replaceAll("ks","χ",w);
 			w=replaceAll("nk","γk",w);
 			w=replaceAll("ng","γg",w);
+			w=replaceAll("ks","χ",w);
 			
 			w=replaceAll("p","π",w);
 			w=replaceAll("P","Π",w);
@@ -129,7 +129,11 @@ function apply_orthography(word,stage)
 			w=replaceAll("h","ψ",w);
 			w=replaceAll("H","Ψ",w);
 			
-			//Add back macrons later when you find a way not to make them look like shit lmao
+			w=w.replace(/(ϝ)([βδγ])/g,"φ$2");
+			w=w.replace(/(Ϝ)([βδγ])/g,"Φ$2");
+			w=w.replace(/(ζ)([βδγ])/g,"σ$2");
+			w=w.replace(/(Ζ)([βδγ])/g,"Σ$2");
+			
 			w=replaceAll("ā","ᾱ",w);
 			w=replaceAll("Ā","Ᾱ",w);
 			w=replaceAll("ī","ῑ",w);

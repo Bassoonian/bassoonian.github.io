@@ -78,6 +78,8 @@ function loadDocContent(contentid)
 	});
 	//Update sidebar to the left
 	updateLeftSidebar();
+	document.body.scrollTop=0;//Safari
+	document.documentElement.scrollTop=0;//Other browsers
 }
 
 function updateLeftSidebar()
@@ -95,8 +97,38 @@ function updateLeftSidebar()
 			["Sound Changes","0_sc"],
 			["Nominal Morphology","0_nom"],
 			["Verbal Morphology","0_vrb"],
-			["Derivatonal Morphology","0_deriv"],
+			["Derivational Morphology","0_deriv"],
 			["Syntax","0_syn"]
+		],
+		["1",
+			["Preface","1_preface"],
+			["Phonology","1_phono"],
+			["Orthography","1_ortho"],
+			["Sound Changes","1_sc"],
+			["Nominal Morphology","1_nom"],
+			["Verbal Morphology","1_vrb"],
+			["Derivational Morphology","1_deriv"],
+			["Syntax","1_syn"]
+		],
+		["2",
+			["Preface","2_preface"],
+			["Phonology","2_phono"],
+			["Orthography","2_ortho"],
+			["Sound Changes","2_sc"],
+			["Nominal Morphology","2_nom"],
+			["Verbal Morphology","2_vrb"],
+			["Derivational Morphology","2_deriv"],
+			["Syntax","2_syn"]
+		],
+		["3",
+			["Preface","3_preface"],
+			["Phonology","3_phono"],
+			["Orthography","3_ortho"],
+			["Sound Changes","3_sc"],
+			["Nominal Morphology","3_nom"],
+			["Verbal Morphology","3_vrb"],
+			["Derivational Morphology","3_deriv"],
+			["Syntax","3_syn"]
 		],
 		["Bibliography","bibliography"]
 	];
@@ -280,7 +312,7 @@ function getRandomInflectionTable(pattern,stage,forceblank,adddiv,tablid)
 	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false,tablid);
 	if (inflectioncategory=="Adjective") temp=tableAdjective(selected,pattern,stage,false,tablid);
 	if (inflectioncategory=="Numeral") temp=tableAdjective(selected,pattern,stage,true,tablid);
-	if (inflectioncategory=="Verb") temp=tableVerb(selected,pattern,stage,tablid);
+	if (inflectioncategory=="Verb") temp=tableVerb(selected,pattern,stage,true,tablid);
 	if (adddiv) temp="<div id='randomInflectionTable"+tablid+"'>"+temp+"</div>";
 	return(temp);
 }
