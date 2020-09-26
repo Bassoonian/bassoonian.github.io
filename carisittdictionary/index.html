@@ -1246,8 +1246,10 @@
 			{
 			for(var i=0;i<_uidlist.length;i++)
 				{
-					txt=replaceAll("°"+_uidlist[i][0]+"°","<a class='clickety' href='javascript:void(0);' onclick='timeTravel("+_uidlist[i][1]+","+stage+");'><i>"+apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage)+"</i></a>",txt);
-					txt=replaceAll("€"+_uidlist[i][0]+"€",apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage),txt);
+					var qq=apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage);
+					if (stage!=0) qq="<i>"+qq+"</i>";
+					txt=replaceAll("°"+_uidlist[i][0]+"°","<a class='clickety' href='javascript:void(0);' onclick='timeTravel("+_uidlist[i][1]+","+stage+");'>"+qq+"</a>",txt);
+					txt=replaceAll("€"+_uidlist[i][0]+"€",qq,txt);
 				}
 			}
 			return(txt);
