@@ -48,6 +48,12 @@ sources=[
 			["google",		"https://books.google.be/books?id=bSxHgej4tKMC"],
 			["worldcat",	"https://www.worldcat.org/title/indo-european-language-and-culture-an-introduction/oclc/778339290"]
 		]],
+	["kirchhoff",
+		"Kirchhoff, Adolf. <i>Studien zur Geschichte des griechischen Alphabets.</i> Berlin, Ferd. Dümmler's Verlags-Buchhandlung, 1877",[
+			["archive"		,"https://archive.org/details/studienzurgeschi00kirc"],
+			["google",		,"https://books.google.be/books?id=spIOAAAAQAAJ"],
+			["worldcat"		,"https://www.worldcat.org/title/studien-zur-geschichte-des-griechischen-alphabets/oclc/975024373"]
+		]],
 	["pie_handbook",
 		"Klein, Jared et al. <i>Handbook of Comparative and Historical Indo-European Linguistics.</i> Berlin/Boston, Walter de Gruyter GmbH, 2017",[
 			["google",		"https://books.google.be/books?id=QgA3DwAAQBAJ"],
@@ -153,7 +159,7 @@ sources=[
 			["worldcat",	"https://www.worldcat.org/title/from-proto-indo-european-to-proto-germanic/oclc/929323754"]
 		]],
 	["etruscan_rix",
-		"Rix, Helmut. <i>Etruscan.</i> In: <i>Woodard, Roger D. The Ancient Languages of Europe.</i> Cambridge, Cambridge University Press, 2010",[
+		"Rix, Helmut. <i>Etruscan.</i> In: <i>The Ancient Languages of Europe.</i> Cambridge, Cambridge University Press, 2010",[
 			["google",		"https://books.google.be/books?id=aPEENAEp938C"],
 			["worldcat",	"https://www.worldcat.org/title/ancient-languages-of-europe/oclc/706988654"]
 		]],
@@ -310,8 +316,8 @@ _vowels=[
 	["a","e","i","o","u","y","ø","æ","ː","̩","%"]
 ];
 _illegalonsets=[
-	["rj","lw","km","ks","lb","lm","lp","mb","mv","nd","ng","nk","nr","rf","rg","rk","vn","rgr","rks","rtr","rtw","ktr","rw","rm","lv","ngw","nt","rkn","ln","rstr","rt","rv","mf","mm","nn","nw","rp","nzd","nz","kt","zg","mr","nzg","sj","ns","bd","gd","lk","zd","mvn","rn","jw","nj","mbr","ksm","stw","gm","pj","rb","zn","ltr","rd","rdw","rz","ls","tt","fn","mvr","ksn","lg","mn","nsr","ld","rgw","pt","ft","mbl","rs","wj","wr","lj","vd","ptw","ldw","lt","rzg","ndw","ksl","rzw","gdr","vm","rgj"],
-	["rdj","rj","hs","lw","km","lb","lm","lp","mb","mn","ntj","nd","htl","ng","ngw","nk","rf","rgr","rk","rks","ks","rn","rtl","rp","lvd","vd","rkm","rw","tn","rm","nj","nt","rkn","kn","mbj","rnj","rns","ns","dn","mm","mp","rg","lht","ht","lj","rs","nw","bd","gd","gm","lf","rd","rgj","ln","rt","mbr","rstl","rv","hsm","tm","ntl","rb","bb","ltl","pm","rr","ls","ss","kk","hsn","dm","lg","ntr","ld","rgw","gn","lk","lt","rgm","pn","rdw"],
-	["bb","hs","lb","mb","mn","nk","rf","rgr","rk","rks","ks","rn","rtj","htj","lvd","vd","rkm","km","mbr","ngw","nt","ng","rm","nj","rkn","kn","nd","rw","lj","rnj","rb","rj","dn","lm","mm","rns","ns","rdj","rj","nw","rg","lht","ht","lw","gm","lf","lk","lp","rgj","rv","hsm","rd","ll","ntj","mp","rd","rp","rt","ls","ltr","mbj","kt","hsn","dm","ntr","ld","rgw","rs","rgm","ln","pt","hsl","gn","lg","rr","mbl","rdw"],
-	["bb","rg","nd","lθ","kt","mb"]
+	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw"],
+	[],
+	[],
+	[]
 ];

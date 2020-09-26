@@ -622,11 +622,14 @@
 						var t="";
 						var k=q[i];
 						var p="";
-						while(_illegalonsets[activestage].includes(k))
+						for(var tt=0;tt<_illegalonsets[activestage].length;tt++)
 						{
-							p=k.charAt(0);
-							t+=p;
-							k=k.replace(p,"");
+							if (k.startsWith(_illegalonsets[activestage][tt]))
+							{
+								t+=k.charAt(0);
+								k=k.slice(1);
+								tt=0;
+							}
 						}
 						word+=t+"."+k;
 					}
@@ -1295,8 +1298,27 @@
 								found=true;
 							}
 						}
-						if (!found&&kolo.charAt(0)!=">") console.log("Unable to recognise "+kolo+" in "+i+"!");
+						if (!found&&kolo.charAt(0)!=">") console.log("Unable to recognise "+kolo+" in lexicon "+i+"!");
 					}
+				}
+			}
+			//Also go through documentation
+			for(var i=0;i<_documentation_bibliography.length;i++)
+			{
+				var toarray=_documentation_bibliography[i][1].split(",");
+				for(var j=0;j<toarray.length;j++)
+				{
+					var kolo=(toarray[j].split(" "))[0];
+					var found=false;
+					for(var k=0;k<sourcelist.length;k++)
+					{
+						if (sourcelist[k][0]==kolo)
+						{
+							sourcelist[k][1]++;
+							found=true;
+						}
+					}
+					if (!found&&kolo.charAt(0)!=">") console.log("Unable to recognise "+kolo+" in documentation "+i+"!");
 				}
 			}
 			var newlist=[];
@@ -1349,6 +1371,7 @@
 							{
 								case "google": temp+="<i alt='Google' title='Google' class='fab fa-google'></i>";break;
 								case "academia": temp+="<img alt='Academia' title='Academia' class='img_src_inline' src='logos/academia.svg'>";break;
+								case "archive": temp+="<img alt='Internet Archive' title='Internet Archive' class='img_src_inline' src='logos/archive.svg'>";break;
 								case "jstor": temp+="<img alt='JSTOR' title='JSTOR' class='img_src_inline' src='logos/jstor.png'>";break;
 								case "worldcat": temp+="<img alt='WorldCat' title='WorldCat' class='img_src_inline' src='logos/worldcat.png'>";break;
 							}
@@ -1418,7 +1441,9 @@
 		}
 	function tableAdjective(dbaserow,pattern,stage,iamnumeral,isdoc)
 		{
-			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
+			//If dbaserow is a number look it up, if not split it
+			if (Number(dbaserow)===dbaserow) var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
+			else var stemarray=dbaserow.split("~");
 			//Figure out raw stem of the first index
 			var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
 			//Get precise moment
@@ -1555,8 +1580,8 @@
 			if (!putparticiple)
 			{
 				//Beep boop!
-				temp+="";//Present
-				temp+="";//Past
+				temp+="<p>Present Participle</p>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+4,stage)),"ADJ_I_UNSTRESSED_DEF",stage,false,-1);
+				temp+="<p>Past Participle</p>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+5,stage)),"ADJ_THEM_STRESSED_DEF",stage,false,-1);
 			}
 			return(temp);
 		}

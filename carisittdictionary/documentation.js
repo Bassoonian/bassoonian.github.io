@@ -21,6 +21,11 @@ function loadDocContent(contentid)
 	_inflection_table_id=0;
 	$.get("documentation/"+contentid+".html",function(dat){
 		dat=docParseData(dat);
+		//Append bibliography
+		for(var i=0;i<_documentation_bibliography.length;i++)
+		{
+			if (_documentation_bibliography[i][0]==_last_loaded_file) dat+="<h2>Bibliography</h2><ol>"+list_sources(_documentation_bibliography[i][1].split(","))+"</ol>";
+		}
 		document.getElementById("doc_main_content").innerHTML=dat;
 		if (contentid=="bibliography") render_bibliography();
 		//Make level list
