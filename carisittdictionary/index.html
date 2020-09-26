@@ -1038,7 +1038,15 @@
 			if (wordcategoryopen=="Adjective"||(wordcategoryopen=="Numeral"&&wordlist[wid][3]!="NUM_GEN"))
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
-				temp+=tableAdjective(wordlist[wid][2],wordlist[wid][3],activestage,(wordcategoryopen=="Numeral"),-1);
+				//Positive
+				temp+=tableAdjective(wordlist[wid][2],wordlist[wid][3],activestage,(wordcategoryopen=="Numeral"),-1,0);
+				if (wordcategoryopen!="Numeral")
+				{
+					//Comparative
+					temp+="<h4>Comparative</h4>"+tableAdjective(wordlist[wid][2],wordlist[wid][3],activestage,false,-1,1);
+					//Superlative
+					temp+="<h4>Superlative</h4>"+tableAdjective(wordlist[wid][2],wordlist[wid][3],activestage,false,-1,2);
+				}
 			}
 			if (wordcategoryopen=="Verb")
 			{
@@ -1383,6 +1391,39 @@
 			}
 			return(temp);
 		}
+	function getComparative(stem,stage)
+		{
+			var out=stem;
+			if (stage==0)
+			{
+				//Iotacise ty dy
+				var q=stem.split("");
+				var p=q.pop();
+				if (p=="t") q.push("s");
+				else if (p=="d") q.push("z");
+				else
+				{
+					stem+="j";
+					//Vocalise
+					stem=stem.replace(/([mnpbtdkgfvszrlj])(w)(j)/g,"$1u$3");
+					//Sonorant!
+					stem=stem.replace(/([npbtdkgfvszrljw])(m)(j)/g,"$1um$3");
+					stem=stem.replace(/([mpbtdkgfvszrljw])(n)(j)/g,"$1ən$3");
+					stem=stem.replace(/([mnpbtdkgfvszljw])(r)(j)/g,"$1ər$3");
+					stem=stem.replace(/([mnpbtdkgfvszrjw])(l)(j)/g,"$1əl$3");
+					//Colour schwa
+					stem=stem.replace(/([pbmfv])(ə)/g,"$1u");
+					stem=stem.replace(/ə/g,"i");
+					//Destroy preceding geminates
+					stem=stem.replace(/([mnpbtdkgfvszrljw])\1(j)/g,"$1j");
+					//If ending on a double jj, remove
+					if (stem.endsWith("jj")) stem=stem.substring(0,stem.length-1);
+					q=stem.split("");
+				}
+				out=q.join("");
+			}
+			return(out);
+		}
 //Tables
 	function tableNoun(dbaserow,pattern,stage,indicategender,isdoc)
 		{
@@ -1439,7 +1480,7 @@
 			temp+="</tbody></table>";
 			return(temp);
 		}
-	function tableAdjective(dbaserow,pattern,stage,iamnumeral,isdoc)
+	function tableAdjective(dbaserow,pattern,stage,iamnumeral,isdoc,iscomparative)
 		{
 			//If dbaserow is a number look it up, if not split it
 			if (Number(dbaserow)===dbaserow) var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
@@ -1466,10 +1507,55 @@
 				var kloko=(((dbase[decolist[0]][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
 				klaka=klaka.replace(kloko,"");
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+				
+				if (iscomparative==1)
+				{
+					//Get new endings
+					pattern="COMPARATIVE";
+					var kluku=-1;
+					for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==pattern) kluku=declensionlist[i][1]+1;
+					//Figure out which declensions to draw data from
+					var decolist=[];
+					for(var i=0;i<_genders[stage].length;i++)
+					{
+						for(var j=0;j<declensionlist.length;j++)
+						{
+							if (declensionlist[j][0]==dbase[kluku-1][stagelist[stage][1]+1+i]) decolist.push(declensionlist[j][1]+1);
+						}
+					}
+					stemarray[0]=getComparative(stemarray[0],stage);
+				}
+				if (iscomparative==2)
+				{
+					var refff=-1;
+					for(var i=0;i<declensionlist.length;i++)
+					{
+						if (declensionlist[i][0]=="SUPERLATIVE") refff=declensionlist[i][1]+1;
+					}
+					stemarray[0]=attachSuffix(stemarray,getSuffix(refff,stage));
+					//Get new endings
+					pattern="ADJ_THEM_UNSTRESSED_DEF";
+					var kluku=-1;
+					for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==pattern) kluku=declensionlist[i][1]+1;
+					//Figure out which declensions to draw data from
+					var decolist=[];
+					for(var i=0;i<_genders[stage].length;i++)
+					{
+						for(var j=0;j<declensionlist.length;j++)
+						{
+							if (declensionlist[j][0]==dbase[kluku-1][stagelist[stage][1]+1+i]) decolist.push(declensionlist[j][1]+1);
+						}
+					}
+				}
 			
 				temp='<table class="table w-auto table-sm"><thead>';
 				temp+="<tr><th colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr>";
-				if (isdoc>-1) temp+="<tr><td style='text-align:center;' colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>(ex. "+(dbase[dbaserow][maincolumns[stage]].split("~"))[0]+" <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
+				if (isdoc>-1)
+				{
+					var qpq=pattern;
+					if (iscomparative==2) qpq="SUPERLATIVE";
+					temp+="<tr><td style='text-align:center;' colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>(ex. "+(dbase[dbaserow][maincolumns[stage]].split("~"))[0]+" <a class='clickety' onclick='findNewTable("+isdoc+",\""+qpq+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+qpq+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
+				}
 				temp+="</thead><tbody>";
 				for(var i=0;i<=_conjunctivelist[stage];i++)
 				{
@@ -1580,8 +1666,8 @@
 			if (!putparticiple)
 			{
 				//Beep boop!
-				temp+="<p>Present Participle</p>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+4,stage)),"ADJ_I_UNSTRESSED_DEF",stage,false,-1);
-				temp+="<p>Past Participle</p>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+5,stage)),"ADJ_THEM_STRESSED_DEF",stage,false,-1);
+				temp+="<p>Present Participle</p>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+4,stage)),"ADJ_I_UNSTRESSED_DEF",stage,false,-1,0);
+				temp+="<p>Past Participle</p>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+5,stage)),"ADJ_THEM_STRESSED_DEF",stage,false,-1,0);
 			}
 			return(temp);
 		}

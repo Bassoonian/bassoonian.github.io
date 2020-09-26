@@ -298,6 +298,16 @@ function getRandomInflectionTable(pattern,stage,forceblank,adddiv,tablid)
 	//Populate possible words
 	var pit=[];
 	var referrent=false;
+	if (inflectioncategory=="Comparative"||inflectioncategory=="Superlative")
+	{
+		pit_cat=[];
+		for(var i=0;i<declensionlist.length;i++) //Find all adjectives
+		{
+			if (dbase[declensionlist[i][1]][2]=="Adjective") pit_cat.push(dbase[declensionlist[i][1]][1]);
+		}
+	}
+	//
+	var lastindice="";
 	for(var i=3;i<dbase.length;i++)
 	{
 		if (dbase[i][0]=="@@@@") i=dbase.length;
@@ -307,16 +317,23 @@ function getRandomInflectionTable(pattern,stage,forceblank,adddiv,tablid)
 			{
 				referrent=false;
 				if (pit_cat.includes(dbase[i][1])) referrent=true;
+				lastindice=dbase[i][1];
 			}
-			else if (referrent==true&&dbase[i][maincolumns[stage]]!="") pit.push(i);
+			else if (referrent==true&&dbase[i][maincolumns[stage]]!="")
+			{
+				if (inflectioncategory=="Comparative"||inflectioncategory=="Superlative") pit.push([i,lastindice]);
+				else pit.push(i);
+			}
 		}
 	}
 	if (pit.length==0) return("N/A");
 	var selected=pit[~~(pit.length*Math.random())];
 	//Make actual table
 	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false,tablid);
-	if (inflectioncategory=="Adjective") temp=tableAdjective(selected,pattern,stage,false,tablid);
-	if (inflectioncategory=="Numeral") temp=tableAdjective(selected,pattern,stage,true,tablid);
+	if (inflectioncategory=="Adjective") temp=tableAdjective(selected,pattern,stage,false,tablid,0);
+	if (inflectioncategory=="Comparative") temp=tableAdjective(selected[0],selected[1],stage,false,tablid,1);
+	if (inflectioncategory=="Superlative") temp=tableAdjective(selected[0],selected[1],stage,false,tablid,2);
+	if (inflectioncategory=="Numeral") temp=tableAdjective(selected,pattern,stage,true,tablid,0);
 	if (inflectioncategory=="Verb") temp=tableVerb(selected,pattern,stage,true,tablid);
 	if (adddiv) temp="<div id='randomInflectionTable"+tablid+"'>"+temp+"</div>";
 	return(temp);
