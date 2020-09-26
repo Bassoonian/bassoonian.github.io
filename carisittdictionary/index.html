@@ -364,7 +364,8 @@
 			var tt=0;
 			for(var i=0;i<dbase.length;i++)
 			{
-				if (dbase[i][lasteditcolumn]>tt) tt=dbase[i][lasteditcolumn];
+				var kk=new Date(dbase[i][lasteditcolumn]);
+				if (kk>tt) tt=kk;
 			}
 			var qq=new Date(tt);
 			document.getElementById("lastlexupdate").innerHTML=qq.toLocaleDateString(undefined,_dataformat);
