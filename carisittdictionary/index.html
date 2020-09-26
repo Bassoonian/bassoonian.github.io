@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title id="page_title">Carite Lexicon</title>
-	<meta name="description" content="A interactive dictionary of Carite, an Indo-European conlang.">
+	<meta name="description" content="An interactive dictionary of Carite, an Indo-European conlang.">
 	<link rel="icon" type="image/ico" href="carite.ico">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -207,7 +207,7 @@
 			parseDbase();
 		})
 		.fail(function(){
-			loadNote("Unable to connect to Google, quite possibly because of Cross-Origin Restrictions.");
+			loadNote("Fetching local copy...");
 			rawcsv=$.get("backup_csv.csv", function() {
 				loadNote("Attempting to read local file...");
 			})
