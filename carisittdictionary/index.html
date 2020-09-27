@@ -1036,6 +1036,11 @@
 				document.getElementById("tab_inflect_li").style.display="initial";
 				temp+=tableNoun(wordlist[wid][2],wordlist[wid][3],activestage,true,-1);
 			}
+			if (wordlist[wid][3]=="PRON_PERS_1"||wordlist[wid][3]=="PRON_PERS_2")
+			{
+				document.getElementById("tab_inflect_li").style.display="initial";
+				temp+=tablePersPronoun(wordlist[wid][3],activestage);
+			}
 			if (wordcategoryopen=="Adjective"||(wordcategoryopen=="Numeral"&&wordlist[wid][3]!="NUM_GEN"))
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
@@ -1428,6 +1433,38 @@
 			return(out);
 		}
 //Tables
+	function tablePersPronoun(person,stage)
+		{
+			var kluku=-1;
+			for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==person) kluku=declensionlist[i][1]+1;
+			var temp='<table class="table w-auto table-sm"><thead>';
+			var beq=_conjunctivelist[stage];
+			var bep=_atonics[stage];
+			//Add conjunctives later!
+			temp+="<tr><th colspan='"+(3+bep*2)+"' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr>";
+			temp+="<tr><th scope='col'></th><th scope='col' colspan='"+(bep+1)+"'>"+glossText("sg",returnGloss("sg"))+"</th><th scope='col' colspan='"+(bep+1)+"'>"+glossText("pl",returnGloss("pl"))+"</th></tr>";
+			if (bep)
+			{
+				temp+="<tr><th scope='col'></th>"
+				for(var i=0;i<2;i++) temp+="<th scope='col'>"+glossText("ton",returnGloss("ton"))+"</th><th scope='col'>"+glossText("atn",returnGloss("atn"))+"</th>"
+					temp+="</tr>";
+			}
+			temp+="</thead><tbody>";
+			for(var i=0;i<_caseslist[0].length;i++)
+			{
+				if (_caseslist[stage][i]!="")
+				{
+					temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][i],returnGloss(_caseslist[stage][i]))+"</th>";
+					temp+="<td>"+apply_orthography(getSuffix(kluku+i*2,stage),stage)+"</td>";
+					if (bep) temp+="<td>"+apply_orthography(getSuffix(kluku+1+i*2,stage),stage)+"</td>";
+					temp+="<td>"+apply_orthography(getSuffix(kluku+i*2+_caseslist[0].length*2,stage),stage)+"</td>";
+					if (bep) temp+="<td>"+apply_orthography(getSuffix(kluku+1+i*2+_caseslist[0].length*2,stage),stage)+"</td>";
+					temp+="</tr>";
+				}
+			}
+			temp+="</tbody></table>";
+			return(temp);
+		}
 	function tableNoun(dbaserow,pattern,stage,indicategender,isdoc)
 		{
 			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");

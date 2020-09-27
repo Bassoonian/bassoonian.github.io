@@ -262,7 +262,9 @@ glossterms=[
 	["prs"	,"Present"],
 	["prf"	,"Perfect"],
 	["cnj"	,"Conjunctive"],
-	["prm"	,"Primary"]
+	["prm"	,"Primary"],
+	["ton"	,"Tonic"],
+	["atn"	,"Atonic"]
 ]
 _caseslist=[
 	["nom","voc","acc","gen","abl","dat","loc","ins"],
@@ -279,6 +281,12 @@ _conjunctivelist=[
 	true,
 	true
 ];
+_atonics=[
+	true,
+	true,
+	false,
+	false
+]
 
 _voicelist=[
 	["act"],

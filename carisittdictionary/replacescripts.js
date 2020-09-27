@@ -252,6 +252,7 @@ function apply_orthography(word,stage)
 			w=replaceAll("ʲ","̇",w);
 			w=replaceAll("ˠ","̨",w);
 		}
+		if (w=="*") w="";
 		return(w);
 	}
 /*function apply_nativealphabet(word,stage) THIS IS A RELIC, left in case it's useful in the future
