@@ -91,7 +91,8 @@ function apply_orthography(word,stage)
 		{
 			w=replaceAll("nk","γk",w);
 			w=replaceAll("ng","γg",w);
-			w=replaceAll("ks","χ",w);
+			w=replaceAll("ks","ξ",w);
+			w=replaceAll("ps","ψ",w);
 			
 			w=replaceAll("p","π",w);
 			w=replaceAll("P","Π",w);
@@ -112,8 +113,8 @@ function apply_orthography(word,stage)
 			
 			w=replaceAll("f","φ",w);
 			w=replaceAll("F","Φ",w);
-			w=replaceAll("v","ϝ",w);
-			w=replaceAll("V","Ϝ",w);
+			w=replaceAll("v","θ",w);
+			w=replaceAll("V","Θ",w);
 			w=replaceAll("s","σ",w);
 			w=replaceAll("S","Σ",w);
 			w=replaceAll("z","ζ",w);
@@ -126,8 +127,8 @@ function apply_orthography(word,stage)
 			w=replaceAll("J","Ῐ",w);
 			w=replaceAll("w","ῠ",w);
 			w=replaceAll("W","Ῠ",w);
-			w=replaceAll("h","ψ",w);
-			w=replaceAll("H","Ψ",w);
+			w=replaceAll("h","η",w);
+			w=replaceAll("H","Η",w);
 			
 			w=w.replace(/(ϝ)([βδγ])/g,"φ$2");
 			w=w.replace(/(Ϝ)([βδγ])/g,"Φ$2");
@@ -150,19 +151,19 @@ function apply_orthography(word,stage)
 			
 			w=replaceAll("ȳ","y",w);
 			w=replaceAll("Ȳ","Y",w);
-			w=replaceAll("ø̄","ευ",w);
-			w=replaceAll("Ø̄","Ευ",w);
+			w=replaceAll("ø̄","οι",w);
+			w=replaceAll("Ø̄","Οι",w);
 			
 			w=replaceAll("e","ε",w);
 			w=replaceAll("E","Ε",w);
-			w=replaceAll("ē","ει",w);
-			w=replaceAll("Ē","Ει",w);
+			w=replaceAll("ē","ε̄",w);
+			w=replaceAll("Ē","Ε̄",w);
 			w=replaceAll("ê","η",w);
 			w=replaceAll("Ê","Η",w);
 			w=replaceAll("o","ο",w);
 			w=replaceAll("O","Ο",w);
-			w=replaceAll("ō","ου",w);
-			w=replaceAll("Ō","Ου",w);
+			w=replaceAll("ō","ο̄",w);
+			w=replaceAll("Ō","Ο̄",w);
 			w=replaceAll("ô","ω",w);
 			w=replaceAll("Ô","Ω",w);
 			

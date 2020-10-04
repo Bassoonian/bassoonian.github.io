@@ -148,6 +148,11 @@ sources=[
 			["google",		"https://books.google.be/books?id=ZjcrhyQlFa0C"],
 			["worldcat",	"https://www.worldcat.org/title/history-of-the-spanish-language/oclc/633641168"]
 		]],
+	["dizionarioetrusca",
+		"Pittau, Massimo. <i>Dizionario della lingua etrusca.</i> Sassari, Dessi, 2005",[
+			["google",		"https://books.google.be/books?id=-otVDwAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/dizionario-della-lingua-etrusca/oclc/878920595"]
+		]],
 	["mythandlaw",
 		"Puhvel, Jaan. <i>Myth and Law Among the Indo-Europeans: Studies in Indo-European Comparative Mythology.</i> Berkeley/Los Angeles/London, University of California Press, 1970",[
 			["google",		"https://books.google.be/books?id=IdMoAAAAYAAJ"],
@@ -183,6 +188,11 @@ sources=[
 			["google",		"https://books.google.be/books?id=tJh15AcIdLgC"],
 			["worldcat",	"https://www.worldcat.org/title/new-comparative-grammar-of-greek-and-latin/oclc/860485555"]
 		]],
+	["hdic_etruscan",
+		"Stoddart, Simon K. F. <i>Historical Dictionary of the Etruscans.</i> Lanham/Toronto/Plymouth, The Scarecrow Press, Inc., 2008",[
+			["google",		"https://books.google.be/books?id=vlr8llnzx4EC"],
+			["worldcat",	"https://www.worldcat.org/title/historical-dictionary-of-the-etruscans/oclc/488857618"]
+	]],
 	["ed_basque",
 		"Trask, R. L. <i>Etymological Dictionary of Basque.</i> Sussex, University of Sussex, 2008",[
 			["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-basque/oclc/971735884"]
@@ -324,7 +334,7 @@ _vowels=[
 	["a","e","i","o","u","y","ø","æ","ː","̩","%"]
 ];
 _illegalonsets=[
-	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw"],
+	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw","jn"],
 	[],
 	[],
 	[]
