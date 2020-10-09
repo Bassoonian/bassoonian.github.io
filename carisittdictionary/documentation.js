@@ -106,7 +106,7 @@ function updateLeftSidebar()
 			["Derivational Morphology","0_deriv"],
 			["Syntax","0_syn"]
 		],
-		["1",
+		/*["1",
 			["Preface","1_preface"],
 			["Phonology","1_phono"],
 			["Orthography","1_ortho"],
@@ -135,7 +135,7 @@ function updateLeftSidebar()
 			["Verbal Morphology","3_vrb"],
 			["Derivational Morphology","3_deriv"],
 			["Syntax","3_syn"]
-		],
+		],*/
 		["Bibliography","bibliography"]
 	];
 	var temp="";
