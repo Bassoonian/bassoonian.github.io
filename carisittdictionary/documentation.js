@@ -259,6 +259,16 @@ function docParseData(dat)
 		if (texto!="") temp+="<p>"+texto+"</p>"
 		dat=dat.replace("||SOUNDCHANGES||",temp);
 	}
+	//Include deity tree
+	if (dat.includes("||DEITYTREE||"))
+	{
+		var dtree=[
+			["TIME"],
+			["SUNGOD","MOONGOD","SKYDADDY","EARTHMUMMY"]
+		];
+		var temp="";
+		dat=dat.replace("||DEITYTREE||",temp);
+	}
 	//Do tables
 	for(var i=0;i<declensionlist.length;i++)
 	{
