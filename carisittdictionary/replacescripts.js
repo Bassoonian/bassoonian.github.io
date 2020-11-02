@@ -86,6 +86,7 @@ function apply_romanisation(word,stage)
 function apply_orthography(word,stage)
 	{
 		var w=(word.split("~"))[0];
+		w=replaceAll("'","",w);
 		w=pronFixOrtho(w,stage);
 		if (stage==0)
 		{
