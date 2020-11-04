@@ -155,6 +155,10 @@ function apply_orthography(word,stage)
 			w=replaceAll("ø̄","οι",w);
 			w=replaceAll("Ø̄","Οι",w);
 			
+			//When Osthoff strikes back
+			w=replaceAll("ø","οι",w);
+			w=replaceAll("Ø","Οι",w);
+			
 			w=replaceAll("e","ε",w);
 			w=replaceAll("E","Ε",w);
 			w=replaceAll("ē","ε̄",w);
