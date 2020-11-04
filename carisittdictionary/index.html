@@ -1496,7 +1496,7 @@
 			var temp='<table class="table w-auto table-sm"><thead>';
 			var beq=_conjunctivelist[stage];
 			temp+="<tr><th colspan='"+(3+beq*2)+"' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr>";
-			if (isdoc>-1) temp+="<tr><td style='text-align:center;' colspan='"+(3+beq*2)+"' scope='col'>(ex. "+(dbase[dbaserow][maincolumns[stage]].split("~"))[0]+" <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
+			if (isdoc>-1) temp+="<tr><td style='text-align:center;' colspan='"+(3+beq*2)+"' scope='col'>(ex. <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+dbaserow+","+stage+");'>"+apply_orthography((dbase[dbaserow][maincolumns[stage]].split("~"))[0],stage)+"</a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
 			if (beq) temp+="<tr><th scope='col'></th><th scope='col' colspan='2'>"+glossText("prm",returnGloss("prm"))+"</th><th scope='col' colspan='2'>"+glossText("cnj",returnGloss("cnj"))+"</th></tr>";
 			temp+='<tr><th scope="col"></th>';
 			for(var i=0;i<=beq;i++) temp+='<th scope="col">'+glossText("sg",returnGloss("sg"))+'</th><th scope="col">'+glossText("pl",returnGloss("pl"))+"</th>";
@@ -1598,7 +1598,7 @@
 				{
 					var qpq=pattern;
 					if (iscomparative==2) qpq="SUPERLATIVE";
-					temp+="<tr><td style='text-align:center;' colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>(ex. "+(dbase[dbaserow][maincolumns[stage]].split("~"))[0]+" <a class='clickety' onclick='findNewTable("+isdoc+",\""+qpq+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+qpq+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
+					temp+="<tr><td style='text-align:center;' colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>(ex. <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+dbaserow+","+stage+");'>"+apply_orthography((dbase[dbaserow][maincolumns[stage]].split("~"))[0],stage)+"</a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+qpq+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+qpq+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
 				}
 				temp+="</thead><tbody>";
 				for(var i=0;i<=_conjunctivelist[stage];i++)
@@ -1660,7 +1660,7 @@
 			stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
 			var temp='<table class="table w-auto table-sm"><thead>';
 			temp+='<tr><th colspan="8" scope="col">'+dbase[kluku-1][stagelist[stage][1]]+"</th></tr></thead><tbody>";
-			if (isdoc>-1) temp+="<tr><td style='text-align:center;' colspan='8' scope='col'>(ex. "+(dbase[dbaserow][maincolumns[stage]].split("~"))[0]+" <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
+			if (isdoc>-1) temp+="<tr><td style='text-align:center;' colspan='8' scope='col'>(ex. <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+dbaserow+","+stage+");'>"+apply_orthography((dbase[dbaserow][maincolumns[stage]].split("~"))[0],stage)+"</a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
 			for(var i=0;i<_tamlist[stage].length;i++)
 			{
 				var q=_tamlist[stage][i][0];
