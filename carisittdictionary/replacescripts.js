@@ -44,7 +44,7 @@ function IPAtoXSampa(a)
 		a=replaceAll("ˈ",'"',a);
 		a=replaceAll("ː",":",a);
 		a=replaceAll("ʲ","_j",a);
-		a=replaceAll("ˠ","_G",a);
+		a=replaceAll("ʷ","_w",a);
 		a=replaceAll("ʰ","_h",a);
 		a=replaceAll("̩","=",a);
 		a=replaceAll("̞","_o",a);
@@ -256,7 +256,7 @@ function apply_orthography(word,stage)
 			
 			//diacritics
 			w=replaceAll("ʲ","̇",w);
-			w=replaceAll("ˠ","̨",w);
+			w=replaceAll("ʷ","̨",w);
 		}
 		if (w=="*") w="";
 		return(w);

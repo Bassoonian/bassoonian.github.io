@@ -661,7 +661,7 @@
 					if (q[q.length-1].includes("%"))
 					{
 						var p=q[q.length-1];
-						p=p.replace(/([mnlr])(ʲ?ˠ?ʲ?ˠ?ʲ?)\%/g,"$1̩$2")
+						p=p.replace(/([mnlr])(ʲ?ʷ?ʲ?ʷ?ʲ?)\%/g,"$1̩$2")
 						if (p==q[q.length-1])
 						{
 							q[q.length-2]+=q[q.length-1].replace("%","");
@@ -727,10 +727,9 @@
 				w=replaceAll("$","",w);
 				
 				w=replaceAll("ʲʲ","ʲ",w);
-				w=replaceAll("ˠˠ","ˠ",w);
-				w=replaceAll("ʲˠ","ʲ",w);
-				w=replaceAll("ˠʲ","ˠ",w);
-				w=w.replace(/([wkgŋx])(ˠ)/g,"$1");
+				w=replaceAll("ʷʷ","ʷ",w);
+				w=replaceAll("ʲʷ","ʲ",w);
+				w=replaceAll("ʷʲ","ʷ",w);
 				w=replaceAll("jʲ","j",w);
 				
 				w=w.replace(/([aāeēiīoōuūyȳøø̄æǣęę̄ǫǭųų̄])(d)\%$/g,"$1ð%");
