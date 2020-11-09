@@ -96,6 +96,9 @@ sources=[
 			["google",		"https://books.google.be/books?id=kW8Mzji0XRgC"],
 			["worldcat",	"https://www.worldcat.org/title/ancient-egyptian-a-linguistic-introduction/oclc/896426228"]
 		]],
+	["pie_morph",
+		"Lundquist, Jesse & Yates, Anthony D. <i>The Morphology of Proto-Indo-European.</i> Los Angeles",[
+		]],
 	["macneill_calendar",
 		"Mac Neill, Eóin. <i>On the Notation and Chronography of the Calendar of Coligny.</i> 1926",[
 			["jstor",		"https://www.jstor.org/stable/30007818"],
@@ -295,6 +298,7 @@ _atonics=[
 	true,
 	true,
 	false,
+	false,
 	false
 ]
 
@@ -302,10 +306,12 @@ _voicelist=[
 	["act"],
 	["act"],
 	["act"],
+	["act"],
 	["act"]
 ];
 
 _imperatives=[
+	["y","y","y"],
 	["y","y","y"],
 	["y","y","y"],
 	["y","y","y"],
@@ -324,6 +330,7 @@ _tamlist=[
 	[["ind",["prs","pret","fut"]],["sjv",["npst","pst"]]],
 	[["ind",["prs","pret","fut"]],["sjv",["npst","pst"]]],
 	[["ind",["prs","pret","fut"]],["sjv",["npst","pst"]]],
+	[["ind",["prs","pret","fut"]],["sjv",["npst","pst"]]],
 	[["ind",["prs","pret","fut"]],["sjv",["npst","pst"]]]
 ];
 
@@ -331,10 +338,12 @@ _vowels=[
 	["a","e","i","o","u","y","ø","ː"],
 	["a","e","i","o","u","y","ø","ː","ã","ẽ","ĩ","õ","ũ","ỹ","ø̃"],
 	["a","e","i","o","u","y","ø","æ","ː","ẽ","õ","ũ"],
-	["a","e","i","o","u","y","ø","æ","ː","̩","%"]
+	["a","e","i","o","u","y","ø","æ","ː","̩","%"],
+	["a","e","i","o","u","%"]
 ];
 _illegalonsets=[
 	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw","jn"],
+	[],
 	[],
 	[],
 	[]

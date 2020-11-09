@@ -258,6 +258,44 @@ function apply_orthography(word,stage)
 			w=replaceAll("ʲ","̇",w);
 			w=replaceAll("ʷ","̨",w);
 		}
+		if (stage==4)
+		{
+			w=replaceAll("kw","qu",w);
+			w=replaceAll("Kw","Qu",w);
+			
+			//Temporary block
+			w=replaceAll("x","h",w);
+			w=replaceAll("X","H",w);
+			
+			w=replaceAll("J","Y",w);
+			w=replaceAll("j","y",w);
+			w=replaceAll("W","U",w);
+			w=replaceAll("w","u",w);
+			
+			w=w.replace(/(k)([ie])/g,"qu$2");
+			w=w.replace(/(K)([ie])/g,"Qu$2");
+			w=replaceAll("k","c",w);
+			w=replaceAll("K","C",w);
+			
+			
+			if (w=="i") w="y";
+			if (w=="I") w="Y";
+			
+			w=replaceAll("ʃt","st",w);
+			w=replaceAll("ʃ","x",w);
+			w=replaceAll("ʒd","sd",w);
+			w=replaceAll("ʒ","j",w);
+			
+			w=replaceAll("ɲ","nh",w);
+			w=replaceAll("ʎ","lh",w);
+			w=replaceAll("xx","sx",w);
+			w=w.replace(/([aeiou])(z)([aeiou])/g,"$1s$3");
+			w=w.replace(/([BCDFGHKLMNPRSTVXbcdfghklmnprstvx])(y)([aeiou])/g,"$1i$3");
+			
+			w=w.replace(/([aeiou])(i)/g,"$1y");
+			
+			w=replaceAll("%","",w);
+		}
 		if (w=="*") w="";
 		return(w);
 	}
