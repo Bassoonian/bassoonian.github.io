@@ -272,8 +272,8 @@ function apply_orthography(word,stage)
 			w=replaceAll("W","U",w);
 			w=replaceAll("w","u",w);
 			
-			w=w.replace(/(k)([ie])/g,"qu$2");
-			w=w.replace(/(K)([ie])/g,"Qu$2");
+			w=w.replace(/(k)([iey])/g,"qu$2");
+			w=w.replace(/(K)([iey])/g,"Qu$2");
 			w=replaceAll("k","c",w);
 			w=replaceAll("K","C",w);
 			
@@ -293,8 +293,21 @@ function apply_orthography(word,stage)
 			w=w.replace(/([BCDFGHKLMNPRSTVXbcdfghklmnprstvx])(y)([aeiou])/g,"$1i$3");
 			
 			w=w.replace(/([aeiou])(i)/g,"$1y");
+			w=w.replace(/([qQ])(u)(y)/g,"$1ui");
+			
+			w=w.replace(/(g)([ie])/g,"gu$2");
+			w=w.replace(/(G)([ie])/g,"Gu$2");
+			
+			w=w.replace("txi","ci",w);
+			w=w.replace("Txi","Ci",w);
+			w=w.replace("tx","ci",w);
+			w=w.replace("Tx","Ci",w);
+			w=w.replace("dj","gi",w);
+			w=w.replace("Dj","Gi",w);
 			
 			w=replaceAll("%","",w);
+			
+			w=w.replace(/z$/g,"se");
 		}
 		if (w=="*") w="";
 		return(w);
