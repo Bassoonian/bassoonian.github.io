@@ -1,4 +1,14 @@
 sources=[
+	["vox_latina",
+		"Allen, W. Sidney. <i>Vox Latina: A Guide to the Pronunciation of Classical Latin, 2nd ed.</i> Cambridge, Cambridge University Press, 1978",[
+			["google",		"https://books.google.be/books?id=aexkj_0oj3MC"],
+			["worldcat",	"https://www.worldcat.org/title/vox-latina-a-guide-to-the-pronunciation-of-classical-latin/oclc/225332102"]
+		]],
+	["greek_companion",
+		"Bakker, Egbert J. <i>A Companion to the Ancient Greek Language.</i> Singapore, Blackwell Publushing Ltd, 2010",[
+			["google",		"https://books.google.be/books?id=oa42E3DP3icC"],
+			["worldcat",	"https://www.worldcat.org/title/companion-to-the-ancient-greek-language/oclc/871713512"]
+		]],
 	["ed_greek",
 		"Beekes, Robert. <i>Etymological Dictionary of Greek.</i> Leiden, Koninklijke Brill NV, 2010",[
 			["google",		"https://books.google.be/books?id=4qudQAAACAAJ"],
@@ -252,6 +262,7 @@ glossterms=[
 	["loc"	,"Locative case"],
 	["dir"	,"Direct case"],
 	["obl"	,"Oblique case"],
+	["adv"	,"Adverbial case"],
 	["sg"	,"Singular number"],
 	["pl"	,"Plural number"],
 	["act"	,"Active voice"],
@@ -284,8 +295,9 @@ _caseslist=[
 	["nom",""   ,"acc","gen",""   ,"dat","loc","ins"],
 	["nom",""   ,"acc","gen",""   ,"dat","loc",""   ],
 	["nom",""	,"acc","gen",""   ,"dat",""   ,""   ],//Loc is still on the sheet, so can be readded if deemed necessary
-	["dir",""	,""   ,"gen",""   ,"dat",""   ,""   ]
+	["dir",""	,"adv",""   ,""   ,"obl",""   ,""   ]
 ];
+
 _conjunctivelist=[
 	false,
 	true,
@@ -342,7 +354,7 @@ _vowels=[
 	["a","e","i","o","u","%"]
 ];
 _illegalonsets=[
-	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw","jn"],
+	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw","jn","ss"],
 	[],
 	[],
 	[],
