@@ -263,10 +263,6 @@ function apply_orthography(word,stage)
 			w=replaceAll("kw","qu",w);
 			w=replaceAll("Kw","Qu",w);
 			
-			//Temporary block
-			w=replaceAll("x","h",w);
-			w=replaceAll("X","H",w);
-			
 			w=replaceAll("J","Y",w);
 			w=replaceAll("j","y",w);
 			w=replaceAll("W","U",w);
@@ -283,6 +279,7 @@ function apply_orthography(word,stage)
 			
 			w=replaceAll("ʃt","st",w);
 			w=replaceAll("ʃ","x",w);
+			w=replaceAll("^x","X",w);
 			w=replaceAll("ʒd","sd",w);
 			w=replaceAll("ʒ","j",w);
 			
@@ -306,6 +303,10 @@ function apply_orthography(word,stage)
 			w=w.replace("Dj","Gi",w);
 			
 			w=replaceAll("%","",w);
+			
+			w+=" ";
+			w=replaceAll("u ","o ",w);
+			w=w.trim();
 			
 			w=w.replace(/z$/g,"se");
 		}

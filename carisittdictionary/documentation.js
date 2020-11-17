@@ -286,7 +286,7 @@ function docParseData(dat)
 
 function getBoop(pop)
 {
-	if (pop=="mythology") pop="3";//Change to four!
+	if (pop=="mythology") pop="4";//Change to four!
 	else if (pop.includes("0_")) pop="0";
 	else if (pop.includes("1_")) pop="1";
 	else if (pop.includes("2_")) pop="2";
