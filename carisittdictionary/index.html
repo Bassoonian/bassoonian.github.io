@@ -1257,9 +1257,11 @@
 			for(var i=0;i<_uidlist.length;i++)
 				{
 					var qq=apply_orthography(dbase[_uidlist[i][1]][maincolumns[stage]],stage);
+					var pp="";
 					if (stage!=0) qq="<i>"+qq+"</i>";
-					txt=replaceAll("°"+_uidlist[i][0]+"°","<a class='clickety' href='javascript:void(0);' onclick='timeTravel("+_uidlist[i][1]+","+stage+");'>"+qq+"</a>",txt);
-					txt=replaceAll("€"+_uidlist[i][0]+"€",qq,txt);
+					else pp=" (<i>"+apply_romanisation(dbase[_uidlist[i][1]][maincolumns[stage]],stage)+"</i>)";
+					txt=replaceAll("°"+_uidlist[i][0]+"°","<a class='clickety' href='javascript:void(0);' onclick='timeTravel("+_uidlist[i][1]+","+stage+");'>"+qq+"</a>"+pp,txt);
+					txt=replaceAll("€"+_uidlist[i][0]+"€",qq+pp,txt);
 				}
 			}
 			return(txt);

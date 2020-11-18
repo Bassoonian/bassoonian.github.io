@@ -105,7 +105,7 @@ function updateLeftSidebar()
 			["Verbal Morphology","0_vrb"],
 			["Derivational Morphology","0_deriv"],
 			["Syntax","0_syn"],
-			["External Interaction","0_external"]
+			["External Interactions","0_external"]
 		],
 		/*["1",
 			["Preface","1_preface"],
