@@ -72,7 +72,7 @@ sources=[
 			["worldcat",	"https://www.worldcat.org/title/handbook-of-comparative-and-historical-indo-european-linguistics-an-international-handbook/oclc/1051139391"]
 		]],
 	["ed_hittite",
-		"Kloekhorst, Alwin. <i>Etymological Dictionary of the Hittite Inherited Lexicon.</i> Leiden/Bosten, Koninklijke Brill NV, 2008",[
+		"Kloekhorst, Alwin. <i>Etymological Dictionary of the Hittite Inherited Lexicon.</i> Leiden/Boston, Koninklijke Brill NV, 2008",[
 			["google",		"https://books.google.be/books?id=JmdiAAAAMAAJ"],
 			["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-the-hittite-inherited-lexicon/oclc/781175802"]
 		]],
@@ -80,6 +80,11 @@ sources=[
 		"Krahmalkov, Charles R. <i>Phoenician-Punic Dictionary.</i> Leuven, Peeters, 2000",[
 			["google",		"https://books.google.be/books?id=bh_jdzIT9GQC"],
 			["worldcat",	"https://www.worldcat.org/title/phoenician-punic-dictionary/oclc/860453014"]
+		]],
+	["gram_punic",
+		"Krahmalkov, Charles R. <i>A Phoenician-Punic Grammar.</i> Leiden, Koninklijke Brill NV, 2001",[
+			["google",		"https://books.google.be/books?id=DbC9CwAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/phoenician-punic-grammar/oclc/44133038"]
 		]],
 	["ed_germanic",
 		"Kroonen, Guus. <i>Etymological Dictionary of Proto-Germanic.</i> Leiden, Koninklijke Brill NV, 2013",[

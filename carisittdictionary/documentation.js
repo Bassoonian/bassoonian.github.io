@@ -94,7 +94,8 @@ function updateLeftSidebar()
 		["Anthropology",
 			["History","history"],
 			["Important Figures","figures"],
-			["Mythology","mythology"]
+			["Mythology","mythology"],
+			["List of Holidays","holidays"]
 		],
 		["0",
 			["Preface","0_preface"],
