@@ -1044,6 +1044,11 @@
 				document.getElementById("tab_inflect_li").style.display="initial";
 				temp+=tablePersPronoun(wordlist[wid][3],activestage);
 			}
+			if (wordlist[wid][3]=="PRON_PERS_3")
+			{
+				document.getElementById("tab_inflect_li").style.display="initial";
+				temp+=tablePronounIrregular(wordlist[wid][3],activestage);
+			}
 			if (wordcategoryopen=="Adjective"||(wordcategoryopen=="Numeral"&&wordlist[wid][3]!="NUM_GEN"))
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
@@ -1465,6 +1470,40 @@
 					if (bep) temp+="<td>"+apply_orthography(getSuffix(kluku+1+i*2,stage),stage)+"</td>";
 					temp+="<td>"+apply_orthography(getSuffix(kluku+i*2+_caseslist[0].length*2,stage),stage)+"</td>";
 					if (bep) temp+="<td>"+apply_orthography(getSuffix(kluku+1+i*2+_caseslist[0].length*2,stage),stage)+"</td>";
+					temp+="</tr>";
+				}
+			}
+			temp+="</tbody></table>";
+			return(temp);
+		}
+	function tablePronounIrregular(person,stage)
+		{
+			var kluku=-1;
+			for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==person) kluku=declensionlist[i][1]+1;
+			var temp='<table class="table w-auto table-sm"><thead>';
+			var beq=_conjunctivelist[stage];
+			//Add conjunctives later!
+			temp+="<tr><th colspan='7' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr>";
+			//
+			temp+="<tr><th></th>";
+			for(var j=0;j<3;j++) temp+="<th colspan='2'>"+glossText(_genders[stage][j],returnGloss(_genders[stage][j]))+"</th>";
+			temp+="</tr><tr>";
+			temp+="<th></th>";
+			for(var j=0;j<3;j++) temp+="<th>"+glossText("sg",returnGloss("sg"))+"</th><th>"+glossText("pl",returnGloss("pl"))+"</th>";
+			temp+="</tr>";
+			//
+			temp+="</thead><tbody>";
+			for(var i=0;i<_caseslist[0].length;i++)
+			{
+				if (_caseslist[stage][i]!="")
+				{
+					temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][i],returnGloss(_caseslist[stage][i]))+"</th>";
+					temp+="<td>"+apply_orthography(getSuffix(kluku+i,stage),stage)+"</td>";
+					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length,stage),stage)+"</td>";
+					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length*2,stage),stage)+"</td>";
+					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length*3,stage),stage)+"</td>";
+					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length*4,stage),stage)+"</td>";
+					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length*5,stage),stage)+"</td>";
 					temp+="</tr>";
 				}
 			}

@@ -345,6 +345,7 @@ function getRandomInflectionTable(pattern,stage,forceblank,adddiv,tablid)
 	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false,tablid);
 	if (inflectioncategory=="Adjective") temp=tableAdjective(selected,pattern,stage,false,tablid,0);
 	if (pattern=="PRON_PERS_1"||pattern=="PRON_PERS_2") temp=tablePersPronoun(pattern,stage);
+	if (pattern=="PRON_PERS_3") temp=tablePronounIrregular(pattern,stage);
 	if (inflectioncategory=="Comparative") temp=tableAdjective(selected[0],selected[1],stage,false,tablid,1);
 	if (inflectioncategory=="Superlative") temp=tableAdjective(selected[0],selected[1],stage,false,tablid,2);
 	if (inflectioncategory=="Numeral") temp=tableAdjective(selected,pattern,stage,true,tablid,0);
