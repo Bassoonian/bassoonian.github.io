@@ -111,6 +111,11 @@ sources=[
 			["google",		"https://books.google.be/books?id=kW8Mzji0XRgC"],
 			["worldcat",	"https://www.worldcat.org/title/ancient-egyptian-a-linguistic-introduction/oclc/896426228"]
 		]],
+	["ltlu",
+		"Loprieno, Antonio. <i>From Ancient Egyptian to Coptic.</i> In: <i>Language Typology and Language Universals.</i> Berlin, Walter de Gruyter, 2001",[
+			["google",		"https://books.google.be/books?id=35Q-LCNgmloC"],
+			["worldcat",	"https://www.worldcat.org/title/language-typology-and-language-universals/oclc/1049928912"]
+		]],
 	["pie_morph",
 		"Lundquist, Jesse & Yates, Anthony D. <i>The Morphology of Proto-Indo-European.</i> Los Angeles",[
 		]],
