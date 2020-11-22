@@ -186,6 +186,7 @@
 	orderalph=true;
 	usexsampa=false;
 	enablesoundchangetooltips=true;
+	showarchaic=false;
 	_uidlist=[];
 	
 	_dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
@@ -547,7 +548,9 @@
 		}
 	function display(term)
 		{
-			return(term[0]);
+			var q=term[0];
+			if (activestage==0) q=applyArchaic(q);
+			return(q);
 		}
 	function openWotd()
 		{

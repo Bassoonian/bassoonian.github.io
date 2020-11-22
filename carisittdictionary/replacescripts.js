@@ -313,6 +313,60 @@ function apply_orthography(word,stage)
 		if (w=="*") w="";
 		return(w);
 	}
+function applyArchaic(w)
+	{
+		if (showarchaic)
+		{
+			var z="";
+			w=w.toLowerCase();
+			var lmn=w.split("");
+			for (var i=0;i<lmn.length;i++)
+			{
+				if (lmn[i]!="*"&&lmn[i]!="-"&&lmn[i]!="̄")
+				{
+					z+="<img class='img_src_inline' title='"+lmn[i]+"' alt='"+lmn[i]+"' src='alphabetsvg/";
+					switch(lmn[i])
+					{
+						case "α": z+="A";break;
+						case "ᾱ": z+="A";break;
+						case "β": z+="B";break;
+						case "γ": z+="G";break;
+						case "δ": z+="D";break;
+						case "κ": z+="K";break;
+						case "λ": z+="L";break;
+						case "μ": z+="M";break;
+						case "ν": z+="N";break;
+						case "ω": z+="OO";break;
+						case "ο": z+="O";break;
+						case "π": z+="P";break;
+						case "τ": z+="T";break;
+						case "ε": z+="E";break;
+						case "ι": z+="I";break;
+						case "ῑ": z+="I";break;
+						case "ῐ": z+="I";break;
+						case "υ": z+="U";break;
+						case "ῡ": z+="U";break;
+						case "ῠ": z+="U";break;
+						case "ρ": z+="R";break;
+						case "ζ": z+="Z";break;
+						case "ξ": z+="X";break;
+						case "φ": z+="F";break;
+						case "θ": z+="V";break;
+						case "σ": z+="S";break;
+						case "ς": z+="S";break;
+						case "ψ": z+="PS";break;
+						case "η": z+="H";break;
+						case "y": z+="Y";break;
+						default: z+=lmn[i];break;
+					}
+					z+=".svg'>";
+				}
+			}
+			w=z;
+		}
+		return(w);
+	}
+	
 /*function apply_nativealphabet(word,stage) THIS IS A RELIC, left in case it's useful in the future
 	{
 		var w=(word.split("~"))[0];

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="42.519684"
+   height="53.149605"
+   id="svg2">
+  <defs
+     id="defs4" />
+  <g
+     id="layer2"
+     style="display:none">
+    <rect
+       width="31.949493"
+       height="34.973034"
+       ry="0.21325016"
+       x="5.0068707"
+       y="9.2631512"
+       id="rect3211"
+       style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.07031591;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    <rect
+       width="42.519684"
+       height="53.149605"
+       ry="0.32408288"
+       x="-3.1811524e-06"
+       y="-1.6357421e-06"
+       id="rect2383"
+       style="fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+  </g>
+  <g
+     id="layer3">
+    <path
+       d="M 21.134283,14.017559 L 11.524908,40.408184 L 30.767095,40.408184 L 21.134283,14.017559 M 5.1030326,44.345684 L 18.462408,9.3534966 L 23.829595,9.3534966 L 37.165533,44.345684 L 5.1030326,44.345684"
+       id="text2430"
+       style="font-size:48px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans" />
+  </g>
+</svg>
