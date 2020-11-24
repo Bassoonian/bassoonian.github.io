@@ -302,6 +302,8 @@ function apply_orthography(word,stage)
 			w=w.replace("dj","gi",w);
 			w=w.replace("Dj","Gi",w);
 			
+			w=replaceAll("ŋ","g",w);
+			
 			w=replaceAll("%","",w);
 			
 			w+=" ";
