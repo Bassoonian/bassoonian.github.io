@@ -83,12 +83,13 @@ function apply_romanisation(word,stage)
 		}
 		return(w);
 	}
-function apply_orthography(word,stage)
+function apply_orthography(word,stage,subgroup)
 	{
+		subgroup = typeof subgroup !== 'undefined' ? subgroup : 0;
 		var w=(word.split("~"))[0];
 		w=replaceAll("'","",w);
 		w=pronFixOrtho(w,stage);
-		if (stage==0)
+		if (stage==0&&subgroup==0)
 		{
 			w=replaceAll("nk","γk",w);
 			w=replaceAll("ng","γg",w);
@@ -176,6 +177,7 @@ function apply_orthography(word,stage)
 			
 			w="*"+w;
 		}
+		if (stage==0&&subgroup==1) w=apply_romanisation(w,stage);
 		if (stage==1)
 		{
 			w=replaceAll("X","H",w);
@@ -193,7 +195,7 @@ function apply_orthography(word,stage)
 			w=replaceAll("^d","D",w);
 			w=replaceAll("^g","G",w);
 		}
-		if (stage==3)
+		if (stage==3&&subgroup==0)
 		{
 			w=replaceAll("θ","th",w);
 			w=replaceAll("ð","dh",w);
@@ -258,6 +260,109 @@ function apply_orthography(word,stage)
 			w=replaceAll("ʲ","̇",w);
 			w=replaceAll("ʷ","̨",w);
 		}
+		if (stage==3&&subgroup==1)
+		{
+			w=w.toLowerCase();
+			//Consonants
+			w=replaceAll("b","𐌱",w);
+			w=replaceAll("g","𐌲",w);
+			w=replaceAll("d","𐌳",w);
+			w=replaceAll("z","𐌶",w);
+			w=replaceAll("h","𐌷",w);
+			w=replaceAll("k","𐌺",w);
+			w=replaceAll("l","𐌻",w);
+			w=replaceAll("m","𐌼",w);
+			w=replaceAll("n","𐌽",w);
+			w=replaceAll("j","𐌾",w);
+			w=replaceAll("p","𐍀",w);
+			w=replaceAll("r","𐍂",w);
+			w=replaceAll("s","𐍃",w);
+			w=replaceAll("t","𐍄",w);
+			w=replaceAll("f","𐍆",w);
+			w=replaceAll("w","𐍅",w);
+			
+			w=replaceAll("𐌽𐌲","𐌲𐌲",w);
+			w=replaceAll("𐌽𐌺","𐌲𐌺",w);
+			//Vowels
+			w=replaceAll("a","𐌰",w);
+			w=replaceAll("ā","𐌰",w);
+			w=replaceAll("ǣ","𐌰𐌹",w);
+			w=replaceAll("æ","𐌰𐌹",w);
+			w=replaceAll("e","𐌴",w);
+			w=replaceAll("ē","𐌴",w);
+			w=replaceAll("i","𐌹",w);
+			w=replaceAll("ī","𐌴𐌹",w);
+			w=replaceAll("o","𐌰𐌿",w);
+			w=replaceAll("ō","𐍉",w);
+			w=replaceAll("u","𐌿",w);
+			w=replaceAll("ū","𐌿",w);
+			w=replaceAll("ø̄","𐍉𐌹",w);
+			w=replaceAll("ø","𐍉𐌹",w);
+			w=replaceAll("ȳ","𐍅",w);
+			w=replaceAll("y","𐍅",w);
+			
+			w=replaceAll("%","",w);
+			//TO DO: ^j/ʷ, v, bh/dh/gh
+		}
+		if (stage==3&&subgroup==2)
+		{
+			w=" "+w.toLowerCase()+" ";
+			w=w.replace("%","");
+			
+			//Mergers
+			w=replaceAll("e","i",w);
+			w=replaceAll("ē","ī",w);
+			w=replaceAll("o","u",w);
+			w=replaceAll("ō","ū",w);
+			w=replaceAll("ȳ","ū",w);
+			w=replaceAll("y","u",w);
+			w=replaceAll("ǣ","ā",w);
+			w=replaceAll("æ","a",w);
+			w=replaceAll("ø̄","ū",w);
+			w=replaceAll("ø","u",w);
+			
+			//Long Vowels
+			w=replaceAll(" ā","آ",w);
+			w=replaceAll("ā","ا",w);
+			w=replaceAll(" ī","اي",w);
+			w=replaceAll("ī","ي",w);
+			w=replaceAll(" ū","او",w);
+			w=replaceAll("ū","و",w);
+			
+			//Short vowels
+			w=replaceAll(" a","ا",w);
+			w=replaceAll("a","َ",w);
+			w=replaceAll(" i","ا",w);
+			w=replaceAll("i","ِ",w);
+			w=replaceAll(" u","ا",w);
+			w=replaceAll("u","ُ",w);
+			
+			//Consonants
+			w=replaceAll("b","ب",w);
+			w=replaceAll("t","ت",w);
+			w=replaceAll("d","د",w);
+			w=replaceAll("r","ر",w);
+			w=replaceAll("z","ز",w);
+			w=replaceAll("s","س",w);
+			w=replaceAll("ɣ","غ",w);
+			w=replaceAll("f","ف",w);
+			w=replaceAll("k","ك",w);
+			w=replaceAll("l","ل",w);
+			w=replaceAll("m","م",w);
+			w=replaceAll("n","ن",w);
+			w=replaceAll("h","ه",w);
+			w=replaceAll("w","و",w);
+			w=replaceAll("j","ي",w);
+			w=replaceAll("x","خ",w);
+			w=replaceAll("θ","ث",w);
+			w=replaceAll("ð","ذ",w);
+			w=replaceAll("g","ق",w); //???
+			
+			w=replaceAll("v","?",w);
+			w=replaceAll("p","?",w);
+			
+			w=w.trim();
+		}
 		if (stage==4)
 		{
 			w=replaceAll("kw","qu",w);
@@ -295,12 +400,12 @@ function apply_orthography(word,stage)
 			w=w.replace(/(g)([ie])/g,"gu$2");
 			w=w.replace(/(G)([ie])/g,"Gu$2");
 			
-			w=w.replace("txi","ci",w);
-			w=w.replace("Txi","Ci",w);
-			w=w.replace("tx","ci",w);
-			w=w.replace("Tx","Ci",w);
-			w=w.replace("dj","gi",w);
-			w=w.replace("Dj","Gi",w);
+			w=replaceAll("txi","ci",w);
+			w=replaceAll("Txi","Ci",w);
+			w=replaceAll("tx","ci",w);
+			w=replaceAll("Tx","Ci",w);
+			w=replaceAll("dj","gi",w);
+			w=replaceAll("Dj","Gi",w);
 			
 			w=replaceAll("ŋ","g",w);
 			

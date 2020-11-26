@@ -372,7 +372,7 @@ _illegalonsets=[
 ];
 
 _spellingsystems=[
-	["Greek","Romanisation"],
+	["Greek","romanisation"],
 	[""],
 	[""],
 	["Latin","Gothic","Arabic"],

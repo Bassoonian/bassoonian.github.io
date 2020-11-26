@@ -71,6 +71,7 @@
 			</ul>
 			<div class="tab-content">
 				<div id="tab_general" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab_click_general">
+					<div id="altspelling"><h4>Alternative spelling</h4><ul id="altspellingul"></ul></div>
 					<h4>Pronunciation</h4>
 					<ul id="entry_pronunciation"></ul>
 					<p id="dicentry_gender"><b>Gender:</b> <span id="dicentry_gender2"></span></p>
@@ -120,7 +121,7 @@
 	</div>
 </div>
 <div class="modal fade" id="searchsettingsmodal" role="dialog">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Lexicon Settings</h4>
@@ -803,6 +804,20 @@
 			document.getElementById("entry_category").innerHTML=j;
 			var wordcategoryopen=j;
 			
+			//Alternative spellings
+			document.getElementById("altspelling").style.display="none";
+			if (_spellingsystems[activestage].length>1)
+			{
+				document.getElementById("altspelling").style.display="initial";
+				temp="";
+				for(var i=0;i<_spellingsystems[activestage].length;i++)
+				{
+					if (i!=_activeOrtho[activestage]) temp+="<li>(<i>"+_spellingsystems[activestage][i]+"</i>) "+apply_orthography(dbase[wordlist[wid][2]][maincolumns[activestage]],activestage,i)+"</li>";
+				}
+				document.getElementById("altspellingul").innerHTML=temp;
+			}
+			
+			//Translation
 			var temp="";
 			var translist=dbase[wordlist[wid][2]][maincolumns[activestage]+1].split(",");
 			for(var i=0;i<translist.length;i++)
