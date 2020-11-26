@@ -370,3 +370,11 @@ _illegalonsets=[
 	[],
 	[]
 ];
+
+_spellingsystems=[
+	["Greek","Romanisation"],
+	[""],
+	[""],
+	["Latin","Gothic","Arabic"],
+	["Latin","Arabic"]
+];
