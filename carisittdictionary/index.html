@@ -529,7 +529,7 @@
 					{
 						if (declensionlist[k][0]==wordlist[i][3]) j=dbase[declensionlist[k][1]][2];
 					}
-					temp+=j+"</small></h5></div>";
+					temp+=(j.split("|"))[0]+"</small></h5></div>";
 					foundresult++;
 				}
 			}
@@ -814,7 +814,7 @@
 					clid=i;
 				}
 			}
-			document.getElementById("entry_category").innerHTML=j;
+			document.getElementById("entry_category").innerHTML=(j.split("|"))[0];
 			var wordcategoryopen=j;
 			
 			//Alternative spellings
@@ -1068,7 +1068,7 @@
 			document.getElementById("dicentry_gender").style.display="none";
 			document.getElementById("tab_inflect_li").style.display="none";
 			temp="";
-			if (wordcategoryopen=="Noun")
+			if (wordcategoryopen=="Noun"||wordcategoryopen=="Suffix|N")
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
 				temp+=tableNoun(wordlist[wid][2],wordlist[wid][3],activestage,true,-1);
@@ -1083,7 +1083,7 @@
 				document.getElementById("tab_inflect_li").style.display="initial";
 				temp+=tablePronounIrregular(wordlist[wid][3],activestage);
 			}
-			if (wordcategoryopen=="Adjective"||(wordcategoryopen=="Numeral"&&wordlist[wid][3]!="NUM_GEN"))
+			if (wordcategoryopen=="Adjective"||(wordcategoryopen=="Numeral"&&wordlist[wid][3]!="NUM_GEN")||wordcategoryopen=="Suffix|A")
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
 				//Positive
@@ -1096,7 +1096,7 @@
 					temp+="<h4>Superlative</h4>"+tableAdjective(wordlist[wid][2],wordlist[wid][3],activestage,false,-1,2);
 				}
 			}
-			if (wordcategoryopen=="Verb")
+			if (wordcategoryopen=="Verb"||wordcategoryopen=="Suffix|V")
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
 				temp+=tableVerb(wordlist[wid][2],wordlist[wid][3],activestage,false,-1);

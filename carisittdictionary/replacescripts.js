@@ -336,6 +336,12 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("u","ُ",w);
 			
 			//Consonants
+			w=replaceAll("gʲ","ج",w);
+			w=replaceAll("sʲ","ش",w);
+			w=replaceAll("tʷ","ط",w);
+			w=replaceAll("sʷ","ص",w);
+			w=replaceAll("zʷ","ظ",w);
+			
 			w=replaceAll("b","ب",w);
 			w=replaceAll("t","ت",w);
 			w=replaceAll("d","د",w);
@@ -354,10 +360,13 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("x","خ",w);
 			w=replaceAll("θ","ث",w);
 			w=replaceAll("ð","ذ",w);
-			w=replaceAll("g","ق",w); //???
+			w=replaceAll("g","ق",w);
 			
-			w=replaceAll("v","?",w);
-			w=replaceAll("p","?",w);
+			w=replaceAll("v","ب",w);
+			w=replaceAll("p","ف",w);
+			
+			w=replaceAll("ʷ","",w);
+			w=replaceAll("ʲ","",w);
 			
 			w=w.trim();
 		}
