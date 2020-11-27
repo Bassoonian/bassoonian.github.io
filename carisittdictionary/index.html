@@ -169,7 +169,7 @@
 <script>
 	//Initialise important variables
 	_alphabet=[
-		"Α~Ᾱ Β Γ Δ Ε Ζ Η Θ Ι~Ῑ~Ῐ Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y Φ Ψ Ω",
+		"Α~Ᾱ Β Γ Δ Ε Ζ Η Θ Ι~Ῑ~Ῐ Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y~Ȳ Φ Ψ Ω",
 		"A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄",
 		"A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄",
 		"A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄",
@@ -524,7 +524,7 @@
 				if (success==true)
 				{
 					temp+="<div class='wordentry' onclick='openWord("+i+",false);collapseIfMobile();'><h5>"+display(wordlist[i])+" <small>";
-					j="???";
+					j=wordlist[i][3];
 					for(var k=0;k<declensionlist.length;k++)
 					{
 						if (declensionlist[k][0]==wordlist[i][3]) j=dbase[declensionlist[k][1]][2];
@@ -700,6 +700,19 @@
 		}
 	function pronFixOrtho(w,s)
 		{
+			//Augment fuckeries
+			if (activestage==0)
+			{
+				w=w.replace(/(e-)([aā])/g,"ā");
+				w=w.replace(/(e-)([eē])/g,"ē");
+				w=w.replace(/(e-)([iī])/g,"ī");
+				w=w.replace(/(e-)([oō])/g,"ō");
+				w=w.replace(/(e-)([uū])/g,"ū");
+				w=w.replace(/(e-)([yȳ])/g,"ȳ");
+				w=w.replace(/(e-)([øø̄])/g,"ø̄");
+				w=w.replace(/(e-)([^$])/g,"e$2");
+			}
+			
 			//Nasal assimilation
 			w=w.replace(/(n)([mpb])/g,"m$2");
 			w=w.replace(/(m)([sztd])/g,"n$2");
@@ -1116,7 +1129,7 @@
 				if (p>=array.length) p=0;
 				q=q.replace(i+"-",array[p].replace("-",""));
 			}
-			return(q.replace("-",""));
+			return(q/*.replace("-","")*/);
 		}
 	function updateStage()
 		{
