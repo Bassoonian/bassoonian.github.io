@@ -58,6 +58,11 @@ sources=[
 			["google",		"https://books.google.be/books?id=bSxHgej4tKMC"],
 			["worldcat",	"https://www.worldcat.org/title/indo-european-language-and-culture-an-introduction/oclc/778339290"]
 		]],
+	["locscriptsgreece",
+		"Jeffery, L.H. <i>The Local Scripts of Archaic Greece: a Study on the Origin of the Greek Alphabet and its Development from the Eighth to the Fifth Centuries B.C.</i> Oxford, Oxford University Press, 1963",[
+			["google",		"https://books.google.be/books?id=-MVj3p9ZgEMC"],
+			["worldcat",	"https://www.worldcat.org/title/local-scripts-of-archaic-greece-a-study-of-the-origin-of-the-greek-alphabet-and-its-development-from-the-eighth-to-the-fifth-centuries-bc/oclc/551856105"]
+		]],
 	["kirchhoff",
 		"Kirchhoff, Adolf. <i>Studien zur Geschichte des griechischen Alphabets.</i> Berlin, Ferd. Dümmler's Verlags-Buchhandlung, 1877",[
 			["archive"		,"https://archive.org/details/studienzurgeschi00kirc"],
@@ -155,6 +160,11 @@ sources=[
 	["ed_celtic_rev",
 		"Matasović, Ranko. <i>Addenda et corrigenda to Ranko Matasović's Etymological Dictionary of Proto-Celtic (Brill, Leiden 2009).</i> Zagreb, 2011",[
 			["academia",	"https://www.academia.edu/1489376/Addenda_et_Corrigenda_to_Etymological_Dictionary_of_Proto-Celtic_Brill_Leiden_2009_"]
+		]],
+	["grcdialects",
+		"Miller, Gary D. <i>Ancient Greek Dialects and Early Authors: Introduction to the Dialect Mixture in Homer, with Notes on Lyric and Herodotus.</i> Boston/Berlin, Walter de Gruyter Inc., 2014",[
+			["google",		"https://books.google.be/books?id=5vPnBQAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/ancient-greek-dialects-and-early-authors-introduction-to-the-dialect-mixture-in-homer-with-notes-on-lyric-and-herodotus/oclc/883623553"]
 		]],
 	["ed_albanian",
 		"Orel, Vladimir. <i>Albanian Etymological Dictionary.</i> Leiden/Boston/Köln, 1998",[

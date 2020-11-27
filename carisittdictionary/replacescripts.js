@@ -151,8 +151,6 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("u","υ",w);
 			w=replaceAll("U","Υ",w);
 			
-			w=replaceAll("ȳ","y",w);
-			w=replaceAll("Ȳ","Y",w);
 			w=replaceAll("ø̄","οι",w);
 			w=replaceAll("Ø̄","Οι",w);
 			
@@ -452,7 +450,7 @@ function applyArchaic(w)
 						case "ῑ": z+="I";break;
 						case "ῐ": z+="I";break;
 						case "υ": z+="U";break;
-						case "ῡ": z+="U";break;
+						case "ῡ": z+="Y";break;
 						case "ῠ": z+="U";break;
 						case "ρ": z+="R";break;
 						case "ζ": z+="Z";break;
@@ -463,6 +461,7 @@ function applyArchaic(w)
 						case "ς": z+="S";break;
 						case "ψ": z+="PS";break;
 						case "η": z+="H";break;
+						case "ȳ": z+="Y";break;
 						case "y": z+="Y";break;
 						default: z+=lmn[i];break;
 					}
