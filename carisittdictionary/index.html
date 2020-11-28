@@ -75,11 +75,18 @@
 					<h4>Pronunciation</h4>
 					<ul id="entry_pronunciation"></ul>
 					<p id="dicentry_gender"><b>Gender:</b> <span id="dicentry_gender2"></span></p>
-					<h4>Translation</h4>
-					<ol id="entry_translations"></ol>
+					<div id="translation_tab">
+						<h4>Translation</h4>
+						<ol id="entry_translations"></ol>
+					</div>
+					<div id="function_tab"></div>
 					<div id="synonyms_tab">
 						<h4>Synonyms</h4>
 						<ol id="synonym_list"></ol>
+					</div>
+					<div id="allomorphs_tab">
+						<h4>Allomorphs</h4>
+						<ul id="allomorphs_list"></ul>
 					</div>
 					<p>Last edited: <span id="word_last_edited_span"></span></p>
 				</div>
@@ -284,6 +291,7 @@
 			lasteditcolumn=-1;
 			etymonotecolumn=-1;
 			uidcolumn=-1;
+			_allomorphs=[];
 			var k=dbase[1].length;
 			for(var i=0;i<k;i++)
 			{
@@ -327,7 +335,11 @@
 				}
 				else
 				{
-					if (dbase[i][0].charAt(0)!="§"&&dbase[i][0]!="!!!") lexlist.push([i,cat]);
+					if (dbase[i][0].charAt(0)!="§"&&dbase[i][0]!="!!!")
+					{
+						lexlist.push([i,cat]);
+						if (dbase[i][0]=="ALTERNATIVE") _allomorphs.push([dbase[i][1],i]);
+					}
 					if (dbase[i][uidcolumn]!="") _uidlist.push([dbase[i][uidcolumn],i]);
 				}
 			}
@@ -648,7 +660,7 @@
 				}
 			}
 			//apply stress
-			if (activestage<2) word=word.replace(".",".ˈ"); //Primary stress
+			if (activestage<2&&!word.includes("-")) word=word.replace(".",".ˈ"); //Primary stress
 			if (activestage==2)
 			{
 				//Penultimate stress
@@ -805,6 +817,7 @@
 			_last_opened=wid;
 			document.getElementById("entry_name").innerHTML=display(wordlist[wid]);
 			var j="";
+			var amalternative=(dbase[wordlist[wid][2]][0]=="ALTERNATIVE");
 			var clid=-1;
 			for(var i=0;i<declensionlist.length;i++)
 			{
@@ -832,16 +845,36 @@
 			
 			//Translation
 			var temp="";
-			var translist=dbase[wordlist[wid][2]][maincolumns[activestage]+1].split(",");
-			for(var i=0;i<translist.length;i++)
+			if (!amalternative)
 			{
-				temp+="<li>";
-				var k=translist[i].split("£");
-				if (k.length>1) temp+="("+parseTransCondition(k[1])+") ";
-				temp+=replaceAll("&",",",k[0]);
-				temp+="</li>";
+				var translist=dbase[wordlist[wid][2]][maincolumns[activestage]+1].split(",");
+				for(var i=0;i<translist.length;i++)
+				{
+					temp+="<li>";
+					var k=translist[i].split("£");
+					if (k.length>1) temp+="("+parseTransCondition(k[1])+") ";
+					temp+=replaceAll("&",",",k[0]);
+					temp+="</li>";
+				}
+				document.getElementById("entry_translations").innerHTML=temp;
+				document.getElementById("translation_tab").style.display="initial";
+				document.getElementById("function_tab").style.display="none";
 			}
-			document.getElementById("entry_translations").innerHTML=temp;
+			else
+			{
+				document.getElementById("function_tab").style.display="initial";
+				document.getElementById("translation_tab").style.display="none";
+				var q=-1;
+				for(var i=0;i<_uidlist.length;i++)
+				{
+					if (_uidlist[i][0]==dbase[wordlist[wid][2]][1])
+					{
+						q=_uidlist[i][1];
+						i=_uidlist.length;
+					}
+				}
+				document.getElementById("function_tab").innerHTML="<p>Allomorph of <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+q+","+activestage+");'>"+apply_orthography(dbase[q][maincolumns[activestage]],activestage)+"</a> "+dbase[wordlist[wid][2]][maincolumns[activestage]+1]+".</p>";
+			}
 			
 			//Build pronunciation
 			temp=dbase[wordlist[wid][2]][maincolumns[activestage]].toLowerCase();
@@ -852,31 +885,47 @@
 			//Find synonyms
 			document.getElementById("synonyms_tab").style.display="initial";
 			temp="";
-			for(var i=0;i<translist.length;i++)
+			if (!amalternative)
 			{
-				var ttt=[];
-				for(var j=0;j<wordlist.length;j++)
+				for(var i=0;i<translist.length;i++)
 				{
-					var l=wordlist[j][2];
-					var m=dbase[l][maincolumns[activestage]+1].split(",");
-					for(var k=0;k<m.length;k++)
+					var ttt=[];
+					for(var j=0;j<wordlist.length;j++)
 					{
-						if (translist[i]==m[k]&&j!=wid) ttt.push(j);
+						var l=wordlist[j][2];
+						var m=dbase[l][maincolumns[activestage]+1].split(",");
+						for(var k=0;k<m.length;k++)
+						{
+							if (translist[i]==m[k]&&j!=wid) ttt.push(j);
+						}
 					}
-				}
-				if (ttt.length>0)
-				{
-					temp+="<li>(<i>"+(translist[i].split("£"))[0]+"</i>): ";
-					for(var j=0;j<ttt.length;j++)
+					if (ttt.length>0)
 					{
-						if (j>0) temp+=", ";
-						temp+="<a class='clickety' href='javascript:void(0);' onclick='openWord("+ttt[j]+",false);'>"+wordlist[ttt[j]][0]+"</a>";
+						temp+="<li>(<i>"+(translist[i].split("£"))[0]+"</i>): ";
+						for(var j=0;j<ttt.length;j++)
+						{
+							if (j>0) temp+=", ";
+							temp+="<a class='clickety' href='javascript:void(0);' onclick='openWord("+ttt[j]+",false);'>"+wordlist[ttt[j]][0]+"</a>";
+						}
+						temp+="</li>";
 					}
-					temp+="</li>";
 				}
 			}
 			document.getElementById("synonym_list").innerHTML=temp;
 			if (temp=="") document.getElementById("synonyms_tab").style.display="none";
+			
+			//Allomorphs
+			document.getElementById("allomorphs_tab").style.display="none";
+			if (dbase[wordlist[wid][2]][uidcolumn]!="")//Has an id
+			{
+				temp="";
+				for(var i=0;i<_allomorphs.length;i++)
+				{
+					if (_allomorphs[i][0]==dbase[wordlist[wid][2]][uidcolumn]&&dbase[_allomorphs[i][1]][maincolumns[activestage]]!="") temp+="<li>(<i>"+dbase[_allomorphs[i][1]][maincolumns[activestage]+1]+"</i>) <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+_allomorphs[i][1]+","+activestage+");'>"+apply_orthography(dbase[_allomorphs[i][1]][maincolumns[activestage]],activestage)+"</a></li>";
+				}
+				document.getElementById("allomorphs_list").innerHTML=temp;
+				if (temp!="") document.getElementById("allomorphs_tab").style.display="initial";
+			}
 			
 			//Build etymology
 			temp="";
@@ -909,6 +958,7 @@
 							showmeaning=prevmeaning;
 						}
 						else showmeaning="id.";
+						if (amalternative) showmeaning="";
 						temp+="from "+etymoStep(maincolumns.indexOf(happenings[i][1]),wordlist[wid][2],showmeaning);
 					}
 					else
@@ -939,7 +989,7 @@
 					}
 				}
 			}
-			if (checkpie)
+			if (checkpie&&!amalternative)
 			{
 				if (dbase[wordlist[wid][2]][2]!="")
 				{
@@ -978,7 +1028,8 @@
 					var showmeaning="";
 					if (prevmeaning=="")
 					{
-						temp+=". Regularly develops into ";
+						if (temp!="") temp+=". ";
+						temp+="Regularly develops into ";
 						prevmeaning=dbase[wordlist[wid][2]][maincolumns[i]+1];
 						showmeaning=prevmeaning;
 					}
@@ -993,6 +1044,7 @@
 						showmeaning="id.";
 						temp+=", whence ";
 					}
+					if (amalternative) showmeaning="";
 					temp+=etymoStep(i,wordlist[wid][2],showmeaning);
 				}
 			}
@@ -1041,18 +1093,21 @@
 			//Get related terms
 			document.getElementById("etymo_relatedwords").style.display="initial";
 			temp="";
-			var check1=dbase[wordlist[wid][2]][0];
-			var check2=dbase[wordlist[wid][2]][1];
-			var check3=dbase[wordlist[wid][2]][1];
-			if (check1!=""||check2!=""||check3!="")
+			if (!amalternative)
 			{
-				for(var i=0;i<wordlist.length;i++)
+				var check1=dbase[wordlist[wid][2]][0];
+				var check2=dbase[wordlist[wid][2]][1];
+				var check3=dbase[wordlist[wid][2]][1];
+				if (check1!=""||check2!=""||check3!="")
 				{
-					var goahead=false;
-					if (check1==dbase[wordlist[i][2]][0]&&check1!="") goahead=true;
-					if (check2==dbase[wordlist[i][2]][1]&&check2!="") goahead=true;
-					if (check3==dbase[wordlist[i][2]][2]&&check3!="") goahead=true;
-					if (goahead&&i!=wid) temp+="<li><a href='javascript:void(0);' class='clickety' onclick='openWord("+i+",false);'>"+wordlist[i][0]+"</a></li>";
+					for(var i=0;i<wordlist.length;i++)
+					{
+						var goahead=false;
+						if (check1==dbase[wordlist[i][2]][0]&&check1!="") goahead=true;
+						if (check2==dbase[wordlist[i][2]][1]&&check2!="") goahead=true;
+						if (check3==dbase[wordlist[i][2]][2]&&check3!="") goahead=true;
+						if (goahead&&i!=wid) temp+="<li><a href='javascript:void(0);' class='clickety' onclick='openWord("+i+",false);'>"+wordlist[i][0]+"</a></li>";
+					}
 				}
 			}
 			document.getElementById("etymo_relatedtermslist").innerHTML=temp;
@@ -1217,25 +1272,34 @@
 			//Get word
 			var tt="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+word+","+stage+")'>"+apply_orthography(qq,stage)+"</a>";
 			if (!_needsromanisation[stage]) tt="<i>"+tt+"</i>";
-			t+=tt+" (";
-			if (_needsromanisation[stage]) t+="<i>"+apply_romanisation(qq,stage)+"</i>, ";
-			var meaningdisp="";
-			var mengar=meaning.split(",");
-			for(var i=0;i<mengar.length;i++)
+			t+=tt;
+			if (_needsromanisation[stage]||meaning!="") t+=" (";
+			if (_needsromanisation[stage])
 			{
-				if (i<3)
-				{
-					if (meaningdisp!="") meaningdisp+=", ";
-					mengar[i]=mengar[i].split("£")[0];
-					meaningdisp+=mengar[i];
-				}
-				else
-				{
-					i=mengar.length;
-					meaningdisp+=", etc.";
-				}
+				t+="<i>"+apply_romanisation(qq,stage)+"</i>";
+				if (meaning!="") t+=", ";
 			}
-			t+="“"+replaceAll("_"," ",meaningdisp)+"”)";
+			if (meaning!="")
+			{
+				var meaningdisp="";
+				var mengar=meaning.split(",");
+				for(var i=0;i<mengar.length;i++)
+				{
+					if (i<3)
+					{
+						if (meaningdisp!="") meaningdisp+=", ";
+						mengar[i]=mengar[i].split("£")[0];
+						meaningdisp+=mengar[i];
+					}
+					else
+					{
+						i=mengar.length;
+						meaningdisp+=", etc.";
+					}
+				}
+				t+="“"+replaceAll("_"," ",meaningdisp)+"”";
+			}
+			if (_needsromanisation[stage]||meaning!="") t+=")";
 			return(t);
 		}
 	function timeTravel(word,stage)

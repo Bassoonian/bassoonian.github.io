@@ -122,7 +122,7 @@ sources=[
 			["worldcat",	"https://www.worldcat.org/title/language-typology-and-language-universals/oclc/1049928912"]
 		]],
 	["pie_morph",
-		"Lundquist, Jesse & Yates, Anthony D. <i>The Morphology of Proto-Indo-European.</i> Los Angeles",[
+		"Lundquist, Jesse & Yates, Anthony D. <i>The Morphology of Proto-Indo-European.</i> Los Angeles, ?",[
 		]],
 	["macneill_calendar",
 		"Mac Neill, Eóin. <i>On the Notation and Chronography of the Calendar of Coligny.</i> 1926",[
