@@ -437,7 +437,9 @@
 				orth=apply_orthography(dbase[lexlist[i][0]][maincolumns[stagid]],stagid);
 				if (orth!=""&&orth!="*") //If empty, this word does not yet/no longer exist in this stage!
 				{
-					orth2=""//apply_nativealphabet(orth,stagid);
+					orth2=[];
+					orth2.push(orth);
+					for(var j=1;j<_spellingsystems[stagid].length;j++) orth2.push(apply_orthography(dbase[lexlist[i][0]][maincolumns[stagid]],stagid,j));
 					wordlist.push([orth,orth2,lexlist[i][0],lexlist[i][1],new Date(dbase[lexlist[i][0]][lasteditcolumn])]);
 				}
 			}
@@ -490,7 +492,6 @@
 			var timevalue="";
 			var searchval=document.getElementById("searchinputvalue").value;
 			var check=0;
-			//if (romanisationfirst==false&&_alphabet2[stagid]!="") check=1;
 			for(var i=0;i<wordlist.length;i++)
 			{
 				var j="";
@@ -522,15 +523,19 @@
 				if (searchval=="") success=true;
 				else
 				{
+					searchval=searchval.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 					if (searchenglish)
 					{
-						var qqq=dbase[wordlist[i][2]][maincolumns[activestage]+1];//Needs improvemet
+						var qqq=dbase[wordlist[i][2]][maincolumns[activestage]+1].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 						if (qqq.search(searchval)!=-1) success=true;
 					}
 					else
 					{
-						if (wordlist[i][0].search(searchval)!=-1) success=true;
-						if (wordlist[i][1].search(searchval)!=-1) success=true;
+						for (var j=0;j<wordlist[i][1].length;j++)
+						{
+							var qqq=wordlist[i][1][j].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+							if (qqq.search(searchval)!=-1) success=true;
+						}
 					}
 				}
 				if (success==true)
