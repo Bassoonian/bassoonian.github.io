@@ -134,6 +134,11 @@ sources=[
 		"Mallory, J. P. <i>In Search of the Indo-Europeans: Language, Archeology and Myth.</i> Thames and Hudson, 1989",[
 			["google",		"https://books.google.be/books?id=wLeYkgEACAAJ"]
 		]],
+	["encyclopedaieculture",
+		"Mallory, J.P. & Adams, D. Q. <i>Enclyclopedia of Indo-European Culture.</i> London/Chicago, Fitzroy Dearborn Publishers, 1997",[
+			["google",		"https://books.google.be/books?id=tzU3RIV2BWIC"],
+			["worldcat",	"https://www.worldcat.org/title/encyclopedia-of-indo-european-culture/oclc/185868083"]
+		]],
 	["oxf_intro",
 		"Mallory, J. P. & Adams, D. Q. <i>The Oxford Introduction to Proto-Indo-European and the Proto-Indo-European World.</i> New York, Oxford University Press Inc., 2006",[
 			["google",		"https://books.google.be/books?id=lzilBQAAQBAJ"],
@@ -185,6 +190,10 @@ sources=[
 		"Pittau, Massimo. <i>Dizionario della lingua etrusca.</i> Sassari, Dessi, 2005",[
 			["google",		"https://books.google.be/books?id=-otVDwAAQBAJ"],
 			["worldcat",	"https://www.worldcat.org/title/dizionario-della-lingua-etrusca/oclc/878920595"]
+		]],
+	["poothnommorph",
+		"Pooth, Roland A. <i>Proto-Indo-European Nominal Morphology. Part 1. The Noun.</i> 2015",[
+			["academia",	"https://www.academia.edu/18213035/Proto_Indo_European_Nominal_Morphology_Part_1_The_Noun"]
 		]],
 	["mythandlaw",
 		"Puhvel, Jaan. <i>Myth and Law Among the Indo-Europeans: Studies in Indo-European Comparative Mythology.</i> Berkeley/Los Angeles/London, University of California Press, 1970",[

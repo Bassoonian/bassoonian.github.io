@@ -131,7 +131,7 @@
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Lexicon Settings</h4>
+				<h4 class="modal-title">Settings</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
@@ -147,6 +147,7 @@
 				<p>Search bar purpose:
 					<input type="radio" name="search_destination" value="lang" checked onchange="cleanSearch();"> Language
 					<input type="radio" name="search_destination" value="eng" onchange="cleanSearch();"> Translations
+					<input type="radio" name="search_destination" value="pie" onchange="cleanSearch();"> PIE
 				</p>
 				<p>Sort order:
 					<input type="radio" name="lex_order" value="alph" checked onchange="refreshOrder();"> Alphabetically
@@ -156,7 +157,25 @@
 				<p>Include explanations for sound changes: </p>
 				<p>Include approximate percentages: </p>
 				<p>Include irrelevant sound changes: </p>
-				<p></p>
+				<h4>Formatting Settings</h4>
+				<h6>Proto-Indo-European</h6>
+				<p>Pooth transcription:
+					<input type="radio" name="use_pooth" value="yes" onchange="updatePieFormat();"> On
+					<input type="radio" name="use_pooth" value="no" checked onchange="updatePieFormat();"> Off
+				</p>
+				<p>Glides: <select id="glideselect" onchange="updatePieFormat();">
+					<option value="0">*w *y</option>
+					<option value="1">*u̯ *i̯</option>
+				</select></p>
+				<p>Palatovelars: <select id="palatoselect" onchange="updatePieFormat();">
+					<option value="0">*ḱ *ǵ</option>
+					<option value="1">*k̂ *ĝ</option>
+				</select></p>
+				<p>Aspiration: <select id="aspirateselect" onchange="updatePieFormat();">
+					<option value="0">*Kʰ</option>
+					<option value="1">*Kh</option>
+				</select></p>
+				<p><b>Example:</b> <div id="pie_settings_sample"></div></p>
 				<h4>Other</h4>
 				<p>Last framework update: <span id="lastdocupdate"></span></p>
 				<p>Last lexicon update: <span id="lastlexupdate"></span></p>
@@ -193,12 +212,18 @@
 	includeother=true;
 	_navbarcontent="";
 	inbibliography=false;
-	searchenglish=false;
+	searchtarget="lang";
 	orderalph=true;
 	usexsampa=false;
 	enablesoundchangetooltips=true;
 	showarchaic=false;
 	_uidlist=[];
+	__pie={
+		poothstyle: false,
+		glides: false,
+		palatals: false,
+		aspiration: false
+	}
 	
 	_dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
 	
@@ -390,6 +415,7 @@
 			
 			//Switch to documentation!
 			switch_tab(1);
+			updatePieFormat();
 		}
 	function parseAlphabet(stagid)
 		{
@@ -524,14 +550,22 @@
 				else
 				{
 					searchval=searchval.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-					if (searchenglish)
+					if (searchtarget=="eng")
 					{
 						var qqq=dbase[wordlist[i][2]][maincolumns[activestage]+1].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 						if (qqq.search(searchval)!=-1) success=true;
 					}
+					else if (searchtarget=="pie")
+					{
+						for(var j=0;j<3;j++)
+						{
+							var qqq=formatPie(dbase[wordlist[i][2]][j],(j==0)).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+							if (qqq.search(searchval)!=-1) success=true;
+						}
+					}
 					else
 					{
-						for (var j=0;j<wordlist[i][1].length;j++)
+						for(var j=0;j<wordlist[i][1].length;j++)
 						{
 							var qqq=wordlist[i][1][j].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 							if (qqq.search(searchval)!=-1) success=true;
@@ -999,7 +1033,7 @@
 				if (dbase[wordlist[wid][2]][2]!="")
 				{
 					if (temp!="") temp+=", ";
-					temp+="from Pre-"+stagelist[0][0]+" <i>*"+dbase[wordlist[wid][2]][2]+"</i>";
+					temp+="from Pre-"+stagelist[0][0]+" <i>*"+formatPie(dbase[wordlist[wid][2]][2],false)+"</i>";
 				}
 				if (dbase[wordlist[wid][2]][1]!="")
 				{
@@ -1020,7 +1054,7 @@
 						temp+="ultimately ";
 						pp="";
 					}
-					temp+="derived from the root "+formatCognate([pp+"pie",dbase[wordlist[wid][2]][0]],false);
+					temp+="derived from the root "+formatCognate([pp+"pie",dbase[wordlist[wid][2]][0]],false,true);
 				}
 			}
 			//Forwards
@@ -1199,7 +1233,7 @@
 			//Load stage
 			loadStage(activestage);	
 		}
-	function formatCognate(input,addmeaning)
+	function formatCognate(input,addmeaning,ispieroot)
 		{
 			var tf=input[1].split("=");
 			var ts=getLangName(input[0]);
@@ -1211,7 +1245,9 @@
 				ts=getLangName(input[0]);
 			}
 			if (tf.length==1) output+="<i>";
-			output+='<a href="'+getWiktionaryLink(ts,tf[0])+'" target="_blank">'+asterisk(input[0])+tf[0]+'</a>';
+			output+='<a href="'+getWiktionaryLink(ts,tf[0])+'" target="_blank">'+asterisk(input[0]);
+			if (input[0]=="pie") tf[0]=formatPie(tf[0],ispieroot);
+			output+=tf[0]+'</a>';
 			if (tf.length==1) output+="</i>";
 			if (tf.length>1)
 			{
@@ -1221,6 +1257,7 @@
 			}
 			else if (addmeaning) output+=" (";
 			output=replaceAll("_"," ",output);
+			output=replaceAll("€","_",output);
 			return(output);
 		}
 	function asterisk(krl)
@@ -1237,8 +1274,7 @@
 			{
 				if (radios[i].checked) rv=radios[i].value;
 			}
-			if (rv=="eng") searchenglish=true;
-			else searchenglish=false;
+			searchtarget=rv;
 			setWordlist();
 		}
 	function refreshOrder()
@@ -1861,6 +1897,34 @@
 			return(temp);
 		}
 //Other functions
+	function updatePieFormat()
+		{
+			var rv="";
+			var radios=document.getElementsByName("use_pooth");
+			for(var i=0;i<radios.length;i++)
+			{
+				if (radios[i].checked) rv=radios[i].value;
+			}
+			if (rv=="yes")
+			{
+				__pie.poothstyle=true;
+				document.getElementById("glideselect").disabled=true;
+				document.getElementById("palatoselect").disabled=true;
+				document.getElementById("aspirateselect").disabled=true;
+			}
+			else
+			{
+				__pie.poothstyle=false;
+				document.getElementById("glideselect").disabled=false;
+				document.getElementById("palatoselect").disabled=false;
+				document.getElementById("aspirateselect").disabled=false;
+				__pie.glides=document.getElementById("glideselect").selectedIndex;
+				__pie.palatals=document.getElementById("palatoselect").selectedIndex;
+				__pie.aspiration=document.getElementById("aspirateselect").selectedIndex;
+			}
+			openWord(_last_opened,false);
+			document.getElementById("pie_settings_sample").innerHTML=formatPie("gʷr̥hₓḗy h₂ówis, kʷésyo wl̥h₂néh₂ ne ést, h₁éḱwons spéḱet",false);
+		}
 	function collapseIfMobile()
 		{
 			var q=getViewport();

@@ -481,7 +481,58 @@ function applyArchaic(w)
 		}
 		return(w);
 	}
-	
+function formatPie(w,isroot)
+	{
+		if (__pie.poothstyle)
+		{
+			//Consonants
+			w=w.replace(/k[^ʷ]/g,"q");
+			w=w.replace(/g[^w]/g,"ɢ");
+			w=w.replace(/ḱ/g,"k");
+			w=w.replace(/ǵ/g,"g");
+			
+			w=w.replace(/bʰ/g,"b̤");
+			w=w.replace(/dʰ/g,"d̤");
+			w=w.replace(/g(ʷ?)ʰ/g,"g̈$1");
+			w=w.replace(/ɢʰ/,"ɢ̤");
+			
+			w=w.replace(/b[^̤]/g,"ɓ");
+			w=w.replace(/d[^̤]/g,"ɗ");
+			w=w.replace(/g[^̈]/g,"ɠ");
+			w=w.replace(/ɢ[^̤]/g,"ʛ");
+			
+			w=w.replace(/h₁/g,"ʔ");
+			w=w.replace(/h₂/g,"χ");
+			w=w.replace(/h₃/g,"ʕ");
+			
+			//Vowels
+			w=w.replace(/e/g,"ɛ");
+			w=w.replace(/é/g,"ɛ́");
+			w=w.replace(/ē/g,"ɛ̄");
+			w=w.replace(/ḗ/g,"ɛ̄́");
+			w=w.replace(/o/g,"ɔ");
+			w=w.replace(/ó/g,"ɔ́");
+			w=w.replace(/ō/g,"ɔ̄");
+			w=w.replace(/ṓ/g,"ɔ̄́");
+			
+			if (isroot) w=w.replace(/ɛ/g,"€");
+		}
+		else
+		{
+			if (__pie.glides)
+			{
+				w=w.replace(/w/g,"u̯");
+				w=w.replace(/y/g,"i̯");
+			}
+			if (__pie.palatals)
+			{
+				w=w.replace(/ḱ/g,"k̂");
+				w=w.replace(/ǵ/g,"ĝ");
+			}
+			if (__pie.aspiration) w=w.replace(/ʰ/g,"h");
+		}
+		return(w);
+	}
 /*function apply_nativealphabet(word,stage) THIS IS A RELIC, left in case it's useful in the future
 	{
 		var w=(word.split("~"))[0];
