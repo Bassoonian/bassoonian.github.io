@@ -496,14 +496,15 @@ function formatPie(w,isroot)
 			w=w.replace(/g(ʷ?)ʰ/g,"g̈$1");
 			w=w.replace(/ɢʰ/,"ɢ̤");
 			
-			w=w.replace(/b[^̤]/g,"ɓ");
-			w=w.replace(/d[^̤]/g,"ɗ");
-			w=w.replace(/g[^̈]/g,"ɠ");
-			w=w.replace(/ɢ[^̤]/g,"ʛ");
+			w=w.replace(/b([^̤])/g,"ɓ$1");
+			w=w.replace(/d([^̤])/g,"ɗ$1");
+			w=w.replace(/g([^̈])/g,"ɠ$1");
+			w=w.replace(/ɢ([^̤])/g,"ʛ$1");
 			
 			w=w.replace(/h₁/g,"ʔ");
 			w=w.replace(/h₂/g,"χ");
 			w=w.replace(/h₃/g,"ʕ");
+			w=w.replace(/hₓ/g,"?");
 			
 			//Vowels
 			w=w.replace(/e/g,"ɛ");
