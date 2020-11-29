@@ -1261,7 +1261,8 @@
 		{
 			var tt="";
 			if (arg0[0]=="MED") tt="of Mediterranean origin";
-			else if (arg0[0]=="artlib") tt="further origin unknown";
+			else if (arg0[0]=="artlib"||arg0[0]=="substrate") tt="further origin unknown";
+			else if (arg0[0]=="ww") tt="from an ancient Wanderwort";
 			else tt="loaned from "+formatCognate([arg0[0],(arg0[1].split("/"))[0]],true)+'“'+replaceAll("_"," ",(arg0[1].split("/"))[1])+'”) prior to '+arg1;
 			return(tt);
 		}
