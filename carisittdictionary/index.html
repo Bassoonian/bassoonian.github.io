@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- This website was created from scratch by Iasper over the course of years. Please do not shamelessly steal anything - rather, please get in touch and I'll see if I can help you with anything. Thanks! -->
+<!-- This website was created from scratch by Iasper over the course of years. Please do not shamelessly steal anything - rather, please get in touch and I'll see if I can help you with anything. Besides, the code is so spaghetti I doubt you'll be able to use any of it anyway. Thanks! -->
 <html lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title id="page_title">Carite Lexicon</title>
-	<meta name="description" content="An interactive dictionary of Carite, an Indo-European constructed language.">
+	<title id="page_title">Carite</title>
+	<meta name="description" content="An interactive dictionary and grammar of Carite, an Indo-European constructed language.">
 	<link rel="icon" type="image/ico" href="carite.ico">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -182,6 +182,7 @@
 				<h4>Other</h4>
 				<p>Last framework update: <span id="lastdocupdate"></span></p>
 				<p>Last lexicon update: <span id="lastlexupdate"></span></p>
+				<p><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updatemodal">View changelog</button></p>
 				<table class="table">
 					<thead>
 						<tr>
@@ -190,6 +191,20 @@
 						</tr>
 					</thead>
 				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="updatemodal" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Changelog</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body" id="updatemodalbody"></div>
+			<div class="modal-footer">
+				<p>Update checkbox here</p>
 			</div>
 		</div>
 	</div>
@@ -261,6 +276,16 @@
 					loadNote("No local copy can be found.");
 					loaderror();
 				});
+		});
+		
+	commithistory=$.get("https://github.com/Bassoonian/bassoonian.github.io/commits/master", function() {
+			//
+	})
+		.done(function(){
+			document.getElementById("updatemodalbody").innerHTML=parseCommitHistory();
+		})
+		.fail(function(){
+			document.getElementById("updatemodalbody").innerHTML="<p>Unable to retrieve changelog information.</p>";
 		});
 	
 	function loaderror()
@@ -1937,6 +1962,8 @@
 			localStorage.setting_pie_glides=document.getElementById("glideselect").selectedIndex;
 			localStorage.setting_pie_palatals=document.getElementById("palatoselect").selectedIndex;
 			localStorage.setting_pie_aspiration=document.getElementById("aspirateselect").selectedIndex;
+			
+			$('#searchsettingsmodal').modal('handleUpdate');
 		}
 	function syncSettings()
 		{
@@ -2036,6 +2063,11 @@
 		{
 			var q=getViewport();
 			if (q=="sm"||q=="xs") $('#wordlist').collapse("toggle");
+		}
+		
+	function parseCommitHistory()
+		{
+			console.log("success");
 		}
 		
 	function updateXSamp(val,update)
