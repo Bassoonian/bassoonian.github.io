@@ -135,6 +135,9 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body">
+				<div class="alert alert-warning" role="alert" id="localstoragealert">
+					<strong>Notice:</strong> Your browser appears to lack support for localStorage. As a result, settings will not be saved between sessions.
+				</div>
 				<h4>Dictionary Settings</h4>
 				<p>Active stage: <select id="stageselectlist" onchange="updateStage();">
 					</select>
@@ -227,9 +230,9 @@
 	
 	_dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
 	
-	dictionaryversion=0.1;
-	
 	_currentstage=-1;
+	
+	_viewinglexicon=true;
 	
 	cognateorder=["grc","pclt","lat","hye","pgmc","pslv","sqi","san","tchA","tchB","toch","hit","eng","eus"];
 	
@@ -415,7 +418,7 @@
 			
 			//Switch to documentation!
 			switch_tab(1);
-			updatePieFormat();
+			syncSettings();
 		}
 	function parseAlphabet(stagid)
 		{
@@ -448,11 +451,12 @@
 					alphvalue++;
 				}
 			}
+			if (!_viewinglexicon) tempvar="";
 			document.getElementById("navbar_alphabetlist").innerHTML=tempvar;
 		}
 	function loadStage(stagid)
 		{
-			document.getElementById("lang_name").innerHTML=stagelist[stagid][0].toUpperCase();
+			if (_viewinglexicon) document.getElementById("lang_name").innerHTML=stagelist[stagid][0].toUpperCase();
 			if (orderalph) parseAlphabet(stagid);
 			else document.getElementById("navbar_alphabetlist").innerHTML="";
 			//Create list of terms
@@ -1276,6 +1280,7 @@
 			}
 			searchtarget=rv;
 			setWordlist();
+			localStorage.setting_searchpurpose=rv;
 		}
 	function refreshOrder()
 		{
@@ -1288,6 +1293,7 @@
 			if (rv=="alph") orderalph=true;
 			else orderalph=false;
 			loadStage(activestage);
+			localStorage.setting_lexorder=rv;
 		}
 	function adjStem(stem,decpattern)
 		{
@@ -1433,11 +1439,13 @@
 					document.getElementById("lang_name").innerHTML=stagelist[_currentstage][0].toUpperCase();
 					document.getElementById("navbar_alphabetlist").innerHTML=_navbarcontent;
 					_navbarcontent="";
+					_viewinglexicon=true;
 					break;
 				case 1:
 					document.getElementById("head_container_docu").style.display="inherit";
 					document.getElementById("navbar_alphabetlist").innerHTML="";
 					prepDoc();
+					_viewinglexicon=false;
 					break;
 				}
 		}
@@ -1924,11 +1932,117 @@
 			}
 			openWord(_last_opened,false);
 			document.getElementById("pie_settings_sample").innerHTML=formatPie("gʷr̥hₓḗy h₂ówis, kʷésyo wl̥h₂néh₂ ne ést, h₁éḱwons spéḱet",false);
+			
+			localStorage.setting_usepooth=rv;
+			localStorage.setting_pie_glides=document.getElementById("glideselect").selectedIndex;
+			localStorage.setting_pie_palatals=document.getElementById("palatoselect").selectedIndex;
+			localStorage.setting_pie_aspiration=document.getElementById("aspirateselect").selectedIndex;
+		}
+	function syncSettings()
+		{
+			if (typeof(Storage) !== "undefined")
+			{
+				document.getElementById("localstoragealert").style.display="none";
+				//X-Sampa
+				var radios=document.getElementsByName("use_xsampa");
+				var rv="";
+				if (localStorage.setting_xsampa!==undefined)
+				{
+					for(var i=0;i<radios.length;i++)
+					{
+						if (radios[i].value==localStorage.setting_xsampa) radios[i].checked=true;
+						else radios[i].checked=false;
+					}
+				}
+				else
+				{
+					for(var i=0;i<radios.length;i++)
+					{
+						if (radios[i].checked) rv=radios[i].value;
+					}
+					localStorage.setting_xsampa=rv;
+				}
+				updateXSamp(localStorage.setting_xsampa,false);
+				//Search bar purpose
+				var radios=document.getElementsByName("search_destination");
+				if (localStorage.setting_searchpurpose!==undefined)
+				{
+					for(var i=0;i<radios.length;i++)
+					{
+						if (radios[i].value==localStorage.setting_searchpurpose) radios[i].checked=true;
+						else radios[i].checked=false;
+					}
+				}
+				else
+				{
+					for(var i=0;i<radios.length;i++)
+					{
+						if (radios[i].checked) rv=radios[i].value;
+					}
+					localStorage.setting_searchpurpose=rv;
+				}
+				cleanSearch();
+				//Search bar order
+				var radios=document.getElementsByName("lex_order");
+				if (localStorage.setting_lexorder!==undefined)
+				{
+					for(var i=0;i<radios.length;i++)
+					{
+						if (radios[i].value==localStorage.setting_lexorder) radios[i].checked=true;
+						else radios[i].checked=false;
+					}
+				}
+				else
+				{
+					for(var i=0;i<radios.length;i++)
+					{
+						if (radios[i].checked) rv=radios[i].value;
+					}
+					localStorage.setting_lexorder=rv;
+				}
+				refreshOrder();
+				//PIE Formatting
+					//Pooth
+				var radios=document.getElementsByName("use_pooth");
+				if (localStorage.setting_usepooth!==undefined)
+				{
+					for(var i=0;i<radios.length;i++)
+					{
+						if (radios[i].value==localStorage.setting_usepooth) radios[i].checked=true;
+						else radios[i].checked=false;
+					}
+				}
+				else
+				{
+					for(var i=0;i<radios.length;i++)
+					{
+						if (radios[i].checked) rv=radios[i].value;
+					}
+					localStorage.setting_usepooth=rv;
+				}
+					//Glides
+				if (localStorage.setting_pie_glides!==undefined) document.getElementById("glideselect").selectedIndex=localStorage.setting_pie_glides;
+				else localStorage.setting_pie_glides=document.getElementById("glideselect").selectedIndex;
+					//Palatalovelars
+				if (localStorage.setting_pie_palatals!==undefined) document.getElementById("palatoselect").selectedIndex=localStorage.setting_pie_palatals;
+				else localStorage.setting_pie_palatals=document.getElementById("palatoselect").selectedIndex;
+					//Aspiration
+				if (localStorage.setting_pie_aspiration!==undefined) document.getElementById("aspirateselect").selectedIndex=localStorage.setting_pie_aspiration;
+				else localStorage.setting_pie_aspiraton=document.getElementById("aspirateselect").selectedIndex;
+				updatePieFormat();
+			}
 		}
 	function collapseIfMobile()
 		{
 			var q=getViewport();
 			if (q=="sm"||q=="xs") $('#wordlist').collapse("toggle");
+		}
+		
+	function updateXSamp(val,update)
+		{
+			if (val=="ipa") usexsampa=false;
+			else usexsampa=true;
+			if (update) openWord(_last_opened,false);
 		}
 		
 		function getViewport () {
@@ -1944,9 +2058,8 @@
 		  return 'xl'
 		}
 		$('input[type=radio][name=use_xsampa]').change(function() {
-		    if (this.value=='ipa') usexsampa=false;
-			else usexsampa=true;
-			openWord(_last_opened,false);
+		    updateXSamp(this.value,true);
+			localStorage.setting_xsampa=this.value;
 		});
 </script>
 <script src="documentation.js"></script>
