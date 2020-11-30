@@ -18,7 +18,6 @@
 	<script src="https://kit.fontawesome.com/d0b09f0ca1.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="stylesheet.css">
 </head>
-<!-- boop -->
 <body>
 	<header class="navbar navbar-expand navbar-dark bg-dark flex-column flex-md-row bd-navbar">
 		<a class="navbar-brand mr-0 mr-md-2" id="lang_name">Loading...</a>
@@ -183,7 +182,7 @@
 				<h4>Other</h4>
 				<p>Last framework update: <span id="lastdocupdate"></span></p>
 				<p>Last lexicon update: <span id="lastlexupdate"></span></p>
-				<!-- <p><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updatemodal">View changelog</button></p> -->
+				<p><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updatemodal">View changelog</button></p>
 				<table class="table">
 					<thead>
 						<tr>
@@ -205,7 +204,7 @@
 			</div>
 			<div class="modal-body" id="updatemodalbody"></div>
 			<div class="modal-footer">
-				<p>Update checkbox here</p>
+				<p><input type="checkbox" id="openUpdateBox" onchange="updateOpenUpdateBox();"> Automatically open changelog</p>
 			</div>
 		</div>
 	</div>
@@ -248,6 +247,8 @@
 	
 	_currentstage=-1;
 	
+	_siteversion=0;
+	
 	_viewinglexicon=true;
 	
 	cognateorder=["grc","pclt","lat","hye","pgmc","pslv","sqi","san","tchA","tchB","toch","hit","eng","eus"];
@@ -278,16 +279,6 @@
 					loaderror();
 				});
 		});
-		
-	/*commithistory=$.get("https://github.com/Bassoonian/bassoonian.github.io/commits/master", function() {
-			//
-	})
-		.done(function(){
-			document.getElementById("updatemodalbody").innerHTML=parseCommitHistory();
-		})
-		.fail(function(){
-			document.getElementById("updatemodalbody").innerHTML="<p>Unable to retrieve changelog information.</p>";
-		});*/
 	
 	function loaderror()
 		{
@@ -1971,6 +1962,21 @@
 			if (typeof(Storage) !== "undefined")
 			{
 				document.getElementById("localstoragealert").style.display="none";
+				//Updates and whatnot
+				if (localStorage.lastVersion!==undefined)
+				{
+					if (localStorage.lastVersion<_siteversion)
+					{
+						localStorage.lastVersion=_siteversion;
+						if (localStorage.changelogOpen=="true") $('#updatemodal').modal('show');
+					}
+					if (localStorage.changelogOpen=="true") document.getElementById("openUpdateBox").checked=true;
+				}
+				else
+				{
+					localStorage.lastVersion=_siteversion;
+					localStorage.changelogOpen=true;
+				}
 				//X-Sampa
 				var radios=document.getElementsByName("use_xsampa");
 				var rv="";
@@ -2059,6 +2065,15 @@
 				else localStorage.setting_pie_aspiraton=document.getElementById("aspirateselect").selectedIndex;
 				updatePieFormat();
 			}
+			//Put changelog in place too
+			var t="";
+			for(var i=0;i<_changelog.length;i++)
+			{
+				t+="<b>"+_changelog[i][0].toLocaleDateString(undefined,{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })+"</b><ul>";
+				for(var j=1;j<_changelog[i].length;j++) t+="<li>"+_changelog[i][j]+"</li>";
+				t+="</ul>";
+			}
+			document.getElementById("updatemodalbody").innerHTML=t;
 		}
 	function collapseIfMobile()
 		{
@@ -2066,9 +2081,9 @@
 			if (q=="sm"||q=="xs") $('#wordlist').collapse("toggle");
 		}
 		
-	function parseCommitHistory()
+	function updateOpenUpdateBox()
 		{
-			console.log("success");
+			localStorage.changelogOpen=document.getElementById("openUpdateBox").checked;
 		}
 		
 	function updateXSamp(val,update)

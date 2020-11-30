@@ -397,3 +397,7 @@ _spellingsystems=[
 	["Latin","Gothic","Arabic"],
 	["Latin","Arabic"]
 ];
+
+_changelog=[
+	[new Date("November 30, 2020"),"Added a changelog function."]
+];
