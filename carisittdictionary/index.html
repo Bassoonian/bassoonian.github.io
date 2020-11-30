@@ -179,8 +179,8 @@
 					<option value="1">*Kh</option>
 				</select></p>
 				<p><b>Example:</b> <span id="pie_settings_sample"></span></p>
-				<h6>Early Proto-Carite</h6>
-				<p><input type="checkbox" id="showArchaicBox" onchange="updateArchaicBox();"> Use archaic Greek glyphs</p>
+				<!-- <h6>Early Proto-Carite</h6>
+				<p><input type="checkbox" id="showArchaicBox" onchange="updateArchaicBox();"> Use archaic Greek glyphs</p>-->
 				<h4>Other</h4>
 				<p>Last framework update: <span id="lastdocupdate"></span></p>
 				<p>Last lexicon update: <span id="lastlexupdate"></span></p>
@@ -626,9 +626,9 @@
 		}
 	function display(term)
 		{
-			var q=term[0];
-			if (activestage==0) q=applyArchaic(q);
-			return(q);
+			var qq=term[0];
+			if (activestage==0) qq=applyArchaic(qq);
+			return(qq);
 		}
 	function openWotd()
 		{
@@ -2068,9 +2068,8 @@
 				updatePieFormat();
 			}
 			//Archaic formatting
-			if (localStorage.showArchaic!==undefined)
+			/*if (localStorage.showArchaic!==undefined)
 			{
-				console.log("help");
 				showarchaic=localStorage.showArchaic;
 				if (localStorage.showArchaic=="true") document.getElementById("showArchaicBox").checked=true;
 			}
@@ -2078,7 +2077,7 @@
 			{
 				localStorage.showArchaic=false;
 			}
-			updateArchaicBox();
+			updateArchaicBox();*/
 			//Put changelog in place too
 			var t="";
 			for(var i=0;i<_changelog.length;i++)

@@ -85,7 +85,7 @@ function apply_romanisation(word,stage)
 	}
 function apply_orthography(word,stage,subgroup)
 	{
-		subgroup = typeof subgroup !== 'undefined' ? subgroup : 0;
+		subgroup = typeof subgroup !== 'undefined' ? subgroup : _activeOrtho[stage];
 		var w=(word.split("~"))[0];
 		w=replaceAll("'","",w);
 		w=pronFixOrtho(w,stage);
