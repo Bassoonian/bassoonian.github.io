@@ -399,5 +399,6 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("December 4, 2020"),"Sourced prepositions and added many more."],
 	[new Date("November 30, 2020"),"Added a changelog function."]
 ];
