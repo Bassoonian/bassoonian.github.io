@@ -28,13 +28,14 @@ function getLangName(q)
 			case "mga": return("Middle Irish");break;
 			case "got": return("Gothic");break;
 			case "ang": return("Old English");break;
-			case "purl": return("Proto-Uralice");break;
+			case "purl": return("Proto-Uralic");break;
 			case "sga": return("Old Irish");break;
 			case "cym": return("Welsh");break;
 			case "mhg": return("Middle High German");break;
 			case "gle": return("Irish");break;
 			case "rus": return("Russian");break;
 			case "xlu": return("Luwian");break;
+			case "xib": return("Iberian");break;
 			default: return(q);break;
 		}
 	}
