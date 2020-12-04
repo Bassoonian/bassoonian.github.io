@@ -133,10 +133,10 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("h","η",w);
 			w=replaceAll("H","Η",w);
 			
-			w=w.replace(/(ϝ)([βδγ])/g,"φ$2");
-			w=w.replace(/(Ϝ)([βδγ])/g,"Φ$2");
-			w=w.replace(/(ζ)([βδγ])/g,"σ$2");
-			w=w.replace(/(Ζ)([βδγ])/g,"Σ$2");
+			w=w.replace(/(θ)([βδγθζ])/g,"θ$2");
+			w=w.replace(/(Θ)([βδγθζ])/g,"Θ$2");
+			w=w.replace(/(ζ)([βδγθζ])/g,"σ$2");
+			w=w.replace(/(Ζ)([βδγθζ])/g,"Σ$2");
 			
 			w=replaceAll("ā","ᾱ",w);
 			w=replaceAll("Ā","Ᾱ",w);
