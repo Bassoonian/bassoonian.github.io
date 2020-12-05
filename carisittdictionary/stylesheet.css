@@ -327,3 +327,7 @@
 	    -ms-flex-order: 1;
 	    order:1
 	}
+	small
+	{
+		font-size: 75%;
+	}

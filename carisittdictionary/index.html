@@ -769,7 +769,8 @@
 			
 			//applyalways + allophones
 			word=pronAlways(word);
-			word="/"+word+"/, "+pronAllophones(word);
+			if (activestage==0&&word.includes("ŋ")) word="["+word+"]";
+			else word="/"+word+"/, "+pronAllophones(word);
 			word=replaceAll("g","ɡ",word);
 			word=word.replace(/([a-z])(\1)/g,"$1ː");
 			
@@ -1098,8 +1099,11 @@
 										if (evaluate[j]==_uidlist[k][0]) qq=k;
 									}
 									if (qq==-1) temp+="?";
-									else temp+=etymoStep(i,_uidlist[qq][1],dbase[_uidlist[qq][1]][maincolumns[i]+1],false);
-									if (dbase[_uidlist[qq][1]][maincolumns[activestage]]!="") tt.push(_uidlist[qq][1]);
+									else
+									{
+										temp+=etymoStep(i,_uidlist[qq][1],dbase[_uidlist[qq][1]][maincolumns[i]+1],false);
+										if (dbase[_uidlist[qq][1]][maincolumns[activestage]]!="") tt.push(_uidlist[qq][1]);
+									}
 								}
 								if (i!=activestage&&tt.length==evaluate.length-1)
 								{

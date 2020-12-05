@@ -80,7 +80,7 @@ function apply_romanisation(word,stage)
 		w=pronFixOrtho(w,stage);
 		if (stage==0)
 		{
-			w="*"+w;
+			w="*"+replaceAll("ŋ","n",w);
 		}
 		return(w);
 	}
@@ -171,6 +171,8 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("Ō","Ο̄",w);
 			w=replaceAll("ô","ω",w);
 			w=replaceAll("Ô","Ω",w);
+			
+			w=replaceAll("ŋ","γ",w);
 			
 			w=w.replace(/(σ)($|\s)/g,"ς$2");
 			
