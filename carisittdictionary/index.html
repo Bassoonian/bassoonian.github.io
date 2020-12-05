@@ -67,7 +67,7 @@
 				<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab_general" id="tab_click_general" role="tab" aria-selected="true" aria-controls="tab_general">General</a></li>
 				<li class="nav-item" id="tab_inflect_li"><a class="nav-link" data-toggle="tab" href="#tab_inflection" id="tab_click_inflection" role="tab" aria-selected="false" aria-controls="tab_inflection">Inflection</a></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_etymo" id="tab_click_etymo" role="tab" aria-selected="false" aria-controls="tab_etymo">Etymology</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_sources" id="tab_click_sources" role="tab" aria-selected="false" aria-controls="tab_sources">Sources</a></li>
+				<li class="nav-item" id="tab_sources_li"><a class="nav-link" data-toggle="tab" href="#tab_sources" id="tab_click_sources" role="tab" aria-selected="false" aria-controls="tab_sources">Sources</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="tab_general" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab_click_general">
@@ -206,7 +206,7 @@
 			</div>
 			<div class="modal-body" id="updatemodalbody"></div>
 			<div class="modal-footer">
-				<p><input type="checkbox" id="openUpdateBox" onchange="updateOpenUpdateBox();"> Automatically open changelog</p>
+				<p><input type="checkbox" id="openUpdateBox" onchange="updateOpenUpdateBox();"> Automatically open changelog after major updates</p>
 			</div>
 		</div>
 	</div>
@@ -881,6 +881,8 @@
 			document.getElementById("entry_name").innerHTML=display(wordlist[wid]);
 			var j="";
 			var amalternative=(dbase[wordlist[wid][2]][0]=="ALTERNATIVE");
+			if (amalternative) document.getElementById("tab_sources_li").style.display="none";
+			else document.getElementById("tab_sources_li").style.display="initial";
 			var clid=-1;
 			for(var i=0;i<declensionlist.length;i++)
 			{
@@ -1038,17 +1040,26 @@
 							case "D":
 								checkpie=false;
 								temp+="a derivation";
+								document.getElementById("tab_sources_li").style.display="none";
 								break;
 							case "C":
 								checkpie=false;
 								temp+="a compound";
+								document.getElementById("tab_sources_li").style.display="none";
+								break;
+							case "P":
+								checkpie=false;
+								temp+="prefixal usage of the preposition ";
+								var k=-1;
+								for(var j=0;j<_uidlist.length;j++)
+								{
+									if (evaluate[1]==_uidlist[j][0]) k=j;
+								}
+								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+i+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[i]],i)+"</a>";
+								document.getElementById("tab_sources_li").style.display="none";
 								break;
 						}
 						i=-1;//End of journey
-						if (!checkpie)
-						{
-							temp+=" of ";
-						}
 					}
 				}
 			}
