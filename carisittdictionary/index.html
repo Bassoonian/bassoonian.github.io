@@ -33,7 +33,7 @@
 		</div>
 		<div class="navbar-collapse collapse">
 	  		<ul class="navbar-nav d-none d-xl-flex" id="navbar_alphabetlist"></ul>
-			<button class="btn ml-auto btn-outline-secondary my-2 my-sm-0" data-toggle="modal" data-target="#searchsettingsmodal">
+			<button class="btn ml-auto btn-outline-secondary my-2 my-sm-0" id="settingsbuttontopright" data-toggle="modal" data-target="#searchsettingsmodal" disabled>
 				<i class="fas fa-cog"></i>
 			</button>
 	  	</div>
@@ -438,6 +438,7 @@
 			//Switch to documentation!
 			switch_tab(1);
 			syncSettings();
+			document.getElementById("settingsbuttontopright").disabled=false;
 		}
 	function parseAlphabet(stagid)
 		{
@@ -1039,12 +1040,32 @@
 								break;
 							case "D":
 								checkpie=false;
-								temp+="a derivation";
-								document.getElementById("tab_sources_li").style.display="none";
-								break;
-							case "C":
-								checkpie=false;
-								temp+="a compound";
+								temp+="from";
+								var tt=[];
+								for(var j=1;j<evaluate.length;j++)
+								{
+									temp+=" ";
+									if (j>1) temp+="+ ";
+									var qq=-1;
+									for(var k=0;k<_uidlist.length;k++)
+									{
+										if (evaluate[j]==_uidlist[k][0]) qq=k;
+									}
+									if (qq==-1) temp+="?";
+									else temp+=etymoStep(i,_uidlist[qq][1],dbase[_uidlist[qq][1]][maincolumns[i]+1],false);
+									if (dbase[_uidlist[qq][1]][maincolumns[activestage]]!="") tt.push(_uidlist[qq][1]);
+								}
+								if (i!=activestage&&tt.length==evaluate.length-1)
+								{
+									temp+="; equivalent to";
+									for(var k=0;k<tt.length;k++)
+									{
+										temp+=" ";
+										if (k>0) temp+="+ ";
+										if (tt[k]==-1) temp+="!";
+										else temp+=etymoStep(activestage,tt[k],"",false);
+									}
+								}
 								document.getElementById("tab_sources_li").style.display="none";
 								break;
 							case "P":
@@ -1344,9 +1365,11 @@
 			else tt="loaned from "+formatCognate([arg0[0],(arg0[1].split("/"))[0]],true)+'“'+replaceAll("_"," ",(arg0[1].split("/"))[1])+'”) prior to '+arg1;
 			return(tt);
 		}
-	function etymoStep(stage,word,meaning)
+	function etymoStep(stage,word,meaning,showlangname)
 		{
-			var t=stagelist[stage][0]+" ";
+			showlangname = typeof showlangname !== 'undefined' ? showlangname : true;
+			var t="";
+			if (showlangname) t=stagelist[stage][0]+" ";
 			var qq=dbase[word][maincolumns[stage]];
 			//Get word
 			var tt="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+word+","+stage+")'>"+apply_orthography(qq,stage)+"</a>";
