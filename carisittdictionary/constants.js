@@ -63,6 +63,10 @@ sources=[
 			["google",		"https://books.google.be/books?id=-MVj3p9ZgEMC"],
 			["worldcat",	"https://www.worldcat.org/title/local-scripts-of-archaic-greece-a-study-of-the-origin-of-the-greek-alphabet-and-its-development-from-the-eighth-to-the-fifth-centuries-bc/oclc/551856105"]
 		]],
+	["franco",
+		"Jensen, Geoffrey. <i>Franco: Soldier, Commander, Dictator.</i> Dulles, Potomac Books Inc., 2005",[
+			["google",		"https://books.google.be/books?id=q7YFJRSkYZUC"]
+		]],
 	["kirchhoff",
 		"Kirchhoff, Adolf. <i>Studien zur Geschichte des griechischen Alphabets.</i> Berlin, Ferd. Dümmler's Verlags-Buchhandlung, 1877",[
 			["archive"		,"https://archive.org/details/studienzurgeschi00kirc"],
@@ -219,6 +223,11 @@ sources=[
 		"Ruppel, Antonia. <i>Absolute Constructions in Early Indo-European.</i> New York, Cambridge University Press, 2013",[
 			["google",		"https://books.google.be/books?id=MGmCI3h0_tEC"],
 			["worldcat",	"https://www.worldcat.org/title/absolute-constructions-in-early-indo-european/oclc/1055608191"]
+		]],
+	["portofling",
+		"Sebeck, Thomas A. <i>Portrait of Linguists: A Biographical Source Book for the History of Western Linguistics, 1746-1963.</i> Bristol, Thoemmes Press, 2002",[
+			["google",		"https://books.google.be/books?id=9wxjDAAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/portrait-of-linguists-a-biographical-source-book-for-the-history-of-western-linguistics-1746-1963-volume-1-from-sir-william-jones-to-karl-brugmann/oclc/952247658"]
 		]],
 	["ieverbmorpho",
 		"Shields, Kenneth C. <i>A History of Indo-European Verb Morphology.</i> In: <i>Current Issues in Linguistic Theory.</i> Amsterdam/Philadelphia, John Benjamins Publishing Company, 1992",[
