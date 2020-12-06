@@ -253,7 +253,7 @@
 	
 	_currentstage=-1;
 	
-	_siteversion=1;
+	_siteversion=2;
 	
 	_viewinglexicon=true;
 	
@@ -626,7 +626,7 @@
 			temp=" found.</small></div>"+temp;
 			if (foundresult==1) temp="entry"+temp;
 			else temp="entries"+temp;
-			temp="<div id='entryamountbox' class='container-fluid'><small>"+foundresult+" "+temp;
+			temp="<div id='entryamountbox' class='container-fluid'><small>"+numberWithCommas(foundresult)+" "+temp;
 			document.getElementById("wordlist").innerHTML=temp;
 		}
 	function display(term)
@@ -634,6 +634,9 @@
 			var qq=term[0];
 			if (activestage==0) qq=applyArchaic(qq);
 			return(qq);
+		}
+	function numberWithCommas(x) {
+		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 	function openWotd()
 		{

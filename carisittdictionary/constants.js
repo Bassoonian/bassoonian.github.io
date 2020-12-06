@@ -399,6 +399,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("December 6, 2020"),"Reached 1,000 entries!"],
 	[new Date("December 5, 2020"),"Derivations now have full functionality.","Added support for prefixional usage of prepositions."],
 	[new Date("December 4, 2020"),"Sourced prepositions and added many more."],
 	[new Date("November 30, 2020"),"Added a changelog function."]
