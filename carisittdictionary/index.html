@@ -182,7 +182,11 @@
 					<option value="0">*Kʰ</option>
 					<option value="1">*Kh</option>
 				</select></p>
-				<p><b>Example:</b> <span id="pie_settings_sample"></span></p>
+				<p id="pie_settings_sample"></p>
+				<blockquote class="blockquote">
+					<footer class="blockquote-footer" id="pie_settings_sample_footer"></footer>
+				</blockquote>
+				
 				<!-- <h6>Early Proto-Carite</h6>
 				<p><input type="checkbox" id="showArchaicBox" onchange="updateArchaicBox();"> Use archaic Greek glyphs</p>-->
 				<h4>Other</h4>
@@ -423,6 +427,8 @@
 			}
 			document.getElementById("stageselectlist").innerHTML=loadstr;
 			loadstr="";
+			
+			document.getElementById("pie_settings_sample_footer").innerHTML=parseEtymoText("<i>Schleicher's tale<i> from §encyclopediaieculture",0);
 			
 			//Load last stage
 			loadStage(activestage);
@@ -2038,7 +2044,7 @@
 				__pie.aspiration=document.getElementById("aspirateselect").selectedIndex;
 			}
 			openWord(_last_opened,false);
-			document.getElementById("pie_settings_sample").innerHTML=formatPie("gʷr̥hₓḗy h₂ówis, kʷésyo wl̥h₂néh₂ ne ést, h₁éḱwons spéḱet",false);
+			document.getElementById("pie_settings_sample").innerHTML=formatPie("gʷr̥hₓḗy h₂ówis, kʷésyo wl̥h₂néh₂ ne est, h₁éḱwons spéḱet, h₁oynom gʰe gʷr̥hₓúm wóǵʰom wéǵʰontm̥, h₁oynomkʷe méǵh₂m̥ bʰórom, h₁oynomkʷe ǵʰménm̥ hₓṓḱu bʰérontm̥",false);
 			
 			localStorage.setting_usepooth=rv;
 			localStorage.setting_pie_glides=document.getElementById("glideselect").selectedIndex;

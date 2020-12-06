@@ -5,5 +5,5 @@ _documentation_bibliography=[
 	["0_external",	"greek_companion 85-103,etruscan_rix 145-148,gram_punic 19-37,intro_egyptian 28-50+248,ltlu 1742-1761,grcdialects 36-39+43-51"],
 	["mythology",	"oxf_intro 423-441,ie_poetry_myth 120-503"],
 	["holidays",	"macneill_calendar 1-67"],
-	["",			"encyclopediaiecultures 501"]//For the fable in the search settings
+	["",			"encyclopediaieculture 501"]//For the fable in the search settings
 ];

@@ -134,7 +134,7 @@ sources=[
 		"Mallory, J. P. <i>In Search of the Indo-Europeans: Language, Archeology and Myth.</i> Thames and Hudson, 1989",[
 			["google",		"https://books.google.be/books?id=wLeYkgEACAAJ"]
 		]],
-	["encyclopedaieculture",
+	["encyclopediaieculture",
 		"Mallory, J.P. & Adams, D. Q. <i>Enclyclopedia of Indo-European Culture.</i> London/Chicago, Fitzroy Dearborn Publishers, 1997",[
 			["google",		"https://books.google.be/books?id=tzU3RIV2BWIC"],
 			["worldcat",	"https://www.worldcat.org/title/encyclopedia-of-indo-european-culture/oclc/185868083"]
