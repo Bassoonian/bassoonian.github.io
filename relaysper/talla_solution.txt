@@ -1,7 +1,7 @@
 Uráka Kirśâsi, makalušauyín, pásūn pási, táz auščîsthai khàušaišyu!
 [ʊɾə́gə kʲɪr̥ʂâːɕɪ | məgəlʊʂəʊ̯jɪ̃́n | pə́sũm‿pə́ɕɪ | tə́z‿əʊ̯ɕt͡ɕîːstʰəɪ̯ kʰə́ʊ̯ʂə̀ɪ̯ɕȷ̊ʊ]
-urák-a kirśâs-i , makalu(š)=šauyín-Ø , pás-ūn pás-i, táz aušč-î-sthai khàuš-aiš=yu
-KING-voc.sg NAME-voc.sg , GREAT-obl=HIGH_PRIEST-voc.sg , LORD-gen.pl LORD-voc.sg , THIS SEE.ipfv-subj-2.sg.prs LISTEN.ipfv-opt.2.sg=AND
+urák-a      kirśâs-i, makal-u(š)=šauyín-Ø , pás-ūn pás-i, táz aušč-î-sthai khàuš-aiš=yu
+KING-voc.sg NAME-voc.sg, GREAT-obl=HIGH_PRIEST-voc.sg , LORD-gen.pl LORD-voc.sg , THIS SEE.ipfv-subj-2.sg.prs LISTEN.ipfv-opt.2.sg=AND
 
 Kátulāthīntákïtha tāhâi Hikháusāwi čhistsána huyási, táz báita.
 [kə́dʊlaːtʰĩndə́gɨtʰə taːháɪ̯ hʲɪkʰə́ʊ̯saːwʲɪ t͡ɕʰɪst͡sə́nə hʊjə́ɕɪ tə́z βə́ɪ̯də]
@@ -16,12 +16,12 @@ SOLSTICE-acc.sg=TO OFFERING-nom.sg BEAR.ipfv-pass.ptcp-gen.sg cop.ipfv dist.nom.
 àlusï àšamnušyupa hïtárāiyanta káuśayiš bunnûš yàsi Khiršátayūn khwàranūnhupu tsïzáyamnûš áŋmaniš  tsátāitai
 [ə́lʊ̀sɨ ə́ʂə̃̀mnuʊɕȷ̊ʊbə hɨdə́ɾaɪ̯jə̃ndə kə́ʊ̯ɕəjɪʂ βʊ̃nnûːɕ‿jə́ɕɪ̀ kʰʲɪr̥ʂə́dəjũŋ‿kʰw̥ə́ɾənũŋɦʊbʊ t͡sɨzə́jə̃mnûːʂ‿ə̃́ŋməɲɪʂ t͡sə́daɪ̯dəɪ̯]
 àlut-s àšamn-ušyu=pa hïtár-āi=yanta káuś-ayiš bunn-ûš yàsi Khiršát-ayūn khwàran-ūn=hubu tsïz-áya-mn-ûš áŋman-iš tsátā-i-tai
-ALE-gen.sg GRAIN-gen.sg EITHER_OF_TWO-dat.sg=INSIDE MANY-nom.pl VESSAL-nom.pl AS_WELL NAME-gen.pl WARRIOR-gen.pl=UNDER DIRECT.ipfv-inch-pass.ptcp-nom.pl TROOP-nom.pl OFFER.ipfv-subj-pass.3.sg.prs
+ALE-gen.sg GRAIN-gen.sg=AND EITHER_OF_TWO-dat.sg=INSIDE MANY-nom.pl VESSAL-nom.pl AS_WELL NAME-gen.pl WARRIOR-gen.pl=UNDER DIRECT.ipfv-inch-pass.ptcp-nom.pl TROOP-nom.pl OFFER.ipfv-subj-pass.3.sg.prs
 
 Nāsmáramnūkwai xurânintar thàllūntai kïthwàrrūntaiyu, táz áurža.
 [naːsmə́ɾə̃mnuːkw̥əɪ̯ ɣʊɾâːɲɪ̃ndər̥‿tʰə́ldũ̀ndəɪ̯ kɨtʰw̥ə́ɾdũ̀ndəɪ̯jʊ tə́z‿ə́ʊɾᵈʐə]
 na=az-smára-mn-ū(š)=kwai xur-ân=intar thàll(y)-ī-tai kïthwàrr(y)-ī-tai=yu , táz áurž-a
-neg=TO-HEED.ipfv-past.ptcp=nom.pl=rel.nom.pl MOUNTAIN-acc.sg=INTO SEND.ipfv-subj-3.pl SACRIFICE.ipfv-subj-3.pl=AND , THIS SAID.stv-3.sg.stv
+neg=TO-HEED.ipfv-past.ptcp-nom.pl=rel.nom.pl MOUNTAIN-acc.sg=INTO SEND.ipfv-subj-3.pl SACRIFICE.ipfv-subj-3.pl=AND , THIS SAID.stv-3.sg.stv
 
 
 King Kirshasi, high-priest, lord of lords, (it is hoped that) this may be seen and listened to.

@@ -1,0 +1,171 @@
+Киршакси, биектерген, халықтың изге жулбащы, батшалардың батша, бо ачық фарманды алып килейи: Батшалық Һейкосан ғамаллары һуғышта өчөн жаза бирери. Һар жыл, жайдың челла аша, Һейкоса һикезден бер алтындысы, күп жармаң я һыраң қумыраларды һам ике Киршаксиң ғаскарда көрашу өйратқан ир-аттиң берилден қорбан итери. Вақытта алып киллектиң уңышсыз итлек жирлерди жандултырары һам женаятүлеклерди өстүлтерери.
+
+==== Introduction
+
+Hello, and welcome to the relay and this torch, written in Khalik! I'm shit at writing torches, so please bear with me. A couple of things: Khalik is a Turkic language, and as such it has vowel harmony. Key to lexicon: VB - back vowel, VF - front vowel, FV - final consonant is voiced, FD - final consonant is voiceless, V - word ends in a vowel.
+
+==== Lexicon
+
+алтын: n (VBFV) - gold
+алып килу: v - bring, deliver; get
+ачық: adj - clear, intelligible; bright; open; public
+аша: post - into
+батша: n (VBV) - ruler, emperor, king, monarch
+бер: num - one
+берилде: n (VFV) - unit
+биектеру: v - elevate, make high
+биру: v - give
+бо: det - this
+вақыт: n (VBFD) - time
+жаза: n (VBV) - penalty, punishment
+жай: adj/n (VBFV) - slow; summer
+жанду: v - burn (transitive)
+жарма: n (VBV) - grain, cereal
+женаятүлек: n (VFFD) - reparation, amend(s)
+жир: n (VFFV) - land; soil
+жулбащы: n (VBFD) - leader
+жыл: n (VBFV) - year
+изге: adj - holy, sacred; kind, gentle
+ике: num - two
+ир: n (VFFV) - man; husband (archaic plural form: ир-ат (VBFD))
+иту: v - do
+Киршакси: n (VFV) - given name ([kʰɪr'ʃɑksɪ])
+күп: det - many, much, a lot
+көрашу: v - fight
+уңышсыз иту: v - fail
+фарман: n (VBFV) - decree, edict
+халық: n (VBFD) - people; crowd
+челла: n (VBV) - solstice
+я: conj - or
+ғамал: n (VBFV) - act, deed; validity, reality
+ғаскар: n (VBFV) - army, military
+қорбан: n (VBFV) - sacrifice; victim
+қумыра: n (VBV) - jug, jar, pot
+һам: conj - and
+һар: det - every, each
+Һейкоса: n (VBV) - given name ([he̞j'kʰo̞sɑ])
+һикезден: num - (an) eighth
+һуғыш: n (VBFD) - war, battle
+һыра: n (VBV) - beer
+өйрату: v - teach
+өстү: v - increase, add
+өчөн: post/conj - for; in order to
+-лек: aff - nominalizer; place of (other form: -лық)
+
+==== Grammar
+== Nouns
+
+Nouns in Khalik can take a number of endings, including case (of which there are 6), a plural marker, and possessive pronouns. Khalik exhibits vowel harmony, and as such each ending has a number of variations, which depend on whether the noun in question ends in a consonant, whether that consonant is voiced or not, whether the vowel preceding it is a back or front vowel, and whether the vowel is rounded or not (which doesn't matter in this particular text, so I'll spare you that horror). Adjectives and determiners come before the noun, and adpositions come after. Articles do not exist. Numerals function like adjectives, except that the accompanying noun can never take the plural. The possessive pronoun endings come after the case ending, if there is one.
+
+Here are the declension tables for the relevant paradigms:
+
+FINAL VOWEL
+nominative: -∅ (sg), -лар (VB) / -лер (VF) (pl)
+accusative: -н (sg), -ларды (VB) / -лерди (VF) (pl)
+genitive: -ң (sg), -лардың (VB) / -лердиң (VF) (pl)
+dative: -г (sg), -ларга (VB) / -лерге (VF) (pl)
+locative: -д (sg), -ларда (VB) / -лерде (VF) (pl)
+ablative: -нд (sg), -лардан (VB) / -лерден (VF) (pl)
+1s.gen: -м
+2s.gen: -н
+1p.gen: -с
+2p.gen: -р
+3.gen: -сы (VB), -си (VF)
+
+FRONT VOWEL, FINAL VOICED
+nominative: -∅ (sg), -лер (pl)
+accusative: -ди (sg), -лерди (pl)
+genitive: -диң (sg), -лердиң (pl)
+dative: -ге (sg), -лерге (pl)
+locative: -де (sg), -лерде (pl)
+ablative: -ден (sg), -лерден (pl)
+1s.gen: -им
+2s.gen: -иң
+1p.gen: -ис
+2p.gen: -ир
+3.gen: -и
+
+FRONT VOWEL, FINAL VOICELESS
+nominative: -∅ (sg), -лер (pl)
+accusative: -ти (sg), -лерди (pl)
+genitive: -тиң (sg), -лердиң (pl)
+dative: -ке (sg), -лерге (pl)
+locative: -те (sg), -лерде (pl)
+ablative: -тен (sg), -лерден (pl)
+1s.gen: -им
+2s.gen: -иң
+1p.gen: -ис
+2p.gen: -ир
+3.gen: -и
+
+BACK VOWEL, FINAL VOICED
+nominative: -∅ (sg), -лар (pl)
+accusative: -ды (sg), -ларды (pl)
+genitive: -дың (sg), -лардың (pl)
+dative: -га (sg), -ларга (pl)
+locative: -да (sg), -ларда (pl)
+ablative: -дан (sg), -лардан (pl)
+1s.gen: -ым
+2s.gen: -ың
+1p.gen: -ыс
+2p.gen: -ыр
+3.gen: -ы
+
+BACK VOWEL, FINAL VOICELESS
+nominative: -∅ (sg), -лар (pl)
+accusative: -ты (sg), -ларды (pl)
+genitive: -тың (sg), -лардың (pl)
+dative: -ка (sg), -ларга (pl)
+locative: -та (sg), -ларда (pl)
+ablative: -дан (sg), -лардан (pl)
+1s.gen: -ым
+2s.gen: -ың
+1p.gen: -ыс
+2p.gen: -ыр
+3.gen: -ы
+
+== Verbs
+
+Oh boy. Khalik verbs can take endings for three tenses, six pronouns, three aspects, three moods, three voices, five participles, and other affixes which have a variety of meanings. Mood and aspect is not important in this text, so we will ignore it. Verbs agree with the subject and are the last in the sentence.
+
+The generic infinitive ending is -ү (VF+rounded) / -у (VF,VB). Another common ending is -ла/-ле (the most common verbalizer), and a variety of others, mostly from derivational endings. To arrive at the root form of a verb, the final vowel of the infinitive form is removed. When a verb is inflected, the infinitive vowel can be added in two cases: if the suffix contains two consonants and no vowel, or if the verb root has a final consonant cluster and the suffix begins with a consonant. Basically, don't be surprised if the infinitve ending reappears in the inflected verb.
+
+Voice endings:
+
+Causative: -тыр, -тер, -тор, -төр
+Passive: -л, -ыл, -ел, *(-ын, -ен)
+
+*The -Vн endings are the form of the passive suffix after л
+
+Tense endings:
+
+Past: -ды, -де, -ты, -те
+Present: -ай, -ей
+Future: -ар, -ер
+
+The person endings are effectively identical to the possessive endings.
+
+The order of all these affixes on a verb looks like this: verb_root-[voice]-[tense]-[person]
+
+Participial endings:
+
+Past/Passive: -ған, -ген, -қан, -кен
+Present: -усы
+Future: -асақ
+Necessitative: -малы, -мелы
+
+Participles function the same as adjectives.
+
+A large number of Khalik verbs are phrasal (i.e. a verb built from a noun and an auxiliary verb). The noun always comes right before the verb and is always in the nominative. Only the auxiliary verb is inflected. Some of the most common auxiliary verbs used in constructions:
+
+иту "do"
+- керпек иту "blink" (lit. "eyelash do")
+- жал иту "rest" (lit. "rest (n.) do")
+
+биру "give"
+- жавап биру "respond" (lit. "response give")
+- вағда биру "promise" (lit. "promise (n.) give")
+
+While several phrasal verbs occur in the text, the only phrasal verb I provided in the lexicon was уңышсыз иту "fail." I'm relying on you to figure out the others.
+
+Have fun!
