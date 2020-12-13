@@ -1,0 +1,117 @@
+TORCH:
+
+Uráka Kirśâsi, makalušauyín, pásūn pási, táz auščîsthai khàušaišyu!
+
+Kátulāthīn-tákïtha tāhâi Hikháusāwi čhistsána huyási, táz báita.
+
+Urtháhamānin khullâ phàram-nuš šî
+   Hikháusās čhàlaññās uktāwánśas,
+   àlusï àšamnušyupa hïtárāiyanta káuśayišbunnûš yàsi Khiršátayūn
+   khwàranūnhupu tsïzáyamnûš áŋmaniš tsátāitai.
+
+Nās-máramnūkwai xurânintar thàllūntai kïthwàrrūntaiyu, táz áurža.
+
+
+
+TORCH, DECOMPOSED:
+
+Uráka Kirśâsi, makaluš-auy -ín,    pás -ūn     pási, táz          auščîsthai     khàušaiš     -yu !
+NAME  NAME     great  -?   -toward lord-GEN.PL lord  DEF.ACC.SG.N you would see  you listen to-and
+Uraka Kirshasi, the great lord of lords, you see and take testimony
+[urǎka kirʃáàsi]
+
+Kátulā -thīntá             -kïtha   tāh   -âi     Hikháusāwi čhistsá   -na  huyási , táz          báita       .
+battle -being put in place -because leader-DAT.SG NAME       punishment-NEG command  DEF.ACC.SG.N come to know
+battle being put in place because the leader Hikhausawi does not command punishment, they are aware
+                                             [hikhǎusaawi]
+
+Urtháhamān                 -in  khullâ                phàramnuš šî
+summer solstice celebration-to  sacrificial offering  bearing   DST.NOM.SG.F
+for the summer solstice celebration sacrificial offering,
+
+   Hikháusās čhàlaññ-ās   uktāw-ánśas,
+   NAME      gold   -GEN  8    -
+   Hikhausas bears 8 gold,
+
+   àlusï àšamnuš  -yu-pa  hïtár            -āi -yanta  káuśa-yiš -bunnûš yàsi Khiršátayūn
+   ale   raw grain-?  and either of the two-?  -within many -?   -pot    also NAME
+   ale, and grain, and both in many pots, also Kirshasi
+
+   khwàra -nūnhupu tsïzáyamnûš     áŋman-iš tsátāitai    .
+   warrior-        being directed  troop-?  it is donated
+   donates troops that they oversee
+
+N-  āsmáramn    -ūkwai xur     -ân -intar  thàllūntai          kïthwàrrūntai           -yu , táz          áurža.
+NEG being heeded-      mountain-   -inside they would be sent  they would be sacrificed-and  DEF.ACC.SG.N say
+not acknowledged inside the mountain, they would be sent and sacrificed, they say
+
+
+RUNNING TRANSLATION:
+
+Uraka Kirshasi, the great lord of lords, you see and take testimony
+battle being put in place because the leader Hikhausawi does not command punishment, they are aware
+for the summer solstice celebration sacrificial offering, Hikhausas bears 8 gold,
+   ale, and grain, and both in many pots, also Kirshasi donates troops that they oversee
+not acknowledged inside the mountain, they would be sent and sacrificed, they say
+
+(do not use this translation in documentation of relay)
+(actual translation is given at the very bottom smh)
+
+Uraka Kirshasi, the great lord of lords, see and take testimony:
+The battle is occurring because the leader Hikhausawi does not command punishment
+For the summer solstice celebration sacrificial offering, Hikhausas brings 8 gold,
+   ale, and grain, in many pots; also Kirshasi should donate troops
+Not acknowledged inside the mountain, they would be sent and sacrificed, they say
+
+
+
+TO LANG15:
+
+sa  @unáka kinsáasi tɯ  kìmes     -ni      tɯ  mkúto    -ni     , ka  nàne-n   ona teá       -n  -ni
+DET NAME   NAME     DET leader:CON-HON.PRF DET large:CON-HON.PRF  EMP look-DIR and understand-DIR-HON.PRF
+Unága Ginsáasi the fat leader, look and understand (thusly:)!
+
+tném    -ti      kan opon     kam mit toe   -s  -ta      hɯ  kmèsa -n   sɯ  @hikháusami
+lie down-PER.IMP DET conflict SBJ NEG injure-CON-HON.IMP DET leader-DIR DET NAME
+The conflict exists because the leader Hikháusawi does not cause injury (they say)
+
+t-  eska -n  -ti      men pesì    -n   sɯ  @hikháusami men in- mettún-a   hií nen-ɯ  
+REL carry-DIR-PER.IMP DET festival-DIR DET NAME        DET CIR-gold  -DIR one two-CON
+For the festival, Hikháusawi brings eight (pieces of) gold,
+
+   ona hɯ  i-  nmúki       -n   ona hɯ  in- ɯpì -n
+   and DET CIR-corn whiskey-DIR and DET CIR-corn-DIR
+   corn whiskey, and corn,
+
+   ha    i- kmóso            -<ː> ona ha    i- kmóso            -<ː>
+   DET CIR- ceramic container-AUG and DET CIR- ceramic container-AUG
+   in many ceramic containers
+
+naa ka  eska -n  -mo      mi  @hikháusami-n   kos ksumo  -<ː>
+EXP EMP carry-DIR-NPR.PRF DET NAME       -DIR DET servant-AUG
+Also, Hikhausawi should send servants.
+
+kos heté  hɯ  mmusu   -n   ona mitsè    -k      , kam kos se  óhu-s  -ta      nusa
+DET stand DET mountain-DIR and be stupid-PER.PRF  SBJ DET PRE die-CON-HON.IMP be in a more prominent position
+Because they are in the mountain and are stupid, they will be sacrificed (they say)
+
+
+LANG15:
+
+sa @unáka kinsáasi tɯ kìmesni tɯ mkútoni, ka nànen ona teánni.
+tnémti kan opon, kam mit toesta hɯ kmèsan sɯ @hikháusami.
+teskanka men pesì sɯ @hikháusami men inmettúna hií nenɯ
+   ona hɯ inmúkin ona hɯ inɯpìn ha ikmósso ona ha ikmósso.
+naa ka eskanmo mi @hikháusamin kos ksummo.
+kos heté hɯ mmusun ona mitsèk, kam kos se óhusta nusa
+
+
+
+TRANSLATION:
+
+Unága Ginsáasi the fat leader, look and understand (thusly:)!
+The conflict exists because the leader Hikháusawi does not cause injury (they say).
+For the festival, Hikháusawi brings eight (pieces of) gold,
+   corn whiskey, and corn, in many ceramic containers
+Also, Hikhausawi should send servants.
+Because they are in the mountain and are stupid, they will be sacrificed (they say).

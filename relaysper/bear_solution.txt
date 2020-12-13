@@ -1,0 +1,30 @@
+translation to proto-ãrãnee
+
+-------------------------------------------------------------------->
+**GLOSS
+1-cere syetem sátan oʔ       kelèhaikises ǵerese  kasye  sátan oʔ
+  human near  god   the.INDF name 	  command revere god   the.INDF
+
+2-cere  syetem sátan oʔ;      ǵaǵef; 
+  human near   god   the.INDF being
+
+3-13 cere   geθaθ   syaǵeʔ 343 ekuasa
+  13 human  becouse whole  343 name
+
+4-yół hyeło  ŋolam  syaǵeʔ háras ekuasa 206 θintseh θe   yetemseh  gehyero 
+  all summer hot    whole  give  name   206 coins   with wheat.GEN bag
+    
+5-kelehaykeses kensenáh tamfe βetsam tsedereh
+  name         war.GEN  fight boat   soldier.GEN 
+
+6-ekuasa gehyero tsa ǵarse
+  name   bag     and continue
+
+-------------------------------------------------------------------->
+TEXT
+1-cere syetem sátan oʔ kelèhaikises ǵerese kasye sátan oʔ
+2-cere syetem sátan oʔ; ǵaǵef; 
+3-cere; geθaθ; syaǵeʔ; ekuasa
+4-yół hyeło ŋolam syaǵeʔ háras ekuasa 206 θintseh θe yetemseh gehyero 
+5-kelehaykeses kensenáh tamfe βetsam tsedereh
+6-ekuasa gehyero tsa ǵarse

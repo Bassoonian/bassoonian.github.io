@@ -1,0 +1,50 @@
+ACT = active
+ADJ = adjective
+BENE = benefactive
+COLL = collective
+COP = copula
+DAT = dative
+DIR = direct
+GNO = gnostic
+GNR = general
+HEP = heptal
+IMPF = imperfective
+IND = indcative
+INT = interrogative
+INV = inverse
+NPAS = near past
+MYS = mystic
+PERF = perfective
+PL = plural
+PRES = present
+SG = singular
+
+ē-nairülen-i-dhā-mgas-∅ kelna-oüm-∅ āchōlōtlh-∅-∅ keleaikeses-∅-∅ ∅-jʽiglüpʽaf-i-∅-mgas-∅ yertʽandiwalh-ōim-∅.
+[ɛːˈnajɾylɛniðaːmɡas̠ ˈkɛlna.ɔɥm aːˈçɔːlɔːt͡ɬ ˈkɛlɛ.ajkɛs̠ɛs̠ ɟʱiɡlyˈpʰaɸimɡas̠ jɛrtʰanˈdiwaɬɔːjm]
+INV-near-ACT-IND-PRES-GNO human-COLL-GNR God-HEP-GNR keleaikeses-HEP-GNR DIR-command-ACT-MYS-PRES-GNO respect-COLL-GNR
+Humans near a god, Keleaikeses, who demands respect.
+
+ē-nairülen-i-dhā-mgas-∅ kelna-oüm-∅ āchōlōtlh-∅-∅ ë-mgas.
+[ɛːˈnajɾylɛiðaːmɡas̠ ˈkɛlna.ɔɥm aːˈçɔːlɔːt͡ɬ əmˈɡas̠]
+INV-near-ACT-IND-PRES-GNO human-COLL-GNR God-HEP-GNR COP-PRES
+Humans near a god, who is.
+
+āciver fëilats kelna-oüm-∅· pa-al mudūr-oüm-∅ ekuasa-∅-∅?
+[ˈaːciβɛr ɸəjˈlat͡s̠ ˈkɛlna.ɔɥm paːl ˈmuduːɾɔɥm ɛkˈwas̠a]
+seven six human-COLL-GNR INT-BENE three_hundred_forty-three-COLL-GNR ekuasa-HEP-GNR
+There are in total thirteen humans; why are all the 343 Ekuasa?
+
+pa-al üurov giordʽim-ōim-∅? pa-∅ ekuasa-∅-ul ∅-tsʽunuch-i-dhā-mteth-ops kengī tlheuch āciver lhuath klirnas-ǖn-∅ vüikë tʽets-en-al?
+[paːl ɥuˈɾɔβ ɡjɔrˈdʱimɔːjm pa ɛkˈwas̠a.ul t͡s̠ʰuˈnuçiðaːmtɛθɔps̠ ˈkɛŋɡiː t͡ɬɛwç ˈaːciβɛr ɬawθ klirˈnas̠yːn ˈβyjkə ˈtʰɛt͡s̠ɛnal]
+INT-BENE hot summer-COLL-GNR INT-GNR ekuasa-HEP-DAT DIR-give-ACT-IND-NPAS-PERF four forty_nine seven three coin-PL-GNR grain.ADJ sack-SG-BENE
+Why are all summers hot? what gave Ekuasa two hundred six coins for a grain sack?
+
+teidū-∅-∅ keleaikeses-∅-∅ teidū-ūdüyǖ-ën-∅ ∅-dʽurjō-i-da-mgas-esp.
+[tɛjˈduː ˈkɛlɛ.ajkɛs̠ɛs̠ tɛjˈduː uːˈdyjyː.ən ˈdʱurɟɔːjdamɡas̠ɛs̠p]
+fighter-HEP-GNR keleaikeses-HEP-GNR fighter-sailor-SG-GNR DIR-fight-ACT-IND-PRES-IMPF
+Keleaikeses the fighter is fighting a fighter-sailor.
+
+ekuasa-∅-∅ tʽets-en-∅ ∅-nürezon-i-dhā-mgas-∅
+[ɛkˈwas̠a ˈtʰɛt͡s̠ɛn nyrɛˈz̠ɔniðaːmɡas̠]
+ekuasa-HEP-GNR sack-SG-GNR DIR-keep-ACT-IND-PRES-GNO
+Ekuasa keeps a sack.

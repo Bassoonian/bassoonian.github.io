@@ -1,0 +1,86 @@
+nalen cþîšas *#celehaicises navo cþoðame nalen cþîša tfêrþ oreþme.
+nalen cþîša tfêrþ elan mara.
+«navo gamþriþ fose *#icuasa gcaþalo.»
+šinen ascres vondas *#icuasan tfaron've feþasor sraþtenunefas cemame *#icuasan ŋjâli ton minevjas cemes.
+veŋ *#celehaicin al circþimîs ansat aldar noršidjas ton prâmaci nefas cemes.
+*#icuasan minevjas cemage fel deneces.
+
+lexicon
+=======
+
+Note: (S) = nominative argument, (D) or (O) = accusative argument, (I) = dative argument
+
+cemat (vd@)
+  (S) gives (I) to (D)
+cþoðat (vs)
+  (S) respects, reveres (I)
+cþîšat (vt)
+  (S) is near (O)
+caþit (vd)
+  (S) balances, punishes, compensates, seeks revenge on (D) for (I)
+circþîm (nc)
+  L form: circþimîs
+  battle, war
+ela (pr/nc)
+  this thing
+vandar (nc)
+  summer
+noršidir (nh)
+  warrior, soldier
+nava (nh)
+  human, person
+nalar (nc)
+  god, deity (in general)
+ŋjâl (nc)
+  wheat
+veŋ (aheadp)
+  alternatively,
+oreþmat (vt)
+  (S) commands (O)
+šino (pr/nc)
+  all, every
+marit (vd)
+  (S) says (D) to (I), (S) speaks to (I) (in a language (INST))
+  (S) suggests, reflects a trait (D) to (I)
+minevin (nc)
+  bag, sack
+ansat (vt)
+  (S) fights (O) (especially face-to-face), (S) does something about (O), especially to change the status quo
+ascrat (vi)
+  (S) is hot (tactile, ambient)
+aldar (ppALL)
+  in order to
+amþrat (vt)
+  (S) defies, disobeys, rebels against (O)
+feþor (nt)
+  whole of (GEN) (used with fractions to indicate proportion)
+prâma (nc)
+  boat, ship
+ton (ppDAT)
+  with (ornative), adnominal
+tfara (nc)
+  coin, money
+tfêrþ (nc)
+  S form: tfêlþic
+  animate entity that is not necessarily human
+denecit (va)
+  (T) continues
+*#celehaicise
+  proper name, [kʰelexaiˈkʰise]
+*#icuasa
+  proper name, [ikʰu̜ˈasa]
+
+morphology & syntax
+===================
+
+You can find all the inflection tables in the full grammar (l4v7.pdf), as well as any details. I'll provide a brief overview:
+
+* a clause usually ends with a verb, and might have head or tail particles
+* nouns have case (12 cases) and number (singular / dual / plural); the noun declensions are quite involved, so an inflected form might not look much like its lemma (some certainly defy simple Ctrl+F'ery)
+* verbs can be in finite (in the main clause), relative (modifying a noun), or nominalized (acting as a noun) form. The base ("infinitive") form ends with <a> or <i> plus <t>. Relative-form verbs often function as adjectives. Nominalized verbs are just a particle for case + infinitive form, although the two might drift apart slightly.
+* verbs can also take coordinate forms (name came from how these forms translate to English; they're technically subordinate à la Japanese -te forms): -(a/i)me = 'and', -(a/i)ge = 'inclusive or'
+* verbs are either intransitive (no accusative or dative arg), semitransitive (dative arg), transitive (accusative arg), ditransitive (accusative and dative arg), or auxiliary (works on another verb). A "target" of an auxiliary verb can be elided using <fel>. Pay attention to the argument slots in verb glosses; they don't always match what you think.
+* this language has postpositions; they don't inflect, but govern a particular case.
+* some modifiers can split away from their heads. Good rule of thumb: if they agree, they can probably drift away from each other, although the order between them can't switch.
+* make sure to read the chapter on numerals; nothing can go wrong by knowing about numerals
+

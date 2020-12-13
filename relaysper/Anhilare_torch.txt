@@ -1,0 +1,162 @@
+ēnairülenidhāmgas kelnaoüm āchōlōtlh keleaikeses jʽiglüpʽafimgas iertʽandiwalhōim.
+ēnairülenidhāmgas kelnaoüm āchōlōtlh ëmgas.
+āciver fëilats kelnaoüm· pāl mudūroüm ekuasa?
+pāl üurov giordʽimōim? pa ekuasaul tsʽunuchidhāmtethops kengī tlheuch āciver lhuath klirnasǖn vüikë tʽetsenal?
+teidū keleaikeses teidū-ūdüyǖën dʽurjōidamgasesp.
+equasa tʽetsen nürezonidhāmgas
+
+== Lexicon ==
+
+āchōlōtlh - (n.) Axolotl, Supreme Being, God, Deity, Creator of This World, Exalted One
+
+dʽürjā - (n.) war, dispute, argument
+
+ekuasa [ɛkˈwas̠a] - this is one of the names
+
+giordʽim - (n.) summer; maturity, bloom, plenty
+
+jʽiglüpʽaf - (v.) to command, order, force, require, demand
+
+keleaikeses [ˈkɛlɛ.ajkɛs̠ɛs̠] - this is one of the names
+
+kelna - (n.) human, person, individual
+
+klirnas - (n.) coin; a unit of currency
+
+nairülen - (v.) to approach, come near
+
+nurizan - (n.) vault, storage, keep; preservation, holding
+
+pa - (pro.) what? interrogative pronoun
+
+tʽets - (n.) sack, bag, limp vessel
+
+toidui - (v.) to war, kill, slaughter en masse; to fight within the self, struggle; to philosophize, think deeply, gain insight and knowledge
+
+tsʽanach - (n.) reception, acceptance [of a gift], possession
+
+üirev - (n.) fire, heat, light, warmth, (figuratively) safety; a kind of dance
+
+vaikë - (n.) seed, grain. Figuratively cause, origin
+
+wiudaya - (v.) to sail, be on a boat; to glide, move smoothly; to have a sharp mind, be intelligent
+
+yertʽandiwalh - (n.) respect, admiration, adoration; devotion
+
+== Grammar ==
+
+The language is *heavily* agglutinative with some fusional elements. I will begin with nouns.
+
+Nouns inflect for number and case.
+
+Here are the number inflections:
+
+Singular: -en / -ën
+Dual: -iŋ / -āñ
+Heptal: ∅ / (-ey for emphatic) 
+Plural: -uñ / -ǖn
+Infimal-collective: -oüm / -ōim 
+
+Pretty fun, eh? The heptal number is special here: it's used for groups of seven, the holiest number of God, but also for names and certain very important concepts. Notice hoe there are two endings for every number; this is not uncommon in the least for this language. Most endings have a variant that differs in quantity.
+
+Here are the cases:
+
+General: ∅
+Vocative: -o / -ō
+Partative: -ēr / -ar
+Dative: -ul
+Benefactive: -al
+Genetive: -or
+Comitative: -üdh / -ǖz
+Instrumental: -av / -āz
+Ablative: -isk / -īch / -aich
+Temporal: -eülh 
+
+Notice the lack of any locative case. This is because location is expressed entirely through *hand gestures*; luckily for you, they aren't necessary here. Also know that the general case covers both agent and patient roles: there is no way to distinguish them morphologically (how to do so otherwise will be explained below).
+
+Endings go in the order NOUN-number-case.
+
+Next I will speak of verbs.
+
+Verbs inflect for voice, mood, tense, and aspect, and they may receive a *marker* (explained below).
+
+These are the voice endings:
+
+Active: -i
+Mediopassive: -u
+
+Pretty simple, and what these do should be rather self-explanatory.
+
+These are the mood endings:
+
+Mystic: ∅ / (-lhe if you need an extra syllable)
+Indicative: -da / -dhā
+Imperative: -tʽü
+Hortative: -dʽū / -zdū
+Optative: -zoi 
+
+Most of these should be pretty normal. The one thing sticking out is the *mystic mood*. This mood is used to convey that the action of the verb is in some way divine or elevated. Also note the variant ending for it, for quantity purposes.
+
+These are the tense endings:
+
+Distant Future: -ñjof
+Near Future/Present: -mgas
+Near Past: -mteth
+Distant Past: -ntich 
+
+These too should all be simple. Something to note about the tense marker in particular is if you take these endings and prefix ë- to it, you get the copula in whatever tense. Note though that in the present tense, the coupla is usually left out except to really emphasize existence.
+
+These are the aspects:
+
+Gnomic: ∅
+Perfective: -ops / -ots
+Imperfective: -esp / -ets
+Intensive: -ak
+
+These are also rather self-explanatory and should require little explanation.
+
+Then there is the marker. This language has *direct-inverse* typology, explaining the lack of distiction between agent and patient in the noun cases. If you don't know what that is (and tbh I don't really expect you to), I'll give a quick rundown here. Basically, the subject is determined by animacy: the most animate noun or pronoun is the subject, with 1st > 2nd > 3rd > 4th > etc. In normal nouns, this is determined by which of the 64 noun classes it belongs to (it's more like 4^3 noun classes, because there are 3 systems of 4 classes. It's not as bad as it sounds, I swear to the Axolotl ;-;), but here there are few enough nouns that giving them would be a waste of time. I think you're smart enough to determine which is more animate than what by yourself, anyway. I have faith in your abilities.
+
+Anyway, what I described above is called *direct* marking. So, though, suppose that you want the *less* animate noun to be the subject. How would you achieve that? This is done through *inversion*: simply attach a morpheme to invert the verb so that the less animate noun is the subject.
+
+So these are the markers:
+
+Direct marker: ∅
+Inverse marker: ē(y)-
+
+The order of affixes for verbs: marker-VERB-voice-mood-tense-aspect.
+
+In this language it is possible to change the part of speech of a word, but not via zero-derivation. In fact, the method used here isn't even with derivational affixes: instead, this is accomplished with vowel transformations which I will very sloppily call *ablaut*. You take every vowel in the root and transform them, depending on what you want to do to them.
+
+These are the ablaut patterns:
+
+noun ↔ verb: u ↔ ü; i ↔ e; a ↔ o
+noun ↔ causative verb: u ↔ o; a ↔ e; i ↔ ü
+noun ↔ adjective, or verb ↔ agentive: u ↔ i; e ↔ o; a ↔ ü
+
+As you can see, everything goes both ways. It's also possible to chain patterns, like going from a noun to a verb, and then from there to an agentive (in fact, it's the only way to turn a verb into a causative verb), so it can get quite complex.
+
+Also *very* importanat to note: the semivowels /w j/ are written <u i> next to a consonant, but they don't undergo ablaut, and /ɥ/ is always written <ü>, but it too never participates in ablaut, so be wary of changes like e.g. ai > oi (not *oe). It's also important to note that sequences of the type /ji(ː)/ or /ij(ː)/ simplify to /iː/, and this is reflected in orthography.
+
+Lastly in this section, here are the words for numbers:
+
+1 - dirs
+2 - nalem
+3 - lhuath
+4 - kengī
+5 - blaun
+6 - fëilats
+10 - āciver
+100 - tlheuch
+1000 - miduīr
+10000 - naraz
+
+It's not a mistake. This is base-7 numberage. They behave a lot like Chinese, with a number like 'forty-six' expressed as 'fëilats āchiver kengī.' They are considered adjectives, so nounifying them requires ablaut.
+
+== Syntax ==
+
+Word order is very free, thanks to inflection. There are a few things to note in general: parataxis is heavily preferred over hypotaxis (i.e. less subordinate clauses). Don't expect to find much linking ideas; they're just juxtaposed for the most part.
+
+There's one quirk to note: a noun can appear at the end of one clause and the beginning of another simultaneously if it is an argument in both (kind of like saying "I walked to the dog was sleeping" to mean "I walked to the dog, (but it/and it/which) was sleeping"). Oftentimes the sentence will be arranged to make this work.
+
+Apposition is simple too, with the modifying appositive almost always next to the head noun and in the same case.
