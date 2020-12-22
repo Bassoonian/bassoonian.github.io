@@ -1,0 +1,24 @@
+nal-en cþîš-as *#celehaic-ises nav-o cþoð-ame nal-en cþî-ša tfêrþ-∅ oreþm-e.
+god-ACC.PL near-REL.CEL.NOM,DAT (name)-DAT.SG person-NOM.PL revere-and god-ACC.PL near-REL.CEL.NOM,NOM animate_entity-NOM.SG command-3SG
+Kelexaise the sacred is revered by the people and commands them.
+
+nal-en cþîš-a tfêrþ-∅ el-an mar-a.
+god-ACC.PL near-REL.CEL.NOM,NOM animate_entity-NOM.SG this-ACC.SG speak-3SG
+The sacred one says this:
+
+«navo g\amþr-i-þ fose *#icuas-a g\caþ-a-lo.»
+person-NOM.PL PFV\defy-3PL-PAST because (name)-NOM.SG PFV\punish-3SG-3PL
+"Xikuasa has punished people for defiance."
+
+šin-en ascr-es vond-as *#icuas-an tfar-on='ve feþ-asor sraþ-tenu-nefas cem-ame *#icuas-an ŋjâl-i ton minev-jas cem-es.
+all-GEN hot-REL.CEL.NOM,LOC summer-LOC.SG (name)-ACC.SG money-GEN.PL=POSS.2 whole-DAT.SG sixteen-FRAC-two.DAT give-and (name)-ACC.SG wheat-DAT.SG ORNATIVE bag-DAT.PL give-2SG
+Every hot summer, you give one-eighth of your money to Xikuasa, and you give bags of wheat to Xikuasa.
+
+veŋ *#celehaic-in al circþ-imîs ans-at aldar noršid-jas ton prâm-aci nefas cem-es.
+or (name)-ACC INF.ALL war-LOC.SG fight-INF in_order_to soldier-DAT.PL ORNATIVE boat-DAT.DU two.DAT give-2SG
+Or you give them two ships with soldiers to wage war with Kelexaikise.
+
+*#icuas-an minev-jas cem-age fel denec-es.
+(name)-ACC.SG bag-DAT.PL give-or ELLIP.VP continue-2SG
+You give bags to Xikuasa or continue doing so.
+
