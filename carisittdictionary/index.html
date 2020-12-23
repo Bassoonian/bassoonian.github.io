@@ -736,7 +736,11 @@
 				}
 			}
 			//apply stress
-			if (activestage<2&&!word.includes("-")) word=word.replace(".",".ˈ"); //Primary stress
+			if (activestage<2&&!word.includes("-"))
+			{
+				if (word.includes("'")) word=word.replace("'","ˈ"); //If stress is manually defined, override
+				else word=word.replace(".",".ˈ"); //Primary stress
+			}
 			if (activestage==2)
 			{
 				//Penultimate stress
