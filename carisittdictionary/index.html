@@ -253,6 +253,9 @@
 		aspiration: false
 	}
 	
+	_inDebugMode=false;
+	_nonDebugMax=0;
+	
 	_dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
 	
 	_currentstage=-1;
@@ -347,6 +350,9 @@
 			etymonotecolumn=-1;
 			uidcolumn=-1;
 			_allomorphs=[];
+			
+			if (localStorage.settings_secretdebug==true) _inDebugMode=true;
+			
 			var k=dbase[1].length;
 			for(var i=0;i<k;i++)
 			{
@@ -417,6 +423,12 @@
 			document.getElementById("loadingcontent").style.display="none";
 			document.getElementById("actualcontent").style.display="block";
 			document.getElementById("page_title").innerHTML="Carite Lexicon";
+			
+			//If in debug, limit stagelist
+			if (!_inDebugMode)
+			{
+				while(stagelist.length>_nonDebugMax+1) stagelist.pop();
+			}
 			
 			//Update stage list in search menu
 			for(var i=0;i<stagelist.length;i++)
@@ -2228,6 +2240,13 @@
 		    updateXSamp(this.value,true);
 			localStorage.setting_xsampa=this.value;
 		});
+		
+	function activateDebugMode()
+		{
+			//This not-so-hidden-if-you-look-well function actives debug mode on the site
+			localStorage.settings_secretdebug=true;
+			location.reload();
+		}
 </script>
 <script src="documentation.js"></script>
 <script src="soundchangeparser.js"></script>
