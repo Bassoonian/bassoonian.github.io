@@ -28,6 +28,18 @@ function loadDocContent(contentid)
 		}
 		document.getElementById("doc_main_content").innerHTML=dat;
 		if (contentid=="bibliography") render_bibliography();
+		//Add correct ids to titles
+		var listoftitles=document.getElementById("doc_main_content").getElementsByTagName("h2");
+		for(var i=0;i<listoftitles.length;i++)
+		{
+			listoftitles[i].id=getSubtitleName(listoftitles[i].innerHTML);
+		}
+		listoftitles=document.getElementById("doc_main_content").getElementsByTagName("h3");
+		for(var i=0;i<listoftitles.length;i++)
+		{
+			listoftitles[i].id=getSubtitleName(listoftitles[i].innerHTML);
+		}
+		
 		//Make level list
 		var tree=[];
 		var leaf=null;
@@ -55,19 +67,19 @@ function loadDocContent(contentid)
 		var temp="";
 		for(var i=0;i<tree.length;i++)
 		{
-			temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].level+"'> <a>"+tree[i].text+"</a>";
+			temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].level+"'> <a href='javascript:void(0);' onclick='scrollToValue("+'"'+getSubtitleName(tree[i].text)+'"'+")'>"+tree[i].text+"</a>";
 			if (tree[i].children.length>0)
 			{
 				temp+="<ul>";
 				for(var j=0;j<tree[i].children.length;j++)
 				{
-					temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].children[j].level+"'> <a>"+tree[i].children[j].text+"</a>";
+					temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].children[j].level+"'> <a href='javascript:void(0);' onclick='scrollToValue("+'"'+getSubtitleName(tree[i].children[j].text)+'"'+")'>"+tree[i].children[j].text+"</a>";
 					if (tree[i].children[j].children.length>0)
 					{
 						temp+="<ul>";
 						for(var k=0;k<tree[i].children[j].children.length;k++)
 						{
-							temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].children[j].children[k].level+"'> <a>"+tree[i].children[j].children[k].text+"</a></li>";
+							temp+="<li class='DOC_toc-entry DOC_toc-h"+tree[i].children[j].children[k].level+"'> <a href='javascript:void(0);' onclick='scrollToValue("+'"'+getSubtitleName(tree[i].children[j].children[k].text)+'"'+")'>"+tree[i].children[j].children[k].text+"</a></li>";
 						}
 						temp+="</ul>";
 					}
@@ -358,4 +370,10 @@ function findNewTable(tableid,pattern,stage,forceblank)
 {
 	var temp=getRandomInflectionTable(pattern,stage,forceblank,false,tableid);
 	document.getElementById("randomInflectionTable"+tableid).innerHTML=temp;
+}
+
+function getSubtitleName(txt)
+{
+	txt=replaceAll(" ","_",txt.toLowerCase());
+	return(txt+"_");
 }

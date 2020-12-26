@@ -500,7 +500,7 @@
 					tempvar+="<li class='nav-item dropdown'><a class='nav-link dropdown-toggle' role='button' aria-haspopup='true' aria-expanded='false' id='navbar_dropdown_"+i+"' data-toggle='dropdown' href='#'>"+j[0]+"</a><div class='dropdown-menu' aria-labelledby='navbar_dropdown_"+i+"'>";
 					for(var k=0;k<j.length;k++)
 					{
-						tempvar+="<a class='dropdown-item' href='#scr"+alphvalue+"'>"+j[k]+"</a>";
+						tempvar+="<a class='dropdown-item' href='javascript:void(0);' onclick='scrollToValue("+'"scr'+alphvalue+'"'+")'>"+j[k]+"</a>";
 						active_alphabet.push(j[k]);
 						alphvalue++;
 					}
@@ -508,7 +508,7 @@
 				}
 				else
 				{
-					tempvar+="<li class='nav-item'><a class='nav-link' href='#scr"+alphvalue+"'>"+j[0]+"</a></li>";
+					tempvar+="<li class='nav-item'><a class='nav-link' href='javascript:void(0);' onclick='scrollToValue("+'"scr'+alphvalue+'"'+")'>"+j[0]+"</a></li>";
 					active_alphabet.push(j[0]);
 					alphvalue++;
 				}
@@ -2299,6 +2299,11 @@
 			//This not-so-hidden-if-you-look-well function actives debug mode on the site
 			localStorage.settings_secretdebug=true;
 			location.reload();
+		}
+		
+	function scrollToValue(ref)
+		{
+			document.getElementById(ref).scrollIntoView({behavior: "smooth"});
 		}
 </script>
 <script src="documentation.js"></script>
