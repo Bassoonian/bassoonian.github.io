@@ -266,32 +266,54 @@
 	
 	cognateorder=["grc","pclt","lat","hye","pgmc","pslv","sqi","san","tchA","tchB","toch","hit","eng","eus"];
 	
+	if (localStorage.settings_secretdebug=="true") _inDebugMode=true;
+	
 	//Load csv from Google Sheets as javascript array
 	loadstr="";
 	loadNote("Loading...");
-	rawcsv=$.get("https://docs.google.com/spreadsheets/d/e/2PACX-1vTe8E8yH60LpBJZA9PfIgIfj7RxmVIPm97PUB1GBHEYPoT9G8dOfyFscqPYhHaEtbQ0Gt3xh6ESfQbF/pub?gid=284553596&single=true&output=csv", function() {
-		loadNote("Attempting to connect to server...");
-	})
-		.done(function(){
-			loadNote("Lexicon retrieval succesful!");
-			dbase=$.csv.toArrays(rawcsv.responseText);
-			parseDbase();
+	
+	if (_inDebugMode)
+	{
+		rawcsv=$.get("https://docs.google.com/spreadsheets/d/e/2PACX-1vTe8E8yH60LpBJZA9PfIgIfj7RxmVIPm97PUB1GBHEYPoT9G8dOfyFscqPYhHaEtbQ0Gt3xh6ESfQbF/pub?gid=284553596&single=true&output=csv", function() {
+			loadNote("Attempting to connect to server...");
 		})
-		.fail(function(){
-			loadNote("Fetching local copy...");
-			rawcsv=$.get("backup_csv.csv", function() {
-				loadNote("Attempting to read local file...");
+			.done(function(){
+				loadNote("Lexicon retrieval succesful!");
+				dbase=$.csv.toArrays(rawcsv.responseText);
+				parseDbase();
 			})
-				.done(function(){
-					loadNote("Lexicon retrieval succesful!");
-					dbase=$.csv.toArrays(rawcsv.responseText);
-					parseDbase();
+			.fail(function(){
+				loadNote("Fetching local copy...");
+				rawcsv=$.get("backup_csv.csv", function() {
+					loadNote("Attempting to read local file...");
 				})
-				.fail(function(){
-					loadNote("No local copy can be found.");
-					loaderror();
-				});
-		});
+					.done(function(){
+						loadNote("Lexicon retrieval succesful!");
+						dbase=$.csv.toArrays(rawcsv.responseText);
+						parseDbase();
+					})
+					.fail(function(){
+						loadNote("No local copy can be found.");
+						loaderror();
+					});
+			});
+	}
+	else
+	{
+		rawcsv=$.get("backup_csv.csv", function() {
+			loadNote("Attempting to read local file...");
+		})
+			.done(function(){
+				loadNote("Lexicon retrieval succesful!");
+				dbase=$.csv.toArrays(rawcsv.responseText);
+				parseDbase();
+			})
+			.fail(function(){
+				loadNote("No local copy can be found.");
+				loaderror();
+			});
+	}
+	
 	
 	function loaderror()
 		{
@@ -350,8 +372,6 @@
 			etymonotecolumn=-1;
 			uidcolumn=-1;
 			_allomorphs=[];
-			
-			if (localStorage.settings_secretdebug==true) _inDebugMode=true;
 			
 			var k=dbase[1].length;
 			for(var i=0;i<k;i++)
@@ -1221,8 +1241,31 @@
 			
 			temp=(temp.charAt(0).toUpperCase()+temp.slice(1)+".").replace("..",".");
 			//Handle cognates and formids
-			var coggies1=dbase[wordlist[wid][2]][cognatecolumn].split(",");
-			var formies1=dbase[wordlist[wid][2]][formidcolumn].split(",");
+			var tk=[];
+			for(var i=0;i<2;i++)
+			{
+				tk.push(wordlist[wid][2]);
+				if (i==0) var tp=dbase[wordlist[wid][2]][cognatecolumn];
+				if (i==1) var tp=dbase[wordlist[wid][2]][formidcolumn];
+				if (tp.charAt(0)==">")
+				{
+					var tp=tp.replace(">","");
+					for (var j=0;j<_uidlist.length;j++)
+					{
+						if (tp==_uidlist[j][0]) tk[i]=_uidlist[j][1];
+					}
+				}
+			}
+			
+			var coggies1=dbase[tk[0]][cognatecolumn].split(",");
+			var formies1=dbase[tk[1]][formidcolumn].split(",");
+			
+			if (tk[1]!=wordlist[wid][2])
+			{
+				coggies1=coggies1.concat(formies1);
+				formies1=[""];
+			}
+			
 			var coggies2=[];
 			var formies2=[];
 			//Break up further
@@ -1284,7 +1327,17 @@
 			if (temp=="") document.getElementById("etymo_relatedwords").style.display="none";
 			
 			//Set sources
-			temp=dbase[wordlist[wid][2]][sourcecolumn];
+			var ttr=wordlist[wid][2];
+			if (dbase[ttr][sourcecolumn].charAt(0)==">")
+			{
+				var kkk=dbase[ttr][sourcecolumn].replace(">","");
+				for(var i=0;i<_uidlist.length;i++)
+				{
+					if (_uidlist[i][0]==kkk) ttr=_uidlist[i][1];
+				}
+			}
+			
+			temp=dbase[ttr][sourcecolumn];
 			if (temp=="") temp="No source specified. If you believe you have a source that may be relevant, please get in touch.";
 			else temp="<ol>"+list_sources(temp.split(","))+"</ol>";
 			document.getElementById("entry_sourcetext").innerHTML=temp;
