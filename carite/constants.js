@@ -392,7 +392,7 @@ _vowels=[
 	["a","e","i","o","u","%"]
 ];
 _illegalonsets=[
-	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw","jn","ss","tt"],
+	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw","jn","ss","tt","mn"],
 	[],
 	[],
 	[],

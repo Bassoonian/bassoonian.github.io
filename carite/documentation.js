@@ -183,7 +183,7 @@ function updateLeftSidebar()
 	else document.getElementById("DOC_left_sidenav_unexpandable_"+_last_loaded_file).classList.add("active");
 }
 
-function getExample(changecolumn,set)
+function getExample(changecolumn,sett)
 {
 	var pit=[];
 	var out="";
@@ -210,9 +210,11 @@ function getExample(changecolumn,set)
 				i=maincolumns.length;
 			}
 		}
+		//Final
 		s=dbase[selected][lookup];
 		if (s.charAt(1)=="-") s=s.slice(1);
 		out+=" > <i>"+s+"</i>";
+		//
 		var lookup=changecolumn-1;
 		for(var i=lookup;i>0;i--)
 		{
@@ -226,7 +228,7 @@ function getExample(changecolumn,set)
 		if (s.charAt(1)=="-") s=s.slice(1);
 		out="<i>"+s+"</i> > "+out;
 	}
-	if (!set) return(out);
+	if (!sett) return(out);
 	else document.getElementById("span_change_"+changecolumn).innerHTML=out;
 }
 
