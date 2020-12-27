@@ -753,6 +753,11 @@
 					{
 						var t="";
 						var k=q[i];
+						if (k.includes("'"))
+						{
+							t=(k.split("'"))[0];
+							k="'"+(k.split("'"))[1];
+						}
 						var p="";
 						for(var tt=0;tt<_illegalonsets[activestage].length;tt++)
 						{
@@ -1208,6 +1213,20 @@
 					temp+="derived from the root "+formatCognate([pp+"pie",dbase[wordlist[wid][2]][0]],false,true);
 				}
 			}
+			if (amalternative)
+			{
+				var q=-1;
+				for(var i=0;i<_uidlist.length;i++)
+				{
+					if (_uidlist[i][0]==dbase[wordlist[wid][2]][1])
+					{
+						q=_uidlist[i][1];
+						i=_uidlist.length;
+					}
+				}
+				temp+="branched off <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+q+","+activestage+");'>"+apply_orthography(dbase[q][maincolumns[activestage]],activestage)+"</a> "+dbase[wordlist[wid][2]][maincolumns[activestage]+1];
+				
+			}
 			//Forwards
 			var prevmeaning="";
 			for(var i=activestage+1;i<stagelist.length;i++)
@@ -1405,9 +1424,11 @@
 			{
 				var p=i;
 				if (p>=array.length) p=0;
-				q=q.replace(i+"-",array[p].replace("-",""));
+				var t=array[p];
+				if (t.charAt(t.length-1)=="-") t=t.slice(0,-1);
+				q=q.replace(i+"-",t);
 			}
-			return(q/*.replace("-","")*/);
+			return(q);
 		}
 	function updateStage()
 		{
