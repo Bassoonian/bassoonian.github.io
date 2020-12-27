@@ -447,9 +447,12 @@
 			document.getElementById("actualcontent").style.display="block";
 			document.getElementById("page_title").innerHTML="Carite Lexicon";
 			
+			__maxscroll=dbase[0].length;
+			
 			//If in debug, limit stagelist
 			if (!_inDebugMode)
 			{
+				__maxscroll=stagelist[_nonDebugMax+1][1];
 				while(stagelist.length>_nonDebugMax+1) stagelist.pop();
 			}
 			

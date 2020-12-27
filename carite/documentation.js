@@ -242,14 +242,13 @@ function docParseData(dat)
 		var temp="";
 		var pipo=stagelist[qqp][1];
 		var texto="";
-		var stophere=false;
-		while(pipo<dbase[0].length)
+		while(pipo<__maxscroll)
 		{
 			if (qqp!=stagelist.length-1)
 			{
-				if (pipo==stagelist[qqp+1][1]) stophere=true;
+				if (pipo==stagelist[qqp+1][1]) break;
 			}
-			if (dbase[1][pipo].charAt(0)!="!"&&dbase[2][pipo]!="VVV"&&dbase[1][pipo]!="GRAMMAR"&&dbase[1][pipo]!="LOANS"&&!stophere)
+			if (dbase[1][pipo].charAt(0)!="!"&&dbase[2][pipo]!="VVV"&&dbase[1][pipo]!="GRAMMAR"&&dbase[1][pipo]!="LOANS")
 			{
 				if (dbase[1][pipo]!="")
 				{
@@ -271,7 +270,6 @@ function docParseData(dat)
 				temp+=" (ex. <span id='span_change_"+pipo+"'>"+getExample(pipo,false)+"</span> <a onclick='getExample("+pipo+",true);' class='clickety'><i class='fas fa-redo'></i></a>)";
 			}
 			pipo++;
-			if (stophere) pipo=dbase[0].length;
 		}
 		if (temp!="") temp+="</pre>";
 		if (texto!="") temp+="<p>"+texto+"</p>"
