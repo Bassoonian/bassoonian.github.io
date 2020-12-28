@@ -28,19 +28,6 @@ function loadDocContent(contentid)
 		}
 		document.getElementById("doc_main_content").innerHTML=dat;
 		if (contentid=="bibliography") render_bibliography();
-		//Add correct ids to titles
-		var listoftitles=document.getElementById("doc_main_content").getElementsByTagName("h2");
-		for(var i=0;i<listoftitles.length;i++)
-		{
-			listoftitles[i].id=getSubtitleName(listoftitles[i].innerHTML);
-			listoftitles[i].innerHTML=listoftitles[i].innerHTML+" <i class='fas fa-angle-up clickety' onclick='scrollToValue("+'"backtotop_"'+")'></i>";
-		}
-		listoftitles=document.getElementById("doc_main_content").getElementsByTagName("h3");
-		for(var i=0;i<listoftitles.length;i++)
-		{
-			listoftitles[i].id=getSubtitleName(listoftitles[i].innerHTML);
-			listoftitles[i].innerHTML=listoftitles[i].innerHTML+" <i class='fas fa-angle-up clickety' onclick='scrollToValue("+'"backtotop_"'+")'></i>";
-		}
 		(document.getElementById("doc_main_content").getElementsByTagName("h1"))[0].id="backtotop_";
 		
 		//Make level list
@@ -93,6 +80,20 @@ function loadDocContent(contentid)
 			temp+="</li>";
 		}
 		document.getElementById("doc_quick_navigation").innerHTML=temp;
+		
+		//Add correct ids to titles
+		var listoftitles=document.getElementById("doc_main_content").getElementsByTagName("h2");
+		for(var i=0;i<listoftitles.length;i++)
+		{
+			listoftitles[i].id=getSubtitleName(listoftitles[i].innerHTML);
+			listoftitles[i].innerHTML=listoftitles[i].innerHTML+" <i class='fas fa-angle-up clickety' onclick='scrollToValue("+'"backtotop_"'+")'></i>";
+		}
+		listoftitles=document.getElementById("doc_main_content").getElementsByTagName("h3");
+		for(var i=0;i<listoftitles.length;i++)
+		{
+			listoftitles[i].id=getSubtitleName(listoftitles[i].innerHTML);
+			listoftitles[i].innerHTML=listoftitles[i].innerHTML+" <i class='fas fa-angle-up clickety' onclick='scrollToValue("+'"backtotop_"'+")'></i>";
+		}
 		
 		$('[data-toggle="tooltip"]').tooltip();
 	});
