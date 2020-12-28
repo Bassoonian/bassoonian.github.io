@@ -58,6 +58,10 @@ sources=[
 			["google",		"https://books.google.be/books?id=bSxHgej4tKMC"],
 			["worldcat",	"https://www.worldcat.org/title/indo-european-language-and-culture-an-introduction/oclc/778339290"]
 		]],
+	["jasanoffinstrumentalplural",
+		"Jasanoff, Jay. <i>*-bhi, *-bhis, *-ōis: following the trail of the PIE instrumental plural.</i> Museum Tusculanum Press, 2009",[
+			["google",		"http://google.com"]//Not allowed to link to the preprint version...
+		]],
 	["locscriptsgreece",
 		"Jeffery, L.H. <i>The Local Scripts of Archaic Greece: a Study on the Origin of the Greek Alphabet and its Development from the Eighth to the Fifth Centuries B.C.</i> Oxford, Oxford University Press, 1963",[
 			["google",		"https://books.google.be/books?id=-MVj3p9ZgEMC"],
@@ -66,6 +70,10 @@ sources=[
 	["franco",
 		"Jensen, Geoffrey. <i>Franco: Soldier, Commander, Dictator.</i> Dulles, Potomac Books Inc., 2005",[
 			["google",		"https://books.google.be/books?id=q7YFJRSkYZUC"]
+		]],
+	["accusativeplural",
+		"Kim, Ronald I. <i>The PIE thematic animate accusative plural revisited.</i> 2012",[
+			["academia",	"https://www.academia.edu/672511/The_PIE_thematic_animate_accusative_plural_revisited"]
 		]],
 	["kirchhoff",
 		"Kirchhoff, Adolf. <i>Studien zur Geschichte des griechischen Alphabets.</i> Berlin, Ferd. Dümmler's Verlags-Buchhandlung, 1877",[
@@ -84,6 +92,10 @@ sources=[
 		"Kloekhorst, Alwin. <i>Etymological Dictionary of the Hittite Inherited Lexicon.</i> Leiden/Boston, Koninklijke Brill NV, 2008",[
 			["google",		"https://books.google.be/books?id=JmdiAAAAMAAJ"],
 			["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-the-hittite-inherited-lexicon/oclc/781175802"]
+		]],
+	["kloekhorst_thornclusters",
+		"Kloekhorst, Alwin. <i>Proto-Indo-European “thorn”-clusters.</i> 2014",[
+			["directlink",	"http://kloekhorst.nl/KloekhorstPIEThornClusters.pdf"]
 		]],
 	["dic_punic",
 		"Krahmalkov, Charles R. <i>Phoenician-Punic Dictionary.</i> Leuven, Peeters, 2000",[
