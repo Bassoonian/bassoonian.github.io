@@ -107,12 +107,12 @@ function updateLeftSidebar()
 {
 	var sb=[
 		["Introduction","introduction"],
-		["Anthropology",
+		/*["Anthropology",
 			["History","history"],
 			["Important Figures","figures"],
-			["Mythology","mythology"]/*,
-			["List of Holidays","holidays"]*/
-		],
+			["Mythology","mythology"]
+			["List of Holidays","holidays"]
+		],*/
 		["0",
 			["Preface","0_preface"],
 			["Phonology","0_phono"],

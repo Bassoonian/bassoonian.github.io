@@ -565,14 +565,15 @@
 		}
 	function strSortAlph(a,b)
 		{
-			a=replaceAll("-","",a);
-			b=replaceAll("-","",b);
-			for(var i=0;i<a.length&&i<b.length;i++)
+			a=a.replace(/[-*]/g,"");
+			b=b.replace(/[-*]/g,"");
+			var t=Math.max(a.length,b.length);
+			for(var i=0;i<t;i++)
 			{
 				var cha=active_alphabet.indexOf(a[i]);
 				var chb=active_alphabet.indexOf(b[i]);
-				if (cha<chb) return -1;
-				if (cha>chb) return 1;
+				if (cha<chb||cha===undefined) return -1;
+				if (cha>chb||chb===undefined) return 1;
 			}
 			return 0;
 		}
