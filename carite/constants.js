@@ -60,7 +60,7 @@ sources=[
 		]],
 	["jasanoffinstrumentalplural",
 		"Jasanoff, Jay. <i>*-bhi, *-bhis, *-ōis: following the trail of the PIE instrumental plural.</i> Museum Tusculanum Press, 2009",[
-			["google",		"http://google.com"]//Not allowed to link to the preprint version...
+			//Not allowed to link to the preprint version...
 		]],
 	["locscriptsgreece",
 		"Jeffery, L.H. <i>The Local Scripts of Archaic Greece: a Study on the Origin of the Greek Alphabet and its Development from the Eighth to the Fifth Centuries B.C.</i> Oxford, Oxford University Press, 1963",[
@@ -420,10 +420,11 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("January 1, 2021"),"First public release!"],
 	[new Date("December 26, 2020"),"Rewrote Greek interactions due to new data."],
 	[new Date("December 23, 2020"),"Finalised verbal morphology."],
 	[new Date("December 6, 2020"),"Reached 1,000 entries!"],
 	[new Date("December 5, 2020"),"Derivations now have full functionality.","Added support for prefixional usage of prepositions."],
-	[new Date("December 4, 2020"),"Sourced prepositions and added many more."],
-	[new Date("November 30, 2020"),"Added a changelog function."]
+	[new Date("December 4, 2020"),"Sourced prepositions and added many more."]
+	//[new Date("November 30, 2020"),"Added a changelog function."]
 ];

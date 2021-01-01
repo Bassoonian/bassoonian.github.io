@@ -204,6 +204,7 @@ function getExample(changecolumn,sett)
 		var selected=pit[~~(pit.length*Math.random())];
 		var s=dbase[selected][changecolumn];
 		if (s.charAt(1)=="-") s=s.slice(1);
+		for(var i=0;i<10;i++) s=s.replace("-"+i+"-","-…-")
 		out="<i><b>"+s+"</b></i>";
 		var lookup=changecolumn;
 		for(var i=0;i<maincolumns.length;i++)
@@ -217,6 +218,7 @@ function getExample(changecolumn,sett)
 		//Final
 		s=dbase[selected][lookup];
 		if (s.charAt(1)=="-") s=s.slice(1);
+		for(var i=0;i<10;i++) s=s.replace("-"+i+"-","-…-")
 		out+=" > <i>"+s+"</i>";
 		//
 		var lookup=changecolumn-1;
@@ -230,6 +232,7 @@ function getExample(changecolumn,sett)
 		}
 		s=dbase[selected][lookup];
 		if (s.charAt(1)=="-") s=s.slice(1);
+		for(var i=0;i<10;i++) s=s.replace("-"+i+"-","-…-")
 		out="<i>"+s+"</i> > "+out;
 	}
 	if (!sett) return(out);
