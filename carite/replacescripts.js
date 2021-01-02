@@ -181,8 +181,8 @@ function apply_orthography(word,stage,subgroup)
 		if (stage==0&&subgroup==1) w=apply_romanisation(w,stage);
 		if (stage==1)
 		{
-			w=replaceAll("X","H",w);
-			w=replaceAll("x","h",w);
+			w=replaceAll("X","Ḫ",w);
+			w=replaceAll("x","ḫ",w);
 			w=replaceAll("̯","",w);
 			w="*"+w;
 		}

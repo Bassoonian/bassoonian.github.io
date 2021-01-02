@@ -138,7 +138,7 @@ sources=[
 			["worldcat",	"https://www.worldcat.org/title/language-typology-and-language-universals/oclc/1049928912"]
 		]],
 	["pie_morph",
-		"Lundquist, Jesse & Yates, Anthony D. <i>The Morphology of Proto-Indo-European.</i> Los Angeles, ?",[
+		"Lundquist, Jesse & Yates, Anthony D. <i>The Morphology of Proto-Indo-European.</i> Los Angeles, 2018",[
 		]],
 	["macneill_calendar",
 		"Mac Neill, Eóin. <i>On the Notation and Chronography of the Calendar of Coligny.</i> 1926",[
@@ -420,11 +420,12 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("January 2, 2021"),""],
 	[new Date("January 1, 2021"),"First public release!"],
 	[new Date("December 26, 2020"),"Rewrote Greek interactions due to new data."],
 	[new Date("December 23, 2020"),"Finalised verbal morphology."],
 	[new Date("December 6, 2020"),"Reached 1,000 entries!"],
-	[new Date("December 5, 2020"),"Derivations now have full functionality.","Added support for prefixional usage of prepositions."],
-	[new Date("December 4, 2020"),"Sourced prepositions and added many more."]
+	[new Date("December 5, 2020"),"Derivations now have full functionality.","Added support for prefixional usage of prepositions."]
+	//[new Date("December 4, 2020"),"Sourced prepositions and added many more."]
 	//[new Date("November 30, 2020"),"Added a changelog function."]
 ];

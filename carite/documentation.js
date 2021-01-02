@@ -114,46 +114,21 @@ function updateLeftSidebar()
 			["List of Holidays","holidays"]
 		],*/
 		["0",
-			["Preface","0_preface"],
-			["Phonology","0_phono"],
-			["Orthography","0_ortho"],
-			["Sound Changes","0_sc"],
-			["Nominal Morphology","0_nom"],
-			["Verbal Morphology","0_vrb"],
-			["Derivational Morphology","0_deriv"],
-			["Syntax","0_syn"],
-			["External Interactions","0_external"]
+			["Preface","0/preface"],
+			["Phonology","0/phono"],
+			["Orthography","0/ortho"],
+			["Sound Changes","0/sc"],
+			["Nominal Morphology","0/nom"],
+			["Verbal Morphology","0/vrb"],
+			["Derivational Morphology","0/deriv"],
+			["Syntax","0/syn"],
+			["External Interactions","0/external"]
 		],
-		/*["1",
-			["Preface","1_preface"],
-			["Phonology","1_phono"],
-			["Orthography","1_ortho"],
-			["Sound Changes","1_sc"],
-			["Nominal Morphology","1_nom"],
-			["Verbal Morphology","1_vrb"],
-			["Derivational Morphology","1_deriv"],
-			["Syntax","1_syn"]
+		["1",
+			["Phonology","1/phono"],
+			["Orthography","1/ortho"],
+			["Sound Changes","1/sc"]
 		],
-		["2",
-			["Preface","2_preface"],
-			["Phonology","2_phono"],
-			["Orthography","2_ortho"],
-			["Sound Changes","2_sc"],
-			["Nominal Morphology","2_nom"],
-			["Verbal Morphology","2_vrb"],
-			["Derivational Morphology","2_deriv"],
-			["Syntax","2_syn"]
-		],
-		["3",
-			["Preface","3_preface"],
-			["Phonology","3_phono"],
-			["Orthography","3_ortho"],
-			["Sound Changes","3_sc"],
-			["Nominal Morphology","3_nom"],
-			["Verbal Morphology","3_vrb"],
-			["Derivational Morphology","3_deriv"],
-			["Syntax","3_syn"]
-		],*/
 		["Bibliography","bibliography"]
 	];
 	var temp="";
@@ -309,11 +284,11 @@ function docParseData(dat)
 function getBoop(pop)
 {
 	if (pop=="mythology") pop="4";
-	else if (pop.includes("0_")) pop="0";
-	else if (pop.includes("1_")) pop="1";
-	else if (pop.includes("2_")) pop="2";
-	else if (pop.includes("3_")) pop="3";
-	else if (pop.includes("4_")) pop="4";
+	else if (pop.includes("0/")) pop="0";
+	else if (pop.includes("1/")) pop="1";
+	else if (pop.includes("2/")) pop="2";
+	else if (pop.includes("3/")) pop="3";
+	else if (pop.includes("4/")) pop="4";
 	else pop=-1;
 	return(pop);
 }

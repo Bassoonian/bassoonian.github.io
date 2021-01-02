@@ -224,7 +224,7 @@
 	//Initialise important variables
 	_alphabet=[
 		"Α~Ᾱ Β Γ Δ Ε Ζ Η Θ Ι~Ῑ~Ῐ Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y~Ȳ Φ Ψ Ω",
-		"A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄",
+		"A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H~Ḫ I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄",
 		"A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄",
 		"A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄",
 		"A B C D E F G H I J L M N O P Q R S T U V X Y"];
@@ -254,7 +254,7 @@
 	}
 	
 	_inDebugMode=false;
-	_nonDebugMax=0;
+	_nonDebugMax=1;
 	
 	_dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
 	
@@ -821,8 +821,6 @@
 			word=word.replace("ˈ-","-");
 			//finalise
 			word=word.replace(".","");
-			//fix quirks!
-			if (activestage==1) word=replaceAll("x","h",word);
 			
 			//applyalways + allophones
 			word=pronAlways(word);
@@ -917,12 +915,6 @@
 			//Nasal and labiodental velar
 			if (activestage<3) w=w.replace(/(n)(\.?ˈ?[wkg])/g,"ŋ$2");
 			w=w.replace(/(m)(\.?ˈ?[fv])/g,"ɱ$2");
-			//h > x / backvowel
-			if (activestage==1)
-			{
-				w=w.replace(/(h)(\.?ˈ?[aou]ː?)/g,"x$2");
-				w=w.replace(/([aou]ː?\.?ˈ?)(h)/g,"$1x");
-			}
 			
 			if (activestage==2) w=replaceAll("ʁ","ʁ̞",w);
 			
