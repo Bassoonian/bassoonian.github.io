@@ -224,7 +224,7 @@
 	//Initialise important variables
 	_alphabet=[
 		"Α~Ᾱ Β Γ Δ Ε Ζ Η Θ Ι~Ῑ~Ῐ Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y~Ȳ Φ Ψ Ω",
-		"A~Ā~Ą~Ą̄ B D E~Ē~Ę~Ę̄ F G H~Ḫ I~Ī~Į~Į̄ J K L M N O~Ō~Ǫ~Ǭ P R S T U~Ū~Ų~Ų̄ V W Y~Ȳ~Y̨~Ȳ̨ Ø~Ø̄~Ø̨~Ø̨̄",
+		"A~Ā~Ą B D E~Ē~Ę F G H~Ḫ I~Ī~Į J K L M N O~Ō~Ǫ P R S T U~Ū~Ų V W Y~Ȳ Ø~Ø̄",
 		"A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄",
 		"A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄",
 		"A B C D E F G H I J L M N O P Q R S T U V X Y"];
@@ -837,7 +837,7 @@
 		{
 			w=w.normalize('NFC');
 			//Augment fuckeries
-			if (activestage==0)
+			if (s==0)
 			{
 				w=w.replace(/(e-)([aā])/g,"ā");
 				w=w.replace(/(e-)([eē])/g,"ē");
@@ -863,9 +863,12 @@
 			w=w.replace(/(ø̄)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"ø$2");
 			//Merge stuff
 			
+			//Remove nasal vowel length in s1
+			if (s==1) w=w.replace(/([ąęįǫųy̨ø̨])(̄)/g,"$1");
+			
 			//Break up vowels! to do
 			//initial mutation
-			if (activestage==2)
+			if (s==2)
 			{
 				w=replaceAll("$b","β",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
 				w=replaceAll("$d","ð",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
@@ -875,7 +878,7 @@
 			}
 			
 			//Neutralise velar/palatal
-			if (activestage==3)
+			if (s==3)
 			{
 				w=replaceAll("$b","v",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
 				w=replaceAll("$d","ð",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
@@ -915,6 +918,14 @@
 			//Nasal and labiodental velar
 			if (activestage<3) w=w.replace(/(n)(\.?ˈ?[wkg])/g,"ŋ$2");
 			w=w.replace(/(m)(\.?ˈ?[fv])/g,"ɱ$2");
+			
+			if (activestage==1)
+			{
+				//Nasal vowel length
+				w=w.replace(/([ãẽĩõũỹø̃])(.?[pbtdkgmnlrszfvjw])/g,"$1ː$2"); //Word-medially
+				w=w.replace(/(^|\s)([^aeiouyøãẽĩõũ\s]*)([ãẽĩõũ])(?=$|\s)/g,"$1$2$3ː"); //Word-finally in monosyllables
+				w=w.replace(/õi̯/g,"õĩ̯");
+			}
 			
 			if (activestage==2) w=replaceAll("ʁ","ʁ̞",w);
 			
@@ -1223,6 +1234,7 @@
 						i=_uidlist.length;
 					}
 				}
+				if (temp!="") temp+=", which ";
 				temp+="branched off <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+q+","+activestage+");'>"+apply_orthography(dbase[q][maincolumns[activestage]],activestage)+"</a> "+dbase[wordlist[wid][2]][maincolumns[activestage]+1];
 				
 			}
@@ -2315,10 +2327,11 @@
 			localStorage.setting_xsampa=this.value;
 		});
 		
-	function activateDebugMode()
+	function toggleDebugMode()
 		{
 			//This not-so-hidden-if-you-look-well function actives debug mode on the site
-			localStorage.settings_secretdebug=true;
+			if (localStorage.settings_secretdebug=="true") localStorage.settings_secretdebug=false;
+			else localStorage.settings_secretdebug=true;
 			location.reload();
 		}
 		

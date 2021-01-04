@@ -72,7 +72,7 @@ sources=[
 			["google",		"https://books.google.be/books?id=q7YFJRSkYZUC"]
 		]],
 	["accusativeplural",
-		"Kim, Ronald I. <i>The PIE thematic animate accusative plural revisited.</i> 2012",[
+		"Kim, Ronald I. <i>The PIE thematic animate accusative plural revisited.</i> Academia, 2012",[
 			["academia",	"https://www.academia.edu/672511/The_PIE_thematic_animate_accusative_plural_revisited"]
 		]],
 	["kirchhoff",
@@ -405,7 +405,7 @@ _vowels=[
 ];
 _illegalonsets=[
 	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw","jn","ss","tt","mn"],
-	[],
+	["rj","hs","lw","lb","ld","lp","lt","lv","mb","mn","mp","nt","nd","ht","ng","nk","rd","rf","rg","rk","rn","rp","rt","rv","vd","ks","nw","rb","gn","km","rw","tn","gm","nj","tm","ns","dn","rm","nn","gd","pn","lm","ln","rs","kn","bb","pm","rr","ls","tt","ss","kk","ts","ft","lg","lj","pp"],
 	[],
 	[],
 	[]
@@ -420,12 +420,12 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("January 2, 2021"),""],
+	[new Date("January 4, 2021"),"Preliminary Late Proto-Carite release. Everything remains tentative, inflection tables are empty.","Bug fixes."],
 	[new Date("January 1, 2021"),"First public release!"],
 	[new Date("December 26, 2020"),"Rewrote Greek interactions due to new data."],
 	[new Date("December 23, 2020"),"Finalised verbal morphology."],
-	[new Date("December 6, 2020"),"Reached 1,000 entries!"],
-	[new Date("December 5, 2020"),"Derivations now have full functionality.","Added support for prefixional usage of prepositions."]
+	[new Date("December 6, 2020"),"Reached 1,000 entries!"]
+	//[new Date("December 5, 2020"),"Derivations now have full functionality.","Added support for prefixional usage of prepositions."]
 	//[new Date("December 4, 2020"),"Sourced prepositions and added many more."]
 	//[new Date("November 30, 2020"),"Added a changelog function."]
 ];
