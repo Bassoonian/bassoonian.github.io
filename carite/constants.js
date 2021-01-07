@@ -420,12 +420,13 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("January 7, 2021"),"More Late Proto-Carite prose and thematic inflections."],
 	[new Date("January 4, 2021"),"Preliminary Late Proto-Carite release. Everything remains tentative, inflection tables are empty.","Bug fixes."],
 	[new Date("January 1, 2021"),"First public release!"],
 	[new Date("December 26, 2020"),"Rewrote Greek interactions due to new data."],
 	[new Date("December 23, 2020"),"Finalised verbal morphology."],
-	[new Date("December 6, 2020"),"Reached 1,000 entries!"]
-	//[new Date("December 5, 2020"),"Derivations now have full functionality.","Added support for prefixional usage of prepositions."]
-	//[new Date("December 4, 2020"),"Sourced prepositions and added many more."]
-	//[new Date("November 30, 2020"),"Added a changelog function."]
+	[new Date("December 6, 2020"),"Reached 1,000 entries!"],
+	[new Date("December 5, 2020"),"Derivations now have full functionality.","Added support for prefixional usage of prepositions."],
+	[new Date("December 4, 2020"),"Sourced prepositions and added many more."],
+	[new Date("November 30, 2020"),"Added a changelog function."]
 ];
