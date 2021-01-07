@@ -125,9 +125,11 @@ function updateLeftSidebar()
 			["External Interactions","0/external"]
 		],
 		["1",
+			["Preface","1/preface"],
 			["Phonology","1/phono"],
 			["Orthography","1/ortho"],
-			["Sound Changes","1/sc"]
+			["Sound Changes","1/sc"],
+			["Nominal Morphology","1/nom"]
 		],
 		["Bibliography","bibliography"]
 	];

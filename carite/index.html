@@ -864,7 +864,11 @@
 			//Merge stuff
 			
 			//Remove nasal vowel length in s1
-			if (s==1) w=w.replace(/([ąęįǫųy̨ø̨])(̄)/g,"$1");
+			if (s==1)
+			{
+				w=w.replace(/([ąęįǫų])(̄)/g,"$1");
+				w=w.replace(/ǭ/g,"ǫ");
+			}
 			
 			//Break up vowels! to do
 			//initial mutation
@@ -2007,7 +2011,7 @@
 				temp+="</thead><tbody>";
 				for(var i=0;i<=_conjunctivelist[stage];i++)
 				{
-					if (_conjunctivelist[activestage])
+					if (_conjunctivelist[stage])
 					{
 						temp+="<tr><th colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>";
 						if (i==0) temp+=glossText("prm",returnGloss("prm"));
