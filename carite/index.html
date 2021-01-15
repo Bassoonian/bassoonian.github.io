@@ -28,7 +28,7 @@
 				</svg>
 			</button>
 			<div class="navbar-collapse collapse" id="bdNavbar">
-				<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
+				<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0" id="globalnavbarstuffies">
 					<li class="nav-item col-6 col-md-auto">
 						<a class="nav-link p-2" onclick="switch_tab(0);" id="navbar_button_lexicon" href="javascript:void(0);">Lexicon</a>
 					</li>
@@ -43,7 +43,7 @@
 		</nav>
 	</header>
 	
-	<nav class="bd-subnavbar py-2" aria-label="Secondary navigation" id="secnavsearchbar">
+	<nav class="bd-subnavbar py-2" aria-label="Secondary navigation" id="secnavsearchbar" style="display: none;">
 		<div class="container-xxl d-flex align-items-md-center">
 	    	<form class="bd-search position-relative me-auto">
 				<span style="position: relative; display: inline-block; direction: ltr;">
@@ -75,7 +75,7 @@
 			<nav id="wordlist" class="collapse bd-links" aria-label="Main navigation"></nav>
 		</aside>
 		<main class="bd-lexicon order-1">
-			<div id="loadingcontent" class="container-fluid">Loading...</div>
+			<div id="loadingcontent" class="container-fluid"><h1>Loading...</h1></div>
 			<div id="actualcontent" data-spy="affix" class="container-fluid">
 				<div class="alert alert-info alert-dismissable fade show" role="alert" id="wotdnotice">
 					<strong>Notice:</strong> This entry was opened automatically as the word of the day.
@@ -512,6 +512,7 @@
 			switch_tab(1);
 			syncSettings();
 			document.getElementById("settingsbuttontopright").disabled=false;
+			document.getElementById("globalnavbarstuffies").style.display="flex";
 		}
 	function parseAlphabet(stagid)
 		{
