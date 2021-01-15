@@ -3,14 +3,14 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title id="page_title">Carite</title>
 	<meta name="description" content="An interactive dictionary and grammar of Carite, an Indo-European constructed language.">
 	<link rel="icon" type="image/ico" href="carite.ico">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 	<script src="jquery.csv.js"></script>
 	<script src="constants.js"></script>
 	<script src="replacescripts.js"></script>
@@ -19,30 +19,34 @@
 	<link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-	<header class="navbar navbar-expand navbar-dark bg-dark flex-column flex-md-row bd-navbar">
-		<a class="navbar-brand mr-0 mr-md-2" id="lang_name">Loading...</a>
-		<div class="navbar nav-scroll">
-			<ul class="navbar-nav bd-navbar-nav flex-row">
-				<li class="nav-item">
-					<a class="nav-link" onclick="switch_tab(0);">Lexicon</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" onclick="switch_tab(1);">Documentation</a>
-				</li>
-			</ul>
-		</div>
-		<div class="navbar-collapse collapse">
-	  		<ul class="navbar-nav d-none d-xl-flex" id="navbar_alphabetlist"></ul>
-			<button class="btn ml-auto btn-outline-secondary my-2 my-sm-0" id="settingsbuttontopright" data-toggle="modal" data-target="#searchsettingsmodal" disabled>
-				<i class="fas fa-cog"></i>
+	<header class="navbar navbar-expand-md navbar-dark bd-navbar" id="main_header_element">
+		<nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Navigation">
+			<span class="navbar-brand mb-0 h1" aria-label="Carite" id="lang_name">Loading...</span>
+			<button class="navbar-toggler collapsed" type="button" data-bs-toggle="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+				<svg class="bi" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"></path>
+				</svg>
 			</button>
-	  	</div>
-	</header>   
-<div class="container-fluid" id="head_container_lexicon">
-	<div class="row flex-xl-nowrap">
-		<div class="col-md-3 col-xl-2 bd-sidebar">
-	    	<form class="bd-search d-flex align-items-center" role="search">
-				<span style="position: relative; display: inline-block; direction: ltr; width: 100%;">
+			<div class="navbar-collapse collapse" id="bdNavbar">
+				<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
+					<li class="nav-item col-6 col-md-auto">
+						<a class="nav-link p-2" onclick="switch_tab(0);" id="navbar_button_lexicon" href="javascript:void(0);">Lexicon</a>
+					</li>
+					<li class="nav-item col-6 col-md-auto">
+						<a class="nav-link p-2" onclick="switch_tab(1);" id="navbar_button_docs" href="javascript:void(0);">Documentation</a>
+					</li>
+				</ul>
+				<hr class="d-md-none text-white-50">
+				<span class="flex-row flex-wrap ms-md-auto"></span>
+				<button class="btn btn-bd-download d-lg-inline-block my-2 my-md-0 ms-md-3" id="settingsbuttontopright" data-bs-toggle="modal" data-bs-target="#searchsettingsmodal" disabled><i class="bi bi-gear-fill"></i></button>
+			</div>
+		</nav>
+	</header>
+	
+	<nav class="bd-subnavbar py-2" aria-label="Secondary navigation" id="secnavsearchbar">
+		<div class="container-xxl d-flex align-items-md-center">
+	    	<form class="bd-search position-relative me-auto">
+				<span style="position: relative; display: inline-block; direction: ltr;">
 	      			<input class="form-control mr-sm-2 ds-input" type="search" placeholder="Search..." aria-label="Search" id="searchinputvalue" oninput="setWordlist();" spellcheck="false" role="combobox" dir="auto" style="position: relative; vertical-align: top;">
 				</span>
 				<button aria-controls="wordlist" aria-expanded="false" aria-label="Toggle word list" class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3" data-target="#wordlist" data-toggle="collapse" type="button">
@@ -52,91 +56,109 @@
 					</svg>
 				</button>
 	    	</form>
-			<div id="wordlist" class="collapse bd-links" data-spy="scroll" data-target=".navbar" data-offset="0" aria-label="Main navigation"></div>
+			<button class="btn bd-sidebar-toggle d-md-none py-0 px-1 ms-3 order-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation">
+			      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-expand" viewBox="0 0 16 16">
+			  <title>Expand</title>
+			  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10z"></path>
+			</svg>
+			      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-collapse" viewBox="0 0 16 16">
+			  <title>Collapse</title>
+			  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"></path>
+			</svg>
+			</button>
+			<ul class="navbar-nav flex-row flex-wrap ms-md-auto d-none d-xl-flex" id="navbar_alphabetlist"></ul>
 		</div>
-	<main class="col-md-9 col-xl-10 py-md-3 bd-content" role="main">
-		<div id="loadingcontent" class="container-fluid">Loading...</div>
-		<div id="actualcontent" data-spy="affix" class="container-fluid">
-			<div class="alert alert-info alert-dismissable fade show" role="alert" id="wotdnotice">
-				<strong>Notice:</strong> This entry was opened automatically as the word of the day.
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<h2 id="entry_name"></h2>
-			<h3 id="entry_category"></h3>
-			<ul class="nav nav-tabs" role="tablist" id="wordTabs">
-				<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#tab_general" id="tab_click_general" role="tab" aria-selected="true" aria-controls="tab_general">General</a></li>
-				<li class="nav-item" id="tab_inflect_li"><a class="nav-link" data-toggle="tab" href="#tab_inflection" id="tab_click_inflection" role="tab" aria-selected="false" aria-controls="tab_inflection">Inflection</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_etymo" id="tab_click_etymo" role="tab" aria-selected="false" aria-controls="tab_etymo">Etymology</a></li>
-				<li class="nav-item" id="tab_sources_li"><a class="nav-link" data-toggle="tab" href="#tab_sources" id="tab_click_sources" role="tab" aria-selected="false" aria-controls="tab_sources">Sources</a></li>
-			</ul>
-			<div class="tab-content">
-				<div id="tab_general" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab_click_general">
-					<div id="altspelling"><h4>Alternative spelling</h4><ul id="altspellingul"></ul></div>
-					<h4>Pronunciation</h4>
-					<ul id="entry_pronunciation"></ul>
-					<p id="dicentry_gender"><b>Gender:</b> <span id="dicentry_gender2"></span></p>
-					<div id="translation_tab">
-						<h4>Translation</h4>
-						<ol id="entry_translations"></ol>
-					</div>
-					<div id="function_tab"></div>
-					<div id="synonyms_tab">
-						<h4>Synonyms</h4>
-						<ol id="synonym_list"></ol>
-					</div>
-					<div id="allomorphs_tab">
-						<h4>Allomorphs</h4>
-						<ul id="allomorphs_list"></ul>
-					</div>
-					<div id="derivations_tab">
-						<h4>Derivations</h4>
-						<ul id="derivations_list"></ul>
-					</div>
-					<p>Last edited: <span id="word_last_edited_span"></span></p>
+	</nav>
+	
+	<div class="container-xxl my-md4 bd-layout" id="head_container_lexicon">
+		<aside class="bd-sidebar">
+			<nav id="wordlist" class="collapse bd-links" aria-label="Main navigation"></nav>
+		</aside>
+		<main class="bd-lexicon order-1">
+			<div id="loadingcontent" class="container-fluid">Loading...</div>
+			<div id="actualcontent" data-spy="affix" class="container-fluid">
+				<div class="alert alert-info alert-dismissable fade show" role="alert" id="wotdnotice">
+					<strong>Notice:</strong> This entry was opened automatically as the word of the day.
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
-				<div id="tab_inflection" class="tab-pane fade" role="tabpanel" aria-labelledby="tab_click_inflection">
-					<h4>Inflection</h4>
-					<div id="inflection_content" class="table-responsive"></div>
-				</div>
-				<div id="tab_etymo" class="tab-pane fade" role="tabpanel" aria-labelledby="tab_click_etymo">
-					<h4>Etymology</h4>
-					<p id="entry_etymologytext"></p>
-					<div id="etymo_relatedwords">
-						<h4>Related terms</h4><ul id="etymo_relatedtermslist"></ul>
+				<h2 id="entry_name"></h2>
+				<h3 id="entry_category"></h3>
+				<ul class="nav nav-tabs" role="tablist" id="wordTabs">
+					<li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab_general" id="tab_click_general" role="tab" aria-selected="true" aria-controls="tab_general">General</a></li>
+					<li class="nav-item" id="tab_inflect_li"><a class="nav-link" data-bs-toggle="tab" href="#tab_inflection" id="tab_click_inflection" role="tab" aria-selected="false" aria-controls="tab_inflection">Inflection</a></li>
+					<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab_etymo" id="tab_click_etymo" role="tab" aria-selected="false" aria-controls="tab_etymo">Etymology</a></li>
+					<li class="nav-item" id="tab_sources_li"><a class="nav-link" data-bs-toggle="tab" href="#tab_sources" id="tab_click_sources" role="tab" aria-selected="false" aria-controls="tab_sources">Sources</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="tab_general" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab_click_general">
+						<div id="altspelling"><h4>Alternative spelling</h4><ul id="altspellingul"></ul></div>
+						<h4>Pronunciation</h4>
+						<ul id="entry_pronunciation"></ul>
+						<p id="dicentry_gender"><b>Gender:</b> <span id="dicentry_gender2"></span></p>
+						<div id="translation_tab">
+							<h4>Translation</h4>
+							<ol id="entry_translations"></ol>
+						</div>
+						<div id="function_tab"></div>
+						<div id="synonyms_tab">
+							<h4>Synonyms</h4>
+							<ol id="synonym_list"></ol>
+						</div>
+						<div id="allomorphs_tab">
+							<h4>Allomorphs</h4>
+							<ul id="allomorphs_list"></ul>
+						</div>
+						<div id="derivations_tab">
+							<h4>Derivations</h4>
+							<ul id="derivations_list"></ul>
+						</div>
+						<p>Last edited: <span id="word_last_edited_span"></span></p>
+					</div>
+					<div id="tab_inflection" class="tab-pane fade" role="tabpanel" aria-labelledby="tab_click_inflection">
+						<h4>Inflection</h4>
+						<div id="inflection_content" class="table-responsive"></div>
+					</div>
+					<div id="tab_etymo" class="tab-pane fade" role="tabpanel" aria-labelledby="tab_click_etymo">
+						<h4>Etymology</h4>
+						<p id="entry_etymologytext"></p>
+						<div id="etymo_relatedwords">
+							<h4>Related terms</h4><ul id="etymo_relatedtermslist"></ul>
+						</div>
+					</div>
+					<div id="tab_sources" class="tab-pane fade" role="tabpanel" aria-labelledby="tab_click_sources">
+						<div class="alert alert-warning" role="alert" id="libertyalert">
+							<strong>Notice:</strong> This entry was added as part of artistic liberty and is as such irrelevant to any actual scientific research.
+						</div>
+						<h4>Sources</h4>
+						<p id="entry_sourcetext"></p>
 					</div>
 				</div>
-				<div id="tab_sources" class="tab-pane fade" role="tabpanel" aria-labelledby="tab_click_sources">
-					<div class="alert alert-warning" role="alert" id="libertyalert">
-						<strong>Notice:</strong> This entry was added as part of artistic liberty and is as such irrelevant to any actual scientific research.
-					</div>
-					<h4>Sources</h4>
-					<p id="entry_sourcetext"></p>
-				</div>
-			</div>
 		</main>
 	</div>
-</div>
-<div class="container-fluid" id="head_container_docu" style="display: none;">
-	<div class="row flex-xl-nowrap">
-		<div class="col-md-3 col-xl-2 DOC_bd-sidebar">
-			<nav class="collapse DOC_bd-links" id="DOC_bd-docs-nav" aria-label="Documentation navigation">Loading...</nav>
-		</div>
-		<nav class="d-none d-xl-block col-xl-2 DOC_bd-toc" aria-label="Secondary documentation navigation">
-			<ul class="DOC_section-nav" id="doc_quick_navigation">
+
+	<div class="container-xxl my-md4 bd-layout" id="head_container_docu" style="display: none;">
+		<aside class="bd-sidebar">
+			<nav class="collapse bd-links" id="DOC_bd-docs-nav" aria-label="Documentation navigation">Loading...</nav>
+		</aside>
+		<main class="bd-main order-1">
+			<div class="bd-toc mt-4 mb-5 my-md-0 ps-xl-3 mb-lg-5 text-muted">
+				<strong class="d-block h6 my-2 pb-2 border-bottom">On this page</strong>
+				<nav>
+					<ul id="doc_quick_navigation">Loading...</ul>
+				</nav>
+			</div>
+			<div class="bd-content ps-lg-4" id="doc_main_content">
 				Loading...
-			</ul>
-		</nav>
-		<main class="col-md-9 col-xl-8 py-md-3 pl-md-5 DOC_bd-content" id="doc_main_content">
-			Loading...
+			</div>
 		</main>
 	</div>
-</div>
+
 <div class="modal fade" id="searchsettingsmodal" role="dialog">
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Settings</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="alert alert-warning" role="alert" id="localstoragealert">
@@ -182,21 +204,23 @@
 					<option value="0">*Kʰ</option>
 					<option value="1">*Kh</option>
 				</select></p>
-				<small id="pie_settings_sample"></small>
-				<blockquote class="blockquote">
-					<footer class="blockquote-footer" id="pie_settings_sample_footer"></footer>
-				</blockquote>
+				<figure>
+				  <blockquote class="blockquote">
+				    <p id="pie_settings_sample"></p>
+				  </blockquote>
+				  <figcaption class="blockquote-footer" id="pie_settings_sample_footer"></figcaption>
+				</figure>
 				
 				<!-- <h6>Early Proto-Carite</h6>
 				<p><input type="checkbox" id="showArchaicBox" onchange="updateArchaicBox();"> Use archaic Greek glyphs</p>-->
 				<h4>Other</h4>
 				<p>Last framework update: <span id="lastdocupdate"></span></p>
 				<p>Last lexicon update: <span id="lastlexupdate"></span></p>
-				<p><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updatemodal">View changelog</button></p>
+				<p><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updatemodal">View changelog</button></p>
 				<table class="table">
 					<thead>
 						<tr>
-							<th><a href="https://www.discord.com/users/111802386275667968" target="_blank"><i class="fab fa-discord" alt="Discord" title="Discord"></i> Jasper#5206</a></th>
+							<th><a href="https://www.discord.com/users/111802386275667968" target="_blank"><i class="bi bi-discord" alt="Discord" title="Discord"></i> Jasper#5206</a></th>
 							<th><a href="https://www.reddit.com/user/Iasper/" target="_blank"><i class="fab fa-reddit" alt="Reddit" title="Reddit"></i> /u/Iasper</a></th>
 						</tr>
 					</thead>
@@ -205,12 +229,13 @@
 		</div>
 	</div>
 </div>
+
 <div class="modal fade" id="updatemodal" role="dialog">
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Changelog</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body" id="updatemodalbody"></div>
 			<div class="modal-footer">
@@ -503,18 +528,18 @@
 				if (j.length>1)
 				{
 					//Dropdown menu
-					tempvar+="<li class='nav-item dropdown'><a class='nav-link dropdown-toggle' role='button' aria-haspopup='true' aria-expanded='false' id='navbar_dropdown_"+i+"' data-toggle='dropdown' href='#'>"+j[0]+"</a><div class='dropdown-menu' aria-labelledby='navbar_dropdown_"+i+"'>";
+					tempvar+="<li class='nav-item dropdown'><a class='nav-link dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false' id='navbar_dropdown_"+i+"'>"+j[0]+"</a><ul class='dropdown-menu' aria-labelledby='navbar_dropdown_"+i+"'>";
 					for(var k=0;k<j.length;k++)
 					{
-						tempvar+="<a class='dropdown-item' href='javascript:void(0);' onclick='scrollToValue("+'"scr'+alphvalue+'"'+")'>"+j[k]+"</a>";
+						tempvar+="<li><a class='dropdown-item' href='javascript:void(0);' onclick='scrollToValue("+'"scr'+alphvalue+'"'+")'>"+j[k]+"</a></li>";
 						active_alphabet.push(j[k]);
 						alphvalue++;
 					}
-					tempvar+="</div></li>";
+					tempvar+="</ul></li>";
 				}
 				else
 				{
-					tempvar+="<li class='nav-item'><a class='nav-link' href='javascript:void(0);' onclick='scrollToValue("+'"scr'+alphvalue+'"'+")'>"+j[0]+"</a></li>";
+					tempvar+="<li class='nav-item col-6 col-md-auto'><a class='nav-link p-2' href='javascript:void(0);' onclick='scrollToValue("+'"scr'+alphvalue+'"'+")'>"+j[0]+"</a></li>";
 					active_alphabet.push(j[0]);
 					alphvalue++;
 				}
@@ -601,9 +626,9 @@
 					if (wordlist[i][4]=="") ccq="Unknown";
 					if (timevalue!=ccq)
 					{
-						if (timevalue!="") temp+="</div>";
+						//if (timevalue!="") temp+="</div>";
 						timevalue=ccq;
-						temp+="<div class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+timevalue+"</span></h5>";
+						temp+="<h5 class='alphabetstripe'><span>"+timevalue+"</span></h5>";
 					}
 				}
 				if (orderalph)
@@ -614,8 +639,8 @@
 					while(alphvalue<active_alphabet.indexOf(j))
 					{
 						alphvalue++;
-						if (alphvalue>0) temp+="</div>";
-						temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+active_alphabet[alphvalue]+"</span></h5>";
+						//if (alphvalue>0) temp+="</div>";
+						temp+="<h5 class='alphabetstripe' id='scr"+alphvalue+"'><span>"+active_alphabet[alphvalue]+"</span></h5>";
 					}
 				}
 				var success=false;
@@ -647,13 +672,15 @@
 				}
 				if (success==true)
 				{
-					temp+="<div class='wordentry' onclick='openWord("+i+",false);collapseIfMobile();'><h5>"+display(wordlist[i])+" <small>";
+					temp+="<li><a href='javascript:void(0);' class='d-inline-flex align-items-center rounded lexiconentry' onclick='openWord("+i+",false);collapseIfMobile();'><span class='wordlistentry'>"+display(wordlist[i]);
+					temp+="<span class='wordlistcategory'>";
 					j=wordlist[i][3];
 					for(var k=0;k<declensionlist.length;k++)
 					{
 						if (declensionlist[k][0]==wordlist[i][3]) j=dbase[declensionlist[k][1]][2];
 					}
-					temp+=(j.split("|"))[0]+"</small></h5></div>";
+					temp+=(j.split("|"))[0]+"</span>";
+					temp+="</span></a></li>";
 					foundresult++;
 				}
 			}
@@ -663,16 +690,16 @@
 				{
 					alphvalue++;
 					if (alphvalue>0) temp+="</div>";
-					temp+="<div id='scr"+alphvalue+"' class='container-fluid alphsection'><h5 class='alphabetstripe'><span>"+active_alphabet[alphvalue]+"</span></h5>";
+					temp+="<div id='scr"+alphvalue+"'><h5 class='alphabetstripe'><span>"+active_alphabet[alphvalue]+"</span></h5>";
 				}
 			}
 			temp+="</div>";
 			//Attach amount of found entries
-			temp=" found.</small></div>"+temp;
+			temp=" found.</small></span><ul class='list-unstyled mb-0 py-3 pt-md-1'>"+temp;
 			if (foundresult==1) temp="entry"+temp;
 			else temp="entries"+temp;
-			temp="<div id='entryamountbox' class='container-fluid'><small>"+numberWithCommas(foundresult)+" "+temp;
-			document.getElementById("wordlist").innerHTML=temp;
+			temp="<span id='entryamountbox' class='container-fluid'><small>"+numberWithCommas(foundresult)+" "+temp;
+			document.getElementById("wordlist").innerHTML=temp+"</ul>";
 		}
 	function display(term)
 		{
@@ -946,7 +973,10 @@
 	function openWord(wid,first)
 		{
 			if (!first) $('#wotdnotice').alert("close");
-			$('#tab_click_general').trigger("click");
+			
+			var ttab=new bootstrap.Tab(document.querySelector('#tab_click_general'));
+			ttab.show();
+			
 			_last_opened=wid;
 			document.getElementById("entry_name").innerHTML=display(wordlist[wid]);
 			var j="";
@@ -1648,22 +1678,30 @@
 		{
 			document.getElementById("head_container_lexicon").style.display="none";
 			document.getElementById("head_container_docu").style.display="none";
+			document.getElementById("secnavsearchbar").style.display="none";
+			document.getElementById("navbar_button_lexicon").classList.remove("active");
+			document.getElementById("navbar_button_docs").classList.remove("active");
+			document.getElementById("main_header_element").classList.remove("sticky-top");
 			if (_navbarcontent=="") _navbarcontent=document.getElementById("navbar_alphabetlist").innerHTML;
 			if (tabid>0) document.getElementById("lang_name").innerHTML="CARITE";
 			switch(tabid)
 			{
 				case 0:
-					document.getElementById("head_container_lexicon").style.display="inherit";
+					document.getElementById("head_container_lexicon").style="";
 					document.getElementById("lang_name").innerHTML=stagelist[_currentstage][0].toUpperCase();
 					document.getElementById("navbar_alphabetlist").innerHTML=_navbarcontent;
+					document.getElementById("secnavsearchbar").style.display="";
 					_navbarcontent="";
 					_viewinglexicon=true;
+					document.getElementById("navbar_button_lexicon").classList.add("active");
 					break;
 				case 1:
-					document.getElementById("head_container_docu").style.display="inherit";
+					document.getElementById("head_container_docu").style="";
 					document.getElementById("navbar_alphabetlist").innerHTML="";
 					prepDoc();
 					_viewinglexicon=false;
+					document.getElementById("navbar_button_docs").classList.add("active");
+					document.getElementById("main_header_element").classList.add("sticky-top");
 					break;
 				}
 		}
@@ -1762,7 +1800,7 @@
 							temp+="<a target='_blank' href='"+sources[i][2][k][1]+"'>";
 							switch(sources[i][2][k][0])
 							{
-								case "google": temp+="<i alt='Google' title='Google' class='fab fa-google'></i>";break;
+								case "google": temp+="<i alt='Google' title='Google' class='bi bi-google'></i>";break;
 								case "academia": temp+="<img alt='Academia' title='Academia' class='img_src_inline' src='logos/academia.svg'>";break;
 								case "archive": temp+="<img alt='Internet Archive' title='Internet Archive' class='img_src_inline' src='logos/archive.svg'>";break;
 								case "jstor": temp+="<img alt='JSTOR' title='JSTOR' class='img_src_inline' src='logos/jstor.png'>";break;

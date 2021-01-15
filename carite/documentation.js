@@ -11,6 +11,7 @@ function prepDoc()
 			temp+="<li><a onclick='loadDocContent("+i+")'>"+stagelist[i][0]+"</a></li>";
 		}
 		document.getElementById("DOC_sidenav_langlist").innerHTML=temp;*/
+		updateLeftSidebar();
 		loadDocContent("introduction");
 	}
 }
@@ -86,21 +87,22 @@ function loadDocContent(contentid)
 		for(var i=0;i<listoftitles.length;i++)
 		{
 			listoftitles[i].id=getSubtitleName(listoftitles[i].innerHTML);
-			listoftitles[i].innerHTML=listoftitles[i].innerHTML+" <i class='fas fa-angle-up clickety' onclick='scrollToValue("+'"backtotop_"'+")'></i>";
+			listoftitles[i].innerHTML=listoftitles[i].innerHTML+" <i class='fas fa-angle-up backtotopper' onclick='scrollToValue("+'"backtotop_"'+")'></i>";
 		}
 		listoftitles=document.getElementById("doc_main_content").getElementsByTagName("h3");
 		for(var i=0;i<listoftitles.length;i++)
 		{
 			listoftitles[i].id=getSubtitleName(listoftitles[i].innerHTML);
-			listoftitles[i].innerHTML=listoftitles[i].innerHTML+" <i class='fas fa-angle-up clickety' onclick='scrollToValue("+'"backtotop_"'+")'></i>";
+			listoftitles[i].innerHTML=listoftitles[i].innerHTML+" <i class='fas fa-angle-up backtotopper' onclick='scrollToValue("+'"backtotop_"'+")'></i>";
 		}
 		
 		$('[data-toggle="tooltip"]').tooltip();
 	});
 	//Update sidebar to the left
-	updateLeftSidebar();
 	document.body.scrollTop=0;//Safari
 	document.documentElement.scrollTop=0;//Other browsers
+	var k=contentid.replace(/\//g,"");
+	$("#docleftsidebars li").each(function() { $(this).removeClass("active"); if ($(this).attr("id")=="ds_"+k||$(this).attr("id")=="dl_"+k) $(this).addClass("active"); });
 }
 
 function updateLeftSidebar()
@@ -134,35 +136,27 @@ function updateLeftSidebar()
 		],
 		["Bibliography","bibliography"]
 	];
-	var temp="";
+	var temp="<ul class='list-unstyled mb-0 py-3 pt-md-1' id='docleftsidebars'>";
 	for(var i=0;i<sb.length;i++)
 	{
 		var tt=sb[i][0];
 		for(var j=0;j<stagelist.length;j++) tt=tt.replace(j,stagelist[j][0]);
-		temp+="<div class='DOC_bd-toc-item'";
-		if (sb[i].length==2) temp+=" id='DOC_left_sidenav_unexpandable_"+sb[i][1]+"'";
-		temp+="><a class='DOC_bd-toc-link' href='javascript:void(0);' onclick='loadDocContent(\"";
-		if (sb[i].length>2) temp+=sb[i][1][1];
-		else temp+=sb[i][1];
-		temp+="\");'>"+tt+"</a>";
-		if (sb[i].length>2)
+		if (sb[i].length>2)//Has children
 		{
-			temp+="<ul class='nav DOC_bd-sidenav'>";
+			temp+="<li class='mb-1'><button class='btn d-inline-flex align-items-center rounded collapsed' data-bs-toggle='collapse' data-bs-target='#t"+i+"collapse' aria-expanded='false'>"+tt+"</button>";
+			temp+="<div class='collapse' id='t"+i+"collapse'><ul class='list-unstyled fw-normal pb-1 small'>";
 			for(var j=1;j<sb[i].length;j++)
 			{
-				temp+="<li";
-				if (_last_loaded_file==sb[i][j][1]) temp+=" class='active DOC_bd-sidenav-active'";
-				temp+="><a href='javascript:void(0);' onclick='loadDocContent(\""+sb[i][j][1]+"\");'>"+sb[i][j][0]+"</a></li>";
+				temp+="<li id='dl_"+sb[i][j][1].replace(/\//g,"")+"'><a href='javascript:void(0);' class='d-inline-flex align-items-center rounded' onclick='loadDocContent(\""+sb[i][j][1]+"\");'>"+sb[i][j][0]+"</a></li>";
 			}
-			temp+="</ul>";
+			temp+="</ul></div></li>";
 		}
-		temp+="</div>";
+		else //Standalone
+		{
+			temp+="<li id='ds_"+sb[i][1].replace(/\//g,"")+"'><a href='javascript:void(0);' class='d-inline-flex align-items-center rounded' onclick='loadDocContent(\""+sb[i][1]+"\");'>"+tt+"</a></li>";
+		}
 	}
-	document.getElementById("DOC_bd-docs-nav").innerHTML=temp;
-	//
-	var q=document.getElementsByClassName("DOC_bd-sidenav-active");
-	if (q.length>0) q[0].parentNode.parentNode.classList.add("active");
-	else document.getElementById("DOC_left_sidenav_unexpandable_"+_last_loaded_file).classList.add("active");
+	document.getElementById("DOC_bd-docs-nav").innerHTML=temp+"</ul>";
 }
 
 function getExample(changecolumn,sett)
