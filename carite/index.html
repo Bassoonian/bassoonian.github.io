@@ -2067,6 +2067,7 @@
 			klaka=klaka.replace(kloko,"");
 			stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
 			var temp='<table class="table w-auto table-sm"><thead>';
+			if (!putparticiple) temp="<h5>Conjugation</h5>"+temp;
 			temp+='<tr><th colspan="8" scope="col">'+dbase[kluku-1][stagelist[stage][1]]+"</th></tr></thead><tbody>";
 			if (isdoc>-1) temp+="<tr><td style='text-align:center;' colspan='8' scope='col'>(ex. <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+dbaserow+","+stage+");'>"+apply_orthography((dbase[dbaserow][maincolumns[stage]].split("~"))[0],stage)+"</a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+pattern+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
 			for(var i=0;i<_tamlist[stage].length;i++)
@@ -2118,8 +2119,8 @@
 			if (!putparticiple)
 			{
 				//Beep boop!
-				temp+="<p>Present Participle</p>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+4,stage)),"ADJ_I_UNSTRESSED_DEF",stage,false,-1,0);
-				temp+="<p>Past Participle</p>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+5,stage)),"ADJ_THEM_STRESSED_DEF",stage,false,-1,0);
+				temp+="<h5>Present Participle</h5>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+4,stage)),"ADJ_I_UNSTRESSED_DEF",stage,false,-1,0);
+				temp+="<h5>Past Participle</h5>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+5,stage)),"ADJ_THEM_STRESSED_DEF",stage,false,-1,0);
 			}
 			return(temp);
 		}

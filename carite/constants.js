@@ -362,6 +362,14 @@ _atonics=[
 	false,
 	false,
 	false
+];
+_adjectivalsplit=[
+	false,
+	true,
+	true,
+	true,
+	true,
+	true
 ]
 
 _voicelist=[

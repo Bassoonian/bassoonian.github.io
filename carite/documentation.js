@@ -129,7 +129,8 @@ function updateLeftSidebar()
 			["Phonology","1/phono"],
 			["Orthography","1/ortho"],
 			["Sound Changes","1/sc"],
-			["Nominal Morphology","1/nom"]
+			["Nominal Morphology","1/nom"],
+			["External Interactions","1/external"]
 		],
 		["Bibliography","bibliography"]
 	];
