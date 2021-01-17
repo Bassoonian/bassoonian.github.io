@@ -204,9 +204,10 @@
 				  </blockquote>
 				  <figcaption class="blockquote-footer" id="pie_settings_sample_footer"></figcaption>
 				</figure>
-				
-				<!-- <h6>Early Proto-Carite</h6>
-				<p><input type="checkbox" id="showArchaicBox" onchange="updateArchaicBox();"> Use archaic Greek glyphs</p>-->
+				<h6>Early Proto-Carite</h6>
+				<!-- <p><input type="checkbox" id="showArchaicBox" onchange="updateArchaicBox();"> Use archaic Greek glyphs</p> -->
+				<p><input type="checkbox" id="alt_0_wr" onchange="updateAlternativeReconstructions(true);"> [β] for /w/ in #_L environments</p>
+				<p><input type="checkbox" id="alt_0_z" onchange="updateAlternativeReconstructions(true);"> [ʐ] for /z/ in O_ environments</p>
 				<h4>Other</h4>
 				<p>Last framework update: <span id="lastdocupdate"></span></p>
 				<p>Last lexicon update: <span id="lastlexupdate"></span></p>
@@ -270,6 +271,10 @@
 		glides: false,
 		palatals: false,
 		aspiration: false
+	}
+	__alt={
+		_0_wr: false,
+		_0_z: false
 	}
 	
 	_inDebugMode=false;
@@ -730,13 +735,13 @@
 			var wid=now % (wordlist.length-1);
 			openWord(wid,true);
 		}
-	function getPronunciation(word)
+	function getPronunciation(word,stage)
 		{
 			word=word.toLowerCase();
 			word=replaceAll("^","",word);
-			word=pronFixOrtho(word,activestage);
+			word=pronFixOrtho(word,stage);
 			//applyalways
-			if (activestage<4)
+			if (stage<4)
 			{
 				word=replaceAll("ā","aː",word);
 				word=replaceAll("ē","eː",word);
@@ -749,8 +754,8 @@
 				word=replaceAll("ø̄","øː",word);
 				word=replaceAll("̄","ː",word);
 			}
-			if (activestage==1||activestage==2) word=replaceAll("ǣ","æː",word);
-			if (activestage>0&&activestage<3)
+			if (stage==1||stage==2) word=replaceAll("ǣ","æː",word);
+			if (stage>0&&stage<3)
 			{
 				word=replaceAll("ą̄","ãː",word);
 				word=replaceAll("ę̄","ẽː",word);
@@ -769,23 +774,23 @@
 				word=replaceAll("ø̨","ø̃",word);
 				word=replaceAll("y̨","ỹ",word);
 			}
-			if (activestage==2) word=replaceAll("ř","ʁ",word);
+			if (stage==2) word=replaceAll("ř","ʁ",word);
 			//split into syllables
-			for(var i=0;i<_vowels[activestage].length;i++)
+			for(var i=0;i<_vowels[stage].length;i++)
 			{
-				word=replaceAll(_vowels[activestage][i],"§"+_vowels[activestage][i]+"§",word);
+				word=replaceAll(_vowels[stage][i],"§"+_vowels[stage][i]+"§",word);
 			}
 			//Fix semivowels
-			for(var i=0;i<_vowels[activestage].length;i++)
+			for(var i=0;i<_vowels[stage].length;i++)
 			{
-				word=replaceAll("§§"+_vowels[activestage][i]+"§̯",_vowels[activestage][i]+"̯§",word);
+				word=replaceAll("§§"+_vowels[stage][i]+"§̯",_vowels[stage][i]+"̯§",word);
 			}
 			word=replaceAll("§§ː","ː",word);
 			var q=word.split("§");
 			word=".";
 			for(var i=0;i<q.length;i++)
 			{
-				if (_vowels[activestage].includes(q[i].charAt(0))) //is a syllabic component
+				if (_vowels[stage].includes(q[i].charAt(0))) //is a syllabic component
 				{
 					word+=q[i];
 				}
@@ -802,9 +807,9 @@
 							k="'"+(k.split("'"))[1];
 						}
 						var p="";
-						for(var tt=0;tt<_illegalonsets[activestage].length;tt++)
+						for(var tt=0;tt<_illegalonsets[stage].length;tt++)
 						{
-							if (k.startsWith(_illegalonsets[activestage][tt]))
+							if (k.startsWith(_illegalonsets[stage][tt]))
 							{
 								t+=k.charAt(0);
 								k=k.slice(1);
@@ -816,12 +821,12 @@
 				}
 			}
 			//apply stress
-			if (activestage<2&&!word.includes("-"))
+			if (stage<2&&!word.includes("-"))
 			{
 				if (word.includes("'")) word=word.replace("'","ˈ"); //If stress is manually defined, override
 				else word=word.replace(".",".ˈ"); //Primary stress
 			}
-			if (activestage==2)
+			if (stage==2)
 			{
 				//Penultimate stress
 				var q=word.split(".");
@@ -829,7 +834,7 @@
 				else q[1]="ˈ"+q[1];
 				word=q.join(".");
 			}
-			if (activestage==3)
+			if (stage==3)
 			{
 				//Penultimate stress
 				var q=word.split(".");
@@ -860,7 +865,7 @@
 			
 			//applyalways + allophones
 			word=pronAlways(word);
-			if (activestage==0&&word.includes("ŋ")) word="["+word+"]";
+			if (stage==0&&word.includes("ŋ")) word="["+word+"]";
 			else word="/"+word+"/, "+pronAllophones(word);
 			word=replaceAll("g","ɡ",word);
 			word=word.replace(/([a-z])(\1)/g,"$1ː");
@@ -962,6 +967,12 @@
 			if (activestage<3) w=w.replace(/(n)(\.?ˈ?[wkg])/g,"ŋ$2");
 			w=w.replace(/(m)(\.?ˈ?[fv])/g,"ɱ$2");
 			
+			if (activestage==0)
+			{
+				if (__alt._0_wr) w=w.replace(/\bw([rl])/g,"β$1");
+				if (__alt._0_z) w=w.replace(/([bdgv])(z)/g,"$1ʐ");
+			}
+			
 			if (activestage==1)
 			{
 				//Nasal vowel length
@@ -1055,7 +1066,7 @@
 			
 			//Build pronunciation
 			temp=dbase[wordlist[wid][2]][maincolumns[activestage]].toLowerCase();
-			temp=getPronunciation((temp.split("~"))[0]);
+			temp=getPronunciation((temp.split("~"))[0],activestage);
 			temp="<li>"+temp+"</li>";
 			document.getElementById("entry_pronunciation").innerHTML=temp;
 			
@@ -2210,6 +2221,17 @@
 			
 			$('#searchsettingsmodal').modal('handleUpdate');
 		}
+	function updateAlternativeReconstructions(update)
+		{
+			//wr
+			__alt._0_wr=document.getElementById("alt_0_wr").checked;
+			localStorage.alt_0_wr=__alt._0_wr;
+			//z
+			__alt._0_z=document.getElementById("alt_0_z").checked;
+			localStorage.alt_0_z=__alt._0_z;
+			
+			if (update) openWord(_last_opened,false);
+		}
 	function syncSettings()
 		{
 			if (typeof(Storage) !== "undefined")
@@ -2317,18 +2339,38 @@
 				if (localStorage.setting_pie_aspiration!==undefined) document.getElementById("aspirateselect").selectedIndex=localStorage.setting_pie_aspiration;
 				else localStorage.setting_pie_aspiraton=document.getElementById("aspirateselect").selectedIndex;
 				updatePieFormat();
+				//Archaic formatting
+				/*if (localStorage.showArchaic!==undefined)
+				{
+					showarchaic=localStorage.showArchaic;
+					if (localStorage.showArchaic=="true") document.getElementById("showArchaicBox").checked=true;
+				}
+				else
+				{
+					localStorage.showArchaic=false;
+				}
+				updateArchaicBox();*/
+				//Alternative reconstructions
+				if (localStorage.alt_0_wr!==undefined)
+				{
+					__alt._0_wr=localStorage.alt_0_wr;
+					if (localStorage.alt_0_wr=="true") document.getElementById("alt_0_wr").checked=true;
+				}
+				else
+				{
+					localStorage.alt_0_wr=false;
+				}
+				if (localStorage.alt_0_z!==undefined)
+				{
+					__alt._0_z=localStorage.alt_0_z;
+					if (localStorage.alt_0_z=="true") document.getElementById("alt_0_z").checked=true;
+				}
+				else
+				{
+					localStorage.alt_0_z=false;
+				}
+				updateAlternativeReconstructions(false);
 			}
-			//Archaic formatting
-			/*if (localStorage.showArchaic!==undefined)
-			{
-				showarchaic=localStorage.showArchaic;
-				if (localStorage.showArchaic=="true") document.getElementById("showArchaicBox").checked=true;
-			}
-			else
-			{
-				localStorage.showArchaic=false;
-			}
-			updateArchaicBox();*/
 			//Put changelog in place too
 			var t="";
 			for(var i=0;i<_changelog.length;i++)
@@ -2406,12 +2448,12 @@
 			{
 				//Get pronunciation
 				temp=dbase[i][maincolumns[stage]].toLowerCase();
-				temp=getPronunciation((temp.split("~"))[0]);
+				temp=getPronunciation((temp.split("~"))[0],stage);
 				//Get phonemic part
 				temp=(temp.split(","))[0];
 				temp=temp.replace(/\//g,"");
 				temp=temp.replace("ˈ","");
-				temp=temp.replace("-","");
+				if (temp.slice(-1)=="-") temp=temp.slice(0,-1);
 				k=temp.split(".");
 				for(var j=0;j<k.length;j++)
 				{
@@ -2471,26 +2513,65 @@
 					{
 						temp+="<h4>"+engnum[i]+"consonantal</h4><p>";
 						//Pack into rule
-						var gg=[];
-						for(var j=0;j<=i;j++) gg.push([]);
-						for(var j=0;j<onsetsub[i].length;j++)
+						if (i>0)
 						{
-							for(var k=0;k<=i;k++) if (!gg[k].includes(onsetsub[i][j].charAt(k))) gg[k].push(onsetsub[i][j].charAt(k));
-						}
-						for(var j=0;j<gg.length;j++)
-						{
-							if (gg[j].length>1) temp+="{";
-							for(var k=0;k<gg[j].length;k++)
+							var gg=[];
+							for(var j=0;j<=i;j++) gg.push([]);
+							for(var j=0;j<onsetsub[i].length;j++)
 							{
-								if (k>0) temp+=",";
-								temp+=gg[j][k];
+								for(var k=0;k<=i;k++) if (!gg[k].includes(onsetsub[i][j].charAt(k))) gg[k].push(onsetsub[i][j].charAt(k));
 							}
-							if (gg[j].length>1) temp+="}";
+							for(var j=0;j<gg.length;j++)
+							{
+								if (gg[j].length>1) temp+="{";
+								for(var k=0;k<gg[j].length;k++)
+								{
+									if (k>0) temp+=",";
+									temp+=gg[j][k];
+								}
+								if (gg[j].length>1) temp+="}";
+							}
+							//Give list
+							temp+="The following can be found:<ul>"
+							for(var j=0;j<onsetsub[i].length;j++) temp+="<li>"+onsetsub[i][j]+"</li>";
+							temp+="</ul>";
 						}
-						//Give list
-						temp+="The following can be found:<ul>"
-						for(var j=0;j<onsetsub[i].length;j++) temp+="<li>"+onsetsub[i][j]+"</li>";
-						temp+="</ul></p>";
+						else
+						{
+							var gg=_consonants[stage].split("");
+							var hay=[];
+							var han=[];
+							for(var j=0;j<gg.length;j++)
+							{
+								if (onsetsub[i].includes(gg[j])) hay.push(gg[j]);
+								else han.push(gg[j]);
+							}
+							if (hay.length>han.length)
+							{
+								temp+="All consonants";
+								if (han.length>0) temp+=" except /";
+								for(var j=0;j<han.length;j++)
+								{
+									if (j>0) temp+=" ";
+									temp+=han[j];
+								}
+								if (han.length>0) temp+="/"
+							}
+							else
+							{
+								temp+="Only /";
+								for(var j=0;j<hay.length;j++)
+								{
+									if (j>0) temp+=" ";
+									temp+=hay[j];
+								}
+								temp+="/";
+							}
+							temp+=" may function as a monoconsonantal ";
+							if (h==0) temp+="onset"; else temp+="coda";
+							temp+=".";
+						}
+						temp+="</p>";
 					}
 				}
 			}
