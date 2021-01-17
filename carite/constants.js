@@ -436,7 +436,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("January 17, 2021"),"A new phonotactics chapter is generated dynamically.","Enabled a toggle for alternative phonetic reconstructions.","Removed Early-Proto-Carite overlong vowels.","Upgraded to Bootstrap 5."],
+	[new Date("January 17, 2021"),"A new phonotactics chapter is generated dynamically. Still WIP.","Enabled a toggle for alternative phonetic reconstructions.","Removed Early-Proto-Carite overlong vowels.","Upgraded to Bootstrap 5."],
 	[new Date("January 7, 2021"),"More Late Proto-Carite prose and thematic inflections."],
 	[new Date("January 4, 2021"),"Preliminary Late Proto-Carite release. Everything remains tentative, inflection tables are empty.","Bug fixes."],
 	[new Date("January 1, 2021"),"First public release!"],
