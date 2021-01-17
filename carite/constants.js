@@ -412,8 +412,8 @@ _vowels=[
 	["a","e","i","o","u","%"]
 ];
 _consonants=[
-	"mnpbtdkɡfvszhrlj",
-	"",
+	"mnpbtdkɡfvszhrljw",
+	"mnpbtdkgfvszxhrljw",
 	"",
 	"",
 	""
@@ -421,7 +421,7 @@ _consonants=[
 
 _illegalonsets=[
 	["mb","mv","mf","mn","nk","ng","nt","nd","nr","ns","nz","ps","pt","pm","bd","bm","ts","tl","tm","dl","dn","ks","km","kt","gd","gm","zd","zm","zv","zn","zg","ft","fn","vn","vd","wn","wm","jn","rk","rp","rw","rt","rm","rg","rj","rs","rf","rb","rz","rv","rd","rn","ls","lp","lf","lk","ln","ld","lm","lg","lw","lv","lj","lb","lt","gzd","nw","nj","zg","stw"],
-	[],
+	["mn","mp","mb","mr","ml","nt","nd","nk","ng","ns","nw","nj","nr","nl","pm","pn","pt","bd","tm","tn","ts","dn","km","kn","ks","gm","gn","gd","ft","vd","hs","rm","rn","rp","rb","rt","rd","rk","rg","rs","rf","rv","rw","rj","rl","lm","ln","lp","lb","lt","ld","lk","lg","ls","lf","lv","lw","lj","lr","ht"],
 	[],
 	[],
 	[]
@@ -436,7 +436,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("January 15, 2021"),"Upgrade to Bootstrap 5."],
+	[new Date("January 17, 2021"),"A new phonotactics chapter is generated dynamically.","Enabled a toggle for alternative phonetic reconstructions.","Removed Early-Proto-Carite overlong vowels.","Upgraded to Bootstrap 5."],
 	[new Date("January 7, 2021"),"More Late Proto-Carite prose and thematic inflections."],
 	[new Date("January 4, 2021"),"Preliminary Late Proto-Carite release. Everything remains tentative, inflection tables are empty.","Bug fixes."],
 	[new Date("January 1, 2021"),"First public release!"],

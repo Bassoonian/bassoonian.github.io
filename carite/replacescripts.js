@@ -161,16 +161,12 @@ function apply_orthography(word,stage,subgroup)
 			
 			w=replaceAll("e","ε",w);
 			w=replaceAll("E","Ε",w);
-			w=replaceAll("ē","ε̄",w);
-			w=replaceAll("Ē","Ε̄",w);
-			w=replaceAll("ê","η",w);
-			w=replaceAll("Ê","Η",w);
+			w=replaceAll("ē","η",w);
+			w=replaceAll("Ē","Η",w);
 			w=replaceAll("o","ο",w);
 			w=replaceAll("O","Ο",w);
-			w=replaceAll("ō","ο̄",w);
-			w=replaceAll("Ō","Ο̄",w);
-			w=replaceAll("ô","ω",w);
-			w=replaceAll("Ô","Ω",w);
+			w=replaceAll("ō","ω",w);
+			w=replaceAll("Ō","Ω",w);
 			
 			w=replaceAll("ŋ","γ",w);
 			
