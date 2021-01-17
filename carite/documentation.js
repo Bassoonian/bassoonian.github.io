@@ -275,6 +275,8 @@ function docParseData(dat)
 			dat=dat.replace("||TABLE-"+declensionlist[i][0]+"||",temp);
 		}
 	}
+	//Phonotactics
+	if (dat.includes("||PHONOTACTICS||")) dat=dat.replace("||PHONOTACTICS||",getPhonotactics(qqp));
 	return(parseEtymoText(dat,getBoop(_last_loaded_file)));
 }
 

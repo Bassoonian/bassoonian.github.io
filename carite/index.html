@@ -22,12 +22,12 @@
 	<header class="navbar navbar-expand-md navbar-dark bd-navbar" id="main_header_element">
 		<nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Navigation">
 			<span class="navbar-brand mb-0 h1" aria-label="Carite" id="lang_name">Loading...</span>
-			<button class="navbar-toggler collapsed" type="button" data-bs-toggle="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-bs-target="#bdNavbar" data-bs-toggle="collapse" aria-controls="bdNavbar" aria-expanded="false" aria-label="Toggle navigation">
 				<svg class="bi" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
 					<path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"></path>
 				</svg>
 			</button>
-			<div class="navbar-collapse collapse" id="bdNavbar">
+			<div class="navbar-collapse collapse" id="bdNavbar" style>
 				<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0" id="globalnavbarstuffies">
 					<li class="nav-item col-6 col-md-auto">
 						<a class="nav-link p-2" onclick="switch_tab(0);" id="navbar_button_lexicon" href="javascript:void(0);">Lexicon</a>
@@ -49,14 +49,8 @@
 				<span style="position: relative; display: inline-block; direction: ltr;">
 	      			<input class="form-control mr-sm-2 ds-input" type="search" placeholder="Search..." aria-label="Search" id="searchinputvalue" oninput="setWordlist();" spellcheck="false" role="combobox" dir="auto" style="position: relative; vertical-align: top;">
 				</span>
-				<button aria-controls="wordlist" aria-expanded="false" aria-label="Toggle word list" class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3" data-target="#wordlist" data-toggle="collapse" type="button">
-					<svg focusable="false" height="30" role="img" viewBox="0 0 30 30" width="30" xmlns="http://www.w3.org/2000/svg">
-						<title>Menu</title>
-						<path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path>
-					</svg>
-				</button>
 	    	</form>
-			<button class="btn bd-sidebar-toggle d-md-none py-0 px-1 ms-3 order-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bd-docs-nav" aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation">
+			<button class="btn bd-sidebar-toggle d-md-none py-0 px-1 ms-3 order-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wordlist" aria-controls="wordlist" aria-expanded="false" aria-label="Toggle navigation">
 			      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-expand" viewBox="0 0 16 16">
 			  <title>Expand</title>
 			  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10z"></path>
@@ -603,6 +597,20 @@
 			}
 			return 0;
 		}
+		
+	function sortByString(a,b,strin)
+		{
+			var t=Math.max(a.length,b.length);
+			for(var i=0;i<t;i++)
+			{
+				var cha=strin.indexOf(a[i]);
+				var chb=strin.indexOf(b[i]);
+				if (cha<chb||cha===undefined) return -1;
+				if (cha>chb||chb===undefined) return 1;
+			}
+			return 0;
+		}
+		
 		function replaceAll(find, replace, string) {
 			  return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 			}
@@ -856,6 +864,9 @@
 			else word="/"+word+"/, "+pronAllophones(word);
 			word=replaceAll("g","ɡ",word);
 			word=word.replace(/([a-z])(\1)/g,"$1ː");
+			
+			//Fix .C₁C₁ > C₁.C₁
+			word=word.replace(/\.(ˈ?)([mnɲŋpbtdkɡszʃʒɸβfvθðxɣχʁhwjɾrlʎ])ː/g,"$2.$1$2");
 			
 			//xsampa conversion if necessary
 			if (usexsampa) word=IPAtoXSampa(word);
@@ -2371,6 +2382,12 @@
 			localStorage.setting_xsampa=this.value;
 		});
 		
+	function scrollToValue(ref)
+		{
+			document.getElementById(ref).scrollIntoView({behavior: "smooth"});
+		}
+		
+//Debug
 	function toggleDebugMode()
 		{
 			//This not-so-hidden-if-you-look-well function actives debug mode on the site
@@ -2379,9 +2396,106 @@
 			location.reload();
 		}
 		
-	function scrollToValue(ref)
+	function getPhonotactics(stage)
 		{
-			document.getElementById(ref).scrollIntoView({behavior: "smooth"});
+			var temp="";
+			var structure=[];
+			var k=[];
+			var ipaorder="mnɲŋpbtdkɡszʃʒɸβfvθðxɣχʁhwjɾrlʎ";
+			for(var i=3;i<__endoflexicon;i++)
+			{
+				//Get pronunciation
+				temp=dbase[i][maincolumns[stage]].toLowerCase();
+				temp=getPronunciation((temp.split("~"))[0]);
+				//Get phonemic part
+				temp=(temp.split(","))[0];
+				temp=temp.replace(/\//g,"");
+				temp=temp.replace("ˈ","");
+				temp=temp.replace("-","");
+				k=temp.split(".");
+				for(var j=0;j<k.length;j++)
+				{
+					if (!structure.includes(k[j])) structure.push(k[j]);
+				}
+			}
+			//Rough structure
+			temp="<p>The syllable structure of "+stagelist[stage][0]+" may be described as ";
+			var minn=[9,9];
+			var maxx=[0,0];
+			var on=[];
+			var cod=[];
+			var engnum=["Mono","Di","Tri","Tetra","Penta"];
+			k=[];
+			for(var i=0;i<structure.length;i++)
+			{
+				for(var j=0;j<structure[i].length;j++)
+				{
+					if (_vowels[stage].includes(structure[i].charAt(j)))
+					{
+						if (j<minn[0]) minn[0]=j;
+						if (j>maxx[0]) maxx[0]=j;
+						var kkk=structure[i].substring(0,j);
+						if (!on.includes(kkk)&&kkk!=""&&kkk.charAt(0)!="["&&kkk.charAt(0)!="-") on.push(kkk);
+						if (structure[i].charAt(j+1)=="ː") j++;
+						if (structure[i].charAt(j+1)=="ː") j++;
+						if (structure[i].length-j-1<minn[1]) minn[1]=structure[i].length-j-1;
+						if (structure[i].length-j-1>maxx[1]) maxx[1]=structure[i].length-j-1;
+						kkk=structure[i].substring(j+1,structure[i].length);
+						if (!cod.includes(kkk)&&kkk!=""&&!kkk.includes("]")) cod.push(kkk);
+						j=99;
+					}
+				}
+			}
+			for(var i=0;i<minn[0];i++) temp+="C";
+			for(var i=minn[0];i<maxx[0];i++) temp+="(C)";
+			temp+="V";
+			for(var i=0;i<minn[1];i++) temp+="C";
+			for(var i=minn[1];i<maxx[1];i++) temp+="(C)";
+			temp+=".</p>";
+			on.sort(function(a,b){return sortByString(a,b,ipaorder)});
+			cod.sort(function(a,b){return sortByString(a,b,ipaorder)});
+			//Process
+			for(var h=0;h<2;h++)
+			{
+				if (h==0) temp+="<h3>Onsets</h3>";
+				else temp+="<h3>Codas</h3>";
+				var onsetsub=[];
+				for(var i=0;i<6;i++) onsetsub.push([]);
+					//Subdivide depending on length
+				if (h==0) for(var i=0;i<on.length;i++) onsetsub[on[i].length-1].push(on[i]);
+				else for(var i=0;i<cod.length;i++) onsetsub[cod[i].length-1].push(cod[i]);
+					//Process
+				for(var i=5;i>-1;i--)
+				{
+					if (onsetsub[i].length>0)
+					{
+						temp+="<h4>"+engnum[i]+"consonantal</h4><p>";
+						//Pack into rule
+						var gg=[];
+						for(var j=0;j<=i;j++) gg.push([]);
+						for(var j=0;j<onsetsub[i].length;j++)
+						{
+							for(var k=0;k<=i;k++) if (!gg[k].includes(onsetsub[i][j].charAt(k))) gg[k].push(onsetsub[i][j].charAt(k));
+						}
+						for(var j=0;j<gg.length;j++)
+						{
+							if (gg[j].length>1) temp+="{";
+							for(var k=0;k<gg[j].length;k++)
+							{
+								if (k>0) temp+=",";
+								temp+=gg[j][k];
+							}
+							if (gg[j].length>1) temp+="}";
+						}
+						//Give list
+						temp+="The following can be found:<ul>"
+						for(var j=0;j<onsetsub[i].length;j++) temp+="<li>"+onsetsub[i][j]+"</li>";
+						temp+="</ul></p>";
+					}
+				}
+			}
+			
+			return(temp);
 		}
 </script>
 <script src="documentation.js"></script>

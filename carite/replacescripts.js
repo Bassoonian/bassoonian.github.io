@@ -184,6 +184,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("X","Ḫ",w);
 			w=replaceAll("x","ḫ",w);
 			w=replaceAll("̯","",w);
+			w=replaceAll("ŋ","ng",w);
 			w="*"+w;
 		}
 		if (stage==2)

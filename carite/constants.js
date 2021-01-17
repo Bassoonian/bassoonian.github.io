@@ -412,8 +412,8 @@ _vowels=[
 	["a","e","i","o","u","%"]
 ];
 _illegalonsets=[
-	["ng","rj","nk","lw","km","lb","ld","lp","lt","lg","lk","lf","lv","rp","rt","rk","rb","rd","rg","fn","vn","mp","mb","nt","nd","mf","mv","nr","mr","rf","rv","ks","kt","gd","mm","nn","nw","rw","rm","rn","tm","dm","ln","lm","rs","rz","wm","vd","ft","ns","nz","gm","ls","lz","zg","zd","pt","bd","tl","dl","nj","mj","zm","jk","ps","jw","jn","ss","tt","mn"],
-	["rj","hs","lw","lb","ld","lp","lt","lv","mb","mn","mp","nt","nd","ht","ng","nk","rd","rf","rg","rk","rn","rp","rt","rv","vd","ks","nw","rb","gn","km","rw","tn","gm","nj","tm","ns","dn","rm","nn","gd","pn","lm","ln","rs","kn","bb","pm","rr","ls","tt","ss","kk","ts","ft","lg","lj","pp"],
+	["mb","mv","mf","mn","nk","ng","nt","nd","nr","ns","nz","ps","pt","pm","bd","ts","tl","tm","dl","dn","ks","km","kt","gd","gm","zd","zm","zv","zn","zg","ft","fn","vn","vd","wn","wm","jn","rk","rp","rw","rt","rm","rg","rj","rs","rf","rb","rz","rv","rd","rn","ls","lp","lf","lk","ln","ld","lm","lg","lw","lv","lj","lb","lt","gzd","nw","nj","zg"],
+	[],
 	[],
 	[],
 	[]
