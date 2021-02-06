@@ -709,10 +709,12 @@
 			}
 			temp+="</div>";
 			//Attach amount of found entries
-			temp=" found.</small></span><ul class='list-unstyled mb-0 py-3 pt-md-1'>"+temp;
+			temp=" found.{-}</small></span><ul class='list-unstyled mb-0 py-3 pt-md-1'>"+temp;
 			if (foundresult==1) temp="entry"+temp;
 			else temp="entries"+temp;
 			temp="<span id='entryamountbox' class='container-fluid'><small>"+numberWithCommas(foundresult)+" "+temp;
+			if (foundresult<wordlist.length) temp=temp.replace("{-}"," ("+(foundresult/wordlist.length*100).toFixed(2)+"%)");
+			else temp=temp.replace("{-}","")
 			document.getElementById("wordlist").innerHTML=temp+"</ul>";
 		}
 	function display(term)
