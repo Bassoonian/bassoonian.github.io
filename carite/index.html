@@ -1998,6 +1998,13 @@
 			//If dbaserow is a number look it up, if not split it
 			if (Number(dbaserow)===dbaserow) var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
 			else var stemarray=dbaserow.split("~");
+			
+			var pork=2;
+			if (iamnumeral)
+			{
+				if (pattern=="NUM_TWO"||pattern=="NUM_THREE") pork=1;
+			}
+			
 			//Figure out raw stem of the first index
 			var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
 			//Get precise moment
@@ -2097,9 +2104,9 @@
 								for(var k=0;k<decolist.length;k++)
 								{
 									//singular
-									temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*2*i+j,stage),decolist[k])),stage)+"</td>";
+									temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*pork*i+j,stage),decolist[k])),stage)+"</td>";
 									//plural
-									if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(2*i+1)+j,stage),decolist[k])),stage)+"</td>";
+									if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(pork*i+1)+j,stage),decolist[k])),stage)+"</td>";
 								}
 								temp+="</tr>";
 							}
