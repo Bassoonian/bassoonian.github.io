@@ -1889,16 +1889,26 @@
 					temp+="</tr>";
 			}
 			temp+="</thead><tbody>";
-			for(var i=0;i<_caseslist[0].length;i++)
+			for(var j=0;j<=beq;j++)
 			{
-				if (_caseslist[stage][i]!="")
+				if (beq)
 				{
-					temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][i],returnGloss(_caseslist[stage][i]))+"</th>";
-					temp+="<td>"+apply_orthography(getSuffix(kluku+i*2,stage),stage)+"</td>";
-					if (bep) temp+="<td>"+apply_orthography(getSuffix(kluku+1+i*2,stage),stage)+"</td>";
-					temp+="<td>"+apply_orthography(getSuffix(kluku+i*2+_caseslist[0].length*2,stage),stage)+"</td>";
-					if (bep) temp+="<td>"+apply_orthography(getSuffix(kluku+1+i*2+_caseslist[0].length*2,stage),stage)+"</td>";
-					temp+="</tr>";
+					temp+="<tr><th colspan='"+(3+bep*2)+"' scope='col'>";
+					if (j==0) temp+=glossText("prm",returnGloss("prm"));
+					else temp+=glossText("cnj",returnGloss("cnj"));
+					temp+="</th></tr>";
+				}
+				for(var i=0;i<_caseslist[0].length;i++)
+				{
+					if (_caseslist[stage][i]!="")
+					{
+						temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][i],returnGloss(_caseslist[stage][i]))+"</th>";
+						temp+="<td>"+apply_orthography(getSuffix(kluku+i*2+j*32,stage),stage)+"</td>";
+						if (bep) temp+="<td>"+apply_orthography(getSuffix(kluku+1+i*2+j*32,stage),stage)+"</td>";
+						temp+="<td>"+apply_orthography(getSuffix(kluku+i*2+_caseslist[0].length*2+j*32,stage),stage)+"</td>";
+						if (bep) temp+="<td>"+apply_orthography(getSuffix(kluku+1+i*2+_caseslist[0].length*2+j*32,stage),stage)+"</td>";
+						temp+="</tr>";
+					}
 				}
 			}
 			temp+="</tbody></table>";
