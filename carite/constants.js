@@ -24,10 +24,20 @@ sources=[
 			["google",		"https://books.google.be/books?id=VWGN6e5Rzf8C"],
 			["worldcat",	"https://www.worldcat.org/title/etruscan-language-an-introduction/oclc/475129395"]
 		]],
+	["iberoromancemorphosyntax",
+		"Bouzouita, Miriam et al. <i>Studies in Historcal Ibero-Romance Morpho-Syntax.</i> In: <i>Issues in Hispanic and Lusophone Linguistics.</i> Amsterdam/Philadelphia, John Benjamins Publishing Company, 2018",[
+			["google",		"https://books.google.be/books?id=BrJhDwAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/studies-in-historical-ibero-romance-morpho-syntax/oclc/1120668305"]
+		]],
 	["ed_iranian",
 		"Cheung, Johnny. <i>Etymological Dictionary of the Iranian Verb.</i> Leiden, Koninklijke Brill NV, 2007",[
 			["google",		"https://books.google.be/books?id=lPhjAAAAMAAJ"],
 			["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-the-iranian-verb/oclc/860423476"]
+		]],
+	["comphistitaloromance",
+		"Cravens, Thomas D. <i>Comparative Historical Dialectology: Italo-Romance clues to Ibero-Romance sound change.</i> In: <i>Current Issues in Linguistic Theory.</i> Amsterdam/Philadelphia, John Benjamins Publishing Company, 2002",[
+			["google",		"https://books.google.be/books?id=XvODm8_Y6CgC"],
+			["worldcat",	"https://www.worldcat.org/title/comparative-historical-dialectology-italo-romance-clues-to-ibero-romance-sound-change/oclc/469549780"]
 		]],
 	["dic_gaulish",
 		"Delamarre, Xavier. <i>Dictionnaire de la langue gauloise : une approche linguistique du vieux-celtique continental.</i> Paris, Editions Errance, 2003",[
@@ -57,6 +67,10 @@ sources=[
 		"Fortson IV, Benjamin W. <i>Indo-European Language and Culture: An Introduction.</i> Malden/Oxford/Carlton, Blackwell Publishing Ltd, 2004",[
 			["google",		"https://books.google.be/books?id=bSxHgej4tKMC"],
 			["worldcat",	"https://www.worldcat.org/title/indo-european-language-and-culture-an-introduction/oclc/778339290"]
+		]],
+	["athematicaccent",
+		"Frazier, Melissa. <i>Accent in Proto-Indo-European Athematic Nouns: Antifaithfulness in Inflectional Paradigms.</i> Chapel Hill, 2006",[
+			["directlink",	"https://rucore.libraries.rutgers.edu/rutgers-lib/37147/PDF/1/play/"]
 		]],
 	["jasanoffinstrumentalplural",
 		"Jasanoff, Jay. <i>*-bhi, *-bhis, *-ōis: following the trail of the PIE instrumental plural.</i> Museum Tusculanum Press, 2009",[
@@ -111,6 +125,21 @@ sources=[
 		"Kroonen, Guus. <i>Etymological Dictionary of Proto-Germanic.</i> Leiden, Koninklijke Brill NV, 2013",[
 			["google",		"https://books.google.be/books?id=cgmFRAAACAAJ"],
 			["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-proto-germanic/oclc/851754510"]
+		]],
+	["piesyntax",
+		"Kulikov, Leonid & Lavidas, Nikolaos. <i>Proto-Indo-European Syntax and its Development.</i> In: <i>Benjamins Current Topics.</i> Amsterdam/Philadelphia, John Benjamins Publishing Company, 2015",[
+			["google",		"https://books.google.be/books?id=Z_EZCgAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/proto-indo-european-syntax-and-its-development/oclc/918895944"]
+		]],
+	["pietolatin",
+		"Kurzová, Helena. <i>From Indo-European to Latin: The evolution of a morphosyntactic type.</i> In: <i>Current Issues in Linguistic Theory.</i> Amsterdam/Philadelphia, John Benjamins Publishing Company, 1993",[
+			["google",		"https://books.google.be/books?id=oeFBAAAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/from-indo-european-to-latin-the-evolution-of-a-morphosyntactic-type/oclc/469840730"]
+		]],
+	["oxfromance",
+		"Ledgeway, Adam & Maiden, Martin. <i>The Oxford Guide to the Romance Languages.</i> Oxford, Oxford University Press, 2016",[
+			["google",		"https://books.google.be/books?id=uUlRDAAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/oxford-guide-to-the-romance-languages/oclc/969620858"]
 		]],
 	["ed_gothic",
 		"Lehmann, Winfred P. <i>A Gothic Etymological Dictionary.</i> Leiden, E.J. Brill, 1986",[
@@ -181,6 +210,16 @@ sources=[
 	["ed_celtic_rev",
 		"Matasović, Ranko. <i>Addenda et corrigenda to Ranko Matasović's Etymological Dictionary of Proto-Celtic (Brill, Leiden 2009).</i> Zagreb, 2011",[
 			["academia",	"https://www.academia.edu/1489376/Addenda_et_Corrigenda_to_Etymological_Dictionary_of_Proto-Celtic_Brill_Leiden_2009_"]
+		]],
+	["traskhistling",
+		"McColl Miller, Robert. <i>Trask's Historical Linguistics.</i> 3rd ed. London/New York, Routledge, 2015",[
+			["google",		"https://books.google.be/books?id=gGzABgAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/trasks-historical-linguistics/oclc/1000437256"]
+		]],
+	["sstemgreekpie",
+		"Meissner, Torsten. <i>S-stem Nouns and Adjectives in Greek and Proto-Indo-European: A Diachronic Study in Word Formation.</i> Oxford, Oxford University Press, 2005",[
+			["google",		"https://books.google.be/books?id=LIxwAAAAIAAJ"],
+			["worldcat",	"https://www.worldcat.org/title/s-stem-nouns-and-adjectives-in-greek-and-proto-indo-european-a-diachronic-study-in-word-formation/oclc/717016871"]
 		]],
 	["grcdialects",
 		"Miller, Gary D. <i>Ancient Greek Dialects and Early Authors: Introduction to the Dialect Mixture in Homer, with Notes on Lyric and Herodotus.</i> Boston/Berlin, Walter de Gruyter Inc., 2014",[
@@ -299,6 +338,11 @@ sources=[
 		"Woodard, Roger D. <i>Phoinikēia Grammata: An Alphabet for the Greek Language.</i> In: <i>A Companian to the Ancient Greek Language.</i> Singapore, Blackwell Publishing Ltd, 2010",[
 			["google",		"https://books.google.be/books?id=oa42E3DP3icC"],
 			["worldcat",	"https://www.worldcat.org/title/companion-to-the-ancient-greek-language/oclc/882197874"]
+		]],
+	["latelatinearlyromance",
+		"Wright, Roger. <i>Late Latin and Early Romance in Spain and Carolingian France.</i> Liverpool, Francis Cairns, 1982",[
+			["google",		"https://books.google.be/books?id=KQQLAQAAMAAJ"],
+			["worldcat",	"https://www.worldcat.org/title/late-latin-and-early-romance-in-spain-and-carolingian-france/oclc/433338058"]
 		]]
 ];
 glossterms=[
@@ -436,7 +480,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("February 7, 2021"),"First chunk of Late Proto-Carite verbal morphology added."],
+	[new Date("February 7, 2021"),"First chunk of Late Proto-Carite verbal morphology added.","More sources added to the bibliography."],
 	[new Date("February 6, 2021"),"Late Proto-Carite nominal morphology and external interaction improvements."],
 	[new Date("January 17, 2021"),"A new phonotactics chapter is generated dynamically. Still WIP.","Enabled a toggle for alternative phonetic reconstructions.","Removed Early-Proto-Carite overlong vowels.","Upgraded to Bootstrap 5."],
 	[new Date("January 7, 2021"),"More Late Proto-Carite prose and thematic inflections."],
