@@ -244,7 +244,7 @@
 	//Initialise important variables
 	_alphabet=[
 		"Α~Ᾱ Β Γ Δ Ε Ζ Η Θ Ι~Ῑ~Ῐ Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y~Ȳ Φ Ψ Ω",
-		"A~Ā~Ą B D E~Ē~Ę F G H~Ḫ I~Ī~Į J K L M N O~Ō~Ǫ P R S T U~Ū~Ų V W Y~Ȳ Ø~Ø̄",
+		"A~Ā~Ą B D E~Ē~Ę F G H~Ḫ I~Ī~Į J K L M N O~Ō~Ǫ P R S T U~Ū~Ų V W X Y~Ȳ Ø~Ø̄",
 		"A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄",
 		"A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄",
 		"A B C D E F G H I J L M N O P Q R S T U V X Y"];
@@ -881,7 +881,7 @@
 		{
 			w=w.normalize('NFC');
 			//Augment fuckeries
-			if (s==0)
+			if (s<2)
 			{
 				w=w.replace(/(e-)([aā])/g,"ā");
 				w=w.replace(/(e-)([eē])/g,"ē");

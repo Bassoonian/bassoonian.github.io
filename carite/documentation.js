@@ -132,6 +132,7 @@ function updateLeftSidebar()
 			["Orthography","1/ortho"],
 			["Sound Changes","1/sc"],
 			["Nominal Morphology","1/nom"],
+			["Verbal Morphology","1/vrb"],
 			["External Interactions","1/external"]
 		],
 		["Bibliography","bibliography"]
