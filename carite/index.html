@@ -910,7 +910,7 @@
 			//Remove nasal vowel length in s1
 			if (s==1)
 			{
-				w=w.replace(/([ąęįǫų])(̄)/g,"$1");
+				w=w.replace(/([ąęįǫųy̨])(̄)/g,"$1");
 				w=w.replace(/ǭ/g,"ǫ");
 			}
 			
@@ -993,6 +993,8 @@
 			{
 				//Nasal vowel length
 				w=w.replace(/([ãẽĩõũỹø̃])(.?[pbtdkgmnlrszfvjw])/g,"$1ː$2"); //Word-medially
+				//Reapply osthoff!
+				w=w.replace(/(ː)(.?[lrmn].?[pbtdkgmnlrszfvjw])/g,"$2");
 				w=w.replace(/(^|\s)([^aeiouyøãẽĩõũ\s]*)([ãẽĩõũ])(?=$|\s)/g,"$1$2$3ː"); //Word-finally in monosyllables
 				w=w.replace(/õi̯/g,"õĩ̯");
 			}
