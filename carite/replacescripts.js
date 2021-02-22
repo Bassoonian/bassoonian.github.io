@@ -186,13 +186,76 @@ function apply_orthography(word,stage,subgroup)
 		}
 		if (stage==2)
 		{
+			w=replaceAll("k","c",w);
+			w=replaceAll("K","C",w);
 			w=replaceAll("ʰ","h",w);
-			w=replaceAll("β","bh",w);
-			w=replaceAll("ð","dh",w);
-			w=replaceAll("ɣ","gh",w);
-			w=replaceAll("^b","B",w);
+			w=replaceAll("f","ff",w);
+			w=replaceAll("F","Ff",w);
+			w=replaceAll("v","f",w);
+			w=replaceAll("V","F",w);
+			w=replaceAll("w","v",w);
+			w=replaceAll("W","V",w);
+			w=replaceAll("cs","x",w);
+			
+			w=replaceAll("ō","au",w);
+			w=replaceAll("Ō","Au",w);
+			w=replaceAll("ū","ou",w);
+			w=replaceAll("Ū","Ou",w);
+			w=replaceAll("ȳ","ui",w);
+			w=replaceAll("Ȳ","Ui",w);
+			w=replaceAll("ǣ","ae",w);
+			w=replaceAll("Ǣ","Ae",w);
+			w=replaceAll("ø̄","oe",w);
+			w=replaceAll("Ø̄","Oe",w);
+		}
+		if (stage==2&&subgroup==0)
+		{
+			w=replaceAll("β","ḅ",w);
+			w=replaceAll("ð","ḍ",w);
+			w=replaceAll("ɣ","ġ",w);
+			w=replaceAll("^ḅ","Ḅ",w);
+			w=replaceAll("^ḍ","Ḍ",w);
+			w=replaceAll("^ġ","Ġ",w);
+			
+			w=replaceAll("y","î",w);
+			w=replaceAll("Y","Î",w);
+			w=replaceAll("æ","ə",w);
+			w=replaceAll("Æ","Ə",w);
+			w=replaceAll("ø","ê",w);
+			w=replaceAll("Ø","Ê",w);
+		}
+		if (stage==2&&subgroup==1)
+		{
+			w=replaceAll("ð","d",w);
+			w=replaceAll("ɣ","g",w);
 			w=replaceAll("^d","D",w);
 			w=replaceAll("^g","G",w);
+			w=replaceAll("ř","r",w);
+			w=replaceAll("Ř","R",w);
+			
+			w=replaceAll("ā","a",w);
+			w=replaceAll("Ā","a",w);
+			w=replaceAll("ē","e",w);
+			w=replaceAll("Ē","E",w);
+			w=replaceAll("ī","i",w);
+			w=replaceAll("Ī","I",w);
+			w=replaceAll("ę","e",w);
+			w=replaceAll("Ę","E",w);
+			w=replaceAll("ǫ","o",w);
+			w=replaceAll("Ǫ","O",w);
+			w=replaceAll("ų","u",w);
+			w=replaceAll("Ų","U",w);
+			w=replaceAll("y","i",w);
+			w=replaceAll("Y","I",w);
+			w=replaceAll("æ","e",w);
+			w=replaceAll("Æ","E",w);
+			w=replaceAll("ø","e",w);
+			w=replaceAll("Ø","E",w);
+			
+			w=replaceAll("j","i",w);
+			w=replaceAll("J","I",w);
+			w=replaceAll("u","v",w);
+			w=replaceAll("U","V",w);
 		}
 		if (stage==3&&subgroup==0)
 		{

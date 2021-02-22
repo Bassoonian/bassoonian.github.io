@@ -109,12 +109,12 @@ function updateLeftSidebar()
 {
 	var sb=[
 		["Introduction","introduction"],
-		//["Anthropology",
+		["Anthropology",
 			//["History","history"],
-			//["Important Figures","figures"],
-			//["Mythology","mythology"]
+			["Important Figures","figures"],
+			["Mythology","mythology"]
 			//["List of Holidays","holidays"]
-		//],
+		],
 		["0",
 			["Preface","0/preface"],
 			["Phonology","0/phono"],
@@ -134,6 +134,13 @@ function updateLeftSidebar()
 			["Nominal Morphology","1/nom"],
 			["Verbal Morphology","1/vrb"],
 			["External Interactions","1/external"]
+		],
+		["2",
+			["Preface","2/preface"],
+			["Phonology","2/phono"],
+			["Orthography","2/ortho"],
+			["Sound Changes","2/sc"],
+			["Nominal Morphology","2/nom"]
 		],
 		["Bibliography","bibliography"]
 	];

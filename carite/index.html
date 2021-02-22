@@ -245,13 +245,13 @@
 	_alphabet=[
 		"Α~Ᾱ Β Γ Δ Ε Ζ Η Θ Ι~Ῑ~Ῐ Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y~Ȳ Φ Ψ Ω",
 		"A~Ā~Ą B D E~Ē~Ę F G H~Ḫ I~Ī~Į J K L M N O~Ō~Ǫ P R S T U~Ū~Ų V W X Y~Ȳ Ø~Ø̄",
-		"A~Ā B D E~Ē~Ę~Ę̄ F G H I~Ī J K L M N O~Ō~Ǫ~Ǭ P R~Ř S T U~Ū~Ų~Ų̄ V W Y~Ȳ Æ~Ǣ Ø~Ø̄",
+		"A~Ā B~Ḅ C D~Ḍ E~Ē~Ê~Ę Ə F G~Ġ H I~Ī~Î J K L M N O~Ō~Ǫ P R~Ř S T U~Ū~Ų V X",
 		"A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄",
 		"A B C D E F G H I J L M N O P Q R S T U V X Y"];
 	_needsromanisation=[true,false,false,false,false];
 	
 	_inDebugMode=false;
-	_nonDebugMax=1;
+	_nonDebugMax=2;
 	
 	_activeOrtho=[];
 	for(var i=0;i<_alphabet.length;i++) _activeOrtho.push(0);
@@ -752,9 +752,9 @@
 				word=replaceAll("ū","uː",word);
 				word=replaceAll("ȳ","yː",word);
 				word=replaceAll("ø̄","øː",word);
+				word=replaceAll("ǣ","æː",word);
 				word=replaceAll("̄","ː",word);
 			}
-			if (stage==1||stage==2) word=replaceAll("ǣ","æː",word);
 			if (stage>0&&stage<3)
 			{
 				word=replaceAll("ą̄","ãː",word);
@@ -907,8 +907,8 @@
 			w=w.replace(/(ø̄)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"ø$2");
 			//Merge stuff
 			
-			//Remove nasal vowel length in s1
-			if (s==1)
+			//Remove nasal vowel length in s1&s2
+			if (s==1||s==2)
 			{
 				w=w.replace(/([ąęįǫųy̨])(̄)/g,"$1");
 				w=w.replace(/ǭ/g,"ǫ");
@@ -930,15 +930,14 @@
 				w=w.replace(/([aeiouyø])([ouōūǫų])([^̯]|$)/g,"$1w$2$3");
 			}
 			
-			//Break up vowels! to do
 			//initial mutation
 			if (s==2)
 			{
-				w=replaceAll("$b","β",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
+				/*w=replaceAll("$b","β",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
 				w=replaceAll("$d","ð",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
 				w=replaceAll("$g","ɣ",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
 				w=w.replace(/(\$)([aāeēiīoōuūyȳøø̄æǣęę̄ǫǭųų̄])/g,"j$2");
-				w=replaceAll("$","",w);
+				w=replaceAll("$","",w);*/
 			}
 			
 			//Neutralise velar/palatal
