@@ -480,7 +480,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("February 22, 2021"),"Preliminary Old Carite release. Very much remains a work in progress."],
+	[new Date("February 22, 2021"),"Preliminary Old Carite release. Very much remains a work in progress.","First chunk of mythology released."],
 	[new Date("February 15, 2021"),"Finalised Late Proto-Carite verbal morphology."],
 	[new Date("February 7, 2021"),"First chunk of Late Proto-Carite verbal morphology added.","More sources added to the bibliography."],
 	[new Date("February 6, 2021"),"Late Proto-Carite nominal morphology and external interaction improvements."],
