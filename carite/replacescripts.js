@@ -196,7 +196,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("V","F",w);
 			//Clean up excessive ffs
 			w=w.replace(/(^|\s)ff/g,"$1f");w=w.replace(/(^|\s)Ff/g,"$1F");//Word-initially
-			w=w.replace(/([ptkfs])ff/g,"$1f");w=w.replace(/ff([ptkfs])/g,"$1f");//In clusters
+			w=w.replace(/([ptkfs])ff/g,"$1f");w=w.replace(/ff([ptkfs])/g,"f$1");//In clusters
 			
 			w=replaceAll("w","v",w);
 			w=replaceAll("W","V",w);
