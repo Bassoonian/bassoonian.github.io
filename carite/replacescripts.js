@@ -189,10 +189,15 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("k","c",w);
 			w=replaceAll("K","C",w);
 			w=replaceAll("ʰ","h",w);
+			
 			w=replaceAll("f","ff",w);
 			w=replaceAll("F","Ff",w);
 			w=replaceAll("v","f",w);
 			w=replaceAll("V","F",w);
+			//Clean up excessive ffs
+			w=w.replace(/(^|\s)ff/g,"$1f");w=w.replace(/(^|\s)Ff/g,"$1F");//Word-initially
+			w=w.replace(/([ptkfs])ff/g,"$1f");w=w.replace(/ff([ptkfs])/g,"$1f");//In clusters
+			
 			w=replaceAll("w","v",w);
 			w=replaceAll("W","V",w);
 			w=replaceAll("cs","x",w);
@@ -256,6 +261,10 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("J","I",w);
 			w=replaceAll("u","v",w);
 			w=replaceAll("U","V",w);
+			
+			//
+			w=w.toLowerCase();
+			w="<span class='smallcapsroman'>"+w+"</span>";
 		}
 		if (stage==3&&subgroup==0)
 		{

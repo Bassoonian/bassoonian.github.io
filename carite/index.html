@@ -905,7 +905,21 @@
 			w=w.replace(/(ȳ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"y$2");
 			w=w.replace(/(ǣ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"æ$2");
 			w=w.replace(/(ø̄)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"ø$2");
-			//Merge stuff
+			
+			//Voicing assimilation filter for Exon
+			if (s>1)
+			{
+				//Voiced > unvoiced
+				w=w.replace(/b([ptkfs])/g,"p$1");
+				w=w.replace(/d([ptkfs])/g,"t$1");
+				w=w.replace(/g([ptkfs])/g,"k$1");
+				w=w.replace(/v([ptkfs])/g,"f$1");
+				//Unvoiced > voiced
+				w=w.replace(/p([bdgv])/g,"b$1");
+				w=w.replace(/t([bdgv])/g,"d$1");
+				w=w.replace(/k([bdgv])/g,"g$1");
+				w=w.replace(/f([bdgv])/g,"v$1");
+			}
 			
 			//Remove nasal vowel length in s1&s2
 			if (s==1||s==2)
