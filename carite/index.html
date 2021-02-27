@@ -947,11 +947,10 @@
 			//initial mutation
 			if (s==2)
 			{
-				/*w=replaceAll("$b","β",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
-				w=replaceAll("$d","ð",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
-				w=replaceAll("$g","ɣ",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
-				w=w.replace(/(\$)([aāeēiīoōuūyȳøø̄æǣęę̄ǫǭųų̄])/g,"j$2");
-				w=replaceAll("$","",w);*/
+				w=w.replace(/\$-b([aāeēiīoōuūæyøẽõũ])/g,"β$1");
+				w=w.replace(/\$-d([aāeēiīoōuūæyøẽõũ])/g,"ð$1");
+				w=w.replace(/\$-g([aāeēiīoōuūæyøẽõũ])/g,"ɣ$1");
+				w=replaceAll("$-","",w);
 			}
 			
 			//Neutralise velar/palatal
@@ -1002,14 +1001,15 @@
 				if (__alt._0_z) w=w.replace(/([bdgv])(z)/g,"$1ʐ");
 			}
 			
-			if (activestage==1)
+			if (activestage==1||activestage==2)
 			{
 				//Nasal vowel length
-				w=w.replace(/([ãẽĩõũỹø̃])(.?[pbtdkgmnlrszfvjw])/g,"$1ː$2"); //Word-medially
+				w=w.replace(/([ãẽĩõũỹø̃])(.?[pbtdkgmnlrszfvjwβðɣ])/g,"$1ː$2"); //Word-medially
 				//Reapply osthoff!
-				w=w.replace(/(ː)(.?[lrmn].?[pbtdkgmnlrszfvjw])/g,"$2");
+				w=w.replace(/(ː)(.?[lrmn].?[pbtdkgmnlrszfvjwβðɣ])/g,"$2");
 				w=w.replace(/(^|\s)([^aeiouyøãẽĩõũ\s]*)([ãẽĩõũ])(?=$|\s)/g,"$1$2$3ː"); //Word-finally in monosyllables
 				w=w.replace(/õi̯/g,"õĩ̯");
+				//if (activestage==2) w=w.replace(/(^|\s)/g,"");//Reshorten word-initially
 			}
 			
 			if (activestage==2) w=replaceAll("ʁ","ʁ̞",w);

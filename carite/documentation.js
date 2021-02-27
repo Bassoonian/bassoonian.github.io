@@ -140,7 +140,8 @@ function updateLeftSidebar()
 			["Phonology","2/phono"],
 			["Orthography","2/ortho"],
 			["Sound Changes","2/sc"],
-			["Nominal Morphology","2/nom"]
+			["Nominal Morphology","2/nom"],
+			["Verbal Morphology","2/vrb"]
 		],
 		["Bibliography","bibliography"]
 	];
