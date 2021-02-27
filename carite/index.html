@@ -1595,12 +1595,12 @@
 			loadStage(activestage);
 			localStorage.setting_lexorder=rv;
 		}
-	function adjStem(stem,decpattern)
+	function adjStem(stem,decpattern,stage,iscomparative)
 		{
 			var ptn=dbase[decpattern-1][1];
-			if (activestage>1)
+			if (stage>1)
 			{
-				if (ptn.includes("AA")) stem=stem.replace("0-","1-");
+				if (ptn.includes("AA")&&!ptn.includes("ALPH")&&iscomparative==0) stem=stem.replace("0-","1-");
 			}
 			return(stem);
 		}
@@ -2068,11 +2068,49 @@
 				var kloko=(((dbase[decolist[0]][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
 				klaka=klaka.replace(kloko,"");
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
-				
+				if (iscomparative==1||iscomparative==2)//Apply i-umlaut
+				{
+					if (pattern.includes("THEM"))
+					{
+						var repref=-1;
+						if (pattern.includes("ALPH"))
+						{
+							if (stemarray.length>1) repref=1;
+							else repref=0;
+						}
+						else
+						{
+							if (stemarray.length>2) repref=2;
+							else repref=0;
+						}
+						stemarray=[stemarray[repref]];
+						if (repref!=0) stemarray[0]=stemarray[0].slice(0,-1);
+					}
+				}
 				if (iscomparative==1)
 				{
 					//Get new endings
-					pattern="COMPARATIVE";
+					var newpatrn="";
+					if (pattern.includes("ADJ_I"))
+					{
+						if (pattern.includes("EXON")) newptrn="COMPARATIVE_EXON";
+						else newptrn="COMPARATIVE";
+					}
+					else //Thematic
+					{
+						if (pattern.includes("ALPH"))
+						{
+							if (pattern.includes("EXON")) newptrn="COMPARATIVE_ALPHEXON";
+							else newptrn="COMPARATIVE_ALPH";
+						}
+						else
+						{
+							if (pattern.includes("EXON")) newptrn="COMPARATIVE_EXON";
+							else newptrn="COMPARATIVE";
+						}
+					}
+					pattern=newptrn;
+					console.log(pattern);
 					var kluku=-1;
 					for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==pattern) kluku=declensionlist[i][1]+1;
 					//Figure out which declensions to draw data from
@@ -2145,9 +2183,9 @@
 								for(var k=0;k<decolist.length;k++)
 								{
 									//singular
-									temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*pork*i+j,stage),decolist[k])),stage)+"</td>";
+									temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*pork*i+j,stage),decolist[k],stage,iscomparative)),stage)+"</td>";
 									//plural
-									if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(pork*i+1)+j,stage),decolist[k])),stage)+"</td>";
+									if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(pork*i+1)+j,stage),decolist[k],stage,iscomparative)),stage)+"</td>";
 								}
 								temp+="</tr>";
 							}
