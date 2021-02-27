@@ -2100,7 +2100,7 @@
 					{
 						if (pattern.includes("ALPH"))
 						{
-							if (pattern.includes("EXON")) newptrn="COMPARATIVE_ALPHEXON";
+							if (pattern.includes("EXON")) newptrn="COMPARATIVE_ALPH_EXON";
 							else newptrn="COMPARATIVE_ALPH";
 						}
 						else
@@ -2110,7 +2110,6 @@
 						}
 					}
 					pattern=newptrn;
-					console.log(pattern);
 					var kluku=-1;
 					for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==pattern) kluku=declensionlist[i][1]+1;
 					//Figure out which declensions to draw data from

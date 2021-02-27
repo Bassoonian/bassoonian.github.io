@@ -314,12 +314,30 @@ function getRandomInflectionTable(pattern,stage,forceblank,adddiv,tablid)
 	//Populate possible words
 	var pit=[];
 	var referrent=false;
-	if (inflectioncategory=="Comparative"||inflectioncategory=="Superlative")
+	if (inflectioncategory=="Superlative"||(inflectioncategory=="Comparative"&&stage<2))
 	{
 		pit_cat=[];
 		for(var i=0;i<declensionlist.length;i++) //Find all adjectives
 		{
 			if (dbase[declensionlist[i][1]][2]=="Adjective") pit_cat.push(dbase[declensionlist[i][1]][1]);
+		}
+	}
+	if (inflectioncategory=="Comparative"&&stage>1)
+	{
+		var reference=pit_cat[0];
+		pit_cat=[];
+		for (var i=0;i<declensionlist.length;i++)//Find all according subsets
+		{
+			if (dbase[declensionlist[i][1]][1].includes("ADJ_"))
+			{
+				var palapa=dbase[declensionlist[i][1]][1];
+				if (palapa.includes("DEF_EXON")&&reference=="COMPARATIVE_EXON") pit_cat.push(palapa);
+				if (palapa.includes("ALPH_EXON")&&reference=="COMPARATIVE_ALPH_EXON") pit_cat.push(palapa);
+				if (palapa.includes("ADJ_I")&&palapa.includes("EXON")&&reference=="COMPARATIVE_EXON") pit_cat.push(palapa);
+				if (palapa.includes("ADJ_I")&&!palapa.includes("EXON")&&reference=="COMPARATIVE") pit_cat.push(palapa);
+				if (palapa.includes("DEF")&&!palapa.includes("EXON")&&reference=="COMPARATIVE") pit_cat.push(palapa);
+				if (palapa.includes("ALPH")&&!palapa.includes("EXON")&&reference=="COMPARATIVE_ALPH") pit_cat.push(palapa);
+			}
 		}
 	}
 	//
