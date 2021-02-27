@@ -458,7 +458,7 @@ _vowels=[
 _consonants=[
 	"mnpbtdkɡfvszhrljw",
 	"mnpbtdkgfvsxhrljw",
-	"",
+	"mnpbtdkgβfvsðɣhrwljʁ",
 	"",
 	""
 ];
