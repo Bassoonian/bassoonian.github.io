@@ -212,6 +212,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("Ǣ","Ae",w);
 			w=replaceAll("ø̄","oe",w);
 			w=replaceAll("Ø̄","Oe",w);
+			w=replaceAll("ŋ","ng",w);
 		}
 		if (stage==2&&subgroup==0)
 		{

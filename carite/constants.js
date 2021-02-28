@@ -458,7 +458,7 @@ _vowels=[
 _consonants=[
 	"mnpbtdkɡfvszhrljw",
 	"mnpbtdkgfvsxhrljw",
-	"mnpbtdkgβfvsðɣhrwljʁ",
+	"mnpbtdkɡβfvsðɣhrwljʁ",
 	"",
 	""
 ];
@@ -466,7 +466,7 @@ _consonants=[
 _illegalonsets=[
 	["mb","mv","mf","mn","nk","ng","nt","nd","nr","ns","nz","ps","pt","pm","bd","bm","ts","tl","tm","dl","dn","ks","km","kt","gd","gm","zd","zm","zv","zn","zg","ft","fn","vn","vd","wn","wm","jn","rk","rp","rw","rt","rm","rg","rj","rs","rf","rb","rz","rv","rd","rn","ls","lp","lf","lk","ln","ld","lm","lg","lw","lv","lj","lb","lt","gzd","nw","nj","zg","stw","mr"],
 	["mn","mp","mb","mr","ml","nt","nd","nk","ng","ns","nw","nj","nr","nl","pm","pn","pt","bd","tm","tn","ts","dn","km","kn","ks","gm","gn","gd","ft","vd","hs","rm","rn","rp","rb","rt","rd","rk","rg","rs","rf","rv","rw","rj","rl","lm","ln","lp","lb","lt","ld","lk","lg","ls","lf","lv","lw","lj","lr","ht"],
-	["lr","lj","lw","lv","lf","ls","lg","lk","ld","lt","lb","lp","ln","lm","rl","rj","rw","rv","rf","rs","rg","rk","rt","rd","rp","rb","rm","rn","hs","ht","vd","ft","gn","gm","ks","kt","dn","dm","ts","tk","pt","nl","nj","nw","ns","ng","nk","nd","nt","ml","mr","mb","mp","mn"],
+	["lr","lj","lw","lv","lf","ls","lg","lk","ld","lt","lb","lp","ln","lm","rl","rj","rw","rv","rf","rs","rg","rk","rt","rd","rp","rb","rm","rn","hs","ht","vd","ft","gn","gm","ks","kt","dn","dm","ts","tk","pt","nl","nj","nw","ns","ng","nk","nd","nt","ml","mr","mb","mp","mn","km","nr"],
 	[],
 	[]
 ];
