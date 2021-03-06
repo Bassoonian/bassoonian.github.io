@@ -251,7 +251,7 @@
 	_needsromanisation=[true,false,false,false,false];
 	
 	_inDebugMode=false;
-	_nonDebugMax=2;
+	_nonDebugMax=3;
 	
 	_activeOrtho=[];
 	for(var i=0;i<_alphabet.length;i++) _activeOrtho.push(0);
@@ -859,7 +859,7 @@
 				//Fix "oversyllabic" sonorants
 				word=word.replace(/([aeiouyæø]ː?).([mnlr])̩/g,"$1$2");
 			}
-			word=word.replace("ˈ-","-");
+			if (word.includes("-")) word=word.replace("ˈ","");
 			//finalise
 			word=word.replace(".","");
 			
@@ -902,7 +902,7 @@
 			w=w.replace(/(ī)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"i$2");
 			w=w.replace(/(ō)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"o$2");
 			w=w.replace(/(ū)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"u$2");
-			w=w.replace(/(ȳ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"y$2");
+			w=w.replace(/(ȳ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"y$2");
 			w=w.replace(/(ǣ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"æ$2");
 			w=w.replace(/(ø̄)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"ø$2");
 			
@@ -926,6 +926,16 @@
 			{
 				w=w.replace(/([ąęįǫųy̨])(̄)/g,"$1");
 				w=w.replace(/ǭ/g,"ǫ");
+				w=w.replace(/ȳ̨/g,"y̨");
+			}
+			
+			//Nasalisation switch in s2
+			if (s==2)
+			{
+				w=w.replace(/([ęǫų])̨/g,"$1")
+				w=w.replace(/ą/g,"ǫ");
+				w=w.replace(/į/g,"ę");
+				w=w.replace(/y̨/g,"ų");
 			}
 			
 			//adaptive LX
@@ -936,6 +946,17 @@
 				w=w.replace(/[iī]{LX}/g,"ī");
 				w=w.replace(/[yȳ]{LX}/g,"ȳ");
 				w=w.replace(/[ø]̄?{LX}/g,"ø̄");
+			}
+			if (s==2)
+			{
+				w=w.replace(/[aā]{LX}/g,"ā");
+				w=w.replace(/[eē]{LX}/g,"ē");
+				w=w.replace(/[iī]{LX}/g,"ī");
+				w=w.replace(/[oō]{LX}/g,"ō");
+				w=w.replace(/[uū]{LX}/g,"ū");
+				w=w.replace(/[yȳ]{LX}/g,"ȳ");
+				w=w.replace(/[æǣ]{LX}/g,"ǣ");
+				w=w.replace(/[øø̄]{LX}/g,"ø̄");
 			}
 			//Resolve hiatuses
 			if (s==1)
