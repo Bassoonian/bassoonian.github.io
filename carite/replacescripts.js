@@ -84,6 +84,11 @@ function apply_romanisation(word,stage)
 		}
 		return(w);
 	}
+function format_historical_form(str,stage,subgroup)
+	{
+		if (stage==2&&subgroup==1) str="<span class='smallcapsroman'>"+str.toLowerCase()+"</span>";
+		return(str);
+	}
 function apply_orthography(word,stage,subgroup)
 	{
 		subgroup = typeof subgroup !== 'undefined' ? subgroup : _activeOrtho[stage];
@@ -202,6 +207,10 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("W","V",w);
 			w=replaceAll("cs","x",w);
 			
+			w=replaceAll("cv","qu",w);
+			w=replaceAll("Cv","Qu",w);
+			w=w.replace(/u([uų])/g,"$1");
+			
 			w=replaceAll("ō","au",w);
 			w=replaceAll("Ō","Au",w);
 			w=replaceAll("ū","ou",w);
@@ -209,6 +218,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("ȳ","ui",w);
 			w=replaceAll("Ȳ","Ui",w);
 			w=replaceAll("ǣ","ae",w);
+			w=replaceAll("ǣ","ae",w);
 			w=replaceAll("Ǣ","Ae",w);
 			w=replaceAll("ø̄","oe",w);
 			w=replaceAll("Ø̄","Oe",w);
@@ -229,6 +239,10 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("Æ","Ə",w);
 			w=replaceAll("ø","ê",w);
 			w=replaceAll("Ø","Ê",w);
+			
+			//postconsonantal /w/ & /j/ (eg pva > pua)
+			w=w.replace(/([mnpbtdkglrfvswj])v([aeiouəîêęǫųāēī])/g,"$1u$2");
+			w=w.replace(/([mnpbtdkglrfvswj])j([aeiouəîêęǫųāēī])/g,"$1i$2");
 		}
 		if (stage==2&&subgroup==1)
 		{
@@ -262,10 +276,6 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("J","I",w);
 			w=replaceAll("u","v",w);
 			w=replaceAll("U","V",w);
-			
-			//
-			w=w.toLowerCase();
-			w="<span class='smallcapsroman'>"+w+"</span>";
 		}
 		if (stage==3&&subgroup==0)
 		{

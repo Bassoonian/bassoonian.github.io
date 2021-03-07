@@ -245,7 +245,7 @@
 	_alphabet=[
 		"Α~Ᾱ Β Γ Δ Ε Ζ Η Θ Ι~Ῑ~Ῐ Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y~Ȳ Φ Ψ Ω",
 		"A~Ā~Ą B D E~Ē~Ę F G H~Ḫ I~Ī~Į J K L M N O~Ō~Ǫ P R S T U~Ū~Ų V W X Y~Ȳ Ø~Ø̄",
-		"A~Ā B~Ḅ C D~Ḍ E~Ē~Ê~Ę Ə F G~Ġ H I~Ī~Î J K L M N O~Ō~Ǫ P R~Ř S T U~Ū~Ų V X",
+		"A~Ā B~Ḅ C D~Ḍ E~Ē~Ê~Ę Ə F G~Ġ H I~Ī~Î J K L M N O~Ō~Ǫ P Q R~Ř S T U~Ū~Ų V X",
 		"A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄",
 		"A B C D E F G H I J L M N O P Q R S T U V X Y"];
 	_needsromanisation=[true,false,false,false,false];
@@ -903,7 +903,7 @@
 			w=w.replace(/(ō)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"o$2");
 			w=w.replace(/(ū)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"u$2");
 			w=w.replace(/(ȳ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"y$2");
-			w=w.replace(/(ǣ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"æ$2");
+			w=w.replace(/(ǣ)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"æ$2");
 			w=w.replace(/(ø̄)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"ø$2");
 			
 			//Voicing assimilation filter for Exon
@@ -927,6 +927,7 @@
 				w=w.replace(/([ąęįǫųy̨])(̄)/g,"$1");
 				w=w.replace(/ǭ/g,"ǫ");
 				w=w.replace(/ȳ̨/g,"y̨");
+				w=w.replace(/ǣ̨/g,"æ̨")
 			}
 			
 			//Nasalisation switch in s2
@@ -936,6 +937,7 @@
 				w=w.replace(/ą/g,"ǫ");
 				w=w.replace(/į/g,"ę");
 				w=w.replace(/y̨/g,"ų");
+				w=w.replace(/æ̨/g,"ę");
 			}
 			
 			//adaptive LX
@@ -955,8 +957,10 @@
 				w=w.replace(/[oō]{LX}/g,"ō");
 				w=w.replace(/[uū]{LX}/g,"ū");
 				w=w.replace(/[yȳ]{LX}/g,"ȳ");
-				w=w.replace(/[æǣ]{LX}/g,"ǣ");
+				w=w.replace(/[æǣ]{LX}/g,"ǣ");
 				w=w.replace(/[øø̄]{LX}/g,"ø̄");
+				
+				w=w.replace(/ų{LX}/g,"ų");
 			}
 			//Resolve hiatuses
 			if (s==1)
@@ -1078,7 +1082,7 @@
 				temp="";
 				for(var i=0;i<_spellingsystems[activestage].length;i++)
 				{
-					if (i!=_activeOrtho[activestage]) temp+="<li>(<i>"+_spellingsystems[activestage][i]+"</i>) "+apply_orthography(dbase[wordlist[wid][2]][maincolumns[activestage]],activestage,i)+"</li>";
+					if (i!=_activeOrtho[activestage]) temp+="<li>(<i>"+_spellingsystems[activestage][i]+"</i>) "+format_historical_form(apply_orthography(dbase[wordlist[wid][2]][maincolumns[activestage]],activestage,i),activestage,i)+"</li>";
 				}
 				document.getElementById("altspellingul").innerHTML=temp;
 			}
