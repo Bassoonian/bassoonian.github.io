@@ -251,7 +251,7 @@
 	_needsromanisation=[true,false,false,false,false];
 	
 	_inDebugMode=false;
-	_nonDebugMax=3;
+	_nonDebugMax=2;
 	
 	_activeOrtho=[];
 	for(var i=0;i<_alphabet.length;i++) _activeOrtho.push(0);
@@ -975,7 +975,7 @@
 				w=w.replace(/\$-b([aāeēiīoōuūæyøẽõũ])/g,"β$1");
 				w=w.replace(/\$-d([aāeēiīoōuūæyøẽõũ])/g,"ð$1");
 				w=w.replace(/\$-g([aāeēiīoōuūæyøẽõũ])/g,"ɣ$1");
-				w=replaceAll("$-","",w);
+				w=w.replace(/\$-\\?/,"");
 			}
 			
 			//Neutralise velar/palatal
@@ -1629,6 +1629,16 @@
 			}
 			return(stem);
 		}
+	function verbStem(stem,decpattern,stage,stemarray)
+		{
+			var ptrn=dbase[decpattern-1][1];
+			if (stage>1&&ptrn.includes("OH2_"))
+			{
+				if (stemarray.length<4) stem=stem.replace("4-","2-");
+				if (stemarray.length==4) stem=stem.replace("4-","3-");
+			}
+			return(stem);
+		}
 	function parseLoan(arg0,arg1)
 		{
 			var tt="";
@@ -2260,7 +2270,7 @@
 							for(var m=i;m>0;m--) offset+=(_tamlist[stage][m][1].length+1)*6;//mood
 							//readd voice (j) whenever relevant again
 							//(l+k*6+j*_tamlist[stage][i][1].length*6+i*_tamlist[stage][i][1].length*6*(_voicelist[stage].length+1))
-							temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset,stage)),stage)+"</td>";
+							temp+="<td>"+apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset,stage),kluku,stage,stemarray)),stage)+"</td>";
 						}
 						temp+="</tr>";
 					}
@@ -2273,25 +2283,25 @@
 				temp+="<tr><th colspan='2' rowspan='3' scope='col'>"+glossText("imp",returnGloss("imp"))+"</th><th colspan='3' scope='col'>"+glossText("sg",returnGloss("sg"))+"</th><th colspan='3' scope='col'>"+glossText("pl",returnGloss("pl"))+"</th></tr>";
 				temp+="<tr><th scope='col'>"+glossText("1",returnGloss("1"))+"</th><th scope='col'>"+glossText("2",returnGloss("2"))+"</th><th scope='col'>"+glossText("3",returnGloss("3"))+"</th><th scope='col'>"+glossText("1",returnGloss("1"))+"</th><th scope='col'>"+glossText("2",returnGloss("2"))+"</th><th scope='col'>"+glossText("3",returnGloss("3"))+"</th></tr>";
 				temp+="<tr><td></td><td>";
-				if (_imperatives[stage][0]=="y") temp+=apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+1,stage)),stage);
+				if (_imperatives[stage][0]=="y") temp+=apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+1,stage),kluku,stage,stemarray)),stage);
 				temp+="</td><td></td><td>";
-				if (_imperatives[stage][1]=="y") temp+=apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+2,stage)),stage);
+				if (_imperatives[stage][1]=="y") temp+=apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+2,stage),kluku,stage,stemarray)),stage);
 				temp+="</td><td>";
-				if (_imperatives[stage][2]=="y") temp+=apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+3,stage)),stage);
+				if (_imperatives[stage][2]=="y") temp+=apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+3,stage),kluku,stage,stemarray)),stage);
 				temp+="</td><td></td></tr>";
 			}
 			if (putparticiple)
 			{
 				//Put participles
 				temp+="<tr><th colspan='2' rowspan='2' scope='col'>"+glossText("pcp",returnGloss("pcp"))+"</th><th colspan='3' scope='col'>"+glossText("prs",returnGloss("prs"))+"</th><th colspan='3' scope='col'>"+glossText("pst",returnGloss("pst"))+"</th></tr>";
-				temp+="<tr><td scope='col' colspan='3' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+4,stage)),stage)+"</td><td scope='col' colspan='3' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+offset+5,stage)),stage)+"</td></tr>"
+				temp+="<tr><td scope='col' colspan='3' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+4,stage),kluku,stage,stemarray)),stage)+"</td><td scope='col' colspan='3' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+5,stage),kluku,stage,stemarray)),stage)+"</td></tr>"
 			}
 			temp+="</tbody></table>";
 			if (!putparticiple)
 			{
-				//Beep boop!
-				temp+="<h5>Present Participle</h5>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+4,stage)),"ADJ_I_UNSTRESSED",stage,false,-1,0);
-				temp+="<h5>Past Participle</h5>"+tableAdjective(attachSuffix(stemarray,getSuffix(kluku+offset+5,stage)),"ADJ_THEM_STRESSED_DEF",stage,false,-1,0);
+				//TO FIX: actual inflection table differs!
+				temp+="<h5>Present Participle</h5>"+tableAdjective(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+4,stage),kluku,stage,stemarray)),"ADJ_I_UNSTRESSED",stage,false,-1,0);
+				temp+="<h5>Past Participle</h5>"+tableAdjective(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+5,stage),kluku,stage,stemarray)),"ADJ_THEM_STRESSED_DEF",stage,false,-1,0);
 			}
 			return(temp);
 		}
