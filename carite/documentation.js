@@ -146,6 +146,7 @@ function updateLeftSidebar()
 		],
 		["3",
 			["Preface","3/preface"],
+			["Phonology","3/phono"],
 			["Sound Changes","3/sc"],
 			["Nominal Morphology","3/nom"]
 		],
