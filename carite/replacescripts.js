@@ -277,7 +277,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("u","v",w);
 			w=replaceAll("U","V",w);
 		}
-		/*if (stage==3&&subgroup==0)
+		if (stage==3&&subgroup==0)
 		{
 			w=replaceAll("θ","th",w);
 			w=replaceAll("ð","dh",w);
@@ -289,60 +289,19 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("^d","D",w);
 			w=replaceAll("^g","G",w);
 			
-			//Accents TO FIX!
-			w=w.replace(/([AĀEĒIĪOŌUŪÆØYaāeēiīoōuūæyø̄%])/g,"$1§")
-			var q=w.split("§");
-			
-			
-			for(var i=0;i<q.length;i++)
-			{
-				if (q[i]=="̄"&&i>0)
-				{
-					q[i-1]+="̄";
-					q.splice(i,1);
-					i-=1;
-				}
-			}
-			
-			if (q[q.length-1]=="̄")
-			{
-				q[q.length-2]+="̄";
-				q.pop();
-			}
-			else if (q[q.length-1]=="") q.pop();
-			
-			if (q.length>0)
-			{
-				var ptk=q[q.length-1].replace(/([AĀEĒIĪOŌUŪÆØYaāeēiīoōuūæyø̄%])/g,"!");
-				if (!ptk.includes("!"))
-				{
-					q[q.length-2]+=q[q.length-1];
-					q.pop();
-				}
-			}
-			
-			if (q.length>2) //FIX! 1) don't display if stress is penultimate 2) take antestress into account (muy dificil señor!)
-			{
-				//q[q.length-1]=q[q.length-1].replace(/([mnlr]ˠ?ʲ?)\%/g,"§$1°");
-				q[q.length-2]+="́";
-			}
-			w=q.join("");
-			w=replaceAll("́̄","̄́",w);
-			w=replaceAll("%","",w);
-			
 			w=replaceAll("k","c",w);
 			w=replaceAll("K","C",w);
-			w=replaceAll("w","u",w);
-			w=replaceAll("W","U",w);
-			w=replaceAll("j","i",w);
-			w=replaceAll("J","I",w);
-			w=replaceAll("ŋ","nh",w);
 			
-			//diacritics
-			w=replaceAll("ʲ","̇",w);
-			w=replaceAll("ʷ","̨",w);
+			//Fix some stuff
+			w=replaceAll("ʷ%","ŭ",w);
+			w=replaceAll("cʷ","qu",w);
+			w=replaceAll("Cʷ","Qu",w);
+			w=replaceAll("ʷ","w",w);
+			w=replaceAll("ʲ%","i",w);
+			w=w.replace(/(ʲ)($|\s)/g,"i$2");
+			w=replaceAll("ʲ","j",w);
 		}
-		if (stage==3&&subgroup==2)
+		/*if (stage==3&&subgroup==2)
 		{
 			w=w.toLowerCase();
 			//Consonants

@@ -480,6 +480,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("March 15, 2021"),"First batch of verbal morphology for Umayyad Carite.","Slightly changed Exon's nouns in Umayyad Carite."],
 	[new Date("March 13, 2021"),"Several changes to the Umayyad Carite nominal morphology."],
 	[new Date("March 12, 2021"),"First full version of Umayyad Carite nominal morphology."],
 	[new Date("March 11, 2021"),"Very early nominal morphology for Umayyad Carite."],
