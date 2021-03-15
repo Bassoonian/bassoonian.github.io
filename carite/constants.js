@@ -475,7 +475,7 @@ _spellingsystems=[
 	["Greek","romanisation"],
 	[""],
 	["modernised","authentic"],
-	["Latin","Gothic","Arabic"],
+	["modernised","authentic","Gothic","Arabic"],
 	["Latin","Arabic"]
 ];
 

@@ -277,7 +277,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("u","v",w);
 			w=replaceAll("U","V",w);
 		}
-		if (stage==3&&subgroup==0)
+		/*if (stage==3&&subgroup==0)
 		{
 			w=replaceAll("θ","th",w);
 			w=replaceAll("ð","dh",w);
@@ -342,7 +342,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("ʲ","̇",w);
 			w=replaceAll("ʷ","̨",w);
 		}
-		if (stage==3&&subgroup==1)
+		if (stage==3&&subgroup==2)
 		{
 			w=w.toLowerCase();
 			//Consonants
@@ -386,7 +386,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("%","",w);
 			//TO DO: ^j/ʷ, v, bh/dh/gh
 		}
-		if (stage==3&&subgroup==2)
+		if (stage==3&&subgroup==3)
 		{
 			w=" "+w.toLowerCase()+" ";
 			w=w.replace("%","");
@@ -453,7 +453,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("ʲ","",w);
 			
 			w=w.trim();
-		}
+		}*/
 		if (stage==4)
 		{
 			w=replaceAll("kw","qu",w);

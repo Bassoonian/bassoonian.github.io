@@ -981,16 +981,17 @@
 			//Neutralise velar/palatal
 			if (s==3)
 			{
-				w=replaceAll("$b","v",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
+				/*w=replaceAll("$b","v",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
 				w=replaceAll("$d","ð",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
 				w=replaceAll("$g","ɣ",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
 				w=w.replace(/(\$)([aāeēiīoōuūyȳøø̄æǣ])/g,"j$2");
-				w=replaceAll("$","",w);
+				w=replaceAll("$","",w);*/
 				
 				w=replaceAll("ʲʲ","ʲ",w);
 				w=replaceAll("ʷʷ","ʷ",w);
 				w=replaceAll("ʲʷ","ʲ",w);
 				w=replaceAll("ʷʲ","ʷ",w);
+				w=replaceAll("wʷ","w",w);
 				w=replaceAll("jʲ","j",w);
 				
 				w=w.replace(/([aāeēiīoōuūyȳøø̄æǣęę̄ǫǭųų̄])(d)\%$/g,"$1ð%");
