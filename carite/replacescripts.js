@@ -428,7 +428,6 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("k","c",w);
 			w=replaceAll("K","C",w);
 			
-			
 			if (w=="i") w="y";
 			if (w=="I") w="Y";
 			
@@ -450,10 +449,14 @@ function apply_orthography(word,stage,subgroup)
 			w=w.replace(/(g)([ie])/g,"gu$2");
 			w=w.replace(/(G)([ie])/g,"Gu$2");
 			
-			w=replaceAll("txi","ci",w);
-			w=replaceAll("Txi","Ci",w);
-			w=replaceAll("tx","ci",w);
-			w=replaceAll("Tx","Ci",w);
+			// v correct
+			w=replaceAll("tsi","ci",w);
+			w=replaceAll("Tsi","Ci",w);
+			w=replaceAll("ts","ç",w);
+			w=replaceAll("Ts","Ç",w);
+			w=replaceAll("tx","ch",w);
+			w=replaceAll("Tx","Ch",w);
+			
 			w=replaceAll("dj","gi",w);
 			w=replaceAll("Dj","Gi",w);
 			
