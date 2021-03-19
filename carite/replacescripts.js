@@ -279,76 +279,66 @@ function apply_orthography(word,stage,subgroup)
 		}
 		if (stage==3&&subgroup==0)
 		{
+			w=replaceAll("k","c",w);
+			w=replaceAll("K","C",w);
+			w=w.replace(/c([eēiīyæø])/g,"qw$1");
+			w=w.replace(/C([eēiīiyæø])/g,"Qw$1");
+			
+			w=replaceAll("w","u",w);
+			w=replaceAll("W","U",w);
+			
+			w=replaceAll("ī","ei",w);
+			w=replaceAll("Ī","Ei",w);
+			w=replaceAll("ō","au",w);
+			w=replaceAll("Ō","Au",w);
+			w=replaceAll("ū","ou",w);
+			w=replaceAll("Ū","Ou",w);
+			w=replaceAll("ǣ","ai",w);
+			w=replaceAll("ǣ","ai",w);
+			w=replaceAll("Ǣ","Ai",w);
+			w=replaceAll("æ","ə",w);
+			w=replaceAll("Æ","Ə",w);
+			w=replaceAll("y","î",w);
+			w=replaceAll("Y","Î",w);
+			w=replaceAll("ø̄","oi",w);
+			w=replaceAll("Ø̄","Oi",w);
+			w=replaceAll("ø","ê",w);
+			w=replaceAll("Ø","Ê",w);
+			w=replaceAll("ȳ","ui",w);
+			w=replaceAll("Ȳ","Ui",w);
+			
+			w=replaceAll("ð","ḍ",w);
+			w=replaceAll("ɣ","ġ",w);
+			w=replaceAll("^ḍ","Ḍ",w);
+			w=replaceAll("^ġ","Ġ",w);
 			w=replaceAll("θ","th",w);
-			w=replaceAll("ð","dh",w);
-			w=replaceAll("x","kh",w);
-			w=replaceAll("X","Kh",w);
-			w=replaceAll("ɣ","gh",w);
+			w=replaceAll("x","ch",w);
+			w=replaceAll("X","Ch",w);
+			
+			w=w.replace(/u([uŭ])/g,"y$1");
+			w=w.replace(/U([uŭ])/g,"Y$1");
+			w=w.replace(/([cCqQ])y/g,"$1u");
+			
+			w=replaceAll("j","i",w);
+			w=replaceAll("J","I",w);
+			
+			w=replaceAll("z%","sa",w);
+			w=replaceAll("zʲ%","sia",w);
+			w=replaceAll("z","s",w);
 			
 			w=replaceAll("^t","T",w);
 			w=replaceAll("^d","D",w);
 			w=replaceAll("^g","G",w);
-			
-			w=replaceAll("k","c",w);
-			w=replaceAll("K","C",w);
-			
 			//Fix some stuff
-			w=replaceAll("ʷ%","ŭ",w);
-			w=replaceAll("cʷ","qu",w);
-			w=replaceAll("Cʷ","Qu",w);
-			w=replaceAll("ʷ","w",w);
 			w=replaceAll("ʲ%","i",w);
 			w=w.replace(/(ʲ)($|\s)/g,"i$2");
-			w=replaceAll("ʲ","j",w);
+			w=replaceAll("ʲ","i",w);
 		}
-		/*if (stage==3&&subgroup==2)
-		{
-			w=w.toLowerCase();
-			//Consonants
-			w=replaceAll("b","𐌱",w);
-			w=replaceAll("g","𐌲",w);
-			w=replaceAll("d","𐌳",w);
-			w=replaceAll("z","𐌶",w);
-			w=replaceAll("h","𐌷",w);
-			w=replaceAll("k","𐌺",w);
-			w=replaceAll("l","𐌻",w);
-			w=replaceAll("m","𐌼",w);
-			w=replaceAll("n","𐌽",w);
-			w=replaceAll("j","𐌾",w);
-			w=replaceAll("p","𐍀",w);
-			w=replaceAll("r","𐍂",w);
-			w=replaceAll("s","𐍃",w);
-			w=replaceAll("t","𐍄",w);
-			w=replaceAll("f","𐍆",w);
-			w=replaceAll("w","𐍅",w);
-			
-			w=replaceAll("𐌽𐌲","𐌲𐌲",w);
-			w=replaceAll("𐌽𐌺","𐌲𐌺",w);
-			//Vowels
-			w=replaceAll("a","𐌰",w);
-			w=replaceAll("ā","𐌰",w);
-			w=replaceAll("ǣ","𐌰𐌹",w);
-			w=replaceAll("æ","𐌰𐌹",w);
-			w=replaceAll("e","𐌴",w);
-			w=replaceAll("ē","𐌴",w);
-			w=replaceAll("i","𐌹",w);
-			w=replaceAll("ī","𐌴𐌹",w);
-			w=replaceAll("o","𐌰𐌿",w);
-			w=replaceAll("ō","𐍉",w);
-			w=replaceAll("u","𐌿",w);
-			w=replaceAll("ū","𐌿",w);
-			w=replaceAll("ø̄","𐍉𐌹",w);
-			w=replaceAll("ø","𐍉𐌹",w);
-			w=replaceAll("ȳ","𐍅",w);
-			w=replaceAll("y","𐍅",w);
-			
-			w=replaceAll("%","",w);
-			//TO DO: ^j/ʷ, v, bh/dh/gh
-		}
-		if (stage==3&&subgroup==3)
+		if (stage==3&&subgroup==2)
 		{
 			w=" "+w.toLowerCase()+" ";
 			w=w.replace("%","");
+			w=w.replace("ŭ","");
 			
 			//Mergers
 			w=replaceAll("e","i",w);
@@ -412,7 +402,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("ʲ","",w);
 			
 			w=w.trim();
-		}*/
+		}
 		if (stage==4)
 		{
 			w=replaceAll("kw","qu",w);

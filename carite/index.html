@@ -246,7 +246,7 @@
 		"Α~Ᾱ Β Γ Δ Ε Ζ Η Θ Ι~Ῑ~Ῐ Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y~Ȳ Φ Ψ Ω",
 		"A~Ā~Ą B D E~Ē~Ę F G H~Ḫ I~Ī~Į J K L M N O~Ō~Ǫ P R S T U~Ū~Ų V W X Y~Ȳ Ø~Ø̄",
 		"A~Ā B~Ḅ C D~Ḍ E~Ē~Ê~Ę Ə F G~Ġ H I~Ī~Î J K L M N O~Ō~Ǫ P Q R~Ř S T U~Ū~Ų V X",
-		"A~Ā B C D E~Ē F G H I~Ī L M N O~Ō P R S T U~Ū V Y~Ȳ Z Æ~Ǣ Ø~Ø̄",
+		"A~Ā B C D~Ḍ E~Ē~Ê Ə F G~Ġ H I~Î L M N O P Q R S T U V Y",
 		"A B C~Ç D E F G H I J L M N O P Q R S T U V X Y"];
 	_needsromanisation=[true,false,false,false,false];
 	
@@ -979,30 +979,17 @@
 			}
 			if (s==3)
 			{
-				w=w.replace(/\$-b([aāeēiīoōuūæyøẽõũ])/g,"v$1");
-				w=w.replace(/\$-d([aāeēiīoōuūæyøẽõũ])/g,"ð$1");
-				w=w.replace(/\$-g([aāeēiīoōuūæyøẽõũ])/g,"ɣ$1");
+				w=w.replace(/\$-b([aāeēiīoōuūæyø])/g,"v$1");
+				w=w.replace(/\$-d([aāeēiīoōuūæyø])/g,"ð$1");
+				w=w.replace(/\$-g([aāeēiīoōuūæyø])/g,"ɣ$1");
 				w=w.replace(/\$-\\?/,"");
 			}
 			
-			//Neutralise velar/palatal
 			if (s==3)
 			{
-				/*w=replaceAll("$b","v",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
-				w=replaceAll("$d","ð",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
-				w=replaceAll("$g","ɣ",w); //FIX TO ONLY COUNT IF A VOWEL FOLLOWS!
-				w=w.replace(/(\$)([aāeēiīoōuūyȳøø̄æǣ])/g,"j$2");
-				w=replaceAll("$","",w);*/
-				
-				w=replaceAll("ʲʲ","ʲ",w);
-				w=replaceAll("ʷʷ","ʷ",w);
-				w=replaceAll("ʲʷ","ʲ",w);
-				w=replaceAll("ʷʲ","ʷ",w);
-				w=replaceAll("wʷ","w",w);
-				w=replaceAll("jʲ","j",w);
-				
-				w=w.replace(/([aāeēiīoōuūyȳøø̄æǣęę̄ǫǭųų̄])(d)\%$/g,"$1ð%");
-				w=w.replace(/([aāeēiīoōuūyȳøø̄æǣęę̄ǫǭųų̄])(g)\%$/g,"$1ɣ%");
+				w=w.replace(/([aāeēiīoōuūæyø])d%/g,"$1ð%")
+				w=w.replace(/([aāeēiīoōuūæyø])g%/g,"$1ɣ%")
+				w=w.replace(/ʲʲ/g,"ʲ");
 			}
 			return(w);
 		}
@@ -1302,6 +1289,17 @@
 							case "P":
 								checkpie=false;
 								temp+="prefixal usage of the preposition ";
+								var k=-1;
+								for(var j=0;j<_uidlist.length;j++)
+								{
+									if (evaluate[1]==_uidlist[j][0]) k=j;
+								}
+								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+i+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[i]],i)+"</a>";
+								document.getElementById("tab_sources_li").style.display="none";
+								break;
+							case "BFP":
+								checkpie=false;
+								temp+="backformation from the preterite stem of ";
 								var k=-1;
 								for(var j=0;j<_uidlist.length;j++)
 								{

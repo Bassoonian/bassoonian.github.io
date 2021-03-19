@@ -452,7 +452,7 @@ _vowels=[
 	["a","e","i","o","u","y","ø","ː"],
 	["a","e","i","o","u","y","ø","ː","ã","ẽ","ĩ","õ","ũ","ỹ","ø̃"],
 	["a","e","i","o","u","y","ø","æ","ː","ẽ","õ","ũ"],
-	["a","e","i","o","u","y","ø","æ","ː","̩","%"],
+	["a","e","i","o","u","y","ø","æ","ː","̩","%","ŭ"],
 	["a","e","i","o","u","%"]
 ];
 _consonants=[
@@ -475,7 +475,7 @@ _spellingsystems=[
 	["Greek","romanisation"],
 	[""],
 	["modernised","authentic"],
-	["modernised","authentic","Gothic","Arabic"],
+	["modernised","authentic","Arabic"],
 	["Latin","Arabic"]
 ];
 
