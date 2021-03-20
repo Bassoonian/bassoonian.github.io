@@ -208,6 +208,8 @@
 				<!-- <p><input type="checkbox" id="showArchaicBox" onchange="updateArchaicBox();"> Use archaic Greek glyphs</p> -->
 				<p><input type="checkbox" id="alt_0_wr" onchange="updateAlternativeReconstructions(true);"> [β] for /w/ in #_L environments</p>
 				<p><input type="checkbox" id="alt_0_z" onchange="updateAlternativeReconstructions(true);"> [ʐ] for /z/ in O_ environments</p>
+				<h6>Umayyad Carite</h6>
+				<p><input type="checkbox" id="alt_3_stress" onchange="updateAllOrthos(true);"> Always mark stress in modernised orthography</p>
 				<h4>Other</h4>
 				<p>Last framework update: <span id="lastdocupdate"></span></p>
 				<p>Last lexicon update: <span id="lastlexupdate"></span></p>
@@ -277,7 +279,8 @@
 	}
 	__alt={
 		_0_wr: false,
-		_0_z: false
+		_0_z: false,
+		_3_stress: false
 	}
 	
 	_dataformat={timestyle: "long", datestyle: "long", hour: "2-digit", minute: "2-digit"};
@@ -737,6 +740,46 @@
 			var wid=now % (wordlist.length-1);
 			openWord(wid,true);
 		}
+	function splitIntoSyllables(word,stage)
+		{
+			for(var i=0;i<_sylbreaks[stage].length;i++) word=replaceAll(_sylbreaks[stage][i],"§"+_sylbreaks[stage][i]+"§",word);
+			var q=word.split("§");
+			word="§";
+			for(var i=0;i<q.length;i++)
+			{
+				if (_sylbreaks[stage].includes(q[i].charAt(0))) //is a syllabic component
+				{
+					word+=q[i];
+				}
+				else
+				{
+					if (i==q.length-1||i==0) word+=q[i];
+					else
+					{
+						var t="";
+						var k=q[i];
+						if (k.includes("'"))
+						{
+							t=(k.split("'"))[0];
+							k="'"+(k.split("'"))[1];
+						}
+						var p="";
+						for(var tt=0;tt<_illegalonsets[stage].length;tt++)
+						{
+							if (k.startsWith(_illegalonsets[stage][tt]))
+							{
+								t+=k.charAt(0);
+								k=k.slice(1);
+								tt=0;
+							}
+						}
+						word+=t+"§"+k;
+					}
+				}
+			}
+			word=word.replace(/§([a-z])(\1)/g,"$1§$1");
+			return(word.replace("§",""));
+		}
 	function getPronunciation(word,stage)
 		{
 			word=word.toLowerCase();
@@ -836,9 +879,14 @@
 			}
 			if (stage==3)
 			{
+				word=replaceAll("ŭ","%",word);
 				//Penultimate stress
 				var q=word.split(".");
-				if (q.length>2) q[q.length-2]="ˈ"+q[q.length-2];
+				if (q.length>3)
+				{
+					if (_vowels[3].includes(q[q.length-3].slice(-1))&&q[q.length-2].charAt(0)!=q[q.length-2].charAt(1)) q[q.length-2]="ˈ"+q[q.length-2];
+					else q[q.length-3]="ˈ"+q[q.length-3];
+				}
 				else q[1]="ˈ"+q[1];
 				//Fix up %
 				if (q.length>1)
@@ -2358,6 +2406,17 @@
 			
 			if (update) openWord(_last_opened,false);
 		}
+	function updateAllOrthos(update)
+		{
+			//3_stress
+			__alt._3_stress=document.getElementById("alt_3_stress").checked;
+			localStorage.alt_3_stress=__alt._3_stress;
+			if (update)
+			{
+				if (activestage==3) timeTravel(_last_opened,activestage);
+				else openWord(_last_opened,false);
+			}
+		}
 	function syncSettings()
 		{
 			if (typeof(Storage) !== "undefined")
@@ -2496,6 +2555,16 @@
 					localStorage.alt_0_z=false;
 				}
 				updateAlternativeReconstructions(false);
+				//AllOrthos
+				if (localStorage.alt_3_stress!==undefined)
+				{
+					__alt._3_stress=localStorage.alt_3_stress;
+					if (localStorage.alt_3_stress=="true") document.getElementById("alt_3_stress").checked=true;
+				}
+				else
+				{
+					localStorage.alt_3_stress=false;
+				}
 			}
 			//Put changelog in place too
 			var t="";

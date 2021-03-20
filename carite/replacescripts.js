@@ -86,7 +86,7 @@ function apply_romanisation(word,stage)
 	}
 function format_historical_form(str,stage,subgroup)
 	{
-		if (stage==2&&subgroup==1) str="<span class='smallcapsroman'>"+str.toLowerCase()+"</span>";
+		if ((stage==2||stage==3)&&subgroup==1) str="<span class='smallcapsroman'>"+str.toLowerCase()+"</span>";
 		return(str);
 	}
 function apply_orthography(word,stage,subgroup)
@@ -95,6 +95,7 @@ function apply_orthography(word,stage,subgroup)
 		var w=(word.split("~"))[0];
 		w=replaceAll("'","",w);
 		w=pronFixOrtho(w,stage);
+//////STAGE 0
 		if (stage==0&&subgroup==0)
 		{
 			w=replaceAll("nk","γk",w);
@@ -180,6 +181,7 @@ function apply_orthography(word,stage,subgroup)
 			w="*"+w;
 		}
 		if (stage==0&&subgroup==1) w=apply_romanisation(w,stage);
+////////// STAGE 1
 		if (stage==1)
 		{
 			w=replaceAll("X","Ḫ",w);
@@ -189,6 +191,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("ks","x",w);
 			w="*"+w;
 		}
+////////// STAGE 2
 		if (stage==2)
 		{
 			w=replaceAll("k","c",w);
@@ -277,15 +280,29 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("u","v",w);
 			w=replaceAll("U","V",w);
 		}
+///////// STAGE 3
 		if (stage==3&&subgroup==0)
+		{
+			w=splitIntoSyllables(w,3);
+			var k=w.split("§");
+			if (k.length>1)
+			{
+				//Indicate penultimate stress unless preceding syllable is heavy
+				//if (k.length==2) k[0]=applyStressToFirstVowel(k[0],3); //Bisyllabic, so always the first syllable
+				if (k[k.length-1].includes("%")&&k.length>2)//else
+				{
+					if (_sylbreaks[3].includes(k[k.length-3].slice(-1))) k[k.length-2]=applyStressToFirstVowel(k[k.length-2],3); //Open syllable
+					//else k[k.length-3]=applyStressToFirstVowel(k[k.length-3],3); //Closed
+				}
+			}
+			w=k.join("");
+		}
+		if (stage==3&&subgroup<2)
 		{
 			w=replaceAll("k","c",w);
 			w=replaceAll("K","C",w);
-			w=w.replace(/c([eēiīyæø])/g,"qw$1");
-			w=w.replace(/C([eēiīiyæø])/g,"Qw$1");
-			
-			w=replaceAll("w","u",w);
-			w=replaceAll("W","U",w);
+			w=replaceAll("cw","qw",w);
+			w=replaceAll("Cw","Qw",w);
 			
 			w=replaceAll("ī","ei",w);
 			w=replaceAll("Ī","Ei",w);
@@ -293,31 +310,63 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("Ō","Au",w);
 			w=replaceAll("ū","ou",w);
 			w=replaceAll("Ū","Ou",w);
+			w=replaceAll("ø̄","oi",w);
+			w=replaceAll("Ø̄","Oi",w);
 			w=replaceAll("ǣ","ai",w);
 			w=replaceAll("ǣ","ai",w);
 			w=replaceAll("Ǣ","Ai",w);
-			w=replaceAll("æ","ə",w);
-			w=replaceAll("Æ","Ə",w);
-			w=replaceAll("y","î",w);
-			w=replaceAll("Y","Î",w);
-			w=replaceAll("ø̄","oi",w);
-			w=replaceAll("Ø̄","Oi",w);
-			w=replaceAll("ø","ê",w);
-			w=replaceAll("Ø","Ê",w);
 			w=replaceAll("ȳ","ui",w);
 			w=replaceAll("Ȳ","Ui",w);
+			if (subgroup==0)
+			{
+				w=replaceAll("æ","ə",w);
+				w=replaceAll("Æ","Ə",w);
+				w=replaceAll("y","î",w);
+				w=replaceAll("Y","Î",w);
+				w=replaceAll("ø","ê",w);
+				w=replaceAll("Ø","Ê",w);
+			}
+			else
+			{
+				w=replaceAll("æ","e",w);
+				w=replaceAll("Æ","E",w);
+				w=replaceAll("y","i",w);
+				w=replaceAll("Y","I",w);
+				w=replaceAll("ø","e",w);
+				w=replaceAll("Ø","E",w);
+			}
 			
-			w=replaceAll("ð","ḍ",w);
-			w=replaceAll("ɣ","ġ",w);
-			w=replaceAll("^ḍ","Ḍ",w);
-			w=replaceAll("^ġ","Ġ",w);
+			w=w.replace(/qw([eēiəîêʲ])/g,"cw$1");
+			w=w.replace(/Qw([eēiəîêʲ])/g,"Cw$1");
+			w=w.replace(/c([eēiəîêʲ])/g,"qw$1");
+			w=w.replace(/C([eēiəîêʲ])/g,"Qw$1");
+			
+			//Stress
+			if (subgroup==0) w=w.replace(/!([aAāĀeēEĒiIoOuUîÎêÊəƏ])/g,"$1́");
+			
+			if (subgroup==0)
+			{
+				w=replaceAll("ð","ḍ",w);
+				w=replaceAll("ɣ","ġ",w);
+				w=replaceAll("^ḍ","Ḍ",w);
+				w=replaceAll("^ġ","Ġ",w);
+			}
+			else
+			{
+				w=replaceAll("ð","d",w);
+				w=replaceAll("ɣ","g",w);
+			}
 			w=replaceAll("θ","th",w);
 			w=replaceAll("x","ch",w);
 			w=replaceAll("X","Ch",w);
 			
-			w=w.replace(/u([uŭ])/g,"y$1");
-			w=w.replace(/U([uŭ])/g,"Y$1");
+			w=w.replace(/u([uŭú])/g,"y$1");
+			w=w.replace(/U([uŭú])/g,"Y$1");
+			w=w.replace(/([uú])u/g,"$1y");
 			w=w.replace(/([cCqQ])y/g,"$1u");
+			
+			w=replaceAll("w","u",w);
+			w=replaceAll("W","U",w);
 			
 			w=replaceAll("j","i",w);
 			w=replaceAll("J","I",w);
@@ -333,10 +382,23 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("ʲ%","i",w);
 			w=w.replace(/(ʲ)($|\s)/g,"i$2");
 			w=replaceAll("ʲ","i",w);
+			w=replaceAll("%","",w);
+			w=replaceAll("ŋ","ng",w);
+			
+			if (subgroup==1)
+			{
+				w=replaceAll("u","v",w);
+				w=replaceAll("ŭ","v",w);
+				w=replaceAll("U","V",w);
+				w=replaceAll("ā","a",w);
+				w=replaceAll("Ā","A",w);
+				w=replaceAll("ē","e",w);
+				w=replaceAll("Ē","E",w);
+			}
 		}
 		if (stage==3&&subgroup==2)
 		{
-			w=" "+w.toLowerCase()+" ";
+			/*w=" "+w.toLowerCase()+" ";
 			w=w.replace("%","");
 			w=w.replace("ŭ","");
 			
@@ -401,8 +463,10 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("ʷ","",w);
 			w=replaceAll("ʲ","",w);
 			
-			w=w.trim();
+			w=w.trim();*/
+			w="[to do]";
 		}
+//////// STAGE 4
 		if (stage==4)
 		{
 			w=replaceAll("kw","qu",w);
@@ -569,6 +633,20 @@ function formatPie(w,isroot)
 			if (__pie.aspiration) w=w.replace(/ʰ/g,"h");
 		}
 		return(w);
+	}
+	
+function applyStressToFirstVowel(syl,stage)
+	{
+		var k=syl.split("");
+		for(var i=0;i<k.length;i++)
+		{
+			if (_sylbreaks[stage].includes(k[i]))
+			{
+				k[i]="!"+k[i];
+				i=k.length;
+			}
+		}
+		return(k.join(""));
 	}
 /*function apply_nativealphabet(word,stage) THIS IS A RELIC, left in case it's useful in the future
 	{
