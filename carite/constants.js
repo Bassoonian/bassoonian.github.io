@@ -487,7 +487,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("March 20, 2021"),"Finalisation of Latin orthography of Umayyad Carite.","Fixed the word pronunciation of Umayyad Carite."],
+	[new Date("March 20, 2021"),"Finalisation of Latin orthography of Umayyad Carite.","Fixed the word pronunciation of Umayyad Carite.","Properly finalised all Old Carite verbal morphology."],
 	[new Date("March 17, 2021"),"Very, very, very preliminary release of Monarchic Carite. Highly incomplete and to be considered a sketchbook at best."],
 	[new Date("March 15, 2021"),"First batch of verbal morphology for Umayyad Carite.","Slightly changed Exon's nouns in Umayyad Carite."],
 	[new Date("March 13, 2021"),"Several changes to the Umayyad Carite nominal morphology."],

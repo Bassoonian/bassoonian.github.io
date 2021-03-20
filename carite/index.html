@@ -986,6 +986,7 @@
 				w=w.replace(/į/g,"ę");
 				w=w.replace(/y̨/g,"ų");
 				w=w.replace(/æ̨/g,"ę");
+				w=w.replace(/ø̨/g,"ǫ");
 			}
 			
 			//adaptive LX
@@ -1686,10 +1687,14 @@
 	function verbStem(stem,decpattern,stage,stemarray)
 		{
 			var ptrn=dbase[decpattern-1][1];
-			if (stage>1&&ptrn.includes("OH2_"))
+			if (stage>1&&(ptrn.includes("OH2_")||ptrn.includes("OR_DEF")||ptrn.includes("OR_ALPH")))
 			{
 				if (stemarray.length<4) stem=stem.replace("4-","2-");
 				if (stemarray.length==4) stem=stem.replace("4-","3-");
+			}
+			if (stage>1&&(ptrn.includes("MI_VOC")||ptrn.includes("OR_RES")))
+			{
+				if (stemarray.length<5) stem=stem.replace("4-","1-");
 			}
 			return(stem);
 		}
