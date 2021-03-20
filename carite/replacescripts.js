@@ -336,10 +336,12 @@ function apply_orthography(word,stage,subgroup)
 				w=replaceAll("Ø","E",w);
 			}
 			
-			w=w.replace(/qw([eēiəîêʲ])/g,"cw$1");
-			w=w.replace(/Qw([eēiəîêʲ])/g,"Cw$1");
-			w=w.replace(/c([eēiəîêʲ])/g,"qw$1");
-			w=w.replace(/C([eēiəîêʲ])/g,"Qw$1");
+			w=w.replace(/qw(!?[eēiəîêʲ])/g,"cw$1");
+			w=w.replace(/Qw(!?[eēiəîêʲ])/g,"Cw$1");
+			w=w.replace(/c(!?[eēiəîêʲ])/g,"qw$1");
+			w=w.replace(/C(!?[eēiəîêʲ])/g,"Qw$1");
+			w=w.replace(/g(!?[eēiəîêʲ])/g,"gw$1");
+			w=w.replace(/G(!?[eēiəîêʲ])/g,"Gw$1");
 			
 			//Stress
 			if (subgroup==0) w=w.replace(/!([aAāĀeēEĒiIoOuUîÎêÊəƏ])/g,"$1́");
