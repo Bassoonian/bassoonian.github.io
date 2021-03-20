@@ -362,9 +362,9 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("x","ch",w);
 			w=replaceAll("X","Ch",w);
 			
-			w=w.replace(/u([uŭú])/g,"y$1");
-			w=w.replace(/U([uŭú])/g,"Y$1");
-			w=w.replace(/([uú])u/g,"$1y");
+			w=w.replace(/w([uŭú])/g,"y$1");
+			w=w.replace(/W([uŭú])/g,"Y$1");
+			w=w.replace(/([uú])w/g,"$1y");
 			w=w.replace(/([cCqQ])y/g,"$1u");
 			
 			w=replaceAll("w","u",w);
