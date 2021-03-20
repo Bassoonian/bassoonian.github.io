@@ -29,6 +29,16 @@ sources=[
 			["google",		"https://books.google.be/books?id=BrJhDwAAQBAJ"],
 			["worldcat",	"https://www.worldcat.org/title/studies-in-historical-ibero-romance-morpho-syntax/oclc/1120668305"]
 		]],
+	["spanishvocabetymo",
+		"Brodsky, David. <i>Spanish Vocabulary: An Etymological Approach.</i> Austin, University of Texas Press, 2008",[
+			["google",		"https://books.google.be/books?id=vh8o6rVoutQC"],
+			["worldcat",	"https://www.worldcat.org/title/spanish-vocabulary-an-etymological-approach/oclc/165083621"]
+		]],
+	["gothicalphabet",
+		"Cercignani, Fausto. <i>The elaboration of the Gothic alphabet and orthography.</i> In: <i>Indogermanische Forschungen, 93.</i> 1988",[
+			["google",		"https://books.google.be/books?id=MLn-oAEACAAJ"],
+			["worldcat",	"https://www.worldcat.org/title/elaboration-of-the-gothic-alphabet-and-orthography/oclc/879204406"]
+		]],
 	["ed_iranian",
 		"Cheung, Johnny. <i>Etymological Dictionary of the Iranian Verb.</i> Leiden, Koninklijke Brill NV, 2007",[
 			["google",		"https://books.google.be/books?id=lPhjAAAAMAAJ"],
@@ -71,6 +81,11 @@ sources=[
 	["athematicaccent",
 		"Frazier, Melissa. <i>Accent in Proto-Indo-European Athematic Nouns: Antifaithfulness in Inflectional Paradigms.</i> Chapel Hill, 2006",[
 			["directlink",	"https://rucore.libraries.rutgers.edu/rutgers-lib/37147/PDF/1/play/"]
+		]],
+	["concisespanish",
+		"Gómez de Silva, Guido. <i>Elsevier's concise Spanish etymological dictionary.</i> Amsterdam, Elsevier, 1985",[
+			["google",		"https://books.google.be/books?id=yM_8oAEACAAJ"],
+			["worldcat",	"https://www.worldcat.org/title/elseviers-concise-spanish-etymological-dictionary/oclc/220367225"]
 		]],
 	["jasanoffinstrumentalplural",
 		"Jasanoff, Jay. <i>*-bhi, *-bhis, *-ōis: following the trail of the PIE instrumental plural.</i> Museum Tusculanum Press, 2009",[
@@ -226,6 +241,11 @@ sources=[
 			["google",		"https://books.google.be/books?id=5vPnBQAAQBAJ"],
 			["worldcat",	"https://www.worldcat.org/title/ancient-greek-dialects-and-early-authors-introduction-to-the-dialect-mixture-in-homer-with-notes-on-lyric-and-herodotus/oclc/883623553"]
 		]],
+	["dicport",
+		"Nascentes, Antenor. <i>Dicionário etimológico da língua portuguêsa.</i> Rio de Janeiro, F. Alves, 1955",[
+			["google",		"https://books.google.be/books?id=W-1dxwEACAAJ"],
+			["worldcat",	"https://www.worldcat.org/title/dicionrio-etimologico-da-lingua-portugusa-1/oclc/1071437596"]
+		]],
 	["ed_albanian",
 		"Orel, Vladimir. <i>Albanian Etymological Dictionary.</i> Leiden/Boston/Köln, 1998",[
 			["google",		"https://books.google.be/books?id=yJQYAQAAIAAJ"],
@@ -279,6 +299,11 @@ sources=[
 		"Sebeck, Thomas A. <i>Portrait of Linguists: A Biographical Source Book for the History of Western Linguistics, 1746-1963.</i> Bristol, Thoemmes Press, 2002",[
 			["google",		"https://books.google.be/books?id=9wxjDAAAQBAJ"],
 			["worldcat",	"https://www.worldcat.org/title/portrait-of-linguists-a-biographical-source-book-for-the-history-of-western-linguistics-1746-1963-volume-1-from-sir-william-jones-to-karl-brugmann/oclc/952247658"]
+		]],
+	["latinespanol",
+		"Segura Munguía, Santiago. <i>Nuevo diccionario etimológico Latín-Español y de las voces derivadas.</i> Bilbao, Universidad de Deusto, 2010",[
+			["google",		"https://books.google.be/books?id=cOxfAAAAMAAJ"],
+			["worldcat",	"https://www.worldcat.org/title/nuevo-diccionario-etimologico-latin-espanol-y-de-las-voces-derivadas/oclc/733967540"]
 		]],
 	["ieverbmorpho",
 		"Shields, Kenneth C. <i>A History of Indo-European Verb Morphology.</i> In: <i>Current Issues in Linguistic Theory.</i> Amsterdam/Philadelphia, John Benjamins Publishing Company, 1992",[
