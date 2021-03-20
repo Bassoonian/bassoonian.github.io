@@ -289,7 +289,7 @@ function apply_orthography(word,stage,subgroup)
 			{
 				//Indicate penultimate stress unless preceding syllable is heavy
 				//if (k.length==2) k[0]=applyStressToFirstVowel(k[0],3); //Bisyllabic, so always the first syllable
-				if (k[k.length-1].includes("%")&&k.length>2)//else
+				if (k[k.length-1].includes("%")&&!k[k.length-1].includes("ʲ%")&&!k[k.length-1].includes("z%")&&k.length>2)//else
 				{
 					if (_sylbreaks[3].includes(k[k.length-3].slice(-1))) k[k.length-2]=applyStressToFirstVowel(k[k.length-2],3); //Open syllable
 					//else k[k.length-3]=applyStressToFirstVowel(k[k.length-3],3); //Closed
