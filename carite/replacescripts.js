@@ -498,9 +498,10 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("xx","sx",w);
 			w=w.replace(/([aeiou])(z)([aeiou])/g,"$1s$3");
 			w=w.replace(/([BCDFGHKLMNPRSTVXbcdfghklmnprstvx])(y)([aeiou])/g,"$1i$3");
+			w=w.replace(/([qQ]u)y/g,"$1i");
 			
-			w=w.replace(/([aeiou])(i)/g,"$1y");
-			w=w.replace(/([qQ])(u)(y)/g,"$1ui");
+			//w=w.replace(/([aeiou])(i)/g,"$1y");
+			//w=w.replace(/([qQ])(u)(y)/g,"$1ui");
 			
 			w=w.replace(/(g)([ie])/g,"gu$2");
 			w=w.replace(/(G)([ie])/g,"Gu$2");

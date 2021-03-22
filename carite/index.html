@@ -253,7 +253,7 @@
 	_needsromanisation=[true,false,false,false,false];
 	
 	_inDebugMode=false;
-	_nonDebugMax=3;
+	_nonDebugMax=4;
 	
 	_activeOrtho=[];
 	for(var i=0;i<_alphabet.length;i++) _activeOrtho.push(0);
@@ -477,7 +477,7 @@
 			__maxscroll=dbase[0].length;
 			
 			//If in debug, limit stagelist
-			if (!_inDebugMode)
+			if (!_inDebugMode&&_nonDebugMax<_alphabet.length-1)
 			{
 				__maxscroll=stagelist[_nonDebugMax+1][1];
 				while(stagelist.length>_nonDebugMax+1) stagelist.pop();
@@ -1039,6 +1039,34 @@
 				w=w.replace(/([aāeēiīoōuūæyø])d%/g,"$1ð%")
 				w=w.replace(/([aāeēiīoōuūæyø])g%/g,"$1ɣ%")
 				w=w.replace(/ʲʲ/g,"ʲ");
+			}
+			
+			//monarchic surface filters
+			if (s==4)
+			{
+				//syllabic word-final sonorants
+				w=w.replace(/([mnpbtdkgfvszʃʒrlɲʎ])([mnlr])(ʲ?)%/g,"$1a$2$3");
+				//word final nasal stuff
+				w=w.replace(/([mn])([pbfv])($|\s|%|ʲ)/g,"$1m$3");
+				w=w.replace(/([mn])([td])($|\s|%|ʲ)/g,"$1n$3");
+				w=w.replace(/([mn])([kg])($|\s|%|ʲ)/g,"$1ŋ$3");
+				//pal 1
+				w=w.replace(/pʲ/g,"f");
+				w=w.replace(/bʲ/g,"v");
+				w=w.replace(/tʲ/g,"ʃt");
+				w=w.replace(/dʲ/g,"ʒd");
+				w=w.replace(/kʲ/g,"tʃ");
+				w=w.replace(/gʲ/g,"dʒ");
+				w=w.replace(/sʲ/g,"ʃ");
+				w=w.replace(/zʲ/g,"ʒ");
+				w=w.replace(/ʲ/g,"");
+				//Fusion
+				w=w.replace(/([mnpbtdkgfvszʃʒrlɲʎ])[nl]j/g,"$1j");
+				w=w.replace(/[nɲ]j/g,"ɲ");
+				w=w.replace(/[lʎ]j/g,"ʎ");
+				w=w.replace(/tsj/g,"tʃ");
+				w=w.replace(/([ʃʒ])j/g,"$1");
+				w=w.replace(/([kg])wj/g,"$1j");
 			}
 			return(w);
 		}

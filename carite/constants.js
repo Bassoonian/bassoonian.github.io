@@ -44,6 +44,11 @@ sources=[
 			["google",		"https://books.google.be/books?id=lPhjAAAAMAAJ"],
 			["worldcat",	"https://www.worldcat.org/title/etymological-dictionary-of-the-iranian-verb/oclc/860423476"]
 		]],
+	["andalusiarabic",
+		"Corriente, Federico. <i>A Descriptive and Comparative Grammar of Andalusi Arabic.</i> Leiden/Boston, Koninklijke Brill NV, 2013",[
+			["google",		"https://books.google.be/books?id=zZ1m4rJJZAYC"],
+			["worldcat",	"https://www.worldcat.org/title/descriptive-and-comparative-grammar-of-andalusi-arabic/oclc/892995937"]
+		]],
 	["comphistitaloromance",
 		"Cravens, Thomas D. <i>Comparative Historical Dialectology: Italo-Romance clues to Ibero-Romance sound change.</i> In: <i>Current Issues in Linguistic Theory.</i> Amsterdam/Philadelphia, John Benjamins Publishing Company, 2002",[
 			["google",		"https://books.google.be/books?id=XvODm8_Y6CgC"],
@@ -414,7 +419,7 @@ _caseslist=[
 	["nom",""   ,"acc","gen",""   ,"dat","loc","ins"],
 	["nom",""   ,"acc","gen",""   ,"dat","loc",""   ],
 	["nom",""	,"acc","gen",""   ,"dat",""   ,""   ],//Loc is still on the sheet, so can be readded if deemed necessary
-	["dir",""	,"adv",""   ,""   ,"obl",""   ,""   ]
+	["acc",""	,"nom","gen",""   ,"dat",""   ,""   ]
 ];
 
 _conjunctivelist=[
@@ -512,7 +517,8 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("March 20, 2021"),"Finalisation of Latin orthography of Umayyad Carite.","Fixed the word pronunciation of Umayyad Carite.","Properly finalised all Old Carite verbal morphology."],
+	[new Date("March 22, 2021"),"Elaboration on Monarchic Carite phonology and its registers.","A summary of developments of Monarchic Carite nominal morphology and a first table."],
+	[new Date("March 20, 2021"),"Finalisation of Latin orthography of Umayyad Carite.","Fixed the word pronunciation of Umayyad Carite.","Properly finalised all Old Carite verbal morphology.","Added additional sources and references."],
 	[new Date("March 17, 2021"),"Very, very, very preliminary release of Monarchic Carite. Highly incomplete and to be considered a sketchbook at best."],
 	[new Date("March 15, 2021"),"First batch of verbal morphology for Umayyad Carite.","Slightly changed Exon's nouns in Umayyad Carite."],
 	[new Date("March 13, 2021"),"Several changes to the Umayyad Carite nominal morphology."],
