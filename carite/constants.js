@@ -467,7 +467,7 @@ _genders=[
 	["m","f","n"],
 	["m","f","n"],
 	["m","f","n"],
-	["m","f"]
+	["m","n","f"]
 ];
 
 _tamlist=[
@@ -517,7 +517,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("March 22, 2021"),"Elaboration on Monarchic Carite phonology and its registers.","A summary of developments of Monarchic Carite nominal morphology and a first table."],
+	[new Date("March 22, 2021"),"Elaboration on Monarchic Carite phonology and its registers.","A summary of developments of Monarchic Carite nominal morphology and its thematic category."],
 	[new Date("March 20, 2021"),"Finalisation of Latin orthography of Umayyad Carite.","Fixed the word pronunciation of Umayyad Carite.","Properly finalised all Old Carite verbal morphology.","Added additional sources and references."],
 	[new Date("March 17, 2021"),"Very, very, very preliminary release of Monarchic Carite. Highly incomplete and to be considered a sketchbook at best."],
 	[new Date("March 15, 2021"),"First batch of verbal morphology for Umayyad Carite.","Slightly changed Exon's nouns in Umayyad Carite."],
@@ -541,3 +541,9 @@ _changelog=[
 	[new Date("December 4, 2020"),"Sourced prepositions and added many more."],
 	[new Date("November 30, 2020"),"Added a changelog function."]
 ];
+
+function getTableFootnote(cat,stage,nid)
+{
+	if (cat=="nom"&&stage==4&&nid==0) return("Only used in the archaic register.")
+	return("?");
+}

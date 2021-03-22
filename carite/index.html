@@ -955,7 +955,7 @@
 			w=w.replace(/(ø̄)([wjmnlriu][mnpbtdkgszfvjwlr])/g,"ø$2");
 			
 			//Voicing assimilation filter for Exon
-			if (s>1)
+			if (s>1&&s<4)
 			{
 				//Voiced > unvoiced
 				w=w.replace(/b([ptkfs])/g,"p$1");
@@ -1045,7 +1045,15 @@
 			if (s==4)
 			{
 				//syllabic word-final sonorants
-				w=w.replace(/([mnpbtdkgfvszʃʒrlɲʎ])([mnlr])(ʲ?)%/g,"$1a$2$3");
+				w=w.replace(/([npbtdkgfvszʃʒrlɲʎ])([m])ʲ%/g,"$1i$2");
+				w=w.replace(/([npbtdkgfvszʃʒrlɲʎ])([m])(ʲ?)%/g,"$1a$2$3");
+				w=w.replace(/([mpbtdkgfvszʃʒrlɲʎ])([n])ʲ%/g,"$1i$2");
+				w=w.replace(/([mpbtdkgfvszʃʒrlɲʎ])([n])(ʲ?)%/g,"$1a$2$3");
+				w=w.replace(/([mnpbtdkgfvszʃʒlɲʎ])([r])ʲ%/g,"$1i$2");
+				w=w.replace(/([mnpbtdkgfvszʃʒlɲʎ])([r])(ʲ?)%/g,"$1a$2$3");
+				w=w.replace(/([mnpbtdkgfvszʃʒrɲʎ])([l])ʲ%/g,"$1i$2");
+				w=w.replace(/([mnpbtdkgfvszʃʒrɲʎ])([l])(ʲ?)%/g,"$1a$2$3");
+				
 				//word final nasal stuff
 				w=w.replace(/([mn])([pbfv])($|\s|%|ʲ)/g,"$1m$3");
 				w=w.replace(/([mn])([td])($|\s|%|ʲ)/g,"$1n$3");
@@ -2103,6 +2111,7 @@
 		}
 	function tableNoun(dbaserow,pattern,stage,indicategender,isdoc)
 		{
+			glob_highest_count=0;
 			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
 			//Figure out raw stem of the first index
 			var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
@@ -2140,24 +2149,26 @@
 				{
 					temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][i],returnGloss(_caseslist[stage][i]))+"</th>";
 					//singular
-					temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+i,stage)),stage)+"</td>";
+					temp+="<td>"+pstf(stemarray,getSuffix(kluku+i,stage),stage)+"</td>";
 					//plural
-					temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length+i,stage)),stage)+"</td>";
+					temp+="<td>"+pstf(stemarray,getSuffix(kluku+_caseslist[0].length+i,stage),stage)+"</td>";
 					if (beq)
 					{
 						//singular
-						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length*2+i,stage)),stage)+"</td>";
+						temp+="<td>"+pstf(stemarray,getSuffix(kluku+_caseslist[0].length*2+i,stage),stage)+"</td>";
 						//plural
-						temp+="<td>"+apply_orthography(attachSuffix(stemarray,getSuffix(kluku+_caseslist[0].length*3+i,stage)),stage)+"</td>";
+						temp+="<td>"+pstf(stemarray,getSuffix(kluku+_caseslist[0].length*3+i,stage),stage)+"</td>";
 					}
 					temp+="</tr>";
 				}
 			}
+			for(var i=0;i<glob_highest_count;i++) temp+="<tr><td colspan='"+(3+beq*2)+"'>"+numbToSubscript(i+1)+" "+getTableFootnote("nom",stage,i)+"</td></tr>";
 			temp+="</tbody></table>";
 			return(temp);
 		}
 	function tableAdjective(dbaserow,pattern,stage,iamnumeral,isdoc,iscomparative)
 		{
+			glob_highest_count=0;
 			//If dbaserow is a number look it up, if not split it
 			if (Number(dbaserow)===dbaserow) var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
 			else var stemarray=dbaserow.split("~");
@@ -2304,15 +2315,16 @@
 								for(var k=0;k<decolist.length;k++)
 								{
 									//singular
-									temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*pork*i+j,stage),decolist[k],stage,iscomparative)),stage)+"</td>";
+									temp+="<td>"+pstf(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*pork*i+j,stage),decolist[k],stage,iscomparative),stage)+"</td>";
 									//plural
-									if (!iamnumeral) temp+="<td>"+apply_orthography(attachSuffix(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(pork*i+1)+j,stage),decolist[k],stage,iscomparative)),stage)+"</td>";
+									if (!iamnumeral) temp+="<td>"+pstf(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(pork*i+1)+j,stage),decolist[k],stage,iscomparative),stage)+"</td>";
 								}
 								temp+="</tr>";
 							}
 						}
 				}
 				
+				for(var i=0;i<glob_highest_count;i++) temp+="<tr><td colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"'>"+numbToSubscript(i+1)+" "+getTableFootnote("nom",stage,i)+"</td></tr>";
 				temp+="</tbody></table>";
 			}
 			return(temp);
@@ -2391,6 +2403,22 @@
 				temp+="<h5>Past Participle</h5>"+tableAdjective(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+5,stage),kluku,stage,stemarray)),"ADJ_THEM_STRESSED_DEF",stage,false,-1,0);
 			}
 			return(temp);
+		}
+	function pstf(stemarray,ref,stage)
+		{
+			var r=ref.split("|");
+			if (r.length-1>glob_highest_count) glob_highest_count=r.length-1;
+			var q="";
+			for(var i=0;i<r.length;i++)
+			{
+				if (i>0)
+				{
+					if (r[i-1]!="") q+="</br>";
+				}
+				q+=apply_orthography(attachSuffix(stemarray,r[i]),stage);
+				if (i>0) q+=numbToSubscript(i);
+			}
+			return(q);
 		}
 //Other functions
 	function updatePieFormat()
@@ -2613,6 +2641,24 @@
 		{
 			var q=getViewport();
 			if (q=="sm"||q=="xs") $('#wordlist').collapse("toggle");
+		}
+	function numbToSubscript(num)
+		{
+			var t="";
+			switch(num)
+			{
+				case 0: t="₀";break;
+				case 1: t="₁";break;
+				case 2: t="₂";break;
+				case 3: t="₃";break;
+				case 4: t="₄";break;
+				case 5: t="5";break;
+				case 6: t="₆";break;
+				case 7: t="₇";break;
+				case 8: t="₈";break;
+				case 9: t="₉";break;
+			}
+			return(t);
 		}
 		
 	function updateOpenUpdateBox()

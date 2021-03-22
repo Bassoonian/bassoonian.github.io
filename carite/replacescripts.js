@@ -522,7 +522,7 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("%","",w);
 			
 			w+=" ";
-			w=replaceAll("u ","o ",w);
+			//w=replaceAll("u ","o ",w);
 			w=w.trim();
 			
 			w=w.replace(/z$/g,"se");
