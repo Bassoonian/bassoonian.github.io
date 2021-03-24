@@ -1742,12 +1742,12 @@
 	function verbStem(stem,decpattern,stage,stemarray)
 		{
 			var ptrn=dbase[decpattern-1][1];
-			if (stage>1&&(ptrn.includes("OH2_")||ptrn.includes("OR_DEF")||ptrn.includes("OR_ALPH")))
+			if (stage>1&&stage<4&&(ptrn.includes("OH2_")||ptrn.includes("OR_DEF")||ptrn.includes("OR_ALPH")))
 			{
 				if (stemarray.length<4) stem=stem.replace("4-","2-");
 				if (stemarray.length==4) stem=stem.replace("4-","3-");
 			}
-			if (stage>1&&(ptrn.includes("MI_VOC")||ptrn.includes("OR_RES")))
+			if (stage>1&&stage<4&&(ptrn.includes("MI_VOC")||ptrn.includes("OR_RES")))
 			{
 				if (stemarray.length<5) stem=stem.replace("4-","1-");
 			}
@@ -2078,11 +2078,11 @@
 					else temp+=glossText("cnj",returnGloss("cnj"));
 					temp+="</th></tr>";
 				}
-				for(var i=0;i<_caseslist[0].length;i++)
+				for(var i=0;i<_ppcaseslist[0].length;i++)
 				{
-					if (_caseslist[stage][i]!="")
+					if (_ppcaseslist[stage][i]!="")
 					{
-						temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][i],returnGloss(_caseslist[stage][i]))+"</th>";
+						temp+="<tr><th scope='row'>"+glossText(_ppcaseslist[stage][i],returnGloss(_ppcaseslist[stage][i]))+"</th>";
 						temp+="<td>"+apply_orthography(getSuffix(kluku+i*2+j*32,stage),stage)+"</td>";
 						if (bep) temp+="<td>"+apply_orthography(getSuffix(kluku+1+i*2+j*32,stage),stage)+"</td>";
 						temp+="<td>"+apply_orthography(getSuffix(kluku+i*2+_caseslist[0].length*2+j*32,stage),stage)+"</td>";

@@ -422,6 +422,14 @@ _caseslist=[
 	["acc",""	,"nom","gen",""   ,"dat",""   ,""   ]
 ];
 
+_ppcaseslist=[
+	["nom","voc","acc","gen","abl","dat","loc","ins"],
+	["nom",""   ,"acc","gen",""   ,"dat","loc","ins"],
+	["nom",""   ,"acc","gen",""   ,"dat","loc",""   ],
+	["nom",""	,"acc","gen",""   ,"dat",""   ,""   ],//Loc is still on the sheet, so can be readded if deemed necessary
+	["nom",""	,"acc","gen",""   ,"dat",""   ,""   ]
+]
+
 _conjunctivelist=[
 	false,
 	true,
@@ -517,6 +525,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("March 24, 2021"),"Most of Monarchic Carite nominal tables added.","Monarchic Carite thematic verbs tables added."],
 	[new Date("March 22, 2021"),"Elaboration on Monarchic Carite phonology and its registers.","A summary of developments of Monarchic Carite nominal morphology and its thematic category."],
 	[new Date("March 20, 2021"),"Finalisation of Latin orthography of Umayyad Carite.","Fixed the word pronunciation of Umayyad Carite.","Properly finalised all Old Carite verbal morphology.","Added additional sources and references."],
 	[new Date("March 17, 2021"),"Very, very, very preliminary release of Monarchic Carite. Highly incomplete and to be considered a sketchbook at best."],
