@@ -1033,6 +1033,14 @@
 				w=w.replace(/\$-g([aāeēiīoōuūæyø])/g,"ɣ$1");
 				w=w.replace(/\$-\\?/,"");
 			}
+			if (s==4)
+			{
+				w=w.replace(/\$-b([aeiou])/g,"v$1");
+				w=w.replace(/\$-d([aeiou])/g,"h$1");
+				w=w.replace(/\$-g([aeiou])/g,"h$1");
+				w=w.replace(/\$-\\?/,"");
+			}
+			
 			
 			if (s==3)
 			{
@@ -1385,6 +1393,17 @@
 							case "BFP":
 								checkpie=false;
 								temp+="backformation from the preterite stem of ";
+								var k=-1;
+								for(var j=0;j<_uidlist.length;j++)
+								{
+									if (evaluate[1]==_uidlist[j][0]) k=j;
+								}
+								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+i+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[i]],i)+"</a>";
+								document.getElementById("tab_sources_li").style.display="none";
+								break;
+							case "IFORM":
+								checkpie=false;
+								temp+="generalisation of the i-umlaut stem of ";
 								var k=-1;
 								for(var j=0;j<_uidlist.length;j++)
 								{
