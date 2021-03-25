@@ -487,9 +487,10 @@ function apply_orthography(word,stage,subgroup)
 			if (w=="i") w="y";
 			if (w=="I") w="Y";
 			
-			w=replaceAll("ʃt","st",w);
+			w=w.replace(/ʃ([ptkmn])/g,"s$1",w);
 			w=replaceAll("ʃ","x",w);
 			w=replaceAll("^x","X",w);
+			w=replaceAll("^s","S",w);
 			w=replaceAll("ʒd","sd",w);
 			w=replaceAll("ʒ","j",w);
 			
