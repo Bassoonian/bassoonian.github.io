@@ -505,7 +505,7 @@ _sylbreaks=[
 	[],
 	[],
 	["a","ā","e","ē","i","ī","o","ō","u","ū","y","ȳ","æ","ǣ","ø","ø̄","ŭ","%"],
-	[],
+	["a","e","i","o","u","%"],
 ];
 
 _illegalonsets=[
@@ -525,6 +525,8 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("March 26, 2021"),"First version of Monarchic Carite verbal morphology."],
+	[new Date("March 25, 2021"),'Additional vocabulary added.'],
 	[new Date("March 24, 2021"),"Most of Monarchic Carite nominal tables added.","Monarchic Carite thematic verbs tables added."],
 	[new Date("March 22, 2021"),"Elaboration on Monarchic Carite phonology and its registers.","A summary of developments of Monarchic Carite nominal morphology and its thematic category."],
 	[new Date("March 20, 2021"),"Finalisation of Latin orthography of Umayyad Carite.","Fixed the word pronunciation of Umayyad Carite.","Properly finalised all Old Carite verbal morphology.","Added additional sources and references."],

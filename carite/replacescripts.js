@@ -471,6 +471,21 @@ function apply_orthography(word,stage,subgroup)
 //////// STAGE 4
 		if (stage==4)
 		{
+			w=splitIntoSyllables(w,4);
+			var k=w.split("§");
+			if (k.length>1)
+			{
+				//Indicate penultimate stress unless preceding syllable is heavy
+				//if (k.length==2) k[0]=applyStressToFirstVowel(k[0],3); //Bisyllabic, so always the first syllable
+				if (k[k.length-1].includes("%")&&!k[k.length-1].includes("ʲ%")&&!k[k.length-1].includes("z%")&&k.length>2)//else
+				{
+					if (_sylbreaks[3].includes(k[k.length-3].slice(-1))) k[k.length-2]=applyStressToFirstVowel(k[k.length-2],3); //Open syllable
+					//else k[k.length-3]=applyStressToFirstVowel(k[k.length-3],3); //Closed
+				}
+			}
+			w=k.join("");
+			w=w.replace(/!([aAeEiIoOuU])/g,"$1́");
+			
 			w=replaceAll("kw","qu",w);
 			w=replaceAll("Kw","Qu",w);
 			
