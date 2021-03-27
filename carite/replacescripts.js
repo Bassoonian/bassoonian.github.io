@@ -533,7 +533,8 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("dj","gi",w);
 			w=replaceAll("Dj","Gi",w);
 			
-			w=replaceAll("ŋ","g",w);
+			w=replaceAll("ŋ","ng",w);
+			w=replaceAll("nng","ng",w);
 			
 			w=replaceAll("%","",w);
 			

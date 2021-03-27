@@ -877,7 +877,7 @@
 				else q[1]="ˈ"+q[1];
 				word=q.join(".");
 			}
-			if (stage==3)
+			if (stage==3||stage==4)
 			{
 				word=replaceAll("ŭ","%",word);
 				//Penultimate stress
@@ -910,6 +910,14 @@
 			if (word.includes("-")) word=word.replace("ˈ","");
 			//finalise
 			word=word.replace(".","");
+			
+			//Affricates in s4
+			if (stage==4)
+			{
+				word=word.replace(/ts/g,"t͡s");
+				word=word.replace(/tʃ/g,"t͡ʃ");
+				word=word.replace(/dʒ/g,"d͡ʒ");
+			}
 			
 			//applyalways + allophones
 			word=pronAlways(word);
@@ -1747,7 +1755,7 @@
 				if (stemarray.length<4) stem=stem.replace("4-","2-");
 				if (stemarray.length==4) stem=stem.replace("4-","3-");
 			}
-			if (stage>1&&stage<4&&(ptrn.includes("MI_VOC")||ptrn.includes("OR_RES")))
+			if (stage>1&&(ptrn.includes("MI_VOC")||ptrn.includes("OR_RES")))
 			{
 				if (stemarray.length<5) stem=stem.replace("4-","1-");
 			}

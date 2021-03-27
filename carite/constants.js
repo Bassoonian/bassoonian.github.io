@@ -513,7 +513,7 @@ _illegalonsets=[
 	["mn","mp","mb","mr","ml","nt","nd","nk","ng","ns","nw","nj","nr","nl","pm","pn","pt","bd","tm","tn","ts","dn","km","kn","ks","gm","gn","gd","ft","vd","hs","rm","rn","rp","rb","rt","rd","rk","rg","rs","rf","rv","rw","rj","rl","lm","ln","lp","lb","lt","ld","lk","lg","ls","lf","lv","lw","lj","lr","ht"],
 	["lr","lj","lw","lv","lf","ls","lg","lk","ld","lt","lb","lp","ln","lm","rl","rj","rw","rv","rf","rs","rg","rk","rt","rd","rp","rb","rm","rn","hs","ht","vd","ft","gn","gm","ks","kt","dn","dm","ts","tk","pt","nl","nj","nw","ns","ng","nk","nd","nt","ml","mr","mb","mp","mn","km","nr"],
 	["lr","lw","lv","lf","ls","lg","lk","ld","lt","lb","lp","ln","lm","rl","rw","rv","rf","rs","rg","rk","rd","rt","rb","rp","rn","rm","vn","ft","gn","gm","ks","kt","dn","dm","ts","tp","bn","pt","nw","ng","nk","nl","nr","ns","nd","nt","ml","mr","mb","mp","sfr","lθr","nx"],
-	[]
+	["lr","lv","lf","ls","lg","lk","ld","lt","lb","lp","ln","lm","rl","rv","rf","rʃ","rs","rg","rk","rd","rt","rb","rp","rm","rn","ft","ŋn","nl","nʃ","ng","nk","nd","nt","ml","mv","mb","mp","mn"]
 ];
 
 _spellingsystems=[
