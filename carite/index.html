@@ -2067,7 +2067,6 @@
 			var temp='<table class="table w-auto table-sm"><thead>';
 			var beq=_conjunctivelist[stage];
 			var bep=_atonics[stage];
-			//Add conjunctives later!
 			temp+="<tr><th colspan='"+(3+bep*2)+"' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr>";
 			temp+="<tr><th scope='col'></th><th scope='col' colspan='"+(bep+1)+"'>"+glossText("sg",returnGloss("sg"))+"</th><th scope='col' colspan='"+(bep+1)+"'>"+glossText("pl",returnGloss("pl"))+"</th></tr>";
 			if (bep)
@@ -2104,35 +2103,44 @@
 		}
 	function tablePronounIrregular(person,stage)
 		{
+			glob_highest_count=0;
 			var kluku=-1;
 			for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==person) kluku=declensionlist[i][1]+1;
 			var temp='<table class="table w-auto table-sm"><thead>';
 			var beq=_conjunctivelist[stage];
-			//Add conjunctives later!
 			temp+="<tr><th colspan='7' scope='col'>"+dbase[kluku-1][stagelist[stage][1]]+"</th></tr>";
-			//
-			temp+="<tr><th></th>";
-			for(var j=0;j<3;j++) temp+="<th colspan='2'>"+glossText(_genders[stage][j],returnGloss(_genders[stage][j]))+"</th>";
-			temp+="</tr><tr>";
-			temp+="<th></th>";
-			for(var j=0;j<3;j++) temp+="<th>"+glossText("sg",returnGloss("sg"))+"</th><th>"+glossText("pl",returnGloss("pl"))+"</th>";
-			temp+="</tr>";
-			//
 			temp+="</thead><tbody>";
-			for(var i=0;i<_caseslist[0].length;i++)
+			for(var k=0;k<=beq;k++)
 			{
-				if (_caseslist[stage][i]!="")
+				if (beq)
 				{
-					temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][i],returnGloss(_caseslist[stage][i]))+"</th>";
-					temp+="<td>"+apply_orthography(getSuffix(kluku+i,stage),stage)+"</td>";
-					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length,stage),stage)+"</td>";
-					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length*2,stage),stage)+"</td>";
-					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length*3,stage),stage)+"</td>";
-					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length*4,stage),stage)+"</td>";
-					temp+="<td>"+apply_orthography(getSuffix(kluku+i+_caseslist[0].length*5,stage),stage)+"</td>";
-					temp+="</tr>";
+					temp+="<tr><th colspan='7' scope='col'>";
+					if (k==0) temp+=glossText("prm",returnGloss("prm"));
+					else temp+=glossText("cnj",returnGloss("cnj"));
+					temp+="</th></tr>";
+				}
+				temp+="<tr><th></th>";
+				for(var j=0;j<3;j++) temp+="<th colspan='2'>"+glossText(_genders[stage][j],returnGloss(_genders[stage][j]))+"</th>";
+				temp+="</tr><tr>";
+				temp+="<th></th>";
+				for(var j=0;j<3;j++) temp+="<th>"+glossText("sg",returnGloss("sg"))+"</th><th>"+glossText("pl",returnGloss("pl"))+"</th>";
+				temp+="</tr>";
+				for(var i=0;i<_ppcaseslist[0].length;i++)
+				{
+					if (_ppcaseslist[stage][i]!="")
+					{
+						temp+="<tr><th scope='row'>"+glossText(_ppcaseslist[stage][i],returnGloss(_ppcaseslist[stage][i]))+"</th>";
+						temp+="<td>"+pstf([""],getSuffix(kluku+i+48*k,stage),stage)+"</td>";
+						temp+="<td>"+pstf([""],getSuffix(kluku+i+_caseslist[0].length+48*k,stage),stage)+"</td>";
+						temp+="<td>"+pstf([""],getSuffix(kluku+i+_caseslist[0].length*2+48*k,stage),stage)+"</td>";
+						temp+="<td>"+pstf([""],getSuffix(kluku+i+_caseslist[0].length*3+48*k,stage),stage)+"</td>";
+						temp+="<td>"+pstf([""],getSuffix(kluku+i+_caseslist[0].length*4+48*k,stage),stage)+"</td>";
+						temp+="<td>"+pstf([""],getSuffix(kluku+i+_caseslist[0].length*5+48*k,stage),stage)+"</td>";
+						temp+="</tr>";
+					}
 				}
 			}
+			for(var i=0;i<glob_highest_count;i++) temp+="<tr><td colspan='7'>"+numbToSubscript(i+1)+" "+getTableFootnote("nom",stage,i)+"</td></tr>";
 			temp+="</tbody></table>";
 			return(temp);
 		}
@@ -2193,9 +2201,10 @@
 			temp+="</tbody></table>";
 			return(temp);
 		}
-	function tableAdjective(dbaserow,pattern,stage,iamnumeral,isdoc,iscomparative)
+	function tableAdjective(dbaserow,pattern,stage,iamnumeral,isdoc,iscomparative,secretlypronoun)
 		{
 			glob_highest_count=0;
+			secretlypronoun = (typeof secretlypronoun !== 'undefined') ?  secretlypronoun : false
 			//If dbaserow is a number look it up, if not split it
 			if (Number(dbaserow)===dbaserow) var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
 			else var stemarray=dbaserow.split("~");
@@ -2315,6 +2324,10 @@
 					temp+="<tr><td style='text-align:center;' colspan='"+(1+decolist.length*(1+(!iamnumeral)))+"' scope='col'>(ex. <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+dbaserow+","+stage+");'>"+apply_orthography((dbase[dbaserow][maincolumns[stage]].split("~"))[0],stage)+"</a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+qpq+"\","+stage+",false);'><i class='fas fa-redo'></i></a> <a class='clickety' onclick='findNewTable("+isdoc+",\""+qpq+"\","+stage+",true);'><i class='far fa-sticky-note'></i></a>)</td></tr>";
 				}
 				temp+="</thead><tbody>";
+				
+				if (secretlypronoun) var cref=_ppcaseslist;
+				else var cref=_caseslist;
+				
 				for(var i=0;i<=_conjunctivelist[stage];i++)
 				{
 					if (_conjunctivelist[stage])
@@ -2334,11 +2347,11 @@
 							for(var j=0;j<decolist.length;j++) temp+="<th>"+glossText("sg",returnGloss("sg"))+"</th><th>"+glossText("pl",returnGloss("pl"))+"</th>";
 							temp+="</tr>";
 						}
-						for(var j=0;j<_caseslist[0].length;j++)
+						for(var j=0;j<cref[0].length;j++)
 						{
-							if (_caseslist[stage][j]!="")
+							if (cref[stage][j]!="")
 							{
-								temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][j],returnGloss(_caseslist[stage][j]))+"</th>";
+								temp+="<tr><th scope='row'>"+glossText(cref[stage][j],returnGloss(cref[stage][j]))+"</th>";
 								for(var k=0;k<decolist.length;k++)
 								{
 									//singular

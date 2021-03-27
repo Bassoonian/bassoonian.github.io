@@ -525,6 +525,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("March 27, 2021"),"Added extra pronouns to all stages."],
 	[new Date("March 26, 2021"),"First version of Monarchic Carite verbal morphology."],
 	[new Date("March 25, 2021"),'Additional vocabulary added.'],
 	[new Date("March 24, 2021"),"Most of Monarchic Carite nominal tables added.","Monarchic Carite thematic verbs tables added."],
