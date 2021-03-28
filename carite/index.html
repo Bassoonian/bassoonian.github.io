@@ -894,7 +894,7 @@
 					if (q[q.length-1].includes("%"))
 					{
 						var p=q[q.length-1];
-						p=p.replace(/([mnlr])(ʲ?ʷ?ʲ?ʷ?ʲ?)\%/g,"$1̩$2")
+						if (stage==3) p=p.replace(/([mnlr])(ʲ?ʷ?ʲ?ʷ?ʲ?)\%/g,"$1̩$2")
 						if (p==q[q.length-1])
 						{
 							q[q.length-2]+=q[q.length-1].replace("%","");
@@ -1354,7 +1354,7 @@
 								temp+=parseLoan(evaluate,happenings[i][0]);
 								isloan=true;
 								break;
-							case "D":
+							case "D"://Derivation
 								checkpie=false;
 								temp+="from";
 								var tt=[];
@@ -1395,10 +1395,19 @@
 								{
 									if (evaluate[1]==_uidlist[j][0]) k=j;
 								}
-								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+i+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[i]],i)+"</a>";
+								var m=0;
+								for(var j=happenings[i][1]+1;j>0;j--)
+								{
+									if (maincolumns.includes(j))
+									{
+										m=maincolumns.indexOf(j);
+										j=0;
+									}
+								}
+								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+m+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[m]],m)+"</a>";
 								document.getElementById("tab_sources_li").style.display="none";
 								break;
-							case "BFP":
+							case "B":
 								checkpie=false;
 								temp+="backformation from the preterite stem of ";
 								var k=-1;
@@ -1406,10 +1415,19 @@
 								{
 									if (evaluate[1]==_uidlist[j][0]) k=j;
 								}
-								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+i+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[i]],i)+"</a>";
+								var m=0;
+								for(var j=happenings[i][1]+1;j>0;j--)
+								{
+									if (maincolumns.includes(j))
+									{
+										m=maincolumns.indexOf(j);
+										j=0;
+									}
+								}
+								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+m+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[m]],m)+"</a>";
 								document.getElementById("tab_sources_li").style.display="none";
 								break;
-							case "IFORM":
+							case "I":
 								checkpie=false;
 								temp+="generalisation of the i-umlaut stem of ";
 								var k=-1;
@@ -1417,7 +1435,36 @@
 								{
 									if (evaluate[1]==_uidlist[j][0]) k=j;
 								}
-								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+i+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[i]],i)+"</a>";
+								var m=0;
+								for(var j=happenings[i][1]+1;j>0;j--)
+								{
+									if (maincolumns.includes(j))
+									{
+										m=maincolumns.indexOf(j);
+										j=0;
+									}
+								}
+								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+m+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[m]],m)+"</a>";
+								document.getElementById("tab_sources_li").style.display="none";
+								break;
+							case "S":
+								checkpie=false;
+								temp+="substantival usage of ";
+								var k=-1;
+								for(var j=0;j<_uidlist.length;j++)
+								{
+									if (evaluate[1]==_uidlist[j][0]) k=j;
+								}
+								var m=0;
+								for(var j=happenings[i][1]+1;j>0;j--)
+								{
+									if (maincolumns.includes(j))
+									{
+										m=maincolumns.indexOf(j);
+										j=0;
+									}
+								}
+								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+m+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[m]],m)+"</a>";
 								document.getElementById("tab_sources_li").style.display="none";
 								break;
 						}
@@ -1617,10 +1664,15 @@
 				document.getElementById("tab_inflect_li").style.display="initial";
 				temp+=tablePersPronoun(wordlist[wid][3],activestage);
 			}
-			if (wordlist[wid][3]=="PRON_PERS_3")
+			else if (wordlist[wid][3]=="PRON_PERS_3"||wordlist[wid][3]=="KWOS")
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
 				temp+=tablePronounIrregular(wordlist[wid][3],activestage);
+			}
+			else if (wordcategoryopen=="Pronoun")
+			{
+				document.getElementById("tab_inflect_li").style.display="initial";
+				temp+=tableAdjective(wordlist[wid][2],wordlist[wid][3],activestage,(wordcategoryopen=="Numeral"),-1,0,true);
 			}
 			if (wordcategoryopen=="Adjective"||(wordcategoryopen=="Numeral"&&wordlist[wid][3]!="NUM_GEN")||wordcategoryopen=="Suffix|A")
 			{

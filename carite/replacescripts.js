@@ -535,6 +535,7 @@ function apply_orthography(word,stage,subgroup)
 			
 			w=replaceAll("ŋ","ng",w);
 			w=replaceAll("nng","ng",w);
+			w=replaceAll("ngn","gn",w);
 			
 			w=replaceAll("%","",w);
 			
