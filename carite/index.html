@@ -1696,9 +1696,10 @@
 			document.getElementById("inflection_content").innerHTML=temp;
 			
 			//Set last edited
-			//var qq=new Date(wordlist[wid][4]);
 			var qq=wordlist[wid][4];
-			document.getElementById("word_last_edited_span").innerHTML=qq.toLocaleDateString(undefined,_dataformat);
+			var tr=qq.toLocaleDateString(undefined,_dataformat);
+			if (_inDebugMode) tr+="</br>UID "+dbase[wordlist[wid][2]][uidcolumn];
+			document.getElementById("word_last_edited_span").innerHTML=tr;
 			
 			$('[data-toggle="tooltip"]').tooltip();
 		}
