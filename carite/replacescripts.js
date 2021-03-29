@@ -36,6 +36,9 @@ function getLangName(q)
 			case "rus": return("Russian");break;
 			case "xlu": return("Luwian");break;
 			case "xib": return("Iberian");break;
+			case "esp": return("Spanish");break;
+			case "por": return("Portuguese");break;
+			case "cat": return("Catalan");break;
 			default: return(q);break;
 		}
 	}

@@ -398,6 +398,7 @@
 			lasteditcolumn=-1;
 			etymonotecolumn=-1;
 			uidcolumn=-1;
+			_expressions=0;
 			_allomorphs=[];
 			
 			var k=dbase[1].length;
@@ -465,6 +466,11 @@
 			for(var i=endoflexicon;i<dbase.length;i++)
 			{
 				if (dbase[i][0]=="//") declensionlist.push([dbase[i][1],i]);
+				if (dbase[i][0]=="§§§§")
+				{
+					_expressions=i+1;
+					i=dbase.length;
+				}
 			}
 			loadNote("Inflection patterns: "+declensionlist.length);
 			
@@ -567,6 +573,16 @@
 					orth2.push(orth);
 					for(var j=1;j<_spellingsystems[stagid].length;j++) orth2.push(apply_orthography(dbase[lexlist[i][0]][maincolumns[stagid]],stagid,j));
 					wordlist.push([orth,orth2,lexlist[i][0],lexlist[i][1],new Date(dbase[lexlist[i][0]][lasteditcolumn])]);
+				}
+			}
+			//Add expressions
+			for(var i=_expressions;i<dbase.length;i++)
+			{
+				if (dbase[i][maincolumns[stagid]]!="")
+				{
+					orth=expression_parse(dbase[i][maincolumns[stagid]],stagid);
+					orth=apply_orthography(orth,stagid);
+					wordlist.push([orth,[],i,"EXPRESSION",new Date(dbase[i][lasteditcolumn])]);
 				}
 			}
 			//Order alphabetically
@@ -2794,6 +2810,26 @@
 	function scrollToValue(ref)
 		{
 			document.getElementById(ref).scrollIntoView({behavior: "smooth"});
+		}
+		
+	function expression_parse(input,stage)
+		{
+			var out=[];
+			var ar=input.split(" ");
+			for(var i=0;i<ar.length;i++)
+			{
+				var wrk=ar[i].split("/");
+				if (wrk.length>1) out.push("?");
+				else
+				{
+					var ref=-1;
+					for(var j=0;j<_uidlist.length;j++)
+					{
+						if (_uidlist[j][0]==wrk[0]) out.push(apply_orthography(dbase[_uidlist[j][1]][maincolumns[stage]],stage));
+					}
+				}
+			}
+			return(out.join(" "));
 		}
 		
 //Debug

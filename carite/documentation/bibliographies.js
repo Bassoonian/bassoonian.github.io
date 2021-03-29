@@ -6,6 +6,7 @@ _documentation_bibliography=[
 	["0/sc",		"pie_to_pgmc 14-15+67-152,ed_latin 7-8,ed_celtic 6-11,compgrammar 35-242"],
 	["1/external",	"ed_basque 6-7+14-17,vox_latina 11-88,grcdialects 40+50-58"],
 	["2/external",	"lat_vulg 29-48+50+52-54,spanhist 43-61"],
+	["3/external",	"spanhist 70"],
 	["3/ortho",		"lat_vulg 50-52+54-55,gothicalphabet 173-174+181-183"],
 	["mythology",	"oxf_intro 423-441,ie_poetry_myth 120-503"],
 	["holidays",	"macneill_calendar 1-67"],
