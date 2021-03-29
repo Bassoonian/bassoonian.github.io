@@ -525,7 +525,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("March 29, 2021"),"Fleshed out loans from Vulgar Latin and early Spanish."],
+	[new Date("March 29, 2021"),"Fleshed out loans from Vulgar Latin and early Spanish.","Added several idioms."],
 	[new Date("March 27, 2021"),"Added extra pronouns to all stages."],
 	[new Date("March 26, 2021"),"First version of Monarchic Carite verbal morphology."],
 	[new Date("March 25, 2021"),'Additional vocabulary added.'],

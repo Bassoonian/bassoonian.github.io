@@ -86,9 +86,15 @@
 				<div class="tab-content">
 					<div id="tab_general" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab_click_general">
 						<div id="altspelling"><h4>Alternative spelling</h4><ul id="altspellingul"></ul></div>
-						<h4>Pronunciation</h4>
-						<ul id="entry_pronunciation"></ul>
+						<div id="pronunciation_tab">
+							<h4>Pronunciation</h4>
+							<ul id="entry_pronunciation"></ul>
+						</div>
 						<p id="dicentry_gender"><b>Gender:</b> <span id="dicentry_gender2"></span></p>
+						<div id="composition_tab">
+							<h4>Composition</h4>
+							<span id="composition_list"></span>
+						</div>
 						<div id="translation_tab">
 							<h4>Translation</h4>
 							<ol id="entry_translations"></ol>
@@ -247,9 +253,9 @@
 	_alphabet=[
 		"Α~Ᾱ Β Γ Δ Ε Ζ Η Θ Ι~Ῑ~Ῐ Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ~Ῡ~Ῠ~Y~Ȳ Φ Ψ Ω",
 		"A~Ā~Ą B D E~Ē~Ę F G H~Ḫ I~Ī~Į J K L M N O~Ō~Ǫ P R S T U~Ū~Ų V W X Y~Ȳ Ø~Ø̄",
-		"A~Ā B~Ḅ C D~Ḍ E~Ē~Ê~Ę Ə F G~Ġ H I~Ī~Î J K L M N O~Ō~Ǫ P Q R~Ř S T U~Ū~Ų V X",
-		"A~Ā B C D~Ḍ E~Ē~Ê Ə F G~Ġ H I~Î L M N O P Q R S T U V Y",
-		"A B C~Ç D E F G H I J L M N O P Q R S T U V X Y"];
+		"A~Ā B~Ḅ C D~Ḍ E~Ē~Ê~Ę Ə F G~Ġ H I~Ī~Î J K L M N O~Ō~Ǫ P Q R~Ř S T U~Ū~Ų V X Z",
+		"A~Ā B C D~Ḍ E~Ē~Ê Ə F G~Ġ H I~Î L M N O P Q R S T U V Y Z",
+		"A B C~Ç D E F G H I J L M N O P Q R S T U V X Y Z"];
 	_needsromanisation=[true,false,false,false,false];
 	
 	_inDebugMode=false;
@@ -580,9 +586,11 @@
 			{
 				if (dbase[i][maincolumns[stagid]]!="")
 				{
-					orth=expression_parse(dbase[i][maincolumns[stagid]],stagid);
-					orth=apply_orthography(orth,stagid);
-					wordlist.push([orth,[],i,"EXPRESSION",new Date(dbase[i][lasteditcolumn])]);
+					orth=apply_orthography(expression_parse(dbase[i][maincolumns[stagid]],stagid),stagid);
+					orth2=[];
+					orth2.push(orth);
+					for(var j=1;j<_spellingsystems[stagid].length;j++) orth2.push(apply_orthography(expression_parse(dbase[i][maincolumns[stagid]],stagid),stagid,j));
+					wordlist.push([orth,orth2,i,"EXPRESSION",new Date(dbase[i][lasteditcolumn])]);
 				}
 			}
 			//Order alphabetically
@@ -712,6 +720,7 @@
 					{
 						if (declensionlist[k][0]==wordlist[i][3]) j=dbase[declensionlist[k][1]][2];
 					}
+					if (wordlist[i][3]=="EXPRESSION") j="Exp.";
 					temp+=(j.split("|"))[0]+"</span>";
 					temp+="</span></a></li>";
 					foundresult++;
@@ -1172,6 +1181,7 @@
 			document.getElementById("entry_name").innerHTML=display(wordlist[wid]);
 			var j="";
 			var amalternative=(dbase[wordlist[wid][2]][0]=="ALTERNATIVE");
+			var amexpression=(wordlist[wid][3]=="EXPRESSION");
 			if (amalternative) document.getElementById("tab_sources_li").style.display="none";
 			else document.getElementById("tab_sources_li").style.display="initial";
 			var clid=-1;
@@ -1183,6 +1193,7 @@
 					clid=i;
 				}
 			}
+			if (amexpression) j="Expression";
 			document.getElementById("entry_category").innerHTML=(j.split("|"))[0];
 			var wordcategoryopen=j;
 			
@@ -1194,9 +1205,47 @@
 				temp="";
 				for(var i=0;i<_spellingsystems[activestage].length;i++)
 				{
-					if (i!=_activeOrtho[activestage]) temp+="<li>(<i>"+_spellingsystems[activestage][i]+"</i>) "+format_historical_form(apply_orthography(dbase[wordlist[wid][2]][maincolumns[activestage]],activestage,i),activestage,i)+"</li>";
+					if (i!=_activeOrtho[activestage])
+					{
+						if (amexpression) temp+="<li>(<i>"+_spellingsystems[activestage][i]+"</i>) "+format_historical_form(apply_orthography(expression_parse(dbase[wordlist[wid][2]][maincolumns[activestage]],activestage),activestage,i),activestage,i)+"</li>";
+						else temp+="<li>(<i>"+_spellingsystems[activestage][i]+"</i>) "+format_historical_form(apply_orthography(dbase[wordlist[wid][2]][maincolumns[activestage]],activestage,i),activestage,i)+"</li>";
+					}
 				}
 				document.getElementById("altspellingul").innerHTML=temp;
+			}
+			
+			//Expression components
+			if (amexpression)
+			{
+				document.getElementById("composition_tab").style.display="initial";
+				temp="";
+				temp2=apply_orthography(expression_parse(dbase[wordlist[wid][2]][maincolumns[activestage]],activestage),activestage,i).split(" ");
+				var trval=dbase[wordlist[wid][2]][maincolumns[activestage]].split(" ");
+				for(var i=0;i<trval.length;i++)
+				{
+					var peergynt=(trval[i].split("/"))[0];
+					var k=-1;
+					for(var j=0;j<_uidlist.length;j++)
+					{
+						if (_uidlist[j][0]==peergynt)
+						{
+							k=j;
+							j=_uidlist.length;
+						}
+					}
+					if (k>0)
+					{
+						if (temp!="") temp+=" ";
+						temp+="<a class='clickety' href='javascript:void(0);' onclick='timeTravel("+_uidlist[k][1]+","+activestage+");'>"+temp2[i]+"</a>";
+					}
+				}
+				document.getElementById("composition_list").innerHTML=temp;
+				document.getElementById("pronunciation_tab").style.display="none";
+			}
+			else
+			{
+				document.getElementById("composition_tab").style.display="none";
+				document.getElementById("pronunciation_tab").style.display="initial";
 			}
 			
 			//Translation
@@ -2819,15 +2868,64 @@
 			for(var i=0;i<ar.length;i++)
 			{
 				var wrk=ar[i].split("/");
-				if (wrk.length>1) out.push("?");
-				else
+				var ref=-1;
+				for(var j=0;j<_uidlist.length;j++)
 				{
-					var ref=-1;
-					for(var j=0;j<_uidlist.length;j++)
+					if (_uidlist[j][0]==wrk[0])
 					{
-						if (_uidlist[j][0]==wrk[0]) out.push(apply_orthography(dbase[_uidlist[j][1]][maincolumns[stage]],stage));
+						ref=_uidlist[j][1];
+						j=_uidlist.length;
 					}
 				}
+				var tmp="";
+				if (wrk.length>1)
+				{
+					//Figure out pattern
+					var prk="";
+					for(var g=0;g<lexlist.length;g++)
+					{
+						if (lexlist[g][0]==ref)
+						{
+							prk=lexlist[g][1];
+							g=lexlist.length;
+						}
+					}
+					//Get pattern reference
+					var dcpat=-1;
+					for(var g=0;g<declensionlist.length;g++)
+					{
+						if (declensionlist[g][0]==prk)
+						{
+							dcpat=declensionlist[g][1];
+							g=declensionlist.length;
+						}
+					}
+					var wordcat=dbase[dcpat][2];
+					//If reference, fix it
+					if (dbase[dcpat][stagelist[stage][1]].charAt(0)==">")
+					{
+						var newdb=dbase[dcpat][stagelist[stage][1]].replace(">","");
+						for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==newdb) dcpat=declensionlist[i][1];
+					}
+					//Start checking what to do with it
+					if (wordcat=="Noun")
+					{
+						//Set parameters
+						var ap_num=wrk[2]=="PL";
+						var ap_case=_caseslist[stage].indexOf(wrk[1]);
+						if (ap_case==-1) ap_case=0;
+						//Prepare
+						var stemarray=dbase[ref][maincolumns[stage]].split("~");
+						var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
+						var kloko=(((dbase[dcpat+1][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
+						klaka=klaka.replace(kloko,"");
+						stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+						//Apply crap
+						tmp=attachSuffix(stemarray,getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage));
+					}
+				}
+				else tmp=dbase[ref][maincolumns[stage]];
+				out.push(apply_orthography(tmp,stage));
 			}
 			return(out.join(" "));
 		}
