@@ -5,7 +5,7 @@ _documentation_bibliography=[
 	["0/external",	"greek_companion 85-103,etruscan_rix 145-148,gram_punic 19-37,intro_egyptian 28-50+248,ltlu 1742-1761,grcdialects 36-39+43-51"],
 	["0/sc",		"pie_to_pgmc 14-15+67-152,ed_latin 7-8,ed_celtic 6-11,compgrammar 35-242"],
 	["1/external",	"ed_basque 6-7+14-17,vox_latina 11-88,grcdialects 40+50-58"],
-	["2/external",	"lat_vulg 50"],
+	["2/external",	"lat_vulg 29-48+50+52-54,spanhist 43-61"],
 	["3/ortho",		"lat_vulg 50-52+54-55,gothicalphabet 173-174+181-183"],
 	["mythology",	"oxf_intro 423-441,ie_poetry_myth 120-503"],
 	["holidays",	"macneill_calendar 1-67"],
