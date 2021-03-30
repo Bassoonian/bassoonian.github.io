@@ -39,6 +39,7 @@ function getLangName(q)
 			case "esp": return("Spanish");break;
 			case "por": return("Portuguese");break;
 			case "cat": return("Catalan");break;
+			case "fra": return("French");break;
 			default: return(q);break;
 		}
 	}
@@ -505,7 +506,7 @@ function apply_orthography(word,stage,subgroup)
 			if (w=="i") w="y";
 			if (w=="I") w="Y";
 			
-			w=w.replace(/ʃ([ptkmn])/g,"s$1",w);
+			w=w.replace(/ʃ([ptcmnq])/g,"s$1",w);
 			w=replaceAll("ʃ","x",w);
 			w=replaceAll("^x","X",w);
 			w=replaceAll("^s","S",w);
