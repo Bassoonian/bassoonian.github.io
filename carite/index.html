@@ -2903,6 +2903,68 @@
 			document.getElementById(ref).scrollIntoView({behavior: "smooth"});
 		}
 		
+	function inflectWord(ref,wrk,stage,dcpat,wordcat,newdb)
+		{
+			var out="???";
+			if (wordcat=="Noun")
+			{
+				//Set parameters
+				var ap_num=wrk[2]=="pl";
+				var ap_case=_caseslist[stage].indexOf(wrk[1]);
+				if (ap_case==-1) ap_case=0;
+				//Prepare
+				var stemarray=dbase[ref][maincolumns[stage]].split("~");
+				var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
+				var kloko=(((dbase[dcpat+1][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
+				klaka=klaka.replace(kloko,"");
+				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+				//Apply crap
+				out=attachSuffix(stemarray,getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage));
+			}
+			else if (wordcat=="Adjective"||newdb=="REGPRON"||wordcat=="Numeral")
+			{
+				//Set parameters
+				var ap_num=wrk[2]=="pl";
+				var ap_case=_caseslist[stage].indexOf(wrk[1]);
+				if (ap_case==-1) ap_case=0;
+				var ap_gndr=_genders[stage].indexOf(wrk[3]);
+				//Get correct masculine reference
+				var newdb=dbase[dcpat][stagelist[stage][1]+1];
+				var dcpat2=-1;
+				for(var g=0;g<declensionlist.length;g++)
+				{
+					if (declensionlist[g][0]==newdb)
+					{
+						dcpat2=declensionlist[g][1];
+						g=declensionlist.length;
+					}
+				}
+				//Same as nouns
+				//Prepare
+				var stemarray=dbase[ref][maincolumns[stage]].split("~");
+				var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
+				var kloko=(((dbase[dcpat2+1][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
+				klaka=klaka.replace(kloko,"");
+				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+				//Get correct reference for gender
+				if (ap_gndr>0)
+				{
+					var newdb=dbase[dcpat][stagelist[stage][1]+1+ap_gndr];
+					for(var g=0;g<declensionlist.length;g++)
+					{
+						if (declensionlist[g][0]==newdb)
+						{
+							dcpat=declensionlist[g][1];
+							g=declensionlist.length;
+						}
+					}
+				}
+				//Apply crap
+				out=attachSuffix(stemarray,adjStem(getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage),dcpat+1,stage,false));
+			}
+			return(out);
+		}
+		
 	function expression_parse(input,stage)
 		{
 			var out=[];
@@ -2951,62 +3013,7 @@
 					}
 					var newdb=prk;
 					//Start checking what to do with it
-					if (wordcat=="Noun")
-					{
-						//Set parameters
-						var ap_num=wrk[2]=="pl";
-						var ap_case=_caseslist[stage].indexOf(wrk[1]);
-						if (ap_case==-1) ap_case=0;
-						//Prepare
-						var stemarray=dbase[ref][maincolumns[stage]].split("~");
-						var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
-						var kloko=(((dbase[dcpat+1][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
-						klaka=klaka.replace(kloko,"");
-						stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
-						//Apply crap
-						tmp=attachSuffix(stemarray,getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage));
-					}
-					else if (wordcat=="Adjective"||newdb=="REGPRON"||wordcat=="Numeral")
-					{
-						//Set parameters
-						var ap_num=wrk[2]=="pl";
-						var ap_case=_caseslist[stage].indexOf(wrk[1]);
-						if (ap_case==-1) ap_case=0;
-						var ap_gndr=_genders[stage].indexOf(wrk[3]);
-						//Get correct masculine reference
-						var newdb=dbase[dcpat][stagelist[stage][1]+1];
-						var dcpat2=-1;
-						for(var g=0;g<declensionlist.length;g++)
-						{
-							if (declensionlist[g][0]==newdb)
-							{
-								dcpat2=declensionlist[g][1];
-								g=declensionlist.length;
-							}
-						}
-						//Same as nouns
-						//Prepare
-						var stemarray=dbase[ref][maincolumns[stage]].split("~");
-						var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
-						var kloko=(((dbase[dcpat2+1][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
-						klaka=klaka.replace(kloko,"");
-						stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
-						//Get correct reference for gender
-						if (ap_gndr>0)
-						{
-							var newdb=dbase[dcpat][stagelist[stage][1]+1+ap_gndr];
-							for(var g=0;g<declensionlist.length;g++)
-							{
-								if (declensionlist[g][0]==newdb)
-								{
-									dcpat=declensionlist[g][1];
-									g=declensionlist.length;
-								}
-							}
-						}
-						//Apply crap
-						tmp=attachSuffix(stemarray,adjStem(getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage),dcpat+1,stage,false));
-					}
+					tmp=inflectWord(ref,wrk,stage,dcpat,wordcat,newdb);
 				}
 				else tmp=dbase[ref][maincolumns[stage]];
 				out.push(apply_orthography(tmp,stage));
