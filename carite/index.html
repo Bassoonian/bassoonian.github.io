@@ -936,20 +936,15 @@
 			//finalise
 			word=word.replace(".","");
 			
-			//Affricates in s4
-			if (stage==4)
-			{
-				word=word.replace(/ts/g,"t͡s");
-				word=word.replace(/tʃ/g,"t͡ʃ");
-				word=word.replace(/dʒ/g,"d͡ʒ");
-			}
-			
 			//applyalways + allophones
-			word=pronAlways(word);
+			word=pronAlways(word,stage);
 			if (stage==0&&word.includes("ŋ")) word="["+word+"]";
 			else word="/"+word+"/, "+pronAllophones(word);
 			word=replaceAll("g","ɡ",word);
+			word=word.replace(/nŋ/g,"ŋŋ");
+			//Fix doubles
 			word=word.replace(/([a-z])(\1)/g,"$1ː");
+			word=word.replace(/([ʃŋ])(\1)/g,"$1ː");
 			
 			//Fix .C₁C₁ > C₁.C₁
 			word=word.replace(/\.(ˈ?)([mnɲŋpbtdkɡszʃʒɸβfvθðxɣχʁhwjɾrlʎ])ː/g,"$2.$1$2");
@@ -1119,19 +1114,34 @@
 			}
 			return(w);
 		}
-	function pronAlways(w)
+	function pronAlways(w,stage)
 		{
 			// voicing assimilation?
 			//bdg > BDG
-			if (activestage==2) w=w.replace(/([ːaeiouyæøãẽõũ]ː?\.ˈ?)(b)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1β$3");
-			if (activestage==2||activestage==3)
+			if (stage==2) w=w.replace(/([ːaeiouyæøãẽõũ]ː?\.ˈ?)(b)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1β$3");
+			if (stage==2||stage==3)
 			{
 				w=w.replace(/([ːaeiouyæøãẽõũ]ː?\.ˈ?)(d)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1ð$3");
 				w=w.replace(/([ːaeiouyæøãẽõũ]ː?\.ˈ?)(g)([aāeēiīoōuūyȳøø̄æǣąą̄ęę̄ǫǭųų̄])/g,"$1ɣ$3");
 			}
-			if (activestage==3)
+			if (stage==3)
 			{
 				w=w.replace(/(n)(\.?ˈ?[wkgx])/g,"ŋ$2");
+			}
+			if (stage==4)
+			{
+				w=w.replace(/ts/g,"t͡s");
+				w=w.replace(/tʃ/g,"t͡ʃ");
+				w=w.replace(/dʒ/g,"d͡ʒ");
+				//Clean up diphthongs
+				w=w.replace(/(\.ˈ?)j([pbtdkgmnlrszfvʃʒɲŋ])/g,"i̯$1$2");
+				w=w.replace(/(\.ˈ?)w([pbtdkgmnlrszfvʃʒɲŋ])/g,"u̯$1$2");
+				
+				w=w.replace(/([aeiou])j/g,"$1i̯");
+				w=w.replace(/([aeiou])w/g,"$1u̯");
+				
+				//Geminate to diphthong
+				w=w.replace(/̯(\.?ˈ?)([pbtdkgmnlrszfvʃʒɲŋ])(\2)/g,"̯ː$1$2");
 			}
 			return(w);
 		}
@@ -1161,6 +1171,18 @@
 			if (activestage==2) w=replaceAll("ʁ","ʁ̞",w);
 			
 			if (activestage==3) w=w.replace(/(s)(\.?ˈ?[ptkmn])/g,"ʃ$2");
+			
+			if (activestage==4)
+			{
+				//kv
+				w=w.replace(/kv/g,"kʋ");
+				//spirantisation
+				w=w.replace(/([aeiou̯]\.ˈ?)d([aeiou])/g,"$1ð$2");
+				w=w.replace(/([aeiou̯])d($|\s)/g,"$1ð$2");
+				w=w.replace(/([aeiou̯]\.ˈ?)g([aeiou])/g,"$1ɣ$2");
+				w=w.replace(/([aeiou̯])g($|\s)/g,"$1ɣ$2");
+			}
+			
 			return("["+w+"]");
 		}
 	function parseTransCondition(text)
@@ -2989,7 +3011,6 @@
 				else tmp=dbase[ref][maincolumns[stage]];
 				out.push(apply_orthography(tmp,stage));
 			}
-			console.log(out);
 			return(out.join(" "));
 		}
 		
