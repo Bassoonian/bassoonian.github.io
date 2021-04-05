@@ -40,6 +40,9 @@ function getLangName(q)
 			case "por": return("Portuguese");break;
 			case "cat": return("Catalan");break;
 			case "fra": return("French");break;
+			case "ita": return("Italian");break;
+			case "gli": return("Galician");break;
+			case "arb": return("Arabic");break;
 			default: return(q);break;
 		}
 	}
@@ -481,7 +484,7 @@ function apply_orthography(word,stage,subgroup)
 			{
 				//Indicate penultimate stress unless preceding syllable is heavy
 				//if (k.length==2) k[0]=applyStressToFirstVowel(k[0],3); //Bisyllabic, so always the first syllable
-				if (k[k.length-1].includes("%")&&!k[k.length-1].includes("ʲ%")&&!k[k.length-1].includes("z%")&&k.length>2)//else
+				if (k[k.length-1].includes("%")&&!k[k.length-1].includes("ʲ%")&&k.length>2)//else
 				{
 					if (_sylbreaks[3].includes(k[k.length-3].slice(-1))) k[k.length-2]=applyStressToFirstVowel(k[k.length-2],3); //Open syllable
 					//else k[k.length-3]=applyStressToFirstVowel(k[k.length-3],3); //Closed
@@ -513,10 +516,12 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("ʒd","sd",w);
 			w=replaceAll("ʒ","j",w);
 			
-			w=replaceAll("ɲ","nh",w);
-			w=replaceAll("ʎ","lh",w);
+			w=replaceAll("ɲ","ñ",w);
+			w=replaceAll("^ñ","Ñ",w);
+			w=replaceAll("ʎ","ł",w);
+			w=replaceAll("^ł","Ł",w);
 			w=replaceAll("xx","sx",w);
-			w=w.replace(/([aeiou])(z)([aeiou])/g,"$1s$3");
+			w=w.replace(/([aeiouy])(z)([aeiouy])/g,"$1s$3");
 			w=w.replace(/([BCDFGHKLMNPRSTVXbcdfghklmnprstvx])(y)([aeiou])/g,"$1i$3");
 			w=w.replace(/([qQ]u)y/g,"$1i");
 			
@@ -534,8 +539,8 @@ function apply_orthography(word,stage,subgroup)
 			w=replaceAll("tx","ch",w);
 			w=replaceAll("Tx","Ch",w);
 			
-			w=replaceAll("dj","gi",w);
-			w=replaceAll("Dj","Gi",w);
+			w=replaceAll("dj","dy",w);
+			w=replaceAll("Dj","Dy",w);
 			
 			w=replaceAll("ŋ","ng",w);
 			w=replaceAll("nng","ng",w);
@@ -546,8 +551,6 @@ function apply_orthography(word,stage,subgroup)
 			w+=" ";
 			//w=replaceAll("u ","o ",w);
 			w=w.trim();
-			
-			w=w.replace(/z$/g,"se");
 		}
 		if (w=="*") w="";
 		return(w);

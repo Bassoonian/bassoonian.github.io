@@ -526,6 +526,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
+	[new Date("April 4, 2021"),"Added significantly more vocabulary.","Reworked comparatives."],
 	[new Date("March 31, 2021"),"Touched up Monarchic verbs."],
 	[new Date("March 30, 2021"),"Added significantly more vocabulary.","Finalised Monarchic nominal morphology with the exception of comparatives.","Finalised Monarchic phonology and pronunciation."],
 	[new Date("March 29, 2021"),"Fleshed out loans from Vulgar Latin and early Spanish.","Cleaned up derivational morphology.","Added several idioms."],

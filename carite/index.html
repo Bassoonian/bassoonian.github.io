@@ -255,7 +255,7 @@
 		"A~Ā~Ą B D E~Ē~Ę F G H~Ḫ I~Ī~Į J K L M N O~Ō~Ǫ P R S T U~Ū~Ų V W X Y~Ȳ Ø~Ø̄",
 		"A~Ā B~Ḅ C D~Ḍ E~Ē~Ê~Ę Ə F G~Ġ H I~Ī~Î J K L M N O~Ō~Ǫ P Q R~Ř S T U~Ū~Ų V X Z",
 		"A~Ā B C D~Ḍ E~Ē~Ê Ə F G~Ġ H I~Î L M N O P Q R S T U V Y Z",
-		"A B C~Ç D E F G H I J L M N O P Q R S T U V X Y Z"];
+		"A B C~Ç D E F G H I J L Ł M N Ñ O P Q R S T U V X Y Z"];
 	_needsromanisation=[true,false,false,false,false];
 	
 	_inDebugMode=false;
@@ -1441,10 +1441,10 @@
 								temp+=parseLoan(evaluate,happenings[i][0]);
 								isloan=true;
 								break;
-							case "D"://Derivation
+							case "D"://Derivation (derive univerbation U from this)
 								checkpie=false;
 								temp+="from";
-								var tt=[];
+								/*var tt=[];
 								for(var j=1;j<evaluate.length;j++)
 								{
 									temp+=" ";
@@ -1471,7 +1471,7 @@
 										if (tt[k]==-1) temp+="!";
 										else temp+=etymoStep(activestage,tt[k],"",false);
 									}
-								}
+								}*/
 								document.getElementById("tab_sources_li").style.display="none";
 								break;
 							case "P":
@@ -1573,6 +1573,10 @@
 								}
 								temp+="<a href='javascript:void(0);' class='clickety' onclick='timeTravel("+_uidlist[k][1]+","+m+");'>"+apply_orthography(dbase[_uidlist[k][1]][maincolumns[m]],m)+"</a>";
 								document.getElementById("tab_sources_li").style.display="none";
+								break;
+							case "?":
+								checkpie=false;
+								temp+="further origin unknown";
 								break;
 						}
 						i=-1;//End of journey
@@ -1771,7 +1775,7 @@
 				document.getElementById("tab_inflect_li").style.display="initial";
 				temp+=tablePersPronoun(wordlist[wid][3],activestage);
 			}
-			else if (wordlist[wid][3]=="PRON_PERS_3"||wordlist[wid][3]=="KWOS")
+			else if (wordlist[wid][3]=="PRON_PERS_3"||wordlist[wid][3]=="KWOS"||wordlist[wid][3]=="KWOSLIKE")
 			{
 				document.getElementById("tab_inflect_li").style.display="initial";
 				temp+=tablePronounIrregular(wordlist[wid][3],activestage);
@@ -2217,6 +2221,54 @@
 				}
 				out=q.join("");
 			}
+			if (stage==1)
+			{
+				//Iotacise ty dy
+				var q=stem.split("");
+				var p=q.pop();
+				if (p=="t") q.push("s");
+				else if (p=="d") q.push("r");
+				else
+				{
+					stem+="j";
+					//Vocalise
+					stem=stem.replace(/([mnpbtdkgfvszrlj])(w)(j)/g,"$1u$3");
+					//Sonorant!
+					stem=stem.replace(/([npbtdkgfvszrljw])(m)(j)/g,"$1im$3");
+					stem=stem.replace(/([mpbtdkgfvszrljw])(n)(j)/g,"$1in$3");
+					stem=stem.replace(/([mnpbtdkgfvszljw])(r)(j)/g,"$1ir$3");
+					stem=stem.replace(/([mnpbtdkgfvszrjw])(l)(j)/g,"$1il$3");
+					//Destroy preceding geminates
+					stem=stem.replace(/([mnpbtdkgfvszrljw])\1(j)/g,"$1j");
+					//If ending on a double jj, remove
+					if (stem.endsWith("jj")) stem=stem.substring(0,stem.length-1);
+					q=stem.split("");
+				}
+				out=q.join("");
+			}
+			if (stage==2)
+			{
+				var q=stem.split("");
+				var p=q.pop();
+				stem+="j";
+				//Vocalise
+				stem=stem.replace(/([mnpbtdkgfvszrlj])(w)(j)/g,"$1u$3");
+				//Sonorant!
+				stem=stem.replace(/([npbtdkgfvszrljw])(m)(j)/g,"$1im$3");
+				stem=stem.replace(/([mpbtdkgfvszrljw])(n)(j)/g,"$1in$3");
+				stem=stem.replace(/([mnpbtdkgfvszljw])(r)(j)/g,"$1ir$3");
+				stem=stem.replace(/([mnpbtdkgfvszrjw])(l)(j)/g,"$1il$3");
+				//Destroy preceding geminates
+				stem=stem.replace(/([mnpbtdkgfvszrljw])\1(j)/g,"$1j");
+				//If ending on a double jj, remove
+				if (stem.endsWith("jj")) stem=stem.substring(0,stem.length-1);
+				q=stem.split("");
+				out=q.join("");
+			}
+			if (stage==3||stage==4)
+			{
+				out+="ʲ";
+			}
 			return(out);
 		}
 //Tables
@@ -2265,6 +2317,7 @@
 		{
 			glob_highest_count=0;
 			var kluku=-1;
+			if (person=="KWOSLIKE") person="KWOS";
 			for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==person) kluku=declensionlist[i][1]+1;
 			var temp='<table class="table w-auto table-sm"><thead>';
 			var beq=_conjunctivelist[stage];

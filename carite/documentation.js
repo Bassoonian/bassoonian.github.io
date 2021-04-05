@@ -155,6 +155,7 @@ function updateLeftSidebar()
 		["4",
 			["Preface","4/preface"],
 			["Phonology","4/phono"],
+			["Orthography","4/ortho"],
 			["Sound Changes","4/sc"],
 			["Nominal Morphology","4/nom"],
 			["Verbal Morphology","4/vrb"],
@@ -384,7 +385,7 @@ function getRandomInflectionTable(pattern,stage,forceblank,adddiv,tablid)
 	if (inflectioncategory=="Noun") temp=tableNoun(selected,pattern,stage,false,tablid);
 	if (inflectioncategory=="Adjective") temp=tableAdjective(selected,pattern,stage,false,tablid,0);
 	if (pattern=="PRON_PERS_1"||pattern=="PRON_PERS_2") temp=tablePersPronoun(pattern,stage);
-	else if (pattern=="PRON_PERS_3"||pattern=="KWOS") temp=tablePronounIrregular(pattern,stage);
+	else if (pattern=="PRON_PERS_3"||pattern=="KWOS"||pattern=="KWOSLIKE") temp=tablePronounIrregular(pattern,stage);
 	else if (inflectioncategory=="Pronoun") temp=tableAdjective(selected,pattern,stage,false,tablid,0,true);
 	if (inflectioncategory=="Comparative") temp=tableAdjective(selected[0],selected[1],stage,false,tablid,1);
 	if (inflectioncategory=="Superlative") temp=tableAdjective(selected[0],selected[1],stage,false,tablid,2);
