@@ -359,6 +359,11 @@ sources=[
 			["google",		"https://books.google.be/books?id=ZXrJA_5LKlYC"],
 			["worldcat",	"https://www.worldcat.org/title/indo-european-poetry-and-myth/oclc/1126614179"]
 		]],
+	["greekverbs",
+		"Willi, Andreas. <i>Origins of the Greek Verb.</i> Cambridge, Cambridge University Press, 2018",[
+			["google",		"https://books.google.be/books?id=qKpCDwAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/origins-of-the-greek-verb/oclc/1242482621"]
+		]],
 	["nominaimlexikon",
 		"Wodtko, Dagmar S. et al. <i>Nomina im Indogermanischen Lexikon.</i> Memmingen, Universitätsverlag Winter Heidelberg GmbH, 2008",[
 			["google",		"https://books.google.be/books?id=BBxSAQAAIAAJ"],
