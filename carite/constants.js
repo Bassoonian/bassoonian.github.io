@@ -569,3 +569,40 @@ function getTableFootnote(cat,stage,nid)
 	if (cat=="nom"&&stage==4&&nid==0) return("Only used in the archaic register.")
 	return("?");
 }
+
+_heyracontributors=[
+	["Michael"		,"Ampe"],
+	["Artifexian"	,""],
+	["Sascha"		,"Baer"],
+	["Eváristos"	,"Bethlehem"],
+	["Galen"		,"Buttitta"],
+	["Maria"		,"Charlet"],
+	["Peter"		,"Charlet"],
+	["Willem"		,"Charlet"],
+	["Chip"			,"Clothier"],
+	["Tom"			,"Collier"],
+	["Crow"			,""],
+	["Willy"		,"Delcart"],
+	["Salp"			,"Fish"],
+	["Gaffney"		,"Flancer"],
+	["Alexis"		,"Huchelmann"],
+	["David"		,"Hultman"],
+	["Amadeus"		,"Koch"],
+	["Rita"			,"Kreydt"],
+	["Filip"		,"Neyens"],
+	["Jaed"			,"Norberg"],
+	["Ana Sofia"	,"Rodrigues Sousa"],
+	["Marc"			,"Rivas"],
+	["Roos"			,"Rol"],
+	["Noah"			,"Rydén"],
+	["Samuel"		,"Schoolmeesters"],
+	["Kathryn"		,"Spence"],
+	["Nick"			,"Van Elsen"],
+	["Lynn"			,"Van Hauwe"],
+	["Ann"			,"Vermeulen"],
+	["David"		,"Vermeulen"],
+	["Jos"			,"Vermeulen"],
+	["Natalie"		,"Vermeulen"],
+	["Heleen"		,"Willemsen"],
+	["Zethar"		,""]
+]

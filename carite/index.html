@@ -35,6 +35,9 @@
 					<li class="nav-item col-6 col-md-auto">
 						<a class="nav-link p-2" onclick="switch_tab(1);" id="navbar_button_docs" href="javascript:void(0);">Documentation</a>
 					</li>
+					<li class="nav-item col-6 col-md-auto">
+						<a class="nav-link p-2" onclick="switch_tab(2);" id="navbar_button_heyra" href="javascript:void(0);">Heyra</a>
+					</li>
 				</ul>
 				<hr class="d-md-none text-white-50">
 				<span class="flex-row flex-wrap ms-md-auto"></span>
@@ -149,6 +152,21 @@
 			</div>
 			<div class="bd-content ps-lg-4" id="doc_main_content">
 				Loading...
+			</div>
+		</main>
+	</div>
+	
+	<div class="container-xxl my-md4 bd-layout" id="head_container_heyra" style="display: none;">
+		<main class="bd-main order-1">
+			<div class="bd-content ps-lg-4" id="doc_main_content">
+				<img src="logos/heyra.png" alt="Heyra" title="Heyra" style="max-width: 60%; margin-left: auto; margin-right: auto; display: block;"></br>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/-QhKBRtXTUA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="left: 50%; margin-left: auto; margin-right: auto; display: block;"></iframe>
+				<p style="text-align: center;"><strong>Heyra</strong> is a 45-minute opera written and sung in Carite. It is one of the few operas in a constructed language and is due to premiere in July 2021. If you are interested in knowing more about this project, please consult the video on the left. The project is in need of additional financial help to give it all the chances it needs. If you want more information or are interested in helping us, please visit <a href="https://www.indiegogo.com/projects/heyra--2#/" target="_blank">our crowdfunding</a>. Thank you!</p>
+				<p style="text-align: center;">Once the crowdfunding has ended, this page will be updated to contain all relevant information and moved and categorised under Anthropology. The names of all contributors will likewise be moved there but remain there unless removal is specifically requested.</p>
+				<h2 style="text-align: center;">Contributors</h2>
+				<p style="text-align: center;">A big thank you goes out to all the following people:</p>
+				<div class="container" id="heyrashoutoutlist" style="text-align: center;">
+				</div>
 			</div>
 		</main>
 	</div>
@@ -2053,9 +2071,11 @@
 		{
 			document.getElementById("head_container_lexicon").style.display="none";
 			document.getElementById("head_container_docu").style.display="none";
+			document.getElementById("head_container_heyra").style.display="none";
 			document.getElementById("secnavsearchbar").style.display="none";
 			document.getElementById("navbar_button_lexicon").classList.remove("active");
 			document.getElementById("navbar_button_docs").classList.remove("active");
+			document.getElementById("navbar_button_heyra").classList.remove("active");
 			document.getElementById("main_header_element").classList.remove("sticky-top");
 			if (_navbarcontent=="") _navbarcontent=document.getElementById("navbar_alphabetlist").innerHTML;
 			if (tabid>0) document.getElementById("lang_name").innerHTML="CARITE";
@@ -2076,6 +2096,14 @@
 					prepDoc();
 					_viewinglexicon=false;
 					document.getElementById("navbar_button_docs").classList.add("active");
+					document.getElementById("main_header_element").classList.add("sticky-top");
+					break;
+				case 2:
+					document.getElementById("head_container_heyra").style="";
+					document.getElementById("navbar_alphabetlist").innerHTML="";
+					updateContributorHeyra();
+					_viewinglexicon=false;
+					document.getElementById("navbar_button_heyra").classList.add("active");
 					document.getElementById("main_header_element").classList.add("sticky-top");
 					break;
 				}
@@ -3072,6 +3100,33 @@
 				out.push(apply_orthography(tmp,stage));
 			}
 			return(out.join(" "));
+		}
+		
+	function updateContributorHeyra()
+		{
+			var a=[[],[],[]];
+			var b=0;
+			for(var i=0;i<_heyracontributors.length;i++)
+			{
+				a[b].push(_heyracontributors[i][0]+" "+_heyracontributors[i][1]);
+				b++;
+				if (b==3) b=0;
+			}
+			var s="";
+			for(var i=0;i<a.length;i++)
+			{
+				s+="<div class='col-4'>";
+				for(var j=0;j<a[i].length;j++)
+				{
+					if (j>0) s+="</br>";
+					s+=a[i][j];
+				}
+				s+="</div>";
+			}
+			s="<div class='row'>"+s+"</div>";
+			document.getElementById("heyrashoutoutlist").innerHTML=s;
+			document.body.scrollTop=0;//Safari
+			document.documentElement.scrollTop=0;//Other browsers
 		}
 		
 //Debug
