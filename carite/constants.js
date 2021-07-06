@@ -585,6 +585,8 @@ _heyracontributors=[
 	["Crow"			,""],
 	["Willy"		,"Delcart"],
 	["Lara"			,"Denies"],
+	["Lynn"			,"De Clercq"],
+	["Johan"		,"De Paepe"],
 	["Aditya"		,"Duri"],
 	["Salp"			,"Fish"],
 	["Gaffney"		,"Flancer"],
@@ -592,6 +594,7 @@ _heyracontributors=[
 	["David"		,"Hultman"],
 	["Amadeus"		,"Koch"],
 	["Rita"			,"Kreydt"],
+	["Aleksa"		,"Krivošija"],
 	["Dennis"		,"Lao"],
 	["Dries"		,"Laureyssens"],
 	["Filip"		,"Neyens"],
@@ -609,6 +612,7 @@ _heyracontributors=[
 	["David"		,"Vermeulen"],
 	["Jos"			,"Vermeulen"],
 	["Natalie"		,"Vermeulen"],
+	["Sofie"		,"Vermeulen"],
 	["Heleen"		,"Willemsen"],
 	["Zethar"		,""]
 ]
