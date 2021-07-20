@@ -9,6 +9,12 @@ sources=[
 			["google",		"https://books.google.be/books?id=oa42E3DP3icC"],
 			["worldcat",	"https://www.worldcat.org/title/companion-to-the-ancient-greek-language/oclc/871713512"]
 		]],
+	["reconstructingsyntax",
+		"Barðdal, Jóhanna et al. <i>Reconstructing Syntax.</i> Leiden, Koninklijk Brill NV, 2020",[
+			["directlink",	"https://brill.com/view/title/54246?language=en"],
+			["google",		"https://books.google.be/books?id=CNo_zQEACAAJ"],
+			["worldcat",	"https://www.worldcat.org/title/reconstructing-syntax/oclc/1139889386"]
+		]],
 	["ed_greek",
 		"Beekes, Robert. <i>Etymological Dictionary of Greek.</i> Leiden, Koninklijke Brill NV, 2010",[
 			["google",		"https://books.google.be/books?id=4qudQAAACAAJ"],
@@ -160,6 +166,11 @@ sources=[
 		"Ledgeway, Adam & Maiden, Martin. <i>The Oxford Guide to the Romance Languages.</i> Oxford, Oxford University Press, 2016",[
 			["google",		"https://books.google.be/books?id=uUlRDAAAQBAJ"],
 			["worldcat",	"https://www.worldcat.org/title/oxford-guide-to-the-romance-languages/oclc/969620858"]
+		]],
+	["piesyntax",
+		"Lehmann, Winfred P. <i>Proto-Indo-European Syntax.</i> Austin, University of Texas Press, 1974",[
+			["google",		"https://books.google.be/books?id=T_9YAAAAMAAJ"],
+			["worldcat",	"https://www.worldcat.org/title/proto-indo-european-syntax/oclc/256105983"]
 		]],
 	["ed_gothic",
 		"Lehmann, Winfred P. <i>A Gothic Etymological Dictionary.</i> Leiden, E.J. Brill, 1986",[
@@ -333,6 +344,11 @@ sources=[
 		"Väänänen, Veikko. <i>Introduction au latin vulgaire.</i> Klincksieck, 2006",[
 			["google",		"https://books.google.be/books?id=vATEmAEACAAJ"],
 			["worldcat",	"https://www.worldcat.org/title/introduction-au-latin-vulgaire/oclc/889929195"]
+		]],
+	["histsyntax",
+		"Viti, Carlotta. <i>Perspectives on Historical Syntax.</i> Amsterdam/Philadelphia, John Benjamins Publishing Company, 2015",[
+			["google",		"https://books.google.be/books?id=wQ8UCAAAQBAJ"],
+			["worldcat",	"https://www.worldcat.org/title/perspectives-on-historical-syntax/oclc/910631461"]
 		]],
 	["ed_coptic",
 		"Vycichl, Werner. <i>Dictionnaire étymologique de la langue copte.</i> Leuven, Éditions Peeters, 1983",[
@@ -582,12 +598,14 @@ _heyracontributors=[
 	["Willem"		,"Charlet"],
 	["Chip"			,"Clothier"],
 	["Tom"			,"Collier"],
+	["Thomi"		,"Crisler"],
 	["Crow"			,""],
 	["Patrick"		,"Delagrange"],
 	["Willy"		,"Delcart"],
 	["Lara"			,"Denies"],
 	["Lynn"			,"De Clercq"],
 	["Johan"		,"De Paepe"],
+	["Jack"			,"Doherty"],
 	["Aditya"		,"Duri"],
 	["Alexander"	,"Fink"],
 	["Salp"			,"Fish"],
@@ -606,6 +624,7 @@ _heyracontributors=[
 	["Marc"			,"Rivas"],
 	["Roos"			,"Rol"],
 	["Noah"			,"Rydén"],
+	["Noah"			,"Schachter"],
 	["Samuel"		,"Schoolmeesters"],
 	["Kathryn"		,"Spence"],
 	["Nick"			,"Van Elsen"],
