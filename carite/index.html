@@ -2998,6 +2998,7 @@
 		
 	function inflectWord(ref,wrk,stage,dcpat,wordcat,newdb,glossify)
 		{
+			console.log(ref,wrk,stage,dcpat,wordcat,newdb,glossify);
 			var out="???";
 			if (wordcat=="Noun")
 			{
@@ -3032,6 +3033,7 @@
 				var ap_gndr=_genders[stage].indexOf(wrk[3]);
 				var ap_dgr=(["pos","cmp","sup"].indexOf(wrk[4]));
 				if (ap_dgr==-1) ap_dgr=0;
+				var olddb=dbase[dcpat][1];
 				//Get correct masculine reference
 				var newdb=dbase[dcpat][stagelist[stage][1]+1];
 				var dcpat2=-1;
@@ -3064,6 +3066,85 @@
 					}
 				}
 				else dcpat=dcpat2;
+				//If comparative/superlative, spice it up
+				if (ap_dgr==1||ap_dgr==2)//Apply i-umlaut
+				{
+					if (olddb.includes("THEM"))
+					{
+						var repref=-1;
+						if (olddb.includes("ALPH"))
+						{
+							if (stemarray.length>1) repref=1;
+							else repref=0;
+						}
+						else
+						{
+							if (stemarray.length>2) repref=2;
+							else repref=0;
+						}
+						stemarray=[stemarray[repref]];
+						if (repref!=0) stemarray[0]=stemarray[0].slice(0,-1);
+					}
+				}
+				if (ap_dgr==1)
+				{
+					//Get new endings
+					var newpatrn="";
+					if (olddb.includes("ADJ_I"))
+					{
+						if (olddb.includes("EXON")) newptrn="COMPARATIVE_EXON";
+						else newptrn="COMPARATIVE";
+					}
+					else //Thematic
+					{
+						if (olddb.includes("ALPH"))
+						{
+							if (olddb.includes("EXON")) newptrn="COMPARATIVE_ALPH_EXON";
+							else newptrn="COMPARATIVE_ALPH";
+						}
+						else
+						{
+							if (olddb.includes("EXON")) newptrn="COMPARATIVE_EXON";
+							else newptrn="COMPARATIVE";
+						}
+					}
+					olddb=newptrn;
+					var kluku=-1;
+					for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==olddb) kluku=declensionlist[i][1];
+					//Figure out which declensions to draw data from
+					var newdb=dbase[kluku][stagelist[stage][1]+1+ap_gndr];
+					for(var g=0;g<declensionlist.length;g++)
+					{
+						if (declensionlist[g][0]==newdb)
+						{
+							dcpat=declensionlist[g][1];
+							g=declensionlist.length;
+						}
+					}
+					stemarray[0]=getComparative(stemarray[0],stage);
+				}
+				/*if (iscomparative==2) ////TO DO!
+				{
+					var refff=-1;
+					for(var i=0;i<declensionlist.length;i++)
+					{
+						if (declensionlist[i][0]=="SUPERLATIVE") refff=declensionlist[i][1]+1;
+					}
+					stemarray[0]=attachSuffix(stemarray,getSuffix(refff,stage));
+					//Get new endings
+					pattern="ADJ_THEM_UNSTRESSED_DEF";
+					var kluku=-1;
+					for(var i=0;i<declensionlist.length;i++) if (declensionlist[i][0]==pattern) kluku=declensionlist[i][1]+1;
+					//Figure out which declensions to draw data from
+					var decolist=[];
+					for(var i=0;i<_genders[stage].length;i++)
+					{
+						for(var j=0;j<declensionlist.length;j++)
+						{
+							if (declensionlist[j][0]==dbase[kluku-1][stagelist[stage][1]+1+i]) decolist.push(declensionlist[j][1]+1);
+						}
+					}
+				}*/
 				//Apply crap
 				out=attachSuffix(stemarray,adjStem(getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage),dcpat+1,stage,false),glossify);
 			}
@@ -3140,8 +3221,9 @@
 						//Start checking what to do with it
 						tmp=inflectWord(ref,wrk,stage,dcpat,wordcat,newdb,glossify);
 					}
+					else if (ref==-1) tmp="?";
 					else tmp=dbase[ref][maincolumns[stage]];
-					if (glossify)
+					if (glossify&&tmp!="?")
 					{
 						//add gloss
 						//get translation

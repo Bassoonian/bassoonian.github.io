@@ -654,7 +654,15 @@ _syntaxonly=[
 	"The magpie has built a nest in the tree."],
 /**/	["RIVUSRIVER/nom/sg|0 FJOKU/ins/sg|1 AD|0 MORISEA/acc/sg|0 IKNOW/ind/prs/3s|0 .",
 	"The river knows the way to the sea."],
-/**/	["VBCOPULA/ind/prs/3s|0 BRUTUSSLOW/acc/pl/m/cmp|0 IEAT/sbj/prs/1p|0 .",
-	"We should eat more slowly."]
+/**/	["IMISSLACK/ind/prs/3s|0 BRUTUSSLOW/acc/pl/m/cmp|0 IEAT/sbj/prs/1p|0 .",
+	"We should eat more slowly."],
+		[".",
+	"Show the guests these shells, my son, and tell them their strange history."],
+		[".",
+	""],
+/**/	["PUPPYDAWG/nom/sg|0 EPIONTO|1 AKMOROCK/acc/sg|1 JUMPEE/ind/pst/3s|0 .",
+	"The puppy jumped onto the rock."],
+/**/	["NIZDOS/nom/sg|0 SQUIRRELIE/gen/sg|0 KILLME/pcp/nom/sg/m|1 BRANCHOZOS/ins/sg|0 VBCOPULA/ind/pst/3s|0 .",
+	"The squirrel's nest was hidden by branches."]
 	]
 ]

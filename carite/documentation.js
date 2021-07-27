@@ -299,7 +299,7 @@ function docParseData(dat)
 			if (dat.includes("||SYN-"+i+"||"))
 			{
 				var temp=expression_parse(_syntaxonly[qqp][i][0],qqp,true).replace(/§/g," ");
-				dat=dat.replace("||SYN-"+i+"||","<div id='syntaxmessage"+i+"'>"+temp+" <a href='javascript:void(0);' onclick='openSyntaxTree("+i+","+qqp+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_syntaxonly[qqp][i][1]+"</i></div>");
+				dat=replaceAll("||SYN-"+i+"||","<div id='syntaxmessage"+i+"'>"+temp+" <a href='javascript:void(0);' onclick='openSyntaxTree("+i+","+qqp+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_syntaxonly[qqp][i][1]+"</i></div>",dat);
 			}
 		}
 	}
