@@ -637,3 +637,24 @@ _heyracontributors=[
 	["Heleen"		,"Willemsen"],
 	["Zethar"		,""]
 ]
+
+_syntaxonly=[
+	[
+		["[NP [N SOWLOM/nom/sg|0 ] ] [VP [V OLDSHINE/ind/prs/3s|0 . ] ]",
+	"The sun shines."],
+		["[NP [D EACHALL/nom/sg/f|0 ] [N BLOODMEN/nom/sg|0 ] ] [VP [V SCREAMSHOUT/ind/pst/3p|0 . ] ]",
+	"All the people shouted."],
+		["[VP [V IRAINVERB/ind/prs/3s|0 . ] ]",
+	"It's raining."],
+/**/	["IWISHIHOPE/ind/prs/1s|1 IMBRIS/acc/sg|0 MOXSOON|0 ISTOP/sbj/prs/3s|0 .",
+	"I hope that the rain stops soon."],
+		["[NP [D PRN1SG/gen/sg/atn|0 ] [N NEWDOG/nom/sg|0 ] [A ADJBLACK/nom/sg/m|0 ] ] [VP [V VBCOPULA/ind/prs/3s|0 . ] ]",
+	"My dog is black."],
+/**/	["JAYMAGPIE/nom/sg|1 NIZDOS/acc/sg|0 QUERCUS/loc/sg|0 DIMMI/ind/pst/3s|0 .",
+	"The magpie has built a nest in the tree."],
+/**/	["RIVUSRIVER/nom/sg|0 FJOKU/ins/sg|1 AD|0 MORISEA/acc/sg|0 IKNOW/ind/prs/3s|0 .",
+	"The river knows the way to the sea."],
+/**/	["VBCOPULA/ind/prs/3s|0 BRUTUSSLOW/acc/pl/m/cmp|0 IEAT/sbj/prs/1p|0 .",
+	"We should eat more slowly."]
+	]
+]

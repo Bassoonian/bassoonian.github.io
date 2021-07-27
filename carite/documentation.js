@@ -291,6 +291,18 @@ function docParseData(dat)
 		var temp="";
 		dat=dat.replace("||DEITYTREE||",temp);
 	}
+	//Syntax texts
+	if (_last_loaded_file.includes("/syn"))
+	{
+		for(var i=0;i<_syntaxonly[qqp].length;i++)
+		{
+			if (dat.includes("||SYN-"+i+"||"))
+			{
+				var temp=expression_parse(_syntaxonly[qqp][i][0],qqp,true).replace(/§/g," ");
+				dat=dat.replace("||SYN-"+i+"||","<div id='syntaxmessage"+i+"'>"+temp+" <a href='javascript:void(0);' onclick='openSyntaxTree("+i+","+qqp+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_syntaxonly[qqp][i][1]+"</i></div>");
+			}
+		}
+	}
 	//Do tables
 	for(var i=0;i<declensionlist.length;i++)
 	{
@@ -406,4 +418,27 @@ function getSubtitleName(txt)
 	txt=replaceAll(" ","_",txt.toLowerCase());
 	txt=replaceAll("'","",txt);
 	return(txt+"_");
+}
+
+function openSyntaxTree(sid,stage)
+{
+	var ps=_syntaxonly[stage][sid][0].split(" ");
+	var pr=expression_parse(_syntaxonly[stage][sid][0],stage,true).split("§");
+	var tq="<div class='syntaxtreecontent'><ul><li><span class='syntaxtreecontent2'>S</span><ul>";
+	var tr=0;
+	for(var i=0;i<ps.length;i++)
+	{
+		var tk=ps[i].charAt(0);
+		if (tk=="[") tq+="<li><span class='syntaxtreecontent2'>"+ps[i].slice(1)+"</span><ul>";
+		else if (tk=="]") tq+="</ul></li>";
+		else if (tk!=".")
+		{
+			var tkt=pr[tr].replace("clickety syntaxhover","clickety syntaxhov");
+			tq+="<li><span class='syntaxtreecontent2'>"+tkt.replace(" hovertext","")+"</span></li>";
+			tr++;
+		}
+	}
+	tq+="</ul></li></ul></div>";
+	document.getElementById("syntaxmodalbody").innerHTML=tq;
+	$('#syntaxtreemodal').modal('show');
 }

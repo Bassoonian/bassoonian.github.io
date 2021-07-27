@@ -265,6 +265,15 @@
 		</div>
 	</div>
 </div>
+
+<div class="modal fade" id="syntaxtreemodal" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+		<div class="modal-content">
+			<div class="modal-body" id="syntaxmodalbody"></div>
+		</div>
+	</div>
+</div>
+
 </body>
 <script>
 	//Initialise important variables
@@ -1841,7 +1850,7 @@
 			if (dbase[paipo][1]==">>-4") paipo-=4;
 			return(dbase[paipo][maincolumns[stageused]]);
 		}
-	function attachSuffix(array,suffix)
+	function attachSuffix(array,suffix,pgl)
 		{
 			var q=suffix;
 			for(var i=0;i<10;i++)
@@ -1850,8 +1859,10 @@
 				if (p>=array.length) p=0;
 				var t=array[p];
 				if (t.charAt(t.length-1)=="-") t=t.slice(0,-1);
-				q=q.replace(i+"-",t);
+				if (pgl) q=q.replace(i+"-",t+"-");
+				else q=q.replace(i+"-",t);
 			}
+			if (pgl) q=q.replace(/-/g,";")
 			return(q);
 		}
 	function updateStage()
@@ -2009,6 +2020,7 @@
 			}
 			if (wlist>-1) openWord(wlist,false);
 			switch_tab(0);
+			$('#syntaxtreemodal').modal('hide');
 		}
 	function parseEtymoText(txt,stage)
 		{
@@ -2984,7 +2996,7 @@
 			document.getElementById(ref).scrollIntoView({behavior: "smooth"});
 		}
 		
-	function inflectWord(ref,wrk,stage,dcpat,wordcat,newdb)
+	function inflectWord(ref,wrk,stage,dcpat,wordcat,newdb,glossify)
 		{
 			var out="???";
 			if (wordcat=="Noun")
@@ -3000,7 +3012,16 @@
 				klaka=klaka.replace(kloko,"");
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
 				//Apply crap
-				out=attachSuffix(stemarray,getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage));
+				out=attachSuffix(stemarray,getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage),glossify);
+			}
+			else if (newdb=="PRON_PERS_1"||newdb=="PRON_PERS_2")
+			{
+				//Set parameters
+				var ap_num=wrk[2]=="pl";
+				var ap_case=_caseslist[stage].indexOf(wrk[1]);
+				if (ap_case==-1) ap_case=0;
+				var ap_atn=wrk[3]=="atn";
+				out=attachSuffix([""],getSuffix(dcpat+1+ap_case+ap_num*16+ap_atn*8,stage),glossify);
 			}
 			else if (wordcat=="Adjective"||newdb=="REGPRON"||wordcat=="Numeral")
 			{
@@ -3009,6 +3030,8 @@
 				var ap_case=_caseslist[stage].indexOf(wrk[1]);
 				if (ap_case==-1) ap_case=0;
 				var ap_gndr=_genders[stage].indexOf(wrk[3]);
+				var ap_dgr=(["pos","cmp","sup"].indexOf(wrk[4]));
+				if (ap_dgr==-1) ap_dgr=0;
 				//Get correct masculine reference
 				var newdb=dbase[dcpat][stagelist[stage][1]+1];
 				var dcpat2=-1;
@@ -3040,66 +3063,131 @@
 						}
 					}
 				}
+				else dcpat=dcpat2;
 				//Apply crap
-				out=attachSuffix(stemarray,adjStem(getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage),dcpat+1,stage,false));
+				out=attachSuffix(stemarray,adjStem(getSuffix(dcpat+1+ap_case+ap_num*_caseslist[stage].length,stage),dcpat+1,stage,false),glossify);
+			}
+			else if (wordcat=="Verb")
+			{
+				//Set parameters
+				var vp_ind=["ind","sbj"].indexOf(wrk[1]);
+				var vp_tns=["prs","pst","fut"].indexOf(wrk[2]);
+				var pn=["1s","2s","3s","1p","2p","3p"].indexOf(wrk[3]);
+				//Same as nouns
+				//Prepare
+				var stemarray=dbase[ref][maincolumns[stage]].split("~");
+				var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
+				var kloko=(((dbase[dcpat+1][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
+				klaka=klaka.replace(kloko,"");
+				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
+				var offset=pn+(vp_tns*6)+1+vp_ind*18;
+				out=attachSuffix(stemarray,verbStem(getSuffix(dcpat+offset,stage),dcpat,stage,stemarray),glossify);
 			}
 			return(out);
 		}
 		
-	function expression_parse(input,stage)
+	function expression_parse(input,stage,glossify)
 		{
 			var out=[];
 			var ar=input.split(" ");
+			var nonfirst=false;
 			for(var i=0;i<ar.length;i++)
 			{
-				var wrk=ar[i].split("/");
-				var ref=-1;
-				for(var j=0;j<_uidlist.length;j++)
-				{
-					if (_uidlist[j][0]==wrk[0])
+				if (ar[i]==".") out.push(ar[i]);
+				else if (ar[i].charAt(0)!="["&&ar[i].charAt(0)!="]")
+				{	
+					var wrk=(ar[i].split("|"))[0].split("/");
+					var ref=-1;
+					for(var j=0;j<_uidlist.length;j++)
 					{
-						ref=_uidlist[j][1];
-						j=_uidlist.length;
-					}
-				}
-				var tmp="";
-				if (wrk.length>1)
-				{
-					//Figure out pattern
-					var prk="";
-					for(var g=0;g<lexlist.length;g++)
-					{
-						if (lexlist[g][0]==ref)
+						if (_uidlist[j][0]==wrk[0])
 						{
-							prk=lexlist[g][1];
-							g=lexlist.length;
+							ref=_uidlist[j][1];
+							j=_uidlist.length;
 						}
 					}
-					//Get pattern reference
-					var dcpat=-1;
-					for(var g=0;g<declensionlist.length;g++)
+					var tmp="";
+					if (wrk.length>1)
 					{
-						if (declensionlist[g][0]==prk)
+						//Figure out pattern
+						var prk="";
+						for(var g=0;g<lexlist.length;g++)
 						{
-							dcpat=declensionlist[g][1];
-							g=declensionlist.length;
+							if (lexlist[g][0]==ref)
+							{
+								prk=lexlist[g][1];
+								g=lexlist.length;
+							}
 						}
+						//Get pattern reference
+						var dcpat=-1;
+						for(var g=0;g<declensionlist.length;g++)
+						{
+							if (declensionlist[g][0]==prk)
+							{
+								dcpat=declensionlist[g][1];
+								g=declensionlist.length;
+							}
+						}
+						var wordcat=dbase[dcpat][2];
+						//If reference, fix it
+						if (dbase[dcpat][stagelist[stage][1]].charAt(0)==">")
+						{
+							var newdb=dbase[dcpat][stagelist[stage][1]].replace(">","");
+							for(var g=0;g<declensionlist.length;g++) if (declensionlist[g][0]==newdb) dcpat=declensionlist[g][1];
+						}
+						var newdb=prk;
+						//Start checking what to do with it
+						tmp=inflectWord(ref,wrk,stage,dcpat,wordcat,newdb,glossify);
 					}
-					var wordcat=dbase[dcpat][2];
-					//If reference, fix it
-					if (dbase[dcpat][stagelist[stage][1]].charAt(0)==">")
+					else tmp=dbase[ref][maincolumns[stage]];
+					if (glossify)
 					{
-						var newdb=dbase[dcpat][stagelist[stage][1]].replace(">","");
-						for(var g=0;g<declensionlist.length;g++) if (declensionlist[g][0]==newdb) dcpat=declensionlist[g][1];
+						//add gloss
+						//get translation
+						var gl=(dbase[ref][maincolumns[stage]+1].split(","))[(ar[i].split("|"))[1]];
+						if (gl.startsWith("I ")) gl="to "+gl.slice(2);//Remove the "I " part in verbs
+						if (gl=="to am") gl="COP";
+						gl=(gl.split("£"))[0];//Remove specifications
+						var krk=(tmp.match(/;/g) || []).length;
+						for(var j=1;j<wrk.length;j++)
+						{
+							if (j==1)
+							{
+								if (krk>=1) gl+="-";
+								else if (krk==0) gl+=".";
+							}
+							else gl+=".";
+							gl+=wrk[j].toUpperCase();
+						}
+						//Check if circumfix
+						if (krk==2)
+						{
+							gl=(gl.split("-"))[1]+"-"+(gl.split("-"))[0]+"-CIRC";
+						}
+						if (!nonfirst)
+						{
+							if (tmp.charAt(0)=="*") tmp="*"+tmp.charAt(1).toUpperCase()+tmp.slice(2);
+							else tmp=tmp.charAt(0).toUpperCase()+tmp.slice(1);
+							nonfirst=true;
+						}
+						var tmp2="<span class='hovertext' data-placement='top' title='"+gl+"' data-toggle='tooltip'>"+apply_orthography(tmp,stage).replace(/;/g,"-")+"</span>";
+						//prepare link
+						tmp="<a class='clickety syntaxhover' href='javascript:void(0);' onclick='timeTravel("+ref+","+stage+")'><span class='syntaxhover_basic hovertext'>"+apply_orthography(tmp.replace(/;/g,""),stage)+"</span><span class='syntaxhover_extra'>"+tmp2+"</span></a>";
 					}
-					var newdb=prk;
-					//Start checking what to do with it
-					tmp=inflectWord(ref,wrk,stage,dcpat,wordcat,newdb);
+					else tmp=apply_orthography(tmp,stage);
+					out.push(tmp);
 				}
-				else tmp=dbase[ref][maincolumns[stage]];
-				out.push(apply_orthography(tmp,stage));
 			}
-			return(out.join(" "));
+			var t="";
+			if (glossify) t=out.join("§");
+			else t=out.join(" ");
+			if (t.includes("*"))
+			{
+				t="*"+t.replace(/\*/g,"");
+			}
+			t=t.replace(/([ §])([\.\!])/g,"$2");
+			return(t);
 		}
 		
 	function updateContributorHeyra()
