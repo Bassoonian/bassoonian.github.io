@@ -132,6 +132,9 @@
 						<div class="alert alert-warning" role="alert" id="libertyalert">
 							<strong>Notice:</strong> This entry was added as part of artistic liberty and is as such irrelevant to any actual scientific research.
 						</div>
+						<div class="alert alert-info" role="alert" id="dedicationalert">
+							<strong>Notice:</strong> <span id="dedicationalertcontent"></span>
+						</div>
 						<h4>Sources</h4>
 						<p id="entry_sourcetext"></p>
 					</div>
@@ -1430,6 +1433,7 @@
 			var checkpie=true;
 			var isloan=false;
 			document.getElementById("libertyalert").style.display="none";
+			document.getElementById("dedicationalert").style.display="none";
 			for(var i=0;i<happenings.length;i++)
 			{
 				if (happenings[i][1]==maincolumns[activestage])
@@ -1746,7 +1750,21 @@
 				temp+=".";
 			}
 			
-			if (dbase[wordlist[wid][2]][etymonotecolumn]!="") temp+=" "+parseEtymoText(dbase[wordlist[wid][2]][etymonotecolumn],activestage);
+			if (dbase[wordlist[wid][2]][etymonotecolumn]!="")
+			{
+				var halapachala=dbase[wordlist[wid][2]][etymonotecolumn].split("<!--!>");
+				temp+=" "+parseEtymoText(halapachala[0],activestage);
+				if (halapachala.length>1)
+				{
+					document.getElementById("dedicationalert").style.display="inherit";
+					var tmpstr2="This word is dedicated to "+halapachala[2];
+					switch(halapachala[1])
+					{
+						case "HEYRA": tmpstr2+=" for their contribution to the Heyra crowdfunding";break;
+					}
+					document.getElementById("dedicationalertcontent").innerHTML=tmpstr2+".";
+				}
+			}
 			document.getElementById("entry_etymologytext").innerHTML=temp;
 			
 			//Get related terms
@@ -2998,7 +3016,6 @@
 		
 	function inflectWord(ref,wrk,stage,dcpat,wordcat,newdb,glossify)
 		{
-			console.log(ref,wrk,stage,dcpat,wordcat,newdb,glossify);
 			var out="???";
 			if (wordcat=="Noun")
 			{
@@ -3047,7 +3064,9 @@
 				}
 				//Same as nouns
 				//Prepare
-				var stemarray=dbase[ref][maincolumns[stage]].split("~");
+				var stemarray=[];
+				if (ref==-999) stemarray=wrk[0].split("~");
+				else stemarray=dbase[ref][maincolumns[stage]].split("~");
 				var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
 				var kloko=(((dbase[dcpat2+1][maincolumns[stage]].replace("0-","")).split("")).reverse()).join("");
 				klaka=klaka.replace(kloko,"");
@@ -3162,7 +3181,30 @@
 				klaka=klaka.replace(kloko,"");
 				stemarray[0]=((klaka.split("")).reverse()).join(""); //Reverse
 				var offset=pn+(vp_tns*6)+1+vp_ind*18;
-				out=attachSuffix(stemarray,verbStem(getSuffix(dcpat+offset,stage),dcpat,stage,stemarray),glossify);
+				if (wrk[1]=="pcp")
+				{
+					//Get participle!
+					var k=0;
+					for(var gg=0;gg<_tamlist[stage].length;gg++)
+					{
+						k+=_tamlist[stage][gg][1].length;
+					}
+					offset=k*6;
+					var k=0;
+					for(var g=0;g<declensionlist.length;g++)
+					{
+						if (declensionlist[g][0]=="ADJ_THEM_STRESSED_DEF")
+						{
+							k=declensionlist[g][1];
+							g=declensionlist.length;
+						}
+					}
+					out=inflectWord(-999,[attachSuffix(stemarray,verbStem(getSuffix(dcpat+offset+5,stage),dcpat,stage,stemarray),true),wrk[2],wrk[3],wrk[4]],stage,k,"Adjective","ADJ_THEM_STRESSED_DEF",glossify);
+				}
+				else
+				{
+					out=attachSuffix(stemarray,verbStem(getSuffix(dcpat+offset,stage),dcpat,stage,stemarray),glossify);
+				}
 			}
 			return(out);
 		}
@@ -3243,10 +3285,13 @@
 							gl+=wrk[j].toUpperCase();
 						}
 						//Check if circumfix
-						if (krk==2)
+						if (krk==2&&!gl.includes("PCP"))
 						{
 							gl=(gl.split("-"))[1]+"-"+(gl.split("-"))[0]+"-CIRC";
 						}
+						//add circumfix for e-stem-d-os!
+						//Check if past participle
+						if (gl.includes("PCP")) gl=gl.replace(".","-");
 						if (!nonfirst)
 						{
 							if (tmp.charAt(0)=="*") tmp="*"+tmp.charAt(1).toUpperCase()+tmp.slice(2);
