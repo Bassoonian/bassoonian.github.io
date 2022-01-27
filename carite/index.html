@@ -231,7 +231,7 @@
 				  </blockquote>
 				  <figcaption class="blockquote-footer" id="pie_settings_sample_footer"></figcaption>
 				</figure>
-				<h6>Early Proto-Carite</h6>
+				<h6>Abean</h6>
 				<!-- <p><input type="checkbox" id="showArchaicBox" onchange="updateArchaicBox();"> Use archaic Greek glyphs</p> -->
 				<p><input type="checkbox" id="alt_0_wr" onchange="updateAlternativeReconstructions(true);"> [β] for /w/ in #_L environments</p>
 				<p><input type="checkbox" id="alt_0_z" onchange="updateAlternativeReconstructions(true);"> [ʐ] for /z/ in O_ environments</p>
@@ -3216,7 +3216,7 @@
 			var nonfirst=false;
 			for(var i=0;i<ar.length;i++)
 			{
-				if (ar[i]==".") out.push(ar[i]);
+				if (ar[i]=="."||ar[i]==","||ar[i]=="!"||ar[i]=="?") out.push(ar[i]);
 				else if (ar[i].charAt(0)!="["&&ar[i].charAt(0)!="]")
 				{	
 					var wrk=(ar[i].split("|"))[0].split("/");
@@ -3270,6 +3270,7 @@
 						//add gloss
 						//get translation
 						var gl=(dbase[ref][maincolumns[stage]+1].split(","))[(ar[i].split("|"))[1]];
+						console.log(gl)
 						if (gl.startsWith("I ")) gl="to "+gl.slice(2);//Remove the "I " part in verbs
 						if (gl=="to am") gl="COP";
 						gl=(gl.split("£"))[0];//Remove specifications
@@ -3313,7 +3314,7 @@
 			{
 				t="*"+t.replace(/\*/g,"");
 			}
-			t=t.replace(/([ §])([\.\!])/g,"$2");
+			t=t.replace(/([ §])([\.\!\,\?])/g,"$2");
 			return(t);
 		}
 		

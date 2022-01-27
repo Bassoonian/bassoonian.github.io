@@ -124,7 +124,8 @@ function updateLeftSidebar()
 			["Verbal Morphology","0/vrb"],
 			["Derivational Morphology","0/deriv"],
 			["Syntax","0/syn"],
-			["External Interactions","0/external"]
+			["External Interactions","0/external"],
+			["Attestations","0/attest"]
 		],
 		["1",
 			["Preface","1/preface"],
@@ -300,6 +301,18 @@ function docParseData(dat)
 			{
 				var temp=expression_parse(_syntaxonly[qqp][i][0],qqp,true).replace(/§/g," ");
 				dat=replaceAll("||SYN-"+i+"||","<div id='syntaxmessage"+i+"'>"+temp+" <a href='javascript:void(0);' onclick='openSyntaxTree("+i+","+qqp+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_syntaxonly[qqp][i][1]+"</i></div>",dat);
+			}
+		}
+	}
+	//Attestations texts
+	if (_last_loaded_file.includes("/attest"))
+	{
+		for(var i=0;i<_syntaxonly[qqp].length;i++)
+		{
+			if (dat.includes("||ATT-"+i+"||"))
+			{
+				var temp=expression_parse(_attestations[qqp][i][0],qqp,true).replace(/§/g," ");
+				dat=replaceAll("||ATT-"+i+"||","<div id='syntaxmessage"+i+"'>"+temp.replace(/\*/g,"")+" <a href='javascript:void(0);' onclick='openSyntaxTree("+i+","+qqp+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_attestations[qqp][i][1]+"</i></div>",dat);
 			}
 		}
 	}

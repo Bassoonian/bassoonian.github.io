@@ -627,7 +627,7 @@ _heyracontributors=[
 	["Noah"			,"Schachter"],
 	["Samuel"		,"Schoolmeesters"],
 	["Kathryn"		,"Spence"],
-	["Peter"		,"Van de Putte"]
+	["Peter"		,"Van de Putte"],
 	["Nick"			,"Van Elsen"],
 	["Lynn"			,"Van Hauwe"],
 	["Ann"			,"Vermeulen"],
@@ -687,5 +687,20 @@ _syntaxonly=[
 	"Ariphron's dog is lost."],
 /**/	["ROOTWRADI/nom/pl|0 FIRMUS/nom/pl/f|0 DORWI/gen/pl|0 ITEARAPART/pcp/nom/pl/f|0 EX|0 MOLDAAA/acc/sg|0 VBCOPULA/ind/pst/3p|0 .",
 	"The strong roots of the oak trees were torn from the ground."]
+	]
+]
+
+_attestations=[
+	[
+		["GIRHEAR/ind/prs/2s|0 ?",
+	"Do you hear?"],
+		["SALIXWILLOW/nom/pl|0 STRIBOSING/ind/prs/3p|0 .",
+	"The willows sing."],
+		["GIFTDONUM/acc/sg|0 VIVERONUM/gen/sg|0 ADPERMI/ind/prs/3p|0 .",
+	"They bring the gift of life."],
+		["SEMENSEED/nom/pl|0 CONJAND|0 VITULUSCALF/nom/pl|0 TEJLGROW/ind/prs/3p|1 .",
+	"The seeds and calves grow."],
+		["WINTER/nom/sg|0 IAMLOST/ind/prs/3s|2 , SPRINGSEASON/nom/sg|0 IAMBORN/ind/prs/3s|0 .",
+	"Winter perishes, spring is born."]
 	]
 ]
