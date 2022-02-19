@@ -259,26 +259,25 @@ function docParseData(dat)
 			{
 				if (dbase[1][pipo]!="")
 				{
-					if (temp!="") temp+="</pre>";
+					if (temp!="") temp+="</ul>";
 					if (texto!="") temp+="<p>"+texto+"</p>";
 					var teetee=dbase[1][pipo].split("|-|");
-					temp+="<p>"+teetee[0]+"</p><pre>";
+					temp+="<p>"+teetee[0]+"</p><ul>";
 					if (teetee.length>1) texto=teetee[1];
 					else texto="";
 				}
-				else temp+="</br>";
-				temp+="<span";
+				temp+="<li><span";
 				if (enablesoundchangetooltips)
 				{
 					temp+=' data-toggle="tooltip" data-placement="right" title="'+parseSoundChange(replaceAll("Ø","∅",dbase[2][pipo]))+'"';
 				}
 				temp+=">"+replaceAll("Ø","∅",dbase[2][pipo])+"</span>";
 				//Include in example
-				temp+=" (ex. <span id='span_change_"+pipo+"'>"+getExample(pipo,false)+"</span> <a onclick='getExample("+pipo+",true);' class='clickety'><i class='fas fa-redo'></i></a>)";
+				temp+="<ul><li>ex. <span id='span_change_"+pipo+"'>"+getExample(pipo,false)+"</span> <a onclick='getExample("+pipo+",true);' class='clickety'><i class='fas fa-redo'></i></a></li></ul></li>";
 			}
 			pipo++;
 		}
-		if (temp!="") temp+="</pre>";
+		if (temp!="") temp+="</ul>";
 		if (texto!="") temp+="<p>"+texto+"</p>"
 		dat=dat.replace("||SOUNDCHANGES||",temp);
 	}
@@ -312,7 +311,7 @@ function docParseData(dat)
 			if (dat.includes("||ATT-"+i+"||"))
 			{
 				var temp=expression_parse(_attestations[qqp][i][0],qqp,true).replace(/§/g," ");
-				dat=replaceAll("||ATT-"+i+"||","<div id='syntaxmessage"+i+"'>"+temp.replace(/\*/g,"")+" <a href='javascript:void(0);' onclick='openSyntaxTree("+i+","+qqp+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_attestations[qqp][i][1]+"</i></div>",dat);
+				dat=replaceAll("||ATT-"+i+"||","<div id='syntaxmessage"+i+"'>"+temp.replace(/\*/g,"")+" <a href='javascript:void(0);' onclick='openSyntaxTreeAttestation("+i+","+qqp+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_attestations[qqp][i][1]+"</i></div>",dat);
 			}
 		}
 	}
@@ -435,8 +434,16 @@ function getSubtitleName(txt)
 
 function openSyntaxTree(sid,stage)
 {
-	var ps=_syntaxonly[stage][sid][0].split(" ");
-	var pr=expression_parse(_syntaxonly[stage][sid][0],stage,true).split("§");
+	openSyntaxTreeCore(sid,stage,_syntaxonly[stage][sid][0].split(" "),expression_parse(_syntaxonly[stage][sid][0],stage,true).split("§"));
+}
+
+function openSyntaxTreeAttestation(sid,stage)
+{
+	openSyntaxTreeCore(sid,stage,_attestations[stage][sid][0].split(" "),expression_parse(_attestations[stage][sid][0],stage,true).split("§"));
+}
+
+function openSyntaxTreeCore(sid,stage,ps,pr)
+{
 	var tq="<div class='syntaxtreecontent'><ul><li><span class='syntaxtreecontent2'>S</span><ul>";
 	var tr=0;
 	for(var i=0;i<ps.length;i++)
@@ -444,7 +451,7 @@ function openSyntaxTree(sid,stage)
 		var tk=ps[i].charAt(0);
 		if (tk=="[") tq+="<li><span class='syntaxtreecontent2'>"+ps[i].slice(1)+"</span><ul>";
 		else if (tk=="]") tq+="</ul></li>";
-		else if (tk!=".")
+		else if (tk!="."&&tk!=","&&tk!="!"&&tk!="?")
 		{
 			var tkt=pr[tr].replace("clickety syntaxhover","clickety syntaxhov");
 			tq+="<li><span class='syntaxtreecontent2'>"+tkt.replace(" hovertext","")+"</span></li>";

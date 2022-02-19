@@ -165,7 +165,7 @@
 				<img src="logos/heyra.png" alt="Heyra" title="Heyra" style="max-width: 60%; margin-left: auto; margin-right: auto; display: block;"></br>
 				<iframe width="560" height="315" src="https://www.youtube.com/embed/-QhKBRtXTUA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="left: 50%; margin-left: auto; margin-right: auto; display: block;"></iframe>
 				<p style="text-align: center;"><strong>Heyra</strong> is a 45-minute opera written and sung in Carite. It is one of the few operas in a constructed language and is due to premiere in July 2021. If you are interested in knowing more about this project, please consult the video on the left. The project is in need of additional financial help to give it all the chances it needs. If you want more information or are interested in helping us, please visit <a href="https://www.indiegogo.com/projects/heyra--2#/" target="_blank">our crowdfunding</a>. Thank you!</p>
-				<p style="text-align: center;">Once the crowdfunding has ended, this page will be updated to contain all relevant information and moved and categorised under Anthropology. The names of all contributors will likewise be moved there but remain there unless removal is specifically requested.</p>
+				<p style="text-align: center;">In the future, this page will be updated to contain all relevant information and moved and categorised under Anthropology. The names of all contributors will likewise be moved there but remain there unless removal is specifically requested.</p>
 				<h2 style="text-align: center;">Contributors</h2>
 				<p style="text-align: center;">A big thank you goes out to all the following people:</p>
 				<div class="container" id="heyrashoutoutlist" style="text-align: center;">
@@ -417,6 +417,7 @@
 				case "Proto-Germanic": t+="Reconstruction:Proto-Germanic/";a="";break;
 				case "Proto-Indo-European": t+="Reconstruction:Proto-Indo-European/";a="";break;
 				case "Proto-Semitic": t+="Reconstruction:Proto-Semitic/";a="";break;
+				case "Proto-Kartvelian": t+="Reconstruction:Proto-Kartvelian/";a="";break;
 			}
 			t+=b;
 			if (a!="") t+="#"+replaceAll(" ","_",a);
@@ -602,12 +603,14 @@
 			var orth="";
 			for(var i=0;i<lexlist.length;i++)
 			{
-				orth=apply_orthography(dbase[lexlist[i][0]][maincolumns[stagid]],stagid);
+				var amAttested=isAttested(lexlist[i][0],stagid);
+				var applynaia=(amAttested[0].includes("nom/sg")||amAttested[0].includes("nom/sg/m")||amAttested[0].includes("ind/prs/1s")||amAttested[0].includes(dbase[lexlist[i][0]][uidcolumn]))
+				orth=naia(apply_orthography(dbase[lexlist[i][0]][maincolumns[stagid]],stagid),applynaia);
 				if (orth!=""&&orth!="*") //If empty, this word does not yet/no longer exist in this stage!
 				{
 					orth2=[];
 					orth2.push(orth);
-					for(var j=1;j<_spellingsystems[stagid].length;j++) orth2.push(apply_orthography(dbase[lexlist[i][0]][maincolumns[stagid]],stagid,j));
+					for(var j=1;j<_spellingsystems[stagid].length;j++) orth2.push(naia(apply_orthography(dbase[lexlist[i][0]][maincolumns[stagid]],stagid,j),applynaia));
 					wordlist.push([orth,orth2,lexlist[i][0],lexlist[i][1],new Date(dbase[lexlist[i][0]][lasteditcolumn])]);
 				}
 			}
@@ -1260,7 +1263,7 @@
 					if (i!=_activeOrtho[activestage])
 					{
 						if (amexpression) temp+="<li>(<i>"+_spellingsystems[activestage][i]+"</i>) "+format_historical_form(apply_orthography(expression_parse(dbase[wordlist[wid][2]][maincolumns[activestage]],activestage),activestage,i),activestage,i)+"</li>";
-						else temp+="<li>(<i>"+_spellingsystems[activestage][i]+"</i>) "+format_historical_form(apply_orthography(dbase[wordlist[wid][2]][maincolumns[activestage]],activestage,i),activestage,i)+"</li>";
+						else temp+="<li>(<i>"+_spellingsystems[activestage][i]+"</i>) "+format_historical_form(wordlist[wid][1][i],activestage,i)+"</li>";
 					}
 				}
 				document.getElementById("altspellingul").innerHTML=temp;
@@ -1304,6 +1307,7 @@
 			var temp="";
 			if (!amalternative)
 			{
+				var amAttested=isAttested(wordlist[wid][2],activestage);
 				var translist=dbase[wordlist[wid][2]][maincolumns[activestage]+1].split(",");
 				for(var i=0;i<translist.length;i++)
 				{
@@ -1311,6 +1315,12 @@
 					var k=translist[i].split("£");
 					if (k.length>1) temp+="("+parseTransCondition(k[1])+") ";
 					temp+=replaceAll("&",",",k[0]);
+					if (amAttested[1][i].length>0)
+					{
+						var quoteindex=amAttested[1][i][Math.floor(Math.random()*amAttested[1][i].length)][0];
+						var drt=expression_parse(_attestations[activestage][quoteindex][0],activestage,true).replace(/§/g," ");
+						temp+="<ul><li><div id='syntaxmessage"+quoteindex+"'>"+drt.replace(/\*/g,"")+" <a href='javascript:void(0);' onclick='openSyntaxTreeAttestation("+quoteindex+","+activestage+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_attestations[activestage][quoteindex][1]+"</i></div></li></ul>";
+					}
 					temp+="</li>";
 				}
 				document.getElementById("entry_translations").innerHTML=temp;
@@ -1896,6 +1906,7 @@
 			var tf=input[1].split("=");
 			var ts=getLangName(input[0]);
 			var output="";
+			console.log(tf);
 			if (input[0].charAt(0)!="!") output=ts+" ";
 			else
 			{
@@ -1903,7 +1914,8 @@
 				ts=getLangName(input[0]);
 			}
 			if (tf.length==1) output+="<i>";
-			output+='<a href="'+getWiktionaryLink(ts,tf[0])+'" target="_blank">'+asterisk(input[0]);
+			output+='<a href="'+getWiktionaryLink(ts,(tf[0].split("|"))[0])+'" target="_blank">'+asterisk(input[0]);
+			if (tf[0].split("|").length>1) tf[0]=(tf[0].split("|"))[1];
 			if (input[0]=="pie") tf[0]=formatPie(tf[0],ispieroot);
 			output+=tf[0]+'</a>';
 			if (tf.length==1) output+="</i>";
@@ -2067,7 +2079,7 @@
 			for(var i=0;i<sources.length;i++)
 			{
 				var tempvar=sources[i][1].split(",");
-				txt=replaceAll("§"+sources[i][0],"<span class='hovertext' data-placement='top' title='"+sources[i][1].replace(/<\/?i>/g,"")+".' data-toggle='tooltip'>"+tempvar[0]+" ("+tempvar[tempvar.length-1].trim()+")</span>",txt);
+				txt=replaceAll("§"+sources[i][0]+"§","<span class='hovertext' data-placement='top' title='"+sources[i][1].replace(/<\/?i>/g,"")+".' data-toggle='tooltip'>"+tempvar[0]+" ("+tempvar[tempvar.length-1].trim()+")</span>",txt);
 			}
 			//Minor formatting
 			txt=replaceAll(" - ","—",txt);
@@ -2417,6 +2429,7 @@
 		}
 	function tableNoun(dbaserow,pattern,stage,indicategender,isdoc)
 		{
+			var amAttested=isAttested(dbaserow,stage);
 			glob_highest_count=0;
 			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
 			//Figure out raw stem of the first index
@@ -2455,9 +2468,9 @@
 				{
 					temp+="<tr><th scope='row'>"+glossText(_caseslist[stage][i],returnGloss(_caseslist[stage][i]))+"</th>";
 					//singular
-					temp+="<td>"+pstf(stemarray,getSuffix(kluku+i,stage),stage)+"</td>";
+					temp+="<td>"+naia(pstf(stemarray,getSuffix(kluku+i,stage),stage),amAttested[0].includes(_caseslist[stage][i]+"/sg"))+"</td>";
 					//plural
-					temp+="<td>"+pstf(stemarray,getSuffix(kluku+_caseslist[0].length+i,stage),stage)+"</td>";
+					temp+="<td>"+naia(pstf(stemarray,getSuffix(kluku+_caseslist[0].length+i,stage),stage),amAttested[0].includes(_caseslist[stage][i]+"/pl"))+"</td>";
 					if (beq)
 					{
 						//singular
@@ -2477,8 +2490,16 @@
 			glob_highest_count=0;
 			secretlypronoun = (typeof secretlypronoun !== 'undefined') ?  secretlypronoun : false
 			//If dbaserow is a number look it up, if not split it
-			if (Number(dbaserow)===dbaserow) var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
-			else var stemarray=dbaserow.split("~");
+			if (Number(dbaserow)===dbaserow)
+			{
+				var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
+				var amAttested=isAttested(dbaserow,stage);
+			}
+			else
+			{
+				var stemarray=dbaserow.split("~");
+				var amAttested=[[],[]];
+			}
 			
 			var pork=2;
 			if (iamnumeral)
@@ -2626,9 +2647,9 @@
 								for(var k=0;k<decolist.length;k++)
 								{
 									//singular
-									temp+="<td>"+pstf(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*pork*i+j,stage),decolist[k],stage,iscomparative),stage)+"</td>";
+									temp+="<td>"+naia(pstf(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*pork*i+j,stage),decolist[k],stage,iscomparative),stage),amAttested[0].includes(cref[stage][j]+"/sg/"+_genders[stage][k]))+"</td>";
 									//plural
-									if (!iamnumeral) temp+="<td>"+pstf(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(pork*i+1)+j,stage),decolist[k],stage,iscomparative),stage)+"</td>";
+									if (!iamnumeral) temp+="<td>"+naia(pstf(stemarray,adjStem(getSuffix(decolist[k]+_caseslist[0].length*(pork*i+1)+j,stage),decolist[k],stage,iscomparative),stage),amAttested[0].includes(cref[stage][j]+"/pl/"+_genders[stage][k]))+"</td>";
 								}
 								temp+="</tr>";
 							}
@@ -2642,6 +2663,7 @@
 		}
 	function tableVerb(dbaserow,pattern,stage,putparticiple,isdoc)
 		{
+			var amAttested=isAttested(dbaserow,stage);
 			var stemarray=dbase[dbaserow][maincolumns[stage]].split("~");
 			//Figure out raw stem of the first index
 			var klaka=((stemarray[0].split("")).reverse()).join(""); //Reverse
@@ -2680,7 +2702,7 @@
 							for(var m=i;m>0;m--) offset+=(_tamlist[stage][m][1].length+1)*6;//mood
 							//readd voice (j) whenever relevant again
 							//(l+k*6+j*_tamlist[stage][i][1].length*6+i*_tamlist[stage][i][1].length*6*(_voicelist[stage].length+1))
-							temp+="<td>"+apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset,stage),kluku,stage,stemarray)),stage)+"</td>";
+							temp+="<td>"+naia(apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset,stage),kluku,stage,stemarray)),stage),amAttested[0].includes(_tamlist[stage][i][0]+"/"+_tamlist[stage][i][1][k]+"/"+_verblookup[l]))+"</td>";
 						}
 						temp+="</tr>";
 					}
@@ -2731,6 +2753,36 @@
 			}
 			return(q);
 		}
+	function naia(string,remove) //Stands for no asterisk if attested
+	{
+		if (remove) string=string.replace("*","");
+		return(string);
+	}
+	function isAttested(dbaserow,stage)
+	{
+		var outarray=[];
+		var outarray2=[[],[],[],[],[],[],[],[],[],[]];
+		if (dbase[dbaserow][uidcolumn]!="")
+		{
+			for(var i=0;i<_attestations[stage].length;i++)
+			{
+				var k=_attestations[stage][i][0].split(" ");
+				for(var j=0;j<k.length;j++)
+				{
+					if (k[j].includes("|"))
+					{
+						if (((k[j].split("|"))[0].split("/"))[0]==dbase[dbaserow][uidcolumn])
+						{
+							if (!outarray.includes((k[j].split("|"))[0].replace(dbase[dbaserow][uidcolumn]+"/","")))
+								outarray.push((k[j].split("|"))[0].replace(dbase[dbaserow][uidcolumn]+"/",""));
+							outarray2[(k[j].split("|"))[1]].push([i,j]);
+						}
+					}
+				}
+			}
+		}
+		return([outarray,outarray2]);
+	}
 //Other functions
 	function updatePieFormat()
 		{
@@ -3270,7 +3322,6 @@
 						//add gloss
 						//get translation
 						var gl=(dbase[ref][maincolumns[stage]+1].split(","))[(ar[i].split("|"))[1]];
-						console.log(gl)
 						if (gl.startsWith("I ")) gl="to "+gl.slice(2);//Remove the "I " part in verbs
 						if (gl=="to am") gl="COP";
 						gl=(gl.split("£"))[0];//Remove specifications

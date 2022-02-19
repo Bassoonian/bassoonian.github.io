@@ -43,6 +43,9 @@ function getLangName(q)
 			case "ita": return("Italian");break;
 			case "gli": return("Galician");break;
 			case "arb": return("Arabic");break;
+			case "pkvl": return("Proto-Kartvelian");break;
+			case "avz": return("Avestan");break;
+			case "on": return("Old Norse");break;
 			default: return(q);break;
 		}
 	}
