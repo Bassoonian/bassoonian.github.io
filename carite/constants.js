@@ -353,7 +353,7 @@ sources=[
 			["academia",	"https://www.academia.edu/14191111"]
 		]],
 	["vocativeaccent",
-		"Gunkel, Dieter. <i>On the accentual status of vocatives in proto-Indo-European.</i> ?, 2017",[
+		"Gunkel, Dieter. <i>On the accentual status of vocatives in Proto-Indo-European.</i> ?, 2017",[
 			["academia",	"https://www.academia.edu/35102099"]
 		]],
 	["grlatpiepov",
@@ -426,7 +426,7 @@ sources=[
 			["google",		"https://books.google.be/books?id=q7YFJRSkYZUC"]
 		]],
 	["legsleg",
-		"Kaczyńska, Elwira. <i>Two Indo-European Verbal Roots *leĝ-and *sleĝ- in the Light of Old and ew Lexical Data.</i> ?, 2016",[
+		"Kaczyńska, Elwira. <i>Two Indo-European Verbal Roots *leĝ-and *sleĝ- in the Light of Old and New Lexical Data.</i> ?, 2016",[
 			["academia",	"https://www.academia.edu/31221906"]
 		]],
 	["bspronouns",
@@ -582,7 +582,7 @@ sources=[
 		"Kroonen, Guus & Lubotsky, Alexander. <i>Proto-Indo-European *tsel- ‘to sneak’ and Germanic *stelan- ‘to steal, approach stealthily’.</i> ?, 2009",[
 			["academia",	"https://www.academia.edu/1033950"]
 		]],
-	["piesyntax",
+	["piesyntaxdevelopment",
 		"Kulikov, Leonid & Lavidas, Nikolaos. <i>Proto-Indo-European Syntax and its Development.</i> In: <i>Benjamins Current Topics.</i> Amsterdam/Philadelphia, John Benjamins Publishing Company, 2015",[
 			["google",		"https://books.google.be/books?id=Z_EZCgAAQBAJ"],
 			["worldcat",	"https://www.worldcat.org/title/proto-indo-european-syntax-and-its-development/oclc/918895944"]
@@ -780,7 +780,7 @@ sources=[
 			["academia",	"https://www.academia.edu/37749523"]
 		]],
 	["dyboslaw",
-		"Matasović, Ranko. <i>Dybo's law in Proto-celtic.</i> ?, 2012",[
+		"Matasović, Ranko. <i>Dybo's law in Proto-Celtic.</i> ?, 2012",[
 			["academia",	"https://www.academia.edu/34484937"]
 		]],
 	["sketch_armenian",
@@ -914,6 +914,10 @@ sources=[
 		"Ozolins, Kaspars. <i>Revisiting Proto-Indo-European Schwebeablaut.</i> ?, 2015",[
 			["academia",	"https://www.academia.edu/19369384"]
 		]],
+	["indoeuropeanfox",
+		"Palmér, Axel I. et al. <i>Proto-Indo-European ‘fox’ and the reconstruction of an athematic ḱ-stem.</i> Leiden, Leiden University, 2021",[
+			["directlink",	"https://scholarlypublications.universiteitleiden.nl/handle/1887/3212933"]
+		]],
 	["indo_european_perspectives",
 		"Penney, J. H. W. <i>Indo-European Perspectives: Studies in Honour of Anna Morpurgo Davies.</i> Oxford, Oxford University Press, 2004",[
 			["academia",	"https://www.academia.edu/4352390"],
@@ -953,6 +957,10 @@ sources=[
 	["poothnommorph",
 		"Pooth, Roland A. <i>Proto-Indo-European Nominal Morphology. Part 1. The Noun.</i> ?, 2015",[
 			["academia",	"https://www.academia.edu/18213035"]
+		]],
+	["germanicruki",
+		"Prescott, Charles. <i>Germanic and the RUKI dialects.</i> Sussex, 2004",[
+			[]//no idea
 		]],
 	["stangslawpronk",
 		"Pronk, Tijmen. <i>Stang's law in Baltic, Greek and Indo-Iranian.</i> ?, 2016",[
@@ -1172,6 +1180,11 @@ sources=[
 			["google",		"https://books.google.be/books?id=vlr8llnzx4EC"],
 			["worldcat",	"https://www.worldcat.org/title/historical-dictionary-of-the-etruscans/oclc/488857618"]
 	]],
+	["soundchangeinitalic",
+		"Stuart-Smith, Jane. <i>Phonetics and Philology: Sound Change in Italic.</i> New York, Oxford University Press Inc., 2004",[
+			["google",		"https://books.google.be/books?id=0UmFk58fiBkC"],
+			["worldcat",	"https://www.worldcat.org/title/phonetics-and-philology-sound-change-in-italic/oclc/838849978"]
+		]],
 	["greekroughbreathing",
 		"Sturm, Julia. <i>ἵστωρ and ἑορτή: The Rough-Breathing Reflex of Greek.</i> ?, 2016",[
 			["academia",	"https://www.academia.edu/30201408"]
@@ -1533,7 +1546,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("February 19, 2022"),"Significantly expanded the bibliography with many new sources.","Early Proto-Carite is now called Abean, with Late Proto-Carite being simplified to Proto-Carite accordingly.","Some preliminary Abean attestations have been added to the site.","The Abean Sound Change page has been expanded, revising several changes and featuring comparisons with neighbouring branches. This page will be properly finalised in the near future.","The important figures page has been expanded."],
+	[new Date("April 5, 2022"),"Significantly expanded the bibliography with many new sources.","Early Proto-Carite is now called Abean, with Late Proto-Carite being renamed to Proto-Carite accordingly.","Some preliminary Abean attestations have been added to the site.","The Abean Sound Change page has been significantmy expanded, revising several changes due to additional research and featuring comparisons with neighbouring branches.","The important figures page has been expanded."],
 	[new Date("July 28, 2021"),"Added preliminary syntax chapters.","Added extra vocabulary."],
 	[new Date("June 29, 2021"),"Added a page in function of the Heyra crowdfunding campaign."],
 	[new Date("April 4, 2021"),"Added significantly more vocabulary.","Reworked comparatives."],
@@ -1696,7 +1709,11 @@ _attestations=[
 		["NIKOMAKOS/nom/sg|0 , TEXTORCARPENTOR/nom/sg|0 GREAT/nom/sg/m|0 , SUNUSSON/nom/sg|0 DAMADDI/gen/sg|0 , SICHERE|0 ILIEDOWN/ind/prs/3s|0 .",
 	"Nigomakos, a great carpenter, son of Damogadis, lies here."],
 		["NARBO/nom/sg|0 FEJLIKE|2 STURGEONFISH/nom/sg|0 PETOFLY/ind/fut/3p|0 .",
-	"May Narzwā fly like a sturgeon."]
+	"May Narzwā fly like a sturgeon."],
+		["ADAMATOSNAME/nom/sg|0 GOLDSMITH/nom/sg|0 IBANISH/pcp/pst/nom/sg/m|0 VBCOPULA/ind/pst/3s|1 .",
+	"The goldsmith Adamatos was banished."],
+		["ICLAIM/ind/pst/3p|0 PERI|0 DEUS/gen/pl|0 KWE|0 WISDOM/gen/sg|0 ISEAID/acc/pl/m|0 SPALJOO/ind/pst/3s|2 CONJAND|0 BLOODMEN/nom/sg|0 KWE|0 POLYS/nom/sg/f|1 PECUSMONEY/acc/sg|0 ISEAID/gen/pl/m|0 ISEAID/dat/sg/m|0 THUSLY|1 NEMMIGIVE/ind/pst/3p|0 .",
+	"They claimed he misled them about the wisdom of the gods and many people thus gave him their money."]
 	],
 	[],
 	[],
