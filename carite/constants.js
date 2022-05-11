@@ -41,6 +41,10 @@ sources=[
 		"Bengtson, John D. <i>Iarl and Iormun-; Arya-and Aryaman-: A Study in Indo-European Comparative Mythology.</i> ?, 2016",[
 			["academia",	"https://www.academia.edu/35486756"]
 		]],
+	["palifornewlearners",
+		"Bhaddacak, J. R. <i>Pāli for new learners: Book I: how to say it.</i> ?, 2022",[
+			//Also nothing
+		]],
 	["consonantalalteration",
 		"Bizzocchi, Aldo Luiz. <i>Consonantal Alternations in Indo-European Roots: Diatopic and/or Diachronic Variants or Functional Mechanism?</i> ?, 2017",[
 			["academia",	"https://www.academia.edu/35776012"]
@@ -56,6 +60,10 @@ sources=[
 	["lionsetalii",
 		"Blažek, Václav. <i>Hic erant leones: Indo-European “lion” et alii.</i> ?, 2005",[
 			["academia",	"https://www.academia.edu/38384947"]
+		]],
+	["pali_introgrammar",
+		"Bomhard, Allan R. <i>An Introductory Grammar of the Pāḷi Language.</i> Charleston, Charleston Buddhist Fellowship, 2012",[
+			//Can't find it anywhere?
 		]],
 	["etruscan_intro",
 		"Bonfante, Giuliano & Bonfante, Larissa. <i>The Etruscan Language: An Introduction, 2nd ed.</i> Manchester, Manchester University Press, 2002",[
@@ -1530,7 +1538,7 @@ _sylbreaks=[
 ];
 
 _illegalonsets=[
-	["mb","mv","mf","mn","nk","ng","nt","nd","nr","ns","nz","ps","pt","pm","bd","bm","ts","tl","tm","dl","dn","ks","km","kt","gd","gm","zd","zm","zv","zn","zg","ft","fn","vn","vd","wn","wm","jn","rk","rp","rw","rt","rm","rg","rj","rs","rf","rb","rz","rv","rd","rn","ls","lp","lf","lk","ln","ld","lm","lg","lw","lv","lj","lb","lt","gzd","nw","nj","zg","stw","mr"],
+	["mb","mv","mf","mn","nk","ng","nt","nd","nr","ns","nz","ps","pt","pm","bd","bm","ts","tl","tm","dl","dn","ks","km","kt","gd","gm","zd","zm","zv","zn","zg","ft","fn","vn","vd","wn","wm","jn","rk","rp","rw","rt","rm","rg","rj","rs","rf","rb","rz","rv","rd","rn","ls","lp","lf","lk","ln","ld","lm","lg","lw","lv","lj","lb","lt","gzd","nw","nj","zg","stw","mr","vzd"],
 	["mn","mp","mb","mr","ml","nt","nd","nk","ng","ns","nw","nj","nr","nl","pm","pn","pt","bd","tm","tn","ts","dn","km","kn","ks","gm","gn","gd","ft","vd","hs","rm","rn","rp","rb","rt","rd","rk","rg","rs","rf","rv","rw","rj","rl","lm","ln","lp","lb","lt","ld","lk","lg","ls","lf","lv","lw","lj","lr","ht"],
 	["lr","lj","lw","lv","lf","ls","lg","lk","ld","lt","lb","lp","ln","lm","rl","rj","rw","rv","rf","rs","rg","rk","rt","rd","rp","rb","rm","rn","hs","ht","vd","ft","gn","gm","ks","kt","dn","dm","ts","tk","pt","nl","nj","nw","ns","ng","nk","nd","nt","ml","mr","mb","mp","mn","km","nr"],
 	["lr","lw","lv","lf","ls","lg","lk","ld","lt","lb","lp","ln","lm","rl","rw","rv","rf","rs","rg","rk","rd","rt","rb","rp","rn","rm","vn","ft","gn","gm","ks","kt","dn","dm","ts","tp","bn","pt","nw","ng","nk","nl","nr","ns","nd","nt","ml","mr","mb","mp","sfr","lθr","nx"],
@@ -1639,7 +1647,7 @@ _heyracontributors=[
 	["Sofie"		,"Vermeulen"],
 	["Heleen"		,"Willemsen"],
 	["Zethar"		,""]
-]
+];
 
 _syntaxonly=[
 	[
@@ -1720,4 +1728,4 @@ _attestations=[
 	[],
 	[],
 	[]
-]
+];

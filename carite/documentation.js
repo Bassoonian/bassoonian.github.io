@@ -462,3 +462,49 @@ function openSyntaxTreeCore(sid,stage,ps,pr)
 	document.getElementById("syntaxmodalbody").innerHTML=tq;
 	$('#syntaxtreemodal').modal('show');
 }
+
+function getLoanStatistics(stage)
+{
+	var arr=[];
+	var tt=0;
+	for(var i=3;i<__endoflexicon;i++)
+	{
+		var q="";
+		var vvvs=0;
+		for(var j=0;j<happenings.length;j++)
+		{
+			if (happenings[j][0]!="VVV")
+			{
+				if (dbase[i][happenings[j][1]]!="")
+				{
+					if (dbase[i][happenings[j][1]].charAt(0)=="L") q=(dbase[i][happenings[j][1]].split(" "))[0].replace("L","");
+					else q="!";
+					j=happenings.length;
+				}
+			}
+			else
+			{
+				if (vvvs==stage) j=happenings.length;
+				else vvvs++;
+			}
+			if (j>=happenings.length-1&&dbase[i][0]!="//"&&dbase[i][maincolumns[stage]]!=""&&q=="") q="N";
+		}
+		if (q!=""&&q!="!")
+		{
+			var success=false;
+			for(var j=0;j<arr.length;j++)
+			{
+				if (arr[j][0]==q)
+				{
+					arr[j][1]++;
+					success=true;
+					j=arr.length;
+				}
+			}
+			if (!success) arr.push([q,1]);
+			tt++;
+		}
+	}
+	arr.push(["TOTAL",tt])
+	return(arr);
+}
