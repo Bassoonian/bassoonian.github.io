@@ -110,7 +110,7 @@ function updateLeftSidebar()
 	var sb=[
 		["Introduction","introduction"],
 		["Anthropology",
-			//["History","history"],
+			["History","history"],
 			["Important Figures","figures"],
 			["Mythology","mythology"]
 			//["List of Holidays","holidays"]
@@ -273,7 +273,7 @@ function docParseData(dat)
 				}
 				temp+=">"+replaceAll("Ø","∅",dbase[2][pipo])+"</span>";
 				//Include in example
-				temp+="<ul><li>ex. <span id='span_change_"+pipo+"'>"+getExample(pipo,false)+"</span> <a onclick='getExample("+pipo+",true);' class='clickety'><i class='fas fa-redo'></i></a></li></ul></li>";
+				temp+="<ul><li>e.g. <span id='span_change_"+pipo+"'>"+getExample(pipo,false)+"</span> <a onclick='getExample("+pipo+",true);' class='clickety'><i class='fas fa-redo'></i></a></li></ul></li>";
 			}
 			pipo++;
 		}
@@ -304,9 +304,9 @@ function docParseData(dat)
 		}
 	}
 	//Attestations texts
-	if (_last_loaded_file.includes("/attest"))
+	if (_last_loaded_file.includes("/attest")||_last_loaded_file.includes("/syn"))
 	{
-		for(var i=0;i<_syntaxonly[qqp].length;i++)
+		for(var i=0;i<_attestations[qqp].length;i++)
 		{
 			if (dat.includes("||ATT-"+i+"||"))
 			{
