@@ -103,6 +103,10 @@
 							<ol id="entry_translations"></ol>
 						</div>
 						<div id="function_tab"></div>
+						<div id="usage_notes_tab">
+							<h4>Usage Notes</h4>
+							<p id="entry_usage_notes"></p>
+						</div>
 						<div id="synonyms_tab">
 							<h4>Synonyms</h4>
 							<ol id="synonym_list"></ol>
@@ -690,6 +694,40 @@
 			var timevalue="";
 			var searchval=document.getElementById("searchinputvalue").value;
 			var check=0;
+			//Distill search arguments from search value input
+			var searcharguments={
+					cat: [],
+					gender: [],
+					sourced: [],
+					origin: [],
+					word: [],
+					eng: [],
+					pie: []
+				};
+			var searchvalarray=(searchval.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()).split(" ");
+			for(var i=0;i<searchvalarray.length;i++)
+			{
+				if (searchvalarray[i].includes(":"))
+				{
+					var tr=searchvalarray[i].split(":");
+					switch(tr[0])
+					{
+						case "cat": searcharguments.cat.push(tr[1]);break;
+						case "gender": searcharguments.gender.push(tr[1]);break;
+						case "sourced": searcharguments.sourced.push(tr[1]);break;
+						case "origin": searcharguments.origin.push(tr[1]);break;
+						case "eng": searcharguments.eng.push(tr[1]);break;
+						case "pie": searcharguments.pie.push(tr[1]);break;
+					}
+				}
+				else if (searchvalarray[i]!="")
+				{
+					if (searchtarget=="eng") searcharguments.eng.push(searchvalarray[i]);
+					else if (searchtarget=="pie") searcharguments.pie.push(searchvalarray[i]);
+					else searcharguments.word.push(searchvalarray[i]);
+				}
+			}
+			//Go through wordlist
 			for(var i=0;i<wordlist.length;i++)
 			{
 				var j="";
@@ -717,7 +755,58 @@
 						temp+="<h5 class='alphabetstripe' id='scr"+alphvalue+"'><span>"+active_alphabet[alphvalue]+"</span></h5>";
 					}
 				}
-				var success=false;
+				var success=true;
+				//Go through different filters
+				//Native
+				if (searcharguments.word.length>0)
+				{
+					success=false;
+					for(var k=0;k<searcharguments.word.length;k++)
+					{
+						for(var j=0;j<wordlist[i][1].length;j++)
+						{
+							var qqq=wordlist[i][1][j].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+							if (qqq.search(searcharguments.word[k])!=-1) success=true;
+						}
+					}
+				}
+				//Translation
+				if (searcharguments.eng.length>0&&success)
+				{
+					success=false;
+					for(var k=0;k<searcharguments.eng.length;k++)
+					{
+						var qqq=dbase[wordlist[i][2]][maincolumns[activestage]+1].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+						if (qqq.search(searcharguments.eng[k])!=-1) success=true;
+					}
+				}
+				//PIE
+				if (searcharguments.pie.length>0&&success)
+				{
+					success=false;
+					for(var k=0;k<searcharguments.pie.length;k++)
+					{
+						for(var j=0;j<3;j++)
+						{
+							var qqq=formatPie(dbase[wordlist[i][2]][j],(j==0)).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+							if (qqq.search(searcharguments.pie[k])!=-1) success=true;
+						}
+					}
+				}
+				//Sourced
+				if (searcharguments.sourced.length>0&&success)
+				{
+					success=false;
+					for(var k=0;k<searcharguments.sourced.length;k++)
+					{
+						if (searcharguments.sourced[k]=="y"&&dbase[wordlist[i][2]][sourcecolumn]!="") success=true;
+						if (searcharguments.sourced[k]=="n"&&dbase[wordlist[i][2]][sourcecolumn]=="") success=true;
+					}
+				}
+
+				//To do: category, gender, origin
+
+				/*var success=false;
 				if (searchval=="") success=true;
 				else
 				{
@@ -743,7 +832,7 @@
 							if (qqq.search(searchval)!=-1) success=true;
 						}
 					}
-				}
+				}*/
 				if (success==true)
 				{
 					temp+="<li><a href='javascript:void(0);' class='d-inline-flex align-items-center rounded lexiconentry' onclick='openWord("+i+",false);collapseIfMobile();'><span class='wordlistentry'>"+display(wordlist[i]);
@@ -1342,6 +1431,15 @@
 				}
 				document.getElementById("function_tab").innerHTML="<p>Allomorph of <a class='clickety' href='javascript:void(0);' onclick='timeTravel("+q+","+activestage+");'>"+apply_orthography(dbase[q][maincolumns[activestage]],activestage)+"</a> "+dbase[wordlist[wid][2]][maincolumns[activestage]+1]+".</p>";
 			}
+
+			//Usage notes
+			temp=dbase[wordlist[wid][2]][maincolumns[activestage]+2];
+			if (temp!="")
+			{
+				document.getElementById("usage_notes_tab").style.display="initial";
+				document.getElementById("entry_usage_notes").innerHTML=temp;
+			}
+			else document.getElementById("usage_notes_tab").style.display="none";
 			
 			//Build pronunciation
 			temp=dbase[wordlist[wid][2]][maincolumns[activestage]].toLowerCase();
@@ -2216,7 +2314,7 @@
 								found=true;
 							}
 						}
-						if (!found&&kolo.charAt(0)!=">") console.log("Unable to recognise "+kolo+" in lexicon "+i+"!");
+						if (!found&&kolo.charAt(0)!=">"&&kolo!="N/A") console.log("Unable to recognise "+kolo+" in lexicon "+i+"!");
 					}
 				}
 			}
@@ -2770,6 +2868,10 @@
 				temp+="<tr><th colspan='2' rowspan='2' scope='col'>"+glossText("pcp",returnGloss("pcp"))+"</th><th colspan='3' scope='col'>"+glossText("prs",returnGloss("prs"))+"</th><th colspan='3' scope='col'>"+glossText("pst",returnGloss("pst"))+"</th></tr>";
 				temp+="<tr><td scope='col' colspan='3' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+4,stage),kluku,stage,stemarray)),stage)+"</td><td scope='col' colspan='3' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+5,stage),kluku,stage,stemarray)),stage)+"</td></tr>"
 			}
+			//Put infinitives
+			temp+="<tr><th colspan='2' rowspan='2' scope='col'>"+glossText("inf",returnGloss("inf"))+"</th><th colspan='2' scope='col'>"+glossText("prs",returnGloss("prs"))+"</th><th colspan='2' scope='col'>"+glossText("pst",returnGloss("pst"))+"</th><th colspan='2' scope='col'>"+glossText("fut",returnGloss("fut"))+"</th></tr>";
+			temp+="<tr><td scope='col' colspan='2' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+6,stage),kluku,stage,stemarray)),stage)+"</td><td scope='col' colspan='2' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+7,stage),kluku,stage,stemarray)),stage)+"</td><td scope='col' colspan='2' style='text-align: center;'>"+apply_orthography(attachSuffix(stemarray,verbStem(getSuffix(kluku+offset+8,stage),kluku,stage,stemarray)),stage)+"</td></tr>";
+			//Finish table
 			temp+="</tbody></table>";
 			if (!putparticiple)
 			{

@@ -1246,6 +1246,10 @@ sources=[
 		"Vine, Brent. <i>Latin aliās 'at another time'.</i> ?, 2010",[
 			["academia",	"https://www.academia.edu/22629791"]
 		]],
+	["aeolicorpeton",
+		"Vine, Brent. <i>Aeolic ὄρπετον and Deverbative *-etós in Greek and Indo-European.</i> Innsbruck, 1998",[
+			[]//no idea, sorry
+		]],
 	["komeproblems",
 		"Vine, Brent. <i>The etymology of Greek κώμη and related problems.</i> ?, 1998",[
 			["academia",	"https://www.academia.edu/39397831"]
@@ -1426,6 +1430,7 @@ glossterms=[
 	["ind"	,"Indicative mood"],
 	["imp"	,"Imperative mood"],
 	["sjv"	,"Subjunctive mood"],
+	["inf"	,"Infinitive mood"],
 	["fut"	,"Future"],
 	["pst"	,"Past"],
 	["npst"	,"Non-past"],
@@ -1554,7 +1559,7 @@ _spellingsystems=[
 ];
 
 _changelog=[
-	[new Date("April 5, 2022"),"Significantly expanded the bibliography with many new sources.","Early Proto-Carite is now called Abean, with Late Proto-Carite being renamed to Proto-Carite accordingly.","Some preliminary Abean attestations have been added to the site.","The Abean Sound Change page has been significantmy expanded, revising several changes due to additional research and featuring comparisons with neighbouring branches.","The important figures page has been expanded."],
+	[new Date("April 5, 2022"),"Significantly expanded the bibliography with many new sources.","Early Proto-Carite is now called Abean, with Late Proto-Carite being renamed to Proto-Carite accordingly.","Some preliminary Abean attestations have been added to the site.","The Abean Sound Change page has been significantly expanded, revising several changes due to additional research and featuring comparisons with neighbouring branches.","The important figures page has been expanded.","The search system now supports elementary filters.","Abean syntax has been revised.","The home page has been reorganised and now features a dedicated credits section.","Dictionary entries may now feature usage notes."],
 	[new Date("July 28, 2021"),"Added preliminary syntax chapters.","Added extra vocabulary."],
 	[new Date("June 29, 2021"),"Added a page in function of the Heyra crowdfunding campaign."],
 	[new Date("April 4, 2021"),"Added significantly more vocabulary.","Reworked comparatives."],
