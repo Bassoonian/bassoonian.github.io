@@ -12,6 +12,7 @@ function getLangName(q)
 			case "eng": return("English");break;
 			case "pslv": return("Proto-Slavic");break;
 			case "pgmc": return("Proto-Germanic");break;
+			case "pbsl": return("Proto-Balto-Slavic");break;
 			case "sqi": return("Albanian");break;
 			case "toch": return("Tocharian");break;
 			case "tchA": return("Tocharian A");break;
@@ -43,6 +44,10 @@ function getLangName(q)
 			case "ita": return("Italian");break;
 			case "gli": return("Galician");break;
 			case "arb": return("Arabic");break;
+			case "pkvl": return("Proto-Kartvelian");break;
+			case "avz": return("Avestan");break;
+			case "on": return("Old Norse");break;
+			case "lit": return("Lithuanian");break;
 			default: return(q);break;
 		}
 	}

@@ -110,7 +110,7 @@ function updateLeftSidebar()
 	var sb=[
 		["Introduction","introduction"],
 		["Anthropology",
-			//["History","history"],
+			["History","history"],
 			["Important Figures","figures"],
 			["Mythology","mythology"]
 			//["List of Holidays","holidays"]
@@ -124,7 +124,8 @@ function updateLeftSidebar()
 			["Verbal Morphology","0/vrb"],
 			["Derivational Morphology","0/deriv"],
 			["Syntax","0/syn"],
-			["External Interactions","0/external"]
+			["External Interactions","0/external"],
+			["Attestations","0/attest"]
 		],
 		["1",
 			["Preface","1/preface"],
@@ -258,26 +259,25 @@ function docParseData(dat)
 			{
 				if (dbase[1][pipo]!="")
 				{
-					if (temp!="") temp+="</pre>";
+					if (temp!="") temp+="</ul>";
 					if (texto!="") temp+="<p>"+texto+"</p>";
 					var teetee=dbase[1][pipo].split("|-|");
-					temp+="<p>"+teetee[0]+"</p><pre>";
+					temp+="<p>"+teetee[0]+"</p><ul>";
 					if (teetee.length>1) texto=teetee[1];
 					else texto="";
 				}
-				else temp+="</br>";
-				temp+="<span";
+				temp+="<li><span";
 				if (enablesoundchangetooltips)
 				{
 					temp+=' data-toggle="tooltip" data-placement="right" title="'+parseSoundChange(replaceAll("Ø","∅",dbase[2][pipo]))+'"';
 				}
 				temp+=">"+replaceAll("Ø","∅",dbase[2][pipo])+"</span>";
 				//Include in example
-				temp+=" (ex. <span id='span_change_"+pipo+"'>"+getExample(pipo,false)+"</span> <a onclick='getExample("+pipo+",true);' class='clickety'><i class='fas fa-redo'></i></a>)";
+				temp+="<ul><li>e.g. <span id='span_change_"+pipo+"'>"+getExample(pipo,false)+"</span> <a onclick='getExample("+pipo+",true);' class='clickety'><i class='fas fa-redo'></i></a></li></ul></li>";
 			}
 			pipo++;
 		}
-		if (temp!="") temp+="</pre>";
+		if (temp!="") temp+="</ul>";
 		if (texto!="") temp+="<p>"+texto+"</p>"
 		dat=dat.replace("||SOUNDCHANGES||",temp);
 	}
@@ -300,6 +300,18 @@ function docParseData(dat)
 			{
 				var temp=expression_parse(_syntaxonly[qqp][i][0],qqp,true).replace(/§/g," ");
 				dat=replaceAll("||SYN-"+i+"||","<div id='syntaxmessage"+i+"'>"+temp+" <a href='javascript:void(0);' onclick='openSyntaxTree("+i+","+qqp+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_syntaxonly[qqp][i][1]+"</i></div>",dat);
+			}
+		}
+	}
+	//Attestations texts
+	if (_last_loaded_file.includes("/attest")||_last_loaded_file.includes("/syn"))
+	{
+		for(var i=0;i<_attestations[qqp].length;i++)
+		{
+			if (dat.includes("||ATT-"+i+"||"))
+			{
+				var temp=expression_parse(_attestations[qqp][i][0],qqp,true).replace(/§/g," ");
+				dat=replaceAll("||ATT-"+i+"||","<div id='syntaxmessage"+i+"'>"+temp.replace(/\*/g,"")+" <a href='javascript:void(0);' onclick='openSyntaxTreeAttestation("+i+","+qqp+");'><i alt='Syntax Tree' title='Syntax Tree' class='bi bi-tree'></i></a></br><i>"+_attestations[qqp][i][1]+"</i></div>",dat);
 			}
 		}
 	}
@@ -422,8 +434,16 @@ function getSubtitleName(txt)
 
 function openSyntaxTree(sid,stage)
 {
-	var ps=_syntaxonly[stage][sid][0].split(" ");
-	var pr=expression_parse(_syntaxonly[stage][sid][0],stage,true).split("§");
+	openSyntaxTreeCore(sid,stage,_syntaxonly[stage][sid][0].split(" "),expression_parse(_syntaxonly[stage][sid][0],stage,true).split("§"));
+}
+
+function openSyntaxTreeAttestation(sid,stage)
+{
+	openSyntaxTreeCore(sid,stage,_attestations[stage][sid][0].split(" "),expression_parse(_attestations[stage][sid][0],stage,true).split("§"));
+}
+
+function openSyntaxTreeCore(sid,stage,ps,pr)
+{
 	var tq="<div class='syntaxtreecontent'><ul><li><span class='syntaxtreecontent2'>S</span><ul>";
 	var tr=0;
 	for(var i=0;i<ps.length;i++)
@@ -431,7 +451,7 @@ function openSyntaxTree(sid,stage)
 		var tk=ps[i].charAt(0);
 		if (tk=="[") tq+="<li><span class='syntaxtreecontent2'>"+ps[i].slice(1)+"</span><ul>";
 		else if (tk=="]") tq+="</ul></li>";
-		else if (tk!=".")
+		else if (tk!="."&&tk!=","&&tk!="!"&&tk!="?")
 		{
 			var tkt=pr[tr].replace("clickety syntaxhover","clickety syntaxhov");
 			tq+="<li><span class='syntaxtreecontent2'>"+tkt.replace(" hovertext","")+"</span></li>";
@@ -441,4 +461,50 @@ function openSyntaxTree(sid,stage)
 	tq+="</ul></li></ul></div>";
 	document.getElementById("syntaxmodalbody").innerHTML=tq;
 	$('#syntaxtreemodal').modal('show');
+}
+
+function getLoanStatistics(stage)
+{
+	var arr=[];
+	var tt=0;
+	for(var i=3;i<__endoflexicon;i++)
+	{
+		var q="";
+		var vvvs=0;
+		for(var j=0;j<happenings.length;j++)
+		{
+			if (happenings[j][0]!="VVV")
+			{
+				if (dbase[i][happenings[j][1]]!="")
+				{
+					if (dbase[i][happenings[j][1]].charAt(0)=="L") q=(dbase[i][happenings[j][1]].split(" "))[0].replace("L","");
+					else q="!";
+					j=happenings.length;
+				}
+			}
+			else
+			{
+				if (vvvs==stage) j=happenings.length;
+				else vvvs++;
+			}
+			if (j>=happenings.length-1&&dbase[i][0]!="//"&&dbase[i][maincolumns[stage]]!=""&&q=="") q="N";
+		}
+		if (q!=""&&q!="!")
+		{
+			var success=false;
+			for(var j=0;j<arr.length;j++)
+			{
+				if (arr[j][0]==q)
+				{
+					arr[j][1]++;
+					success=true;
+					j=arr.length;
+				}
+			}
+			if (!success) arr.push([q,1]);
+			tt++;
+		}
+	}
+	arr.push(["TOTAL",tt])
+	return(arr);
 }
